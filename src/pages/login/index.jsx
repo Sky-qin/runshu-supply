@@ -1,8 +1,7 @@
 import React from "react";
 import { connect } from "dva";
 import { Button } from "antd";
-
-import T from "prop-types";
+import LoginUtil from "../../utils/loginUtil";
 import "./index.scss";
 
 class Login extends React.Component {
@@ -11,7 +10,15 @@ class Login extends React.Component {
     this.state = {};
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    LoginUtil({
+      callBack: this.handleTest,
+    });
+  }
+
+  handleTest = () => {
+    this.props.history.push("/entry");
+  };
 
   handleLogin = () => {
     const { dispatch } = this.props;
@@ -28,19 +35,14 @@ class Login extends React.Component {
   };
 
   render() {
-    const { age } = this.props.example;
-    console.log(this.props);
     return (
       <div>
-        LOGIN
         <Button onClick={() => this.handleLogin()}>sss</Button>
-        {age}
       </div>
     );
   }
 }
 
-export default connect(({ loginModel, example }) => ({
+export default connect(({ loginModel }) => ({
   loginModel,
-  example,
 }))(Login);

@@ -1,6 +1,8 @@
 /* global dd */
 /* eslint-disable */
 import { message } from "antd";
+import { corpId } from "../utils/config";
+import * as dd from "dingtalk-jsapi";
 
 export default {
   namespace: "loginModel",
@@ -13,16 +15,14 @@ export default {
       yield put({ type: "save" });
     },
     *login({ payload }, { call, put }) {
-      debugger;
       yield put({ type: "ss" });
       dd.ready(() => {
         dd.runtime.permission.requestAuthCode({
           corpId,
-          onSuccess(result) {
+          onSuccess: (result) => {
             const tempCode = result.code && result.code.trim();
             const data = {
               tempCode,
-              hirer,
               corpId,
             };
             console.log("data", data);

@@ -1,4 +1,4 @@
-const baseSize = 12;
+const baseSize = 16;
 const pxtorem = require("postcss-pxtorem");
 const pxtorem2 = _interopRequireDefault(pxtorem).default;
 function _interopRequireDefault(obj) {
