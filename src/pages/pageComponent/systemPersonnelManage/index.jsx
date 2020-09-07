@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "dva";
-import { Table, Button, Space, Modal } from "antd";
+import { Table, Button, Space } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import EditDialog from "./editDialog";
 // import T from "prop-types";
@@ -9,7 +9,7 @@ import ContentBox from "../../../components/contentWrap";
 import "./index.scss";
 const { Column } = Table;
 
-class HospitalManage extends React.Component {
+class SystemPersonnelManage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -20,30 +20,22 @@ class HospitalManage extends React.Component {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
-      type: "hospitalManage/getAddress",
+      type: "personnelManage/getAddress",
     });
     dispatch({
-      type: "hospitalManage/storageList",
+      type: "personnelManage/storageList",
     });
     dispatch({
-      type: "hospitalManage/departmentList",
+      type: "personnelManage/departmentList",
     });
-    this.getTableList();
   }
-
-  getTableList = () => {
-    const { dispatch } = this.props;
-    dispatch({
-      type: "hospitalManage/getTableList",
-    });
-  };
 
   changePagination = (current, size) => {
     const { dispatch } = this.props;
-    const { pagination } = this.props.hospitalManage;
+    const { pagination } = this.props.personnelManage;
     dispatch({
-      type: "hospitalManage/save",
-      payload: {
+      type: "personnelManage/save",
+      paylaod: {
         pagination: {
           ...pagination,
           current,
@@ -51,13 +43,12 @@ class HospitalManage extends React.Component {
         },
       },
     });
-    this.getTableList();
   };
 
   handleAdd = (msg = {}) => {
     const { dispatch } = this.props;
     dispatch({
-      type: "hospitalManage/save",
+      type: "personnelManage/save",
       payload: {
         showEditDialog: true,
         currentMsg: { ...msg },
@@ -69,40 +60,13 @@ class HospitalManage extends React.Component {
   handleEdit = (msg) => {
     const { dispatch } = this.props;
     dispatch({
-      type: "hospitalManage/save",
+      type: "personnelManage/save",
       payload: {
         showEditDialog: true,
         currentMsg: { ...msg },
         dialogTitle: "编辑",
       },
     });
-  };
-
-  handleDelete = (msg) => {
-    const { dispatch } = this.props;
-    dispatch({
-      type: "hospitalManage/save",
-      payload: {
-        deleteDialog: true,
-        currentMsg: { ...msg },
-      },
-    });
-  };
-
-  handleSave = (values) => {
-    const { dispatch } = this.props;
-    const { dialogTitle } = this.props.hospitalManage;
-    if (dialogTitle === "编辑") {
-      dispatch({
-        type: "hospitalManage/updateHospital",
-        payload: { ...values },
-      });
-    } else {
-      dispatch({
-        type: "hospitalManage/saveHospital",
-        payload: { ...values },
-      });
-    }
   };
 
   render() {
@@ -116,9 +80,7 @@ class HospitalManage extends React.Component {
       storageList,
       departmentList,
       loading,
-      data,
-      deleteDialog,
-    } = this.props.hospitalManage;
+    } = this.props.personnelManage;
     const { current, size, total } = pagination;
     return (
       <ContentBox loading={loading}>
@@ -134,11 +96,18 @@ class HospitalManage extends React.Component {
         <Table
           bordered
           rowKey={(record, index) => index}
-          dataSource={data}
+          dataSource={[
+            { name: "a", remark: "测试啊" },
+            {
+              name: "b",
+              age: "21",
+              departmentId: ["hospitalManage", "departmentManage"],
+            },
+          ]}
           pagination={{
             position: ["bottomCenter"],
-            current: current,
-            total: total,
+            current,
+            total,
             pageSize: size,
             onChange: this.changePagination,
             onShowSizeChange: this.changePagination,
@@ -149,12 +118,11 @@ class HospitalManage extends React.Component {
             render={(value, record, index) => index + 1}
             width={65}
           />
-          <Column title="医院名称" dataIndex="name" width={180} />
-          <Column title="科室" dataIndex="departmentName" width={120} />
-          <Column title="城市" dataIndex="cityName" width={180} />
-          <Column title="地址" dataIndex="address" width={160} />
-          <Column title="联系人" dataIndex="person" width={120} />
-          <Column title="联系电话" dataIndex="phone" width={120} />
+          <Column title="用户名" dataIndex="name" />
+          <Column title="职位" dataIndex="department" />
+          <Column title="创建日期" dataIndex="city" />
+          <Column title="修改人" dataIndex="city" />
+          <Column title="用户状态" dataIndex="city" />
           <Column
             title="操作"
             dataIndex="name"
@@ -162,38 +130,11 @@ class HospitalManage extends React.Component {
             render={(value, record, index) => (
               <Space size="middle">
                 <a onClick={() => this.handleEdit(record)}>编辑</a>
-                <a onClick={() => this.handleDelete(record)}>删除</a>
+                <a>删除</a>
               </Space>
             )}
           />
         </Table>
-
-        {/* 删除弹窗 */}
-        <Modal
-          title="提示"
-          visible={deleteDialog}
-          onCancel={this.handleCloseDeleteDialog}
-          footer={[
-            <Button key="cancel" onClick={this.handleCloseDeleteDialog}>
-              取消
-            </Button>,
-            <Button
-              key="ok"
-              type="primary"
-              onClick={() => {
-                dispatch({
-                  type: "hospitalManage/deleteHospital",
-                });
-              }}
-            >
-              确定
-            </Button>,
-          ]}
-          maskClosable={false}
-        >
-          你确定要删除 {currentMsg.name} 这个医院吗？
-        </Modal>
-
         {showEditDialog && (
           <EditDialog
             title={dialogTitle}
@@ -201,13 +142,12 @@ class HospitalManage extends React.Component {
             sourceList={{ adressList, storageList, departmentList }}
             onClosed={() => {
               dispatch({
-                type: "hospitalManage/save",
+                type: "personnelManage/save",
                 payload: {
                   showEditDialog: false,
                 },
               });
             }}
-            onOk={this.handleSave}
           />
         )}
       </ContentBox>
@@ -215,6 +155,6 @@ class HospitalManage extends React.Component {
   }
 }
 
-export default connect(({ hospitalManage }) => ({
-  hospitalManage,
-}))(HospitalManage);
+export default connect(({ personnelManage }) => ({
+  personnelManage,
+}))(SystemPersonnelManage);

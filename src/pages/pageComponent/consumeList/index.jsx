@@ -1,0 +1,317 @@
+import React, { Children } from "react";
+import { connect } from "dva";
+import { Button, Space, Table, Modal, Select, Input, TreeSelect } from "antd";
+import styled from "styled-components";
+import EditDialog from "./editDialog";
+// import T from "prop-types";
+import ContentWrap from "../../../components/contentWrap";
+import "./index.scss";
+
+const { Column } = Table;
+const { Search } = Input;
+
+const layout = {
+  labelCol: { span: 6 },
+  wrapperCol: { span: 18 },
+};
+
+const WrapSelect = styled(Select)`
+  width: 160px;
+  margin-right: 12px;
+`;
+
+class ConsumeList extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
+
+  componentDidMount() {
+    const { dispatch } = this.props;
+    this.getTableList();
+    dispatch({
+      type: "consumeModel/getApplicant",
+    });
+    dispatch({
+      type: "consumeModel/getHospital",
+    });
+    dispatch({
+      type: "consumeModel/getOrderStatus",
+    });
+  }
+
+  getTableList = () => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: "consumeModel/queryConsumeList",
+    });
+  };
+
+  handleAdd = (msg = {}, type) => {
+    const { dispatch } = this.props;
+    const currentMsg = type === "children" ? { id: msg.id } : {};
+    dispatch({
+      type: "consumeModel/save",
+      payload: {
+        showDetailDialog: true,
+        dialogTitle: "新增科室",
+        currentMsg,
+      },
+    });
+  };
+
+  handleEdit = (msg, text, status) => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: "consumeModel/save",
+      payload: {
+        clickStatus: status,
+        statusTitle: text,
+        showStatusDialog: true,
+        currentMsg: { ...msg },
+      },
+    });
+  };
+
+  showDetail = (msg) => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: "consumeModel/save",
+      payload: {
+        showDetailDialog: true,
+        currentMsg: { ...msg },
+      },
+    });
+
+    dispatch({
+      type: "consumeModel/getConsumeDetail",
+    });
+  };
+
+  handleDelete = (msg) => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: "consumeModel/save",
+      payload: {
+        deleteDialog: true,
+        currentMsg: { ...msg },
+      },
+    });
+  };
+
+  handleSave = (values) => {
+    const { dispatch } = this.props;
+    const { dialogTitle } = this.props.consumeModel;
+    if (dialogTitle === "编辑") {
+      dispatch({
+        type: "consumeModel/editDepartment",
+        payload: { ...values },
+      });
+    } else {
+      dispatch({
+        type: "consumeModel/addDepartment",
+        payload: { ...values },
+      });
+    }
+  };
+
+  changePagination = (current, size) => {
+    const { dispatch } = this.props;
+    const { pagination } = this.props.consumeModel;
+    dispatch({
+      type: "consumeModel/save",
+      payload: {
+        pagination: {
+          ...pagination,
+          current,
+          size,
+        },
+      },
+    });
+    this.getTableList();
+  };
+
+  handleCloseDeleteDialog = () => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: "consumeModel/save",
+      payload: {
+        showStatusDialog: false,
+      },
+    });
+  };
+
+  onSearchChange = (key, value) => {
+    const { dispatch } = this.props;
+    const { searchParams, pagination } = this.props.consumeModel;
+    let tmpParams = { searchParams: { ...searchParams, [key]: value } };
+    // 获取科室
+    if (key === "hospitalId") {
+      if (value) {
+        dispatch({
+          type: "consumeModel/getDePartmentByHsp",
+          payload: {
+            id: value,
+          },
+        });
+        tmpParams = {
+          searchParams: {
+            ...tmpParams.searchParams,
+            departmentId: "",
+          },
+        };
+      } else {
+        tmpParams = {
+          ...tmpParams,
+          departmentList: [],
+        };
+      }
+    }
+    dispatch({
+      type: "consumeModel/save",
+      payload: {
+        ...tmpParams,
+        pagination: {
+          ...pagination,
+          current: 1,
+        },
+      },
+    });
+    this.getTableList();
+  };
+
+  render() {
+    const { dispatch } = this.props;
+    const {
+      currentMsg,
+      showStatusDialog,
+      pagination,
+      data,
+      loading,
+      hospitalList,
+      applicantList,
+      orderStatusList,
+      departmentList,
+      statusTitle,
+    } = this.props.consumeModel;
+    const { current, size, total } = pagination;
+    return (
+      <ContentWrap loading={loading}>
+        <div className="opreation-bar">
+          <WrapSelect
+            onChange={(value) => this.onSearchChange("hospitalId", value)}
+            options={hospitalList}
+            placeholder="请选择医院"
+            allowClear
+          />
+          <TreeSelect
+            // treeDataSimpleMode
+            style={{ width: "160px", marginRight: "12px" }}
+            filterTreeNode
+            treeNodeFilterProp="label"
+            placeholder="请选择科室"
+            treeData={departmentList}
+            onChange={(value) => this.onSearchChange("departmentId", value)}
+          />
+          <WrapSelect
+            placeholder="请选择状态"
+            options={orderStatusList}
+            onChange={(value) => this.onSearchChange("orderStatus", value)}
+          />
+          <WrapSelect
+            placeholder="请选择申请人"
+            options={applicantList}
+            onChange={(value) => this.onSearchChange("creator", value)}
+          />
+          <Search
+            placeholder="请输入消耗单号"
+            onSearch={(value) => this.onSearchChange("consumeName", value)}
+            style={{ width: 200 }}
+          />
+        </div>
+        <div className="opreation-bar"></div>
+        <Table
+          bordered
+          rowKey={(record, index) => index}
+          dataSource={data}
+          pagination={{
+            position: ["bottomCenter"],
+            current: current,
+            total: total || 0,
+            pageSize: size,
+            onChange: this.changePagination,
+            onShowSizeChange: this.changePagination,
+          }}
+        >
+          <Column title="消耗单号" dataIndex="consumeNumber" />
+          <Column title="医院" dataIndex="hispitalName" width={130} />
+          <Column title="科室" dataIndex="departmentName" />
+          <Column title="申请人" dataIndex="creator" />
+          <Column title="申请日期" dataIndex="createTime" width={150} />
+          <Column title="状态" dataIndex="orderStatusDesc" />
+          <Column title="手术单" dataIndex="operationPic" />
+          <Column
+            title="操作"
+            dataIndex="name"
+            width={180}
+            render={(value, record) => {
+              const { orderStatus } = record;
+              return (
+                <Space size="middle">
+                  {orderStatus === 0 && (
+                    <a onClick={() => this.handleEdit(record, "确定", "1")}>
+                      确认
+                    </a>
+                  )}
+                  {orderStatus === 0 && (
+                    <a onClick={() => this.handleEdit(record, "驳回", "2")}>
+                      驳回
+                    </a>
+                  )}
+                  {orderStatus === 4 && (
+                    <a onClick={() => this.handleEdit(record, "确认撤销", "5")}>
+                      确认撤销
+                    </a>
+                  )}
+                  <a onClick={() => this.showDetail(record)}>查看详情</a>
+                </Space>
+              );
+            }}
+          />
+        </Table>
+
+        {/* 删除弹窗 */}
+        <Modal
+          title="提示"
+          visible={showStatusDialog}
+          onCancel={this.handleCloseDeleteDialog}
+          footer={[
+            <Button key="cancel" onClick={this.handleCloseDeleteDialog}>
+              取消
+            </Button>,
+            <Button
+              key="ok"
+              type="primary"
+              onClick={() => {
+                dispatch({
+                  type: "consumeModel/updateConsumeStatus",
+                });
+              }}
+            >
+              确定
+            </Button>,
+          ]}
+          maskClosable={false}
+        >
+          你确定要{` ${statusTitle} `}这个条消耗单吗？
+        </Modal>
+        {/* 编辑弹窗 */}
+        <EditDialog />
+      </ContentWrap>
+    );
+  }
+}
+
+export default connect(({ consumeModel }) => ({
+  consumeModel,
+}))(ConsumeList);

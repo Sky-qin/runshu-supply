@@ -12,6 +12,11 @@ const app = dva();
 app.model(require("./models/example").default);
 app.model(require("./models/test").default);
 app.model(require("./models/login").default);
+app.model(require("./models/departmentManage").default);
+app.model(require("./models/hospitalManage").default);
+app.model(require("./models/powerManage").default);
+app.model(require("./models/personnelManage").default);
+app.model(require("./models/consumeModel").default);
 
 // 4. Router
 app.router(require("./router").default);

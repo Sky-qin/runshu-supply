@@ -14,33 +14,6 @@ export default {
     *fetch({ payload }, { call, put }) {
       yield put({ type: "save" });
     },
-    *login({ payload }, { call, put }) {
-      yield put({ type: "ss" });
-      dd.ready(() => {
-        dd.runtime.permission.requestAuthCode({
-          corpId,
-          onSuccess: (result) => {
-            const tempCode = result.code && result.code.trim();
-            const data = {
-              tempCode,
-              corpId,
-            };
-            console.log("data", data);
-          },
-          onFail(err) {
-            console.error("dd.runtime.permission.requestAuthCode", corpId, err);
-            let content = err || "服务器开了小差，请稍后重试";
-            if (err.errcode || err.errorCode || err.errmsg || err.errorMessage)
-              content = `${err.errcode || err.errorCode} - ${
-                err.errmsg || err.errorMessage
-              }`;
-            message.error({
-              content,
-            });
-          },
-        });
-      });
-    },
   },
 
   reducers: {

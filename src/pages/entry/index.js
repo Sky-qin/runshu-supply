@@ -1,12 +1,16 @@
 import React from "react";
 import { connect } from "dva";
-import { Router, Route, Switch } from "dva/router";
+import { Router, Route, Switch, ConfigProvider } from "dva/router";
+
 import PropTypes from "prop-types";
 import {} from "antd";
 import Header from "../../components/Header";
 import Menu from "../../components/Menu";
 import HospitalManage from "../pageComponent/hospitalManage";
 import DepartmentManage from "../pageComponent/departmentManage";
+import PowerManage from "../pageComponent/powerManage";
+import SystemPersonnelManage from "../pageComponent/systemPersonnelManage";
+import ConsumeList from "../pageComponent/consumeList";
 import "./index.scss";
 
 class Home extends React.Component {
@@ -19,35 +23,12 @@ class Home extends React.Component {
           icon: "iconwarehouse",
           resourceId: "home",
           resourceName: "首页",
-          resources: [
-            {
-              resourceId: "hospitalManage",
-              resourceName: "医院管理",
-              resources: [],
-            },
-            {
-              resourceId: "departmentManage",
-              resourceName: "科室管理",
-              resources: [],
-            },
-          ],
+          resources: [],
         },
         {
           icon: "iconfeeds",
-          resourceId: "consumption",
+          resourceId: "consumeList",
           resourceName: "消耗单",
-          resources: [
-            {
-              resourceId: "test-1",
-              resourceName: "测试-1",
-              resources: [],
-            },
-            {
-              resourceId: "test-2",
-              resourceName: "测试-2",
-              resources: [],
-            },
-          ],
         },
         {
           icon: "iconpackaging",
@@ -77,7 +58,30 @@ class Home extends React.Component {
           icon: "iconcoupons",
           resourceId: "systemSetting",
           resourceName: "系统设置",
-          resources: [],
+          resources: [
+            {
+              resourceId: "powerManage",
+              resourceName: "权限管理",
+            },
+            {
+              resourceId: "systemPersonnelManage",
+              resourceName: "系统人员管理",
+            },
+            {
+              resourceId: "wxPersonnelManage",
+              resourceName: "微信人员管理",
+            },
+            {
+              resourceId: "hospitalManage",
+              resourceName: "医院管理",
+              resources: [],
+            },
+            {
+              resourceId: "departmentManage",
+              resourceName: "科室管理",
+              resources: [],
+            },
+          ],
         },
         {
           icon: "iconCustomermanagement",
@@ -133,6 +137,12 @@ class Home extends React.Component {
                 path="/entry/departmentManage"
                 component={DepartmentManage}
               />
+              <Route path="/entry/powerManage" component={PowerManage} />
+              <Route
+                path="/entry/systemPersonnelManage"
+                component={SystemPersonnelManage}
+              />
+              <Route path="/entry/consumeList" component={ConsumeList} />
             </Switch>
           </div>
         </div>

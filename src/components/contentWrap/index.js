@@ -1,6 +1,8 @@
 import React from "react";
 import T from "prop-types";
 import styled from "styled-components";
+import { Spin, ConfigProvider } from "antd";
+import zhCN from "antd/es/locale/zh_CN";
 
 import "./index.scss";
 
@@ -20,8 +22,14 @@ class ContentBox extends React.Component {
   componentDidMount() {}
 
   render() {
-    const { children } = this.props;
-    return <ContentDiv>{children}</ContentDiv>;
+    const { children, loading } = this.props;
+    return (
+      <ContentDiv>
+        <ConfigProvider locale={zhCN}>
+          <Spin spinning={loading}>{children}</Spin>
+        </ConfigProvider>
+      </ContentDiv>
+    );
   }
 }
 
