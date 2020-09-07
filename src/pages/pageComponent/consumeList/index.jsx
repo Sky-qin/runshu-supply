@@ -243,13 +243,13 @@ class ConsumeList extends React.Component {
             onShowSizeChange: this.changePagination,
           }}
         >
-          <Column title="消耗单号" dataIndex="consumeNumber" />
+          <Column title="消耗单号" dataIndex="consumeNumber" width={120} />
           <Column title="医院" dataIndex="hispitalName" width={130} />
-          <Column title="科室" dataIndex="departmentName" />
-          <Column title="申请人" dataIndex="creator" />
+          <Column title="科室" dataIndex="departmentName" width={120} />
+          <Column title="申请人" dataIndex="creator" width={100} />
           <Column title="申请日期" dataIndex="createTime" width={150} />
-          <Column title="状态" dataIndex="orderStatusDesc" />
-          <Column title="手术单" dataIndex="operationPic" />
+          <Column title="状态" dataIndex="orderStatusDesc" width={100} />
+          <Column title="手术单" dataIndex="operationPic" width={120} />
           <Column
             title="操作"
             dataIndex="name"

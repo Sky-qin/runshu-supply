@@ -123,6 +123,51 @@ const API = {
   },
 
   /**
+   * 职位管理
+   */
+  // 表格数据查询
+  queryRole(params) {
+    return request({
+      url: `${Domain}/role/query`,
+      method: "post",
+      params,
+    });
+  },
+  // 新增职位
+  saveRole(params) {
+    return request({
+      url: `${Domain}/role/save`,
+      method: "post",
+      params,
+    });
+  },
+  // 编辑职位
+  updateRole(params) {
+    return request({
+      url: `${Domain}/role/update`,
+      method: "post",
+      params,
+    });
+  },
+  // 职位删除
+  deleteRole(params) {
+    return request({
+      url: `${Domain}/role/delete`,
+      method: "post",
+      params,
+    });
+  },
+  // 修改状态
+
+  changeRoleStatus(params) {
+    return request({
+      url: `${Domain}/role/state`,
+      method: "post",
+      params,
+    });
+  },
+
+  /**
    * 枚举类即接口
    */
   // 医院枚举
@@ -178,6 +223,14 @@ const API = {
   departmentList(params) {
     return request({
       url: `${Domain}/hospital/queryDepartment`,
+      params,
+    });
+  },
+
+  // 获取菜单枚举
+  queryResource(params) {
+    return request({
+      url: `${Domain}/role/queryResource`,
       params,
     });
   },

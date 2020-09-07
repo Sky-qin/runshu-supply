@@ -19,11 +19,12 @@ class EditDialog extends React.Component {
   }
 
   handleOk = (e) => {
+    const { onOk } = this.props;
     let formObj = this.fromRef;
     formObj.current
       .validateFields()
       .then((values) => {
-        console.log(values);
+        onOk && typeof onOk === "function" && onOk(values);
       })
       .catch((errorInfo) => {
         console.log("errorInfo", errorInfo);
@@ -48,7 +49,7 @@ class EditDialog extends React.Component {
       if (item.children && item.children.length > 0) return;
       checkedChildrenId.push(item.key);
     });
-    formObj.current.setFieldsValue({ departmentId: checkedChildrenId });
+    formObj.current.setFieldsValue({ resourceSigns: checkedChildrenId });
   };
 
   onExpand = (expandedKeys) => {
@@ -58,7 +59,7 @@ class EditDialog extends React.Component {
   render() {
     const { expandedKeys } = this.state;
     const { title, data, sourceList } = this.props;
-    const {} = sourceList;
+    const { resourceList } = sourceList;
     return (
       <Modal
         title={title || "编辑"}
@@ -79,23 +80,23 @@ class EditDialog extends React.Component {
           ref={this.fromRef}
           layout="horizontal"
           initialValues={{
-            name: data.name || "",
-            remark: data.remark || "",
-            departmentId: data.departmentId || [],
+            roleName: data.roleName || "",
+            roleRemark: data.roleRemark || "",
+            resourceSigns: data.resourceSigns || [],
           }}
         >
           <Form.Item
-            name="name"
+            name="roleName"
             label="职位名称"
             rules={[{ required: true, message: "请输入职位名称" }]}
           >
             <Input />
           </Form.Item>
-          <Form.Item name="remark" label="职位备注">
+          <Form.Item name="roleRemark" label="职位备注">
             <TextArea rows={2} />
           </Form.Item>
           <Form.Item
-            name="departmentId"
+            name="resourceSigns"
             label="权限"
             rules={[{ required: true, message: "请选择职位权限" }]}
           >
@@ -103,100 +104,9 @@ class EditDialog extends React.Component {
               checkable
               onExpand={this.onExpand}
               expandedKeys={expandedKeys}
-              // onSelect={this.onSelect}
-              defaultCheckedKeys={data.departmentId || []}
+              defaultCheckedKeys={data.resourceSigns || []}
               onCheck={this.onCheck}
-              treeData={[
-                {
-                  icon: "iconwarehouse",
-                  key: "home",
-                  title: "首页",
-                  children: [
-                    {
-                      key: "hospitalManage",
-                      title: "医院管理",
-                      children: [],
-                    },
-                    {
-                      key: "departmentManage",
-                      title: "科室管理",
-                      children: [],
-                    },
-                  ],
-                },
-                {
-                  icon: "iconfeeds",
-                  key: "consumption",
-                  title: "消耗单",
-                  children: [
-                    {
-                      key: "test-1",
-                      title: "测试-1",
-                      children: [],
-                    },
-                    {
-                      key: "test-2",
-                      title: "测试-2",
-                      children: [],
-                    },
-                  ],
-                },
-                {
-                  icon: "iconpackaging",
-                  key: "replenishment",
-                  title: "补货单",
-                  children: [],
-                },
-                {
-                  icon: "iconall",
-                  key: "inventory",
-                  title: "库存管理",
-                  children: [],
-                },
-                {
-                  icon: "iconlandtransportation",
-                  key: "delivery",
-                  title: "物流信息",
-                  children: [],
-                },
-                {
-                  icon: "iconcoupons",
-                  key: "invoice",
-                  title: "自动发票",
-                  children: [],
-                },
-                {
-                  icon: "iconcoupons",
-                  key: "systemSetting",
-                  title: "系统设置",
-                  children: [
-                    {
-                      key: "powerManage",
-                      title: "权限管理",
-                    },
-                    {
-                      key: "systemPersonnelManage",
-                      title: "系统人员管理",
-                    },
-                    {
-                      key: "wxPersonnelManage",
-                      title: "微信人员管理",
-                    },
-                  ],
-                },
-                {
-                  icon: "iconCustomermanagement",
-                  key: "staffing",
-                  title: "人员配置",
-                  children: [],
-                },
-                {
-                  icon: "iconviewlist",
-                  key: "productInfo",
-                  title: "产品信息库",
-                  children: [],
-                },
-              ]}
+              treeData={resourceList}
             />
           </Form.Item>
         </Form>
