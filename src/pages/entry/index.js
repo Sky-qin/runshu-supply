@@ -1,9 +1,7 @@
 import React from "react";
 import { connect } from "dva";
-import { Router, Route, Switch, ConfigProvider } from "dva/router";
-
+import { Route, Switch } from "dva/router";
 import PropTypes from "prop-types";
-import {} from "antd";
 import Header from "../../components/Header";
 import Menu from "../../components/Menu";
 import HospitalManage from "../pageComponent/hospitalManage";
@@ -20,87 +18,7 @@ import "./index.scss";
 class Home extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      // activeKey: "home",
-      // menuList: [
-      //   {
-      //     icon: "iconwarehouse",
-      //     resourceId: "home",
-      //     resourceName: "首页",
-      //     resources: [],
-      //   },
-      //   {
-      //     icon: "iconfeeds",
-      //     resourceId: "consumeList",
-      //     resourceName: "消耗单",
-      //   },
-      //   {
-      //     icon: "iconpackaging",
-      //     resourceId: "replenishment",
-      //     resourceName: "补货单",
-      //     resources: [],
-      //   },
-      //   {
-      //     icon: "iconall",
-      //     resourceId: "inventory",
-      //     resourceName: "库存管理",
-      //     resources: [],
-      //   },
-      //   {
-      //     icon: "iconlandtransportation",
-      //     resourceId: "delivery",
-      //     resourceName: "物流信息",
-      //     resources: [],
-      //   },
-      //   {
-      //     icon: "iconcoupons",
-      //     resourceId: "invoice",
-      //     resourceName: "自动发票",
-      //     resources: [],
-      //   },
-      //   {
-      //     icon: "iconcoupons",
-      //     resourceId: "systemSetting",
-      //     resourceName: "系统设置",
-      //     resources: [
-      //       {
-      //         resourceId: "powerManage",
-      //         resourceName: "权限管理",
-      //       },
-      //       {
-      //         resourceId: "systemPersonnelManage",
-      //         resourceName: "系统人员管理",
-      //       },
-      //       {
-      //         resourceId: "wxPersonnelManage",
-      //         resourceName: "微信人员管理",
-      //       },
-      //       {
-      //         resourceId: "hospitalManage",
-      //         resourceName: "医院管理",
-      //         resources: [],
-      //       },
-      //       {
-      //         resourceId: "departmentManage",
-      //         resourceName: "科室管理",
-      //         resources: [],
-      //       },
-      //     ],
-      //   },
-      //   {
-      //     icon: "iconCustomermanagement",
-      //     resourceId: "staffing",
-      //     resourceName: "人员配置",
-      //     resources: [],
-      //   },
-      //   {
-      //     icon: "iconviewlist",
-      //     resourceId: "productInfo",
-      //     resourceName: "产品信息库",
-      //     resources: [],
-      //   },
-      // ],
-    };
+    this.state = {};
   }
 
   componentDidMount() {
@@ -112,7 +30,7 @@ class Home extends React.Component {
     const { history, dispatch } = this.props;
     if (item.children && item.children.length > 0) return;
     dispatch({ type: "entryModel/save", payload: { activeKey: item.value } });
-    this.props.history.push(`/entry/${item.value}`);
+    history.push(`/entry/${item.value}`);
   };
 
   render() {

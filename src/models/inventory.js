@@ -48,7 +48,7 @@ export default {
         message.error(data.message || "保存失败！");
       }
     },
-    *storageList({}, { call, put }) {
+    *storageList({ payload }, { call, put }) {
       const { data } = yield call(API.storageList);
       if (data && data.success) {
         yield put({

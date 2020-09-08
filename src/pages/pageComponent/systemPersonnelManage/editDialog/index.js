@@ -1,7 +1,5 @@
 import React from "react";
-import { Modal, Form, Input, Button, Tree, Select } from "antd";
-
-const { TextArea } = Input;
+import { Modal, Form, Input, Button, Select } from "antd";
 
 const layout = {
   labelCol: { span: 6 },
@@ -13,9 +11,7 @@ class EditDialog extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-      expandedKeys: [],
-    };
+    this.state = {};
   }
 
   handleOk = (e) => {
@@ -46,18 +42,13 @@ class EditDialog extends React.Component {
     let formObj = this.fromRef;
     let checkedChildrenId = [];
     (info.checkedNodes || []).map((item) => {
-      if (item.children && item.children.length > 0) return;
-      checkedChildrenId.push(item.key);
+      if (item.children && item.children.length > 0) return null;
+      return checkedChildrenId.push(item.key);
     });
     formObj.current.setFieldsValue({ departmentId: checkedChildrenId });
   };
 
-  onExpand = (expandedKeys) => {
-    this.setState({ expandedKeys });
-  };
-
   render() {
-    const { expandedKeys } = this.state;
     const { title, data, sourceList } = this.props;
     const { hospitalList, userRoleList } = sourceList;
     return (

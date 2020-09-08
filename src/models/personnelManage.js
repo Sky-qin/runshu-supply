@@ -74,7 +74,6 @@ export default {
 
     *saveUser({ payload }, { call, put, select }) {
       let params = { ...payload };
-      const { currentMsg } = yield select((state) => state.personnelManage);
       const { data } = yield call(API.saveUser, params);
       if (data && data.success) {
         yield put({ type: "save", payload: { showEditDialog: false } });

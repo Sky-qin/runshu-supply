@@ -32,7 +32,7 @@ export default {
   },
 
   effects: {
-    *queryConsumeList({}, { call, put, select }) {
+    *queryConsumeList({ payload }, { call, put, select }) {
       const { pagination, searchParams } = yield select(
         (state) => state.consumeModel
       );
@@ -61,7 +61,7 @@ export default {
         message.error(data.message || "保存失败！");
       }
     },
-    *getHospital({}, { call, put, select }) {
+    *getHospital({ payload }, { call, put, select }) {
       const { data } = yield call(API.getHospital);
       if (data && data.success) {
         yield put({
@@ -94,7 +94,7 @@ export default {
         message.error(data.message || "获取医院下科室失败");
       }
     },
-    *getApplicant({}, { call, put, select }) {
+    *getApplicant({ payload }, { call, put, select }) {
       const { data } = yield call(API.getApplicant);
       if (data && data.success) {
         yield put({
@@ -105,7 +105,7 @@ export default {
         });
       }
     },
-    *getOrderStatus({}, { call, put, select }) {
+    *getOrderStatus({ payload }, { call, put, select }) {
       const { data } = yield call(API.getOrderStatus);
       if (data && data.success) {
         yield put({
@@ -116,7 +116,7 @@ export default {
         });
       }
     },
-    *updateConsumeStatus({}, { call, put, select }) {
+    *updateConsumeStatus({ payload }, { call, put, select }) {
       const { currentMsg, clickStatus } = yield select(
         (state) => state.consumeModel
       );
@@ -134,7 +134,7 @@ export default {
         message.error(data.message || "修改消耗单状态失败，请重试！");
       }
     },
-    *getConsumeDetail({}, { call, put, select }) {
+    *getConsumeDetail({ payload }, { call, put, select }) {
       const { currentMsg } = yield select((state) => state.consumeModel);
       const { data } = yield call(API.getConsumeDetail, {
         id: currentMsg.id,

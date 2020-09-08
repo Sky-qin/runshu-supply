@@ -1,5 +1,4 @@
 import React from "react";
-import T from "prop-types";
 import styled from "styled-components";
 import { Spin, ConfigProvider } from "antd";
 import zhCN from "antd/es/locale/zh_CN";

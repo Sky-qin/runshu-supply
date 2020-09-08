@@ -46,8 +46,8 @@ class EditDialog extends React.Component {
     let formObj = this.fromRef;
     let checkedChildrenId = [];
     (info.checkedNodes || []).map((item) => {
-      if (item.children && item.children.length > 0) return;
-      checkedChildrenId.push(item.key);
+      if (item.children && item.children.length > 0) return null;
+      return checkedChildrenId.push(item.key);
     });
     formObj.current.setFieldsValue({ resourceSigns: checkedChildrenId });
   };

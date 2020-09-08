@@ -58,7 +58,7 @@ export default {
         message.error(data.message || "修改失败！");
       }
     },
-    *deleteRole({}, { call, put, select }) {
+    *deleteRole({ payload }, { call, put, select }) {
       const { currentMsg } = yield select((state) => state.powerManage);
       let params = {
         ids: currentMsg && currentMsg.id && [currentMsg && currentMsg.id],
@@ -75,7 +75,7 @@ export default {
       }
     },
 
-    *changeRoleStatus({}, { call, put, select }) {
+    *changeRoleStatus({ payload }, { call, put, select }) {
       const { currentMsg } = yield select((state) => state.powerManage);
       let params = {
         id: (currentMsg && currentMsg.id) || "",

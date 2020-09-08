@@ -60,7 +60,6 @@ export default {
 
     *saveUser({ payload }, { call, put, select }) {
       let params = { ...payload };
-      const { currentMsg } = yield select((state) => state.wxPersonnelManage);
       const { data } = yield call(API.saveUser, params);
       if (data && data.success) {
         yield put({ type: "save", payload: { showEditDialog: false } });
@@ -86,7 +85,7 @@ export default {
         message.error(data.message || "修改失败！");
       }
     },
-    *deleteUser({}, { call, put, select }) {
+    *deleteUser({ payload }, { call, put, select }) {
       const { currentMsg } = yield select((state) => state.wxPersonnelManage);
       let params = {
         ids: (currentMsg && currentMsg.id && [currentMsg.id]) || [],

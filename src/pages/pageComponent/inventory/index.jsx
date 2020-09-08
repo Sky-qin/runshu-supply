@@ -1,10 +1,7 @@
-import React, { Children } from "react";
+import React from "react";
 import { connect } from "dva";
-import { Button, Space, Table, Modal, Select } from "antd";
-import { PlusOutlined } from "@ant-design/icons";
+import { Space, Table, Select } from "antd";
 import EditDialog from "./editDialog";
-// import zhCN from "antd/es/locale/zh_CN";
-// import T from "prop-types";
 import ContentWrap from "../../../components/contentWrap";
 import "./index.scss";
 

@@ -1,7 +1,7 @@
 import dva from "dva";
 import "./utils/rem";
 import "./index.css";
-import request from "./services/request";
+// import request from "./services/request";
 
 // 1. Initialize
 const app = dva();

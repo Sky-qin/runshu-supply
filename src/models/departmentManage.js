@@ -75,7 +75,7 @@ export default {
         message.error(data.message || "修改失败！");
       }
     },
-    *deleteDepartment({}, { call, put, select }) {
+    *deleteDepartment({ payload }, { call, put, select }) {
       const { currentMsg } = yield select((state) => state.departmentManage);
       let params = {
         ids: [currentMsg && currentMsg.id] || null,

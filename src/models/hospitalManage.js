@@ -81,7 +81,7 @@ export default {
         message.error(data.message || "修改失败！");
       }
     },
-    *deleteHospital({}, { call, put, select }) {
+    *deleteHospital({ payload }, { call, put, select }) {
       const { currentMsg } = yield select((state) => state.hospitalManage);
       let params = {
         ids: [currentMsg && currentMsg.id] || null,

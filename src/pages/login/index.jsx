@@ -1,5 +1,5 @@
 import React from "react";
-import { connect } from "dva";
+// import { connect } from "dva";
 import { Button } from "antd";
 import LoginUtil from "../../utils/loginUtil";
 import "./index.scss";
@@ -27,13 +27,6 @@ class Login extends React.Component {
     });
   };
 
-  handleDown = () => {
-    const { dispatch } = this.props;
-    dispatch({
-      type: "example/downAge",
-    });
-  };
-
   render() {
     return (
       <div>
@@ -43,6 +36,4 @@ class Login extends React.Component {
   }
 }
 
-export default connect(({ loginModel }) => ({
-  loginModel,
-}))(Login);
+export default Login;
