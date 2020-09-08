@@ -29,13 +29,18 @@ export default {
       yield put({ type: "save", payload: { loading: false } });
 
       if (data && data.success) {
-        console.log(data.data);
         yield put({
           type: "save",
-          payload: {},
+          payload: {
+            pagination: {
+              ...pagination,
+              total: (data.data && data.data.total) || 0,
+            },
+            data: (data.data && data.data.records) || [],
+          },
         });
       } else {
-        message.error(data.message || "保存失败！");
+        message.error(data.message || "查询科室失败");
       }
     },
     *addDepartment({ payload }, { call, put, select }) {

@@ -2,12 +2,11 @@ import { message } from "antd";
 import API from "../services/api";
 
 export default {
-  namespace: "personnelManage",
+  namespace: "wxPersonnelManage",
   state: {
     showEditDialog: false,
     currentMsg: {},
     hospitalList: [],
-    userRoleList: [],
     data: [],
     loading: false,
     dialogTitle: "编辑",
@@ -20,13 +19,13 @@ export default {
 
   effects: {
     *queryUser({ payload }, { call, put, select }) {
-      const { pagination } = yield select((state) => state.personnelManage);
+      const { pagination } = yield select((state) => state.wxPersonnelManage);
       const { current, size } = pagination;
       let params = {
         current,
         size,
         params: {
-          type: "dd",
+          type: "wx",
         },
       };
       const { data } = yield call(API.queryUser, params);
@@ -58,23 +57,10 @@ export default {
         message.error(data.message || "获取医院枚举失败！");
       }
     },
-    *queryUserRole({ payload }, { call, put, select }) {
-      const { data } = yield call(API.queryUserRole);
-      if (data && data.success) {
-        yield put({
-          type: "save",
-          payload: {
-            userRoleList: data.data || [],
-          },
-        });
-      } else {
-        message.error(data.message || "获取医院枚举失败！");
-      }
-    },
 
     *saveUser({ payload }, { call, put, select }) {
       let params = { ...payload };
-      const { currentMsg } = yield select((state) => state.personnelManage);
+      const { currentMsg } = yield select((state) => state.wxPersonnelManage);
       const { data } = yield call(API.saveUser, params);
       if (data && data.success) {
         yield put({ type: "save", payload: { showEditDialog: false } });
@@ -85,7 +71,7 @@ export default {
       }
     },
     *updateUser({ payload }, { call, put, select }) {
-      const { currentMsg } = yield select((state) => state.personnelManage);
+      const { currentMsg } = yield select((state) => state.wxPersonnelManage);
       let params = {
         ...payload,
         id: (currentMsg && currentMsg.id) || null,
@@ -101,7 +87,7 @@ export default {
       }
     },
     *deleteUser({}, { call, put, select }) {
-      const { currentMsg } = yield select((state) => state.personnelManage);
+      const { currentMsg } = yield select((state) => state.wxPersonnelManage);
       let params = {
         ids: (currentMsg && currentMsg.id && [currentMsg.id]) || [],
       };

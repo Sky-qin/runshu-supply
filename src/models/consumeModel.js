@@ -75,7 +75,6 @@ export default {
       }
     },
     *getDePartmentByHsp({ payload }, { call, put, select }) {
-      console.log("getDePartmentByHsp", payload);
       const { data } = yield call(API.getDePartmentByHsp, payload);
       if (data && data.success) {
         let departmentList = (data.data || []).map((item) => {
@@ -129,6 +128,7 @@ export default {
       const { data } = yield call(API.updateConsumeStatus, params);
       if (data && data.success) {
         message.success("修改成功！");
+        yield put({ type: "save", payload: { showStatusDialog: false } });
         yield put({ type: "queryConsumeList" });
       } else {
         message.error(data.message || "修改消耗单状态失败，请重试！");

@@ -1,7 +1,7 @@
 import * as dd from "dingtalk-jsapi";
 import { message } from "antd";
 import request from "../services/request";
-import { corpId } from "./config";
+import { corpId, Prefix } from "./config";
 
 // 写入用户信息到localStorage
 function setUserLocalStorage(userInfo) {
@@ -13,10 +13,11 @@ function setUserLocalStorage(userInfo) {
  */
 async function _checkAuthority(params, callBack, ctxHook) {
   const { data: res } = await request({
-    url: "http://yapi.runshutech.com/mock/24/auth/ding/login",
+    url: `${Prefix}/auth/ding/login`,
     method: "post",
     params,
   });
+
   if (res && res.success) {
     const { data } = res;
     setUserLocalStorage(data);
@@ -52,17 +53,15 @@ function loginUtil({ callBack, ctxHook }) {
   //     _checkAuthority(config, callBack, ctxHook);
   //     return;
   //   }
-  debugger;
   dd.ready(() => {
     dd.runtime.permission.requestAuthCode({
       corpId,
       onSuccess(result) {
         const tempCode = result.code && result.code.trim();
         const params = {
-          tempCode,
-          corpId,
+          code: tempCode,
+          appSign: "dev",
         };
-        console.log("params", params);
         _checkAuthority(params, callBack, ctxHook);
       },
       onFail(err) {

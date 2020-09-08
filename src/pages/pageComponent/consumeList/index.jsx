@@ -28,7 +28,6 @@ class ConsumeList extends React.Component {
 
   componentDidMount() {
     const { dispatch } = this.props;
-    this.getTableList();
     dispatch({
       type: "consumeModel/getApplicant",
     });
@@ -38,6 +37,7 @@ class ConsumeList extends React.Component {
     dispatch({
       type: "consumeModel/getOrderStatus",
     });
+    this.getTableList();
   }
 
   getTableList = () => {
@@ -234,6 +234,7 @@ class ConsumeList extends React.Component {
           bordered
           rowKey={(record, index) => index}
           dataSource={data}
+          scroll={{ x: 1500 }}
           pagination={{
             position: ["bottomCenter"],
             current: current,
@@ -246,14 +247,15 @@ class ConsumeList extends React.Component {
           <Column title="消耗单号" dataIndex="consumeNumber" width={120} />
           <Column title="医院" dataIndex="hispitalName" width={130} />
           <Column title="科室" dataIndex="departmentName" width={120} />
-          <Column title="申请人" dataIndex="creator" width={100} />
-          <Column title="申请日期" dataIndex="createTime" width={150} />
+          <Column title="申请人" dataIndex="userName" width={100} />
+          <Column title="申请时间" dataIndex="createTime" width={150} />
           <Column title="状态" dataIndex="orderStatusDesc" width={100} />
-          <Column title="手术单" dataIndex="operationPic" width={120} />
+          <Column title="手术单" dataIndex="" width={120} />
           <Column
             title="操作"
             dataIndex="name"
             width={180}
+            fixed="right"
             render={(value, record) => {
               const { orderStatus } = record;
               return (

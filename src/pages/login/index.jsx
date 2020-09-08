@@ -12,11 +12,11 @@ class Login extends React.Component {
 
   componentDidMount() {
     LoginUtil({
-      callBack: this.handleTest,
+      callBack: this.handleToEntery,
     });
   }
 
-  handleTest = () => {
+  handleToEntery = () => {
     this.props.history.push("/entry");
   };
 

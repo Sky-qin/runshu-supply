@@ -5,10 +5,14 @@
   display: flex;
   .header-bar-left {
     flex: 1;
+    line-height: 90px;
+    .logo-pic {
+      margin-left: 16px;
+    }
   }
   .header-bar-right {
-    width: 240px;
-    border-left: 1px solid #e9ebf2;
+    width: 160px;
+    // border-left: 1px solid #e9ebf2;
     display: flex;
     align-items: center;
   }
@@ -29,10 +33,15 @@
     }
     .user-postion {
       height: 20px;
-      font-size: 14px;
+      width: 80px !important;
+      font-size: 12px;
       font-weight: 500;
       color: #999999;
       line-height: 20px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      cursor: pointer;
     }
   }
   .config-user-icon {

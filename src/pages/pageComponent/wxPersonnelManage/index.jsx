@@ -5,11 +5,10 @@ import { PlusOutlined } from "@ant-design/icons";
 import EditDialog from "./editDialog";
 // import T from "prop-types";
 import ContentBox from "../../../components/contentWrap";
-// import style
 import "./index.scss";
 const { Column } = Table;
 
-class SystemPersonnelManage extends React.Component {
+class WxPersonnelManage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -20,10 +19,10 @@ class SystemPersonnelManage extends React.Component {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
-      type: "personnelManage/getAllHospital",
+      type: "wxPersonnelManage/getAllHospital",
     });
     dispatch({
-      type: "personnelManage/queryUserRole",
+      type: "wxPersonnelManage/queryUserRole",
     });
     this.getTableList();
   }
@@ -31,15 +30,15 @@ class SystemPersonnelManage extends React.Component {
   getTableList = () => {
     const { dispatch } = this.props;
     dispatch({
-      type: "personnelManage/queryUser",
+      type: "wxPersonnelManage/queryUser",
     });
   };
 
   changePagination = (current, size) => {
     const { dispatch } = this.props;
-    const { pagination } = this.props.personnelManage;
+    const { pagination } = this.props.wxPersonnelManage;
     dispatch({
-      type: "personnelManage/save",
+      type: "wxPersonnelManage/save",
       paylaod: {
         pagination: {
           ...pagination,
@@ -53,7 +52,7 @@ class SystemPersonnelManage extends React.Component {
   handleAdd = (msg = {}) => {
     const { dispatch } = this.props;
     dispatch({
-      type: "personnelManage/save",
+      type: "wxPersonnelManage/save",
       payload: {
         showEditDialog: true,
         currentMsg: { ...msg },
@@ -65,7 +64,7 @@ class SystemPersonnelManage extends React.Component {
   handleEdit = (msg) => {
     const { dispatch } = this.props;
     dispatch({
-      type: "personnelManage/save",
+      type: "wxPersonnelManage/save",
       payload: {
         showEditDialog: true,
         currentMsg: { ...msg },
@@ -77,7 +76,7 @@ class SystemPersonnelManage extends React.Component {
   handleDelete = (msg) => {
     const { dispatch } = this.props;
     dispatch({
-      type: "personnelManage/save",
+      type: "wxPersonnelManage/save",
       payload: {
         deleteDialog: true,
         currentMsg: { ...msg },
@@ -88,7 +87,7 @@ class SystemPersonnelManage extends React.Component {
   handleCloseDeleteDialog = () => {
     const { dispatch } = this.props;
     dispatch({
-      type: "personnelManage/save",
+      type: "wxPersonnelManage/save",
       payload: {
         deleteDialog: false,
       },
@@ -97,15 +96,15 @@ class SystemPersonnelManage extends React.Component {
 
   handleSave = (values) => {
     const { dispatch } = this.props;
-    const { dialogTitle } = this.props.personnelManage;
+    const { dialogTitle } = this.props.wxPersonnelManage;
     if (dialogTitle === "编辑") {
       dispatch({
-        type: "personnelManage/updateUser",
+        type: "wxPersonnelManage/updateUser",
         payload: { ...values },
       });
     } else {
       dispatch({
-        type: "personnelManage/saveUser",
+        type: "wxPersonnelManage/saveUser",
         payload: { ...values },
       });
     }
@@ -123,7 +122,7 @@ class SystemPersonnelManage extends React.Component {
       data,
       hospitalList,
       userRoleList,
-    } = this.props.personnelManage;
+    } = this.props.wxPersonnelManage;
     const { current, size, total } = pagination;
     return (
       <ContentBox loading={loading}>
@@ -154,9 +153,20 @@ class SystemPersonnelManage extends React.Component {
             render={(value, record, index) => index + 1}
             width={65}
           />
-          <Column title="用户名" dataIndex="userName" />
+          <Column title="姓名" dataIndex="userName" />
           <Column title="手机号" dataIndex="userPhone" />
-          <Column title="职位" dataIndex="roleName" />
+          {/* <Column title="医院" dataIndex="" /> */}
+          <Column
+            title="授权状态"
+            dataIndex="wxCode"
+            render={(value, record) => {
+              return (
+                <span className={value ? "color-green" : "color-red"}>
+                  {value ? "已授权" : "未授权"}
+                </span>
+              );
+            }}
+          />
           <Column title="创建日期" dataIndex="createTime" />
           <Column
             title="操作"
@@ -185,7 +195,7 @@ class SystemPersonnelManage extends React.Component {
               type="primary"
               onClick={() => {
                 dispatch({
-                  type: "personnelManage/deleteUser",
+                  type: "wxPersonnelManage/deleteUser",
                 });
               }}
             >
@@ -204,7 +214,7 @@ class SystemPersonnelManage extends React.Component {
             sourceList={{ hospitalList, userRoleList }}
             onClosed={() => {
               dispatch({
-                type: "personnelManage/save",
+                type: "wxPersonnelManage/save",
                 payload: {
                   showEditDialog: false,
                 },
@@ -218,6 +228,6 @@ class SystemPersonnelManage extends React.Component {
   }
 }
 
-export default connect(({ personnelManage }) => ({
-  personnelManage,
-}))(SystemPersonnelManage);
+export default connect(({ wxPersonnelManage }) => ({
+  wxPersonnelManage,
+}))(WxPersonnelManage);

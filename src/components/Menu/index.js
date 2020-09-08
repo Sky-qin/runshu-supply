@@ -6,19 +6,15 @@ import "./index.scss";
 class Header extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      activeNode: "",
-    };
+    this.state = {};
   }
 
-  componentDidMount() {
-    const { dispatch } = this.props;
-  }
+  componentDidMount() {}
 
   handleClick = (item) => {
     const { clickMenu } = this.props;
-    const { resourceId } = item;
-    this.setState({ activeNode: resourceId });
+    const { value } = item;
+    this.setState({ activeNode: value });
     clickMenu && typeof clickMenu === "function" && clickMenu(item);
   };
 
@@ -30,11 +26,11 @@ class Header extends React.Component {
   getMenuClass = (item) => {
     const { activeMenu } = this.props;
     let isActive = false;
-    if (item.resourceId === activeMenu) {
+    if (item.value === activeMenu) {
       isActive = true;
     }
-    (item.resources || []).map((node) => {
-      if (node.resourceId === activeMenu) {
+    (item.children || []).map((node) => {
+      if (node.value === activeMenu) {
         isActive = true;
       }
     });
@@ -43,11 +39,11 @@ class Header extends React.Component {
 
   randerDirectionIcon = (item) => {
     const { activeNode } = this.state;
-    const { resources } = item;
-    if (resources && resources.length > 0) {
+    const { children } = item;
+    if (children && children.length > 0) {
       return (
         <div className="direction-icon">
-          {activeNode === item.resourceId ? (
+          {activeNode === item.value ? (
             <i className="iconfont iconxiangyou1" />
           ) : (
             <i className="iconfont iconback" />
@@ -64,30 +60,30 @@ class Header extends React.Component {
       <div className="menu-bar">
         {(data || []).map((item) => {
           return (
-            <div key={item.resourceId}>
+            <div key={item.value}>
               <div
                 className={this.getMenuClass(item)}
                 onClick={() => this.handleClick(item)}
               >
                 <i className={`menu-icon iconfont ${item.icon}`} />
-                <span className="menu-name">{item.resourceName}</span>
+                <span className="menu-name">{item.label}</span>
                 {this.randerDirectionIcon(item)}
               </div>
-              {activeNode === item.resourceId &&
-                (item.resources || []).map((item) => {
+              {activeNode === item.value &&
+                (item.children || []).map((item) => {
                   return (
-                    <div key={item.resourceId}>
+                    <div key={item.value}>
                       <div
-                        key={item.resourceId}
+                        key={item.value}
                         className={`children-menu-item ${
-                          activeMenu === item.resourceId
+                          activeMenu === item.value
                             ? "children-active-menu"
                             : ""
                         }`}
                         onClick={() => this.handleClickChild(item)}
                       >
                         <span className="menu-name children-menu">
-                          {item.resourceName}
+                          {item.label}
                         </span>
                       </div>
                     </div>

@@ -7,9 +7,12 @@ export default async function request(options) {
   });
   // request拦截器
   service.interceptors.request.use(
-    (config) =>
+    (config) => {
       // 在发送请求之前做些什么
-      config,
+      const userInfo = JSON.parse(window.localStorage.getItem("user")) || {};
+      config.headers.token = (userInfo && userInfo.token) || "";
+      return config;
+    },
     (error) => {
       // 对请求错误做些什么
       Promise.reject(error);
@@ -20,9 +23,10 @@ export default async function request(options) {
     (response) =>
       // 对响应数据做点什么
       response,
-    (error) =>
+    (error) => {
       // 对响应错误做点什么
-      Promise.reject(error)
+      return error.response;
+    }
   );
   let response;
   try {

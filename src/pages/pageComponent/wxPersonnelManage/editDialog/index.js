@@ -24,7 +24,7 @@ class EditDialog extends React.Component {
     formObj.current
       .validateFields()
       .then((values) => {
-        onOk && typeof onOk === "function" && onOk({ ...values, type: "dd" });
+        onOk && typeof onOk === "function" && onOk({ ...values, type: "wx" });
       })
       .catch((errorInfo) => {
         console.log("errorInfo", errorInfo);
@@ -105,14 +105,10 @@ class EditDialog extends React.Component {
           </Form.Item>
 
           <Form.Item
-            name="roleId"
-            label="职位"
-            rules={[{ required: true, message: "请选择职位" }]}
+            name="hospitalIds"
+            label="医院"
+            rules={[{ required: true, message: "请选择医院" }]}
           >
-            <Select showArrow optionFilterProp="label" options={userRoleList} />
-          </Form.Item>
-
-          <Form.Item name="hospitalIds" label="医院">
             <Select
               mode="multiple"
               optionFilterProp="label"

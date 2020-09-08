@@ -11,9 +11,19 @@ export default {
   },
 
   effects: {
-    *fetch({ payload }, { call, put }) {
-      yield put({ type: "save" });
-    },
+    // *queryMenu({}, { call, put, select }) {
+    //   const { data } = yield call(API.queryMenu, params);
+    //   if (data && data.success) {
+    //     yield put({
+    //       type: "save",
+    //       payload: {
+    //         menuList: data.data || [],
+    //       },
+    //     });
+    //   } else {
+    //     message.error(data.message || "删除失败！");
+    //   }
+    // },
   },
 
   reducers: {

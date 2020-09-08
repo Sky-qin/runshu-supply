@@ -1,6 +1,7 @@
 import dva from "dva";
 import "./utils/rem";
 import "./index.css";
+import request from "./services/request";
 
 // 1. Initialize
 const app = dva();
@@ -9,14 +10,16 @@ const app = dva();
 // app.use({});
 
 // 3. Model
-app.model(require("./models/example").default);
-app.model(require("./models/test").default);
+app.model(require("./models/entryModel").default);
 app.model(require("./models/login").default);
 app.model(require("./models/departmentManage").default);
 app.model(require("./models/hospitalManage").default);
 app.model(require("./models/powerManage").default);
 app.model(require("./models/personnelManage").default);
+app.model(require("./models/wxPersonnelManage").default);
 app.model(require("./models/consumeModel").default);
+app.model(require("./models/inventory").default);
+app.model(require("./models/productInfo").default);
 
 // 4. Router
 app.router(require("./router").default);

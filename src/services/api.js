@@ -1,30 +1,25 @@
 import { Prefix } from "../utils/config";
 import request from "./request";
 
-const Domain = "//192.168.1.127:8081";
-
+// const Prefix = "//192.168.1.127:8081";
+// const Prefix = "//218.24.35.107:8081";
 const API = {
-  // TODO DELETE
-  miniGetInfo(params) {
+  /**
+   * 获取菜单列表
+   */
+  queryMenu(params) {
     return request({
-      url: `${Prefix}/mini/getinfo`,
-      params,
-    });
-  },
-  miniPostInfo(params) {
-    return request({
-      url: `${Prefix}/mini/postInfo`,
+      url: `${Prefix}/auth/ding/user/queryMenu`,
       method: "post",
       params,
     });
   },
-
   /**
    * 科室管理
    */
   queryDepartment(params) {
     return request({
-      url: `${Domain}/department/query`,
+      url: `${Prefix}/department/query`,
       method: "post",
       params,
     });
@@ -32,7 +27,7 @@ const API = {
   // 新增部门
   addDepartment(params) {
     return request({
-      url: `${Domain}/department/save`,
+      url: `${Prefix}/department/save`,
       method: "post",
       params,
     });
@@ -40,7 +35,7 @@ const API = {
   // 编辑部门接口
   editDepartment(params) {
     return request({
-      url: `${Domain}/department/update`,
+      url: `${Prefix}/department/update`,
       method: "post",
       params,
     });
@@ -48,7 +43,7 @@ const API = {
   // 删除接口
   deleteDepartment(params) {
     return request({
-      url: `${Domain}/department/delete`,
+      url: `${Prefix}/department/delete`,
       method: "post",
       params,
     });
@@ -61,7 +56,7 @@ const API = {
   // 医院报个查询
   queryHospital(params) {
     return request({
-      url: `${Domain}/hospital/query`,
+      url: `${Prefix}/hospital/query`,
       method: "post",
       params,
     });
@@ -69,7 +64,7 @@ const API = {
   // 新增医院
   saveHospital(params) {
     return request({
-      url: `${Domain}/hospital/save`,
+      url: `${Prefix}/hospital/save`,
       method: "post",
       params,
     });
@@ -77,7 +72,7 @@ const API = {
   // 编辑医院
   updateHospital(params) {
     return request({
-      url: `${Domain}/hospital/update`,
+      url: `${Prefix}/hospital/update`,
       method: "post",
       params,
     });
@@ -86,7 +81,7 @@ const API = {
   // 删除医院
   deleteHospital(params) {
     return request({
-      url: `${Domain}/hospital/delete`,
+      url: `${Prefix}/hospital/delete`,
       method: "post",
       params,
     });
@@ -99,7 +94,7 @@ const API = {
   // 消耗单列表查询
   queryConsumeList(params) {
     return request({
-      url: `${Domain}/consumeOrder/selectAllConsumeOrder`,
+      url: `${Prefix}/consumeOrder/selectAllConsumeOrder`,
       method: "post",
       params,
     });
@@ -108,7 +103,7 @@ const API = {
   // 消耗单状态修改
   updateConsumeStatus(params) {
     return request({
-      url: `${Domain}/consumeOrder/updateStatus`,
+      url: `${Prefix}/consumeOrder/updateStatus`,
       method: "post",
       params,
     });
@@ -117,7 +112,7 @@ const API = {
   // 获取详情
   getConsumeDetail(params) {
     return request({
-      url: `${Domain}/consumeOrder/selectConsumeOrderInfo`,
+      url: `${Prefix}/consumeOrder/selectConsumeOrderInfo`,
       params,
     });
   },
@@ -128,7 +123,7 @@ const API = {
   // 表格数据查询
   queryRole(params) {
     return request({
-      url: `${Domain}/role/query`,
+      url: `${Prefix}/role/query`,
       method: "post",
       params,
     });
@@ -136,7 +131,7 @@ const API = {
   // 新增职位
   saveRole(params) {
     return request({
-      url: `${Domain}/role/save`,
+      url: `${Prefix}/role/save`,
       method: "post",
       params,
     });
@@ -144,7 +139,7 @@ const API = {
   // 编辑职位
   updateRole(params) {
     return request({
-      url: `${Domain}/role/update`,
+      url: `${Prefix}/role/update`,
       method: "post",
       params,
     });
@@ -152,7 +147,7 @@ const API = {
   // 职位删除
   deleteRole(params) {
     return request({
-      url: `${Domain}/role/delete`,
+      url: `${Prefix}/role/delete`,
       method: "post",
       params,
     });
@@ -161,7 +156,68 @@ const API = {
 
   changeRoleStatus(params) {
     return request({
-      url: `${Domain}/role/state`,
+      url: `${Prefix}/role/state`,
+      method: "post",
+      params,
+    });
+  },
+
+  /**
+   * 产品信息库
+   */
+  queryProductList(params) {
+    return request({
+      url: `${Prefix}/supply/product/list`,
+      method: "post",
+      params,
+    });
+  },
+
+  /**
+   * 库存管理
+   */
+  queryInventoryList(params) {
+    return request({
+      url: `${Prefix}/supply/inventory/list`,
+      method: "post",
+      params,
+    });
+  },
+
+  /**
+   * 系统人员管理
+   */
+  // 查询用户
+  queryUser(params) {
+    return request({
+      url: `${Prefix}/user/query`,
+      method: "post",
+      params,
+    });
+  },
+
+  // 新增用户
+  saveUser(params) {
+    return request({
+      url: `${Prefix}/user/save`,
+      method: "post",
+      params,
+    });
+  },
+
+  // 编辑用户
+  updateUser(params) {
+    return request({
+      url: `${Prefix}/user/update`,
+      method: "post",
+      params,
+    });
+  },
+
+  // 删除用户
+  deleteUser(params) {
+    return request({
+      url: `${Prefix}/user/delete`,
       method: "post",
       params,
     });
@@ -170,11 +226,27 @@ const API = {
   /**
    * 枚举类即接口
    */
-  // 医院枚举
+  // 获取当前用户 医院枚举
   getHospital(params) {
     return request({
-      url: `${Domain}/consumeOrder/selectAllHospital`,
+      url: `${Prefix}/consumeOrder/selectAllHospital`,
       method: "post",
+      params,
+    });
+  },
+
+  // 获取所有医院枚举
+  getAllHospital(params) {
+    return request({
+      url: `${Prefix}/user/queryHospital`,
+      params,
+    });
+  },
+
+  // 角色枚举
+  queryUserRole(params) {
+    return request({
+      url: `${Prefix}/user/queryRole`,
       params,
     });
   },
@@ -182,7 +254,7 @@ const API = {
   // 根据医院查科室
   getDePartmentByHsp(params) {
     return request({
-      url: `${Domain}/consumeOrder/selectDepartment`,
+      url: `${Prefix}/consumeOrder/selectDepartment`,
       params,
     });
   },
@@ -190,7 +262,7 @@ const API = {
   // 申请人接口
   getApplicant(params) {
     return request({
-      url: `${Domain}/consumeOrder/selectConsumeUser`,
+      url: `${Prefix}/consumeOrder/selectConsumeUser`,
       method: "post",
       params,
     });
@@ -199,7 +271,7 @@ const API = {
   // 订单状态
   getOrderStatus(params) {
     return request({
-      url: `${Domain}/consumeOrder/selectOrderStatus`,
+      url: `${Prefix}/consumeOrder/selectOrderStatus`,
       method: "post",
       params,
     });
@@ -208,21 +280,21 @@ const API = {
   // 城市枚举
   getAddress(params) {
     return request({
-      url: `${Domain}/hospital/queryCity`,
+      url: `${Prefix}/hospital/queryCity`,
       params,
     });
   },
   // 库位枚举
   storageList(params) {
     return request({
-      url: `${Domain}/hospital/queryStock`,
+      url: `${Prefix}/hospital/queryStock`,
       params,
     });
   },
   // 科室枚举
   departmentList(params) {
     return request({
-      url: `${Domain}/hospital/queryDepartment`,
+      url: `${Prefix}/hospital/queryDepartment`,
       params,
     });
   },
@@ -230,7 +302,7 @@ const API = {
   // 获取菜单枚举
   queryResource(params) {
     return request({
-      url: `${Domain}/role/queryResource`,
+      url: `${Prefix}/role/queryResource`,
       params,
     });
   },
