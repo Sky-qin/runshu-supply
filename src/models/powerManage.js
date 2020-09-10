@@ -11,6 +11,7 @@ export default {
     dialogTitle: "编辑",
     resourceList: [],
     loading: false,
+    dialogBtnLoading: false,
     data: [],
     roleType: "",
     pagination: {
@@ -27,7 +28,11 @@ export default {
       if (currentMsg.id) {
         params = { ...params, pid: currentMsg.id };
       }
+
+      yield put({ type: "save", payload: { dialogBtnLoading: true } });
       const { data } = yield call(API.saveRole, params);
+      yield put({ type: "save", payload: { dialogBtnLoading: false } });
+
       if (data && data.success) {
         yield put({ type: "save", payload: { showEditDialog: false } });
         message.success("新增职位成功");
@@ -44,7 +49,11 @@ export default {
         ...payload,
         id: (currentMsg && currentMsg.id) || null,
       };
+
+      yield put({ type: "save", payload: { dialogBtnLoading: true } });
       const { data } = yield call(API.updateRole, params);
+      yield put({ type: "save", payload: { dialogBtnLoading: false } });
+
       if (data && data.success) {
         yield put({ type: "save", payload: { showEditDialog: false } });
         message.success("修改职位成功");
@@ -63,7 +72,11 @@ export default {
       let params = {
         ids: currentMsg && currentMsg.id && [currentMsg && currentMsg.id],
       };
+
+      yield put({ type: "save", payload: { dialogBtnLoading: true } });
       const { data } = yield call(API.deleteRole, params);
+      yield put({ type: "save", payload: { dialogBtnLoading: false } });
+
       if (data && data.success) {
         yield put({ type: "save", payload: { deleteDialog: false } });
         message.success("成功删除科室");
@@ -81,7 +94,10 @@ export default {
         id: (currentMsg && currentMsg.id) || "",
         isDeleted: !(currentMsg && currentMsg.isDeleted),
       };
+      yield put({ type: "save", payload: { dialogBtnLoading: true } });
       const { data } = yield call(API.changeRoleStatus, params);
+      yield put({ type: "save", payload: { dialogBtnLoading: false } });
+
       if (data && data.success) {
         yield put({ type: "save", payload: { deleteDialog: false } });
         message.success("职位状态修改成功！");

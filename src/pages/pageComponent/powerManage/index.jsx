@@ -87,6 +87,7 @@ class PowerManage extends React.Component {
       type: "powerManage/save",
       payload: {
         deleteDialog: false,
+        dialogBtnLoading: false,
       },
     });
   };
@@ -119,6 +120,7 @@ class PowerManage extends React.Component {
       data,
       deleteDialog,
       roleType,
+      dialogBtnLoading,
     } = this.props.powerManage;
     const { current, size, total } = pagination;
     return (
@@ -183,6 +185,7 @@ class PowerManage extends React.Component {
             <Button
               key="ok"
               type="primary"
+              loading={dialogBtnLoading}
               onClick={() => {
                 if (roleType === "delete") {
                   dispatch({
@@ -215,11 +218,13 @@ class PowerManage extends React.Component {
             title={dialogTitle}
             data={currentMsg}
             sourceList={{ resourceList }}
+            loading={dialogBtnLoading}
             onClosed={() => {
               dispatch({
                 type: "powerManage/save",
                 payload: {
                   showEditDialog: false,
+                  dialogBtnLoading: false,
                 },
               });
             }}

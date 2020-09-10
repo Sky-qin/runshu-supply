@@ -11,9 +11,10 @@ export default {
     loading: false,
     pagination: {
       current: 1,
-      size: 2,
-      total: 1000,
+      size: 10,
+      total: 0,
     },
+    dialogBtnLoading: false,
   },
 
   effects: {
@@ -49,7 +50,11 @@ export default {
       if (currentMsg.id) {
         params = { ...params, pid: currentMsg.id };
       }
+
+      yield put({ type: "save", payload: { dialogBtnLoading: true } });
       const { data } = yield call(API.addDepartment, params);
+      yield put({ type: "save", payload: { dialogBtnLoading: false } });
+
       if (data && data.success) {
         yield put({ type: "save", payload: { showEditDialog: false } });
         message.success("新增科室成功");
@@ -64,8 +69,9 @@ export default {
         ...payload,
         id: (currentMsg && currentMsg.id) || null,
       };
-
+      yield put({ type: "save", payload: { dialogBtnLoading: true } });
       const { data } = yield call(API.editDepartment, params);
+      yield put({ type: "save", payload: { dialogBtnLoading: false } });
 
       if (data && data.success) {
         yield put({ type: "save", payload: { showEditDialog: false } });
@@ -80,7 +86,11 @@ export default {
       let params = {
         ids: [currentMsg && currentMsg.id] || null,
       };
+
+      yield put({ type: "save", payload: { dialogBtnLoading: true } });
       const { data } = yield call(API.deleteDepartment, params);
+      yield put({ type: "save", payload: { dialogBtnLoading: false } });
+
       if (data && data.success) {
         yield put({ type: "save", payload: { deleteDialog: false } });
         message.success("成功删除科室");

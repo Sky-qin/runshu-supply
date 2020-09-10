@@ -133,6 +133,7 @@ class ConsumeList extends React.Component {
       type: "consumeModel/save",
       payload: {
         showStatusDialog: false,
+        dialogBtnLoading: false,
       },
     });
   };
@@ -210,6 +211,7 @@ class ConsumeList extends React.Component {
       feedbackInfo,
       feedbackDialog,
       searchParams,
+      dialogBtnLoading,
     } = this.props.consumeModel;
     const { current, size, total } = pagination;
     return (
@@ -320,6 +322,7 @@ class ConsumeList extends React.Component {
             <Button
               key="ok"
               type="primary"
+              loading={dialogBtnLoading}
               onClick={() => {
                 dispatch({
                   type: "consumeModel/updateConsumeStatus",

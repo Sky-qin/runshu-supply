@@ -1,10 +1,5 @@
 import React from "react";
 import { Menu } from "antd";
-import {
-  AppstoreOutlined,
-  MailOutlined,
-  SettingOutlined,
-} from "@ant-design/icons";
 import "./index.scss";
 
 const { SubMenu } = Menu;
@@ -28,9 +23,8 @@ class Header extends React.Component {
     return (
       <Menu
         onClick={this.handleClick}
-        style={{ width: 240 }}
+        style={{ width: 240, overflowY: "scroll", overflowX: "hidden" }}
         defaultSelectedKeys={[activeMenu]}
-        // defaultOpenKeys={["sub1"]}
         mode="inline"
       >
         {(data || []).map((item, index) => {
@@ -57,37 +51,6 @@ class Header extends React.Component {
             </Menu.Item>
           );
         })}
-        {/* <SubMenu
-          key="sub1"
-          title={
-            <span>
-              <MailOutlined />
-              <span>Navigation One</span>
-            </span>
-          }
-        ></SubMenu>
-        <SubMenu
-          key="sub2"
-          icon={<i className={`menu-icon iconfont iconwarehouse`} />}
-          title="Navigation Two"
-        >
-          <Menu.Item key="5">Option 5</Menu.Item>
-          <Menu.Item key="6">Option 6</Menu.Item>
-        </SubMenu>
-        <SubMenu
-          key="sub4"
-          title={
-            <span>
-              <SettingOutlined />
-              <span>Navigation Three</span>
-            </span>
-          }
-        >
-          <Menu.Item key="9">Option 9</Menu.Item>
-          <Menu.Item key="10">Option 10</Menu.Item>
-          <Menu.Item key="11">Option 11</Menu.Item>
-          <Menu.Item key="12">Option 12</Menu.Item>
-        </SubMenu> */}
       </Menu>
     );
   }

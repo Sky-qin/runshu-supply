@@ -42,7 +42,7 @@ class EditDialog extends React.Component {
   };
 
   render() {
-    const { dialogTitle, data } = this.props;
+    const { dialogTitle, data, loading } = this.props;
     return (
       <Modal
         title={dialogTitle || "编辑"}
@@ -53,7 +53,12 @@ class EditDialog extends React.Component {
           <Button key="cancel" onClick={this.handleCancel}>
             取消
           </Button>,
-          <Button key="ok" type="primary" onClick={this.handleOk}>
+          <Button
+            key="ok"
+            type="primary"
+            loading={loading}
+            onClick={this.handleOk}
+          >
             确定
           </Button>,
         ]}

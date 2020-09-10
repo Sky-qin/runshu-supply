@@ -34,6 +34,7 @@ export default {
     applicantList: [],
     dialogTitle: "编辑",
     loading: false,
+    dialogBtnLoading: false,
     pagination: {
       current: 1,
       size: 10,
@@ -135,7 +136,10 @@ export default {
         orderStatus: clickStatus,
         sysVersion: currentMsg.sysVersion,
       };
+      yield put({ type: "save", payload: { dialogBtnLoading: true } });
       const { data } = yield call(API.updateConsumeStatus, params);
+      yield put({ type: "save", payload: { dialogBtnLoading: false } });
+
       if (data && data.success) {
         message.success("修改成功！");
         yield put({ type: "save", payload: { showStatusDialog: false } });

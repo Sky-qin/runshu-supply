@@ -10,6 +10,7 @@ export default {
     data: [],
     loading: false,
     dialogTitle: "编辑",
+    dialogBtnLoading: false,
     pagination: {
       current: 1,
       size: 10,
@@ -63,7 +64,11 @@ export default {
 
     *saveUser({ payload }, { call, put, select }) {
       let params = { ...payload };
+
+      yield put({ type: "save", payload: { dialogBtnLoading: true } });
       const { data } = yield call(API.saveUser, params);
+      yield put({ type: "save", payload: { dialogBtnLoading: false } });
+
       if (data && data.success) {
         yield put({ type: "save", payload: { showEditDialog: false } });
         message.success("新增用户成功！");
@@ -78,7 +83,10 @@ export default {
         ...payload,
         id: (currentMsg && currentMsg.id) || null,
       };
+
+      yield put({ type: "save", payload: { dialogBtnLoading: true } });
       const { data } = yield call(API.updateUser, params);
+      yield put({ type: "save", payload: { dialogBtnLoading: false } });
 
       if (data && data.success) {
         yield put({ type: "save", payload: { showEditDialog: false } });
@@ -93,7 +101,11 @@ export default {
       let params = {
         ids: (currentMsg && currentMsg.id && [currentMsg.id]) || [],
       };
+
+      yield put({ type: "save", payload: { dialogBtnLoading: true } });
       const { data } = yield call(API.deleteUser, params);
+      yield put({ type: "save", payload: { dialogBtnLoading: false } });
+
       if (data && data.success) {
         yield put({ type: "save", payload: { deleteDialog: false } });
         yield put({ type: "queryUser" });

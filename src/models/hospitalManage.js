@@ -8,6 +8,7 @@ export default {
     deleteDialog: false,
     currentMsg: {},
     dialogTitle: "编辑",
+    dialogBtnLoading: false,
     adressList: [],
     loading: false,
     storageList: [],
@@ -55,7 +56,11 @@ export default {
       if (currentMsg.id) {
         params = { ...params, pid: currentMsg.id };
       }
+
+      yield put({ type: "save", payload: { dialogBtnLoading: true } });
       const { data } = yield call(API.saveHospital, params);
+      yield put({ type: "save", payload: { dialogBtnLoading: false } });
+
       if (data && data.success) {
         yield put({ type: "save", payload: { showEditDialog: false } });
         message.success("医院添加成功");
@@ -72,10 +77,15 @@ export default {
         ...payload,
         id: (currentMsg && currentMsg.id) || null,
       };
+      yield put({ type: "save", payload: { dialogBtnLoading: true } });
       const { data } = yield call(API.updateHospital, params);
+      yield put({ type: "save", payload: { dialogBtnLoading: false } });
 
       if (data && data.success) {
-        yield put({ type: "save", payload: { showEditDialog: false } });
+        yield put({
+          type: "save",
+          payload: { showEditDialog: false },
+        });
         message.success("修改医院成功");
         yield put({
           type: "getTableList",
@@ -89,7 +99,9 @@ export default {
       let params = {
         ids: [currentMsg && currentMsg.id] || null,
       };
+      yield put({ type: "save", payload: { dialogBtnLoading: true } });
       const { data } = yield call(API.deleteHospital, params);
+      yield put({ type: "save", payload: { dialogBtnLoading: false } });
       if (data && data.success) {
         yield put({ type: "save", payload: { deleteDialog: false } });
         message.success("成功删除科室");

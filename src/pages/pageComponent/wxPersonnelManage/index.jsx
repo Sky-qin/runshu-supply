@@ -122,6 +122,7 @@ class WxPersonnelManage extends React.Component {
       data,
       hospitalList,
       userRoleList,
+      dialogBtnLoading,
     } = this.props.wxPersonnelManage;
     const { current, size, total } = pagination;
     return (
@@ -193,6 +194,7 @@ class WxPersonnelManage extends React.Component {
             <Button
               key="ok"
               type="primary"
+              loading={dialogBtnLoading}
               onClick={() => {
                 dispatch({
                   type: "wxPersonnelManage/deleteUser",
@@ -211,12 +213,14 @@ class WxPersonnelManage extends React.Component {
           <EditDialog
             title={dialogTitle}
             data={currentMsg}
+            loading={dialogBtnLoading}
             sourceList={{ hospitalList, userRoleList }}
             onClosed={() => {
               dispatch({
                 type: "wxPersonnelManage/save",
                 payload: {
                   showEditDialog: false,
+                  dialogBtnLoading: false,
                 },
               });
             }}

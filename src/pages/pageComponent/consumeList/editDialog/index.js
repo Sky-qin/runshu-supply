@@ -28,6 +28,7 @@ class EditDialog extends React.Component {
       type: "consumeModel/save",
       payload: {
         showDetailDialog: false,
+        dialogBtnLoading: false,
       },
     });
   };
@@ -47,16 +48,23 @@ class EditDialog extends React.Component {
 
   renderFooter = (msg) => {
     const { orderStatus } = msg;
+    const { dialogBtnLoading } = this.props.consumeModel;
+
     let list = [];
     if (orderStatus === 0) {
       list.push();
       list = [
-        <Button key="cancel" onClick={() => this.handleEdit(msg, "驳回", "2")}>
+        <Button
+          key="cancel"
+          loading={dialogBtnLoading}
+          onClick={() => this.handleEdit(msg, "驳回", "2")}
+        >
           驳回
         </Button>,
         <Button
           key="ok"
           type="primary"
+          loading={dialogBtnLoading}
           onClick={() => this.handleEdit(msg, "确定", "1")}
         >
           确定
@@ -79,7 +87,6 @@ class EditDialog extends React.Component {
 
   render() {
     const { showDetailDialog, detailMsg } = this.props.consumeModel;
-    console.log("detailMsg", detailMsg);
     return (
       <Modal
         title="消耗单详情"

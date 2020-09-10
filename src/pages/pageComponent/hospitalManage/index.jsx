@@ -89,6 +89,17 @@ class HospitalManage extends React.Component {
     });
   };
 
+  handleCloseDeleteDialog = () => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: "hospitalManage/save",
+      payload: {
+        deleteDialog: false,
+        dialogBtnLoading: false,
+      },
+    });
+  };
+
   handleSave = (values) => {
     const { dispatch } = this.props;
     const { dialogTitle } = this.props.hospitalManage;
@@ -118,6 +129,7 @@ class HospitalManage extends React.Component {
       loading,
       data,
       deleteDialog,
+      dialogBtnLoading,
     } = this.props.hospitalManage;
     const { current, size, total } = pagination;
     return (
@@ -180,6 +192,7 @@ class HospitalManage extends React.Component {
             <Button
               key="ok"
               type="primary"
+              loading={dialogBtnLoading}
               onClick={() => {
                 dispatch({
                   type: "hospitalManage/deleteHospital",
@@ -198,12 +211,14 @@ class HospitalManage extends React.Component {
           <EditDialog
             title={dialogTitle}
             data={currentMsg}
+            loading={dialogBtnLoading}
             sourceList={{ adressList, storageList, departmentList }}
             onClosed={() => {
               dispatch({
                 type: "hospitalManage/save",
                 payload: {
                   showEditDialog: false,
+                  dialogBtnLoading: false,
                 },
               });
             }}

@@ -58,7 +58,7 @@ class EditDialog extends React.Component {
 
   render() {
     const { expandedKeys } = this.state;
-    const { title, data, sourceList } = this.props;
+    const { title, data, sourceList, loading } = this.props;
     const { resourceList } = sourceList;
     return (
       <Modal
@@ -70,7 +70,12 @@ class EditDialog extends React.Component {
           <Button key="cancel" onClick={this.handleCancel}>
             取消
           </Button>,
-          <Button key="ok" type="primary" onClick={this.handleOk}>
+          <Button
+            key="ok"
+            loading={loading}
+            type="primary"
+            onClick={this.handleOk}
+          >
             确定
           </Button>,
         ]}

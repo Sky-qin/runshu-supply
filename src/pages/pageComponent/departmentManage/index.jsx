@@ -102,6 +102,7 @@ class Test extends React.Component {
       type: "departmentManage/save",
       payload: {
         deleteDialog: false,
+        dialogBtnLoading: false,
       },
     });
   };
@@ -116,6 +117,7 @@ class Test extends React.Component {
       pagination,
       data,
       loading,
+      dialogBtnLoading,
     } = this.props.departmentManage;
     const { current, size, total } = pagination;
     return (
@@ -177,6 +179,7 @@ class Test extends React.Component {
             <Button
               key="ok"
               type="primary"
+              loading={dialogBtnLoading}
               onClick={() => {
                 dispatch({
                   type: "departmentManage/deleteDepartment",
@@ -195,11 +198,13 @@ class Test extends React.Component {
           <EditDialog
             title={dialogTitle}
             data={currentMsg}
+            loading={dialogBtnLoading}
             onClosed={() => {
               dispatch({
                 type: "departmentManage/save",
                 payload: {
                   showEditDialog: false,
+                  dialogBtnLoading: false,
                 },
               });
             }}
