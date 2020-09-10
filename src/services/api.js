@@ -176,9 +176,18 @@ const API = {
   /**
    * 库存管理
    */
+  // 库存列表
   queryInventoryList(params) {
     return request({
       url: `${Prefix}/supply/inventory/list`,
+      method: "post",
+      params,
+    });
+  },
+  // 库存商品
+  queryInventoryProduct(params) {
+    return request({
+      url: `${Prefix}/supply/inventory/product`,
       method: "post",
       params,
     });
@@ -218,6 +227,32 @@ const API = {
   deleteUser(params) {
     return request({
       url: `${Prefix}/user/delete`,
+      method: "post",
+      params,
+    });
+  },
+
+  /**
+   * 反馈消耗单
+   */
+  getFeedbackList(params) {
+    return request({
+      url: `${Prefix}/consumeOrder/selectRemarkList`,
+      method: "post",
+      params,
+    });
+  },
+
+  getFeedbackDetail(params) {
+    return request({
+      url: `${Prefix}/consumeOrder/selectRemark`,
+      params,
+    });
+  },
+
+  updateFeedbackStatus(params) {
+    return request({
+      url: `${Prefix}/consumeOrder/updateFeedbackStatus`,
       method: "post",
       params,
     });
@@ -268,10 +303,18 @@ const API = {
     });
   },
 
-  // 订单状态
+  // 消耗单状态
   getOrderStatus(params) {
     return request({
       url: `${Prefix}/consumeOrder/selectOrderStatus`,
+      method: "post",
+      params,
+    });
+  },
+  // 消耗单pc状态
+  getOrderPCStatus(params) {
+    return request({
+      url: `${Prefix}/consumeOrder/selectPCOrderStatus`,
       method: "post",
       params,
     });

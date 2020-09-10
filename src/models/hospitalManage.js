@@ -97,7 +97,7 @@ export default {
     },
 
     // new
-    *getAddress({}, { call, put }) {
+    *getAddress({ payload }, { call, put }) {
       const { data } = yield call(API.getAddress);
       if (data && data.success) {
         yield put({ type: "save", payload: { adressList: data.data || [] } });
@@ -105,13 +105,13 @@ export default {
         message.error(data.message || "获取城市枚举失败");
       }
     },
-    *storageList({}, { call, put }) {
+    *storageList({ payload }, { call, put }) {
       const { data } = yield call(API.storageList);
       if (data && data.success) {
         yield put({ type: "save", payload: { storageList: data.data || [] } });
       }
     },
-    *departmentList({}, { call, put }) {
+    *departmentList({ payload }, { call, put }) {
       const { data } = yield call(API.departmentList);
       if (data && data.success) {
         let departmentList = (data.data || []).map((item) => {

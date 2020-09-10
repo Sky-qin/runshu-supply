@@ -1,10 +1,8 @@
 import React from "react";
 import { connect } from "dva";
-import { Button, Space, Table, Modal, Select, Input, TreeSelect } from "antd";
+import { Space, Table, Select, Input, TreeSelect } from "antd";
 import styled from "styled-components";
 import FeedbackDialog from "../../../components/feedbackDialog";
-import EditDialog from "./editDialog";
-// import T from "prop-types";
 import ContentWrap from "../../../components/contentWrap";
 import "./index.scss";
 
@@ -16,7 +14,7 @@ const WrapSelect = styled(Select)`
   margin-right: 12px;
 `;
 
-class ConsumeList extends React.Component {
+class FeedbackInfoManage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
@@ -25,13 +23,10 @@ class ConsumeList extends React.Component {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
-      type: "consumeModel/getApplicant",
+      type: "feedbackModel/getApplicant",
     });
     dispatch({
-      type: "consumeModel/getHospital",
-    });
-    dispatch({
-      type: "consumeModel/getOrderStatus",
+      type: "feedbackModel/getHospital",
     });
     this.getTableList();
   }
@@ -39,7 +34,7 @@ class ConsumeList extends React.Component {
   getTableList = () => {
     const { dispatch } = this.props;
     dispatch({
-      type: "consumeModel/queryConsumeList",
+      type: "feedbackModel/getFeedbackList",
     });
   };
 
@@ -47,7 +42,7 @@ class ConsumeList extends React.Component {
     const { dispatch } = this.props;
     const currentMsg = type === "children" ? { id: msg.id } : {};
     dispatch({
-      type: "consumeModel/save",
+      type: "feedbackModel/save",
       payload: {
         showDetailDialog: true,
         dialogTitle: "新增科室",
@@ -59,7 +54,7 @@ class ConsumeList extends React.Component {
   handleEdit = (msg, text, status) => {
     const { dispatch } = this.props;
     dispatch({
-      type: "consumeModel/save",
+      type: "feedbackModel/save",
       payload: {
         clickStatus: status,
         statusTitle: text,
@@ -69,25 +64,10 @@ class ConsumeList extends React.Component {
     });
   };
 
-  showDetail = (msg) => {
-    const { dispatch } = this.props;
-    dispatch({
-      type: "consumeModel/save",
-      payload: {
-        showDetailDialog: true,
-        currentMsg: { ...msg },
-      },
-    });
-
-    dispatch({
-      type: "consumeModel/getConsumeDetail",
-    });
-  };
-
   handleDelete = (msg) => {
     const { dispatch } = this.props;
     dispatch({
-      type: "consumeModel/save",
+      type: "feedbackModel/save",
       payload: {
         deleteDialog: true,
         currentMsg: { ...msg },
@@ -97,15 +77,15 @@ class ConsumeList extends React.Component {
 
   handleSave = (values) => {
     const { dispatch } = this.props;
-    const { dialogTitle } = this.props.consumeModel;
+    const { dialogTitle } = this.props.feedbackModel;
     if (dialogTitle === "编辑") {
       dispatch({
-        type: "consumeModel/editDepartment",
+        type: "feedbackModel/editDepartment",
         payload: { ...values },
       });
     } else {
       dispatch({
-        type: "consumeModel/addDepartment",
+        type: "feedbackModel/addDepartment",
         payload: { ...values },
       });
     }
@@ -113,9 +93,9 @@ class ConsumeList extends React.Component {
 
   changePagination = (current, size) => {
     const { dispatch } = this.props;
-    const { pagination } = this.props.consumeModel;
+    const { pagination } = this.props.feedbackModel;
     dispatch({
-      type: "consumeModel/save",
+      type: "feedbackModel/save",
       payload: {
         pagination: {
           ...pagination,
@@ -130,7 +110,7 @@ class ConsumeList extends React.Component {
   handleCloseDeleteDialog = () => {
     const { dispatch } = this.props;
     dispatch({
-      type: "consumeModel/save",
+      type: "feedbackModel/save",
       payload: {
         showStatusDialog: false,
       },
@@ -139,7 +119,7 @@ class ConsumeList extends React.Component {
 
   onSearchChange = (key, value) => {
     const { dispatch } = this.props;
-    const { searchParams, pagination } = this.props.consumeModel;
+    const { searchParams, pagination } = this.props.feedbackModel;
     let tmpParams = { searchParams: { ...searchParams, [key]: value } };
     // 获取科室
     if (key === "hospitalId") {
@@ -148,7 +128,7 @@ class ConsumeList extends React.Component {
       };
       if (value) {
         dispatch({
-          type: "consumeModel/getDePartmentByHsp",
+          type: "feedbackModel/getDePartmentByHsp",
           payload: {
             id: value,
           },
@@ -161,7 +141,7 @@ class ConsumeList extends React.Component {
       }
     }
     dispatch({
-      type: "consumeModel/save",
+      type: "feedbackModel/save",
       payload: {
         ...tmpParams,
         pagination: {
@@ -176,7 +156,7 @@ class ConsumeList extends React.Component {
   closeFeedback = () => {
     const { dispatch } = this.props;
     dispatch({
-      type: "consumeModel/save",
+      type: "feedbackModel/save",
       payload: {
         feedbackDialog: false,
       },
@@ -186,19 +166,18 @@ class ConsumeList extends React.Component {
   showFeedback = (msg) => {
     const { dispatch } = this.props;
     dispatch({
-      type: "consumeModel/save",
+      type: "feedbackModel/save",
       payload: {
         currentMsg: { ...msg },
       },
     });
 
-    dispatch({ type: "consumeModel/getFeedbackDetail" });
+    dispatch({ type: "feedbackModel/getFeedbackDetail" });
   };
 
   render() {
     const { dispatch } = this.props;
     const {
-      showStatusDialog,
       pagination,
       data,
       loading,
@@ -206,11 +185,10 @@ class ConsumeList extends React.Component {
       applicantList,
       orderStatusList,
       departmentList,
-      statusTitle,
       feedbackInfo,
       feedbackDialog,
       searchParams,
-    } = this.props.consumeModel;
+    } = this.props.feedbackModel;
     const { current, size, total } = pagination;
     return (
       <ContentWrap loading={loading}>
@@ -223,13 +201,13 @@ class ConsumeList extends React.Component {
           />
           <TreeSelect
             // treeDataSimpleMode
-            allowClear
             style={{ width: "160px", marginRight: "12px" }}
             filterTreeNode
             treeNodeFilterProp="label"
             placeholder="请选择科室"
-            value={searchParams.departmentId}
             treeData={departmentList}
+            allowClear
+            value={searchParams.departmentId || null}
             onChange={(value) => this.onSearchChange("departmentId", value)}
           />
           <WrapSelect
@@ -263,81 +241,40 @@ class ConsumeList extends React.Component {
             onShowSizeChange: this.changePagination,
           }}
         >
+          <Column
+            title="序号"
+            render={(value, record, index) => index + 1}
+            width={60}
+          />
           <Column title="消耗单号" dataIndex="consumeNumber" width={120} />
-          <Column title="医院" dataIndex="hispitalName" width={130} />
-          <Column title="科室" dataIndex="departmentName" width={120} />
-          <Column title="申请人" dataIndex="userName" width={100} />
-          <Column title="申请时间" dataIndex="createTime" width={150} />
-          <Column title="状态" dataIndex="orderStatusDesc" width={100} />
-          <Column title="手术单" dataIndex="" width={120} />
+          <Column title="反馈内容" dataIndex="remark" width={200} />
+          <Column title="提交人" dataIndex="userName" width={100} />
+          <Column title="提交时间" dataIndex="feedbackTime" width={135} />
+          <Column title="处理人" dataIndex="feedUserName" width={100} />
+          <Column title="处理时间" dataIndex="feedbackUpdateTime" width={135} />
+          <Column title="状态" dataIndex="feedbackStatusDesc" width={100} />
           <Column
             title="操作"
             dataIndex="name"
             width={180}
             fixed="right"
             render={(value, record) => {
-              const { orderStatus } = record;
               return (
                 <Space size="middle">
-                  {orderStatus === 0 && (
-                    <a onClick={() => this.handleEdit(record, "确定", "1")}>
-                      确认
-                    </a>
-                  )}
-                  {orderStatus === 0 && (
-                    <a onClick={() => this.handleEdit(record, "驳回", "2")}>
-                      驳回
-                    </a>
-                  )}
-                  {orderStatus === 1 && (
-                    <a onClick={() => this.handleEdit(record, "撤销", "0")}>
-                      撤销
-                    </a>
-                  )}
-                  {orderStatus === 4 && (
-                    <a onClick={() => this.showFeedback(record)}>查看反馈</a>
-                  )}
-                  <a onClick={() => this.showDetail(record)}>查看详情</a>
+                  <a onClick={() => this.showFeedback(record)}>查看反馈</a>
                 </Space>
               );
             }}
           />
         </Table>
 
-        {/* 删除弹窗 */}
-        <Modal
-          title="提示"
-          visible={showStatusDialog}
-          onCancel={this.handleCloseDeleteDialog}
-          footer={[
-            <Button key="cancel" onClick={this.handleCloseDeleteDialog}>
-              取消
-            </Button>,
-            <Button
-              key="ok"
-              type="primary"
-              onClick={() => {
-                dispatch({
-                  type: "consumeModel/updateConsumeStatus",
-                });
-              }}
-            >
-              确定
-            </Button>,
-          ]}
-          maskClosable={false}
-        >
-          你确定要{` ${statusTitle} `}这个条消耗单吗？
-        </Modal>
-        {/* 编辑弹窗 */}
-        <EditDialog />
         {feedbackDialog && (
           <FeedbackDialog
             data={feedbackInfo}
             onClose={this.closeFeedback}
             onChange={(status) => {
               dispatch({
-                type: "consumeModel/updateFeedbackStatus",
+                type: "feedbackModel/updateFeedbackStatus",
                 payload: {
                   status,
                 },
@@ -350,6 +287,6 @@ class ConsumeList extends React.Component {
   }
 }
 
-export default connect(({ consumeModel }) => ({
-  consumeModel,
-}))(ConsumeList);
+export default connect(({ feedbackModel }) => ({
+  feedbackModel,
+}))(FeedbackInfoManage);

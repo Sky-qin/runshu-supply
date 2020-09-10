@@ -116,7 +116,7 @@ export default {
         message.error(data.message || "获取权限列表数据失败");
       }
     },
-    *queryResource({}, { call, put, select }) {
+    *queryResource({ payload }, { call, put, select }) {
       const { data } = yield call(API.queryResource);
       if (data && data.success) {
         const resourceList = transferTree(data.data || []);

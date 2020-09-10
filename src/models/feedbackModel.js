@@ -2,7 +2,7 @@ import { message } from "antd";
 import API from "../services/api";
 
 export default {
-  namespace: "consumeModel",
+  namespace: "feedbackModel",
   state: {
     // 顶部查询项
     searchParams: {
@@ -29,7 +29,10 @@ export default {
     data: [],
     hospitalList: [],
     departmentList: [],
-    orderStatusList: [],
+    orderStatusList: [
+      { value: 0, label: "待处理" },
+      { value: 1, label: "已处理" },
+    ],
     statusList: [],
     applicantList: [],
     dialogTitle: "编辑",
@@ -42,9 +45,9 @@ export default {
   },
 
   effects: {
-    *queryConsumeList({ payload }, { call, put, select }) {
+    *getFeedbackList({ payload }, { call, put, select }) {
       const { pagination, searchParams } = yield select(
-        (state) => state.consumeModel
+        (state) => state.feedbackModel
       );
       const { current, size } = pagination;
       let params = {
@@ -53,7 +56,7 @@ export default {
         params: searchParams,
       };
       yield put({ type: "save", payload: { loading: true } });
-      const { data } = yield call(API.queryConsumeList, params);
+      const { data } = yield call(API.getFeedbackList, params);
       yield put({ type: "save", payload: { loading: false } });
 
       if (data && data.success) {
@@ -115,53 +118,8 @@ export default {
         });
       }
     },
-    *getOrderStatus({ payload }, { call, put, select }) {
-      const { data } = yield call(API.getOrderPCStatus);
-      if (data && data.success) {
-        yield put({
-          type: "save",
-          payload: {
-            orderStatusList: data.data || [],
-          },
-        });
-      }
-    },
-    *updateConsumeStatus({ payload }, { call, put, select }) {
-      const { currentMsg, clickStatus } = yield select(
-        (state) => state.consumeModel
-      );
-      const params = {
-        id: currentMsg.id,
-        orderStatus: clickStatus,
-        sysVersion: currentMsg.sysVersion,
-      };
-      const { data } = yield call(API.updateConsumeStatus, params);
-      if (data && data.success) {
-        message.success("修改成功！");
-        yield put({ type: "save", payload: { showStatusDialog: false } });
-        yield put({ type: "queryConsumeList" });
-      } else {
-        message.error(data.message || "修改消耗单状态失败，请重试！");
-      }
-    },
-    *getConsumeDetail({ payload }, { call, put, select }) {
-      const { currentMsg } = yield select((state) => state.consumeModel);
-      const { data } = yield call(API.getConsumeDetail, {
-        id: currentMsg.id,
-      });
-      if (data && data.success) {
-        yield put({
-          type: "save",
-          payload: {
-            detailMsg: data.data || {},
-          },
-        });
-      } else {
-        message.error(data.message || "修改消耗单状态失败，请重试！");
-      }
-    },
     *getFeedbackDetail({ payload }, { call, put, select }) {
-      const { currentMsg } = yield select((state) => state.consumeModel);
+      const { currentMsg } = yield select((state) => state.feedbackModel);
       yield put({ type: "save", payload: { loading: true } });
       const { data } = yield call(API.getFeedbackDetail, { id: currentMsg.id });
       yield put({ type: "save", payload: { loading: false } });
@@ -176,7 +134,7 @@ export default {
     },
 
     *updateFeedbackStatus({ payload }, { call, put, select }) {
-      const { feedbackInfo } = yield select((state) => state.consumeModel);
+      const { feedbackInfo } = yield select((state) => state.feedbackModel);
       const params = {
         id: feedbackInfo.id,
         sysVersion: feedbackInfo.sysVersion,

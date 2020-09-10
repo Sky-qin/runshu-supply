@@ -1,6 +1,6 @@
 import React from "react";
-// import T from "prop-types";
 import Logo from "../../assets/logo.png";
+import UserPic from "../../assets/user.png";
 
 import "./index.scss";
 
@@ -12,28 +12,17 @@ class Header extends React.Component {
     };
   }
 
-  componentDidMount() {
-    const { dispatch } = this.props;
-  }
-
-  // handleConfig = () => {};
+  componentDidMount() {}
 
   render() {
     const userInfo = JSON.parse(window.localStorage.getItem("user")) || {};
-    // avata
     return (
       <div className="header-bar">
         <div className="header-bar-left">
-          <img className="logo-pic" src={Logo} />
+          <img style={{ height: "44px" }} className="logo-pic" src={Logo} />
         </div>
         <div className="header-bar-right">
-          <img
-            className="user-pic"
-            src={
-              userInfo.avatar ||
-              "http://himg.bdimg.com/sys/portrait/item/b0e3e7a7a6e69687e9be9930353238df2d.jpg"
-            }
-          />
+          <img className="user-pic" src={userInfo.avatar || UserPic} />
           <div className="user-info">
             <div className="user-name">{userInfo.name || ""}</div>
             <div className="user-postion" title={userInfo.position || ""}>

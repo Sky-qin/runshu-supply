@@ -12,6 +12,7 @@ import WxPersonnelManage from "../pageComponent/wxPersonnelManage";
 import ConsumeList from "../pageComponent/consumeList";
 import Inventory from "../pageComponent/inventory";
 import ProductInfo from "../pageComponent/productInfo";
+import FeedbackInfoManage from "../pageComponent/feedbackInfoManage";
 
 import "./index.scss";
 
@@ -63,6 +64,10 @@ class Home extends React.Component {
               <Route path="/entry/consumeList" component={ConsumeList} />
               <Route path="/entry/inventory" component={Inventory} />
               <Route path="/entry/productInfo" component={ProductInfo} />
+              <Route
+                path="/entry/feedbackInfoManage"
+                component={FeedbackInfoManage}
+              />
             </Switch>
           </div>
         </div>

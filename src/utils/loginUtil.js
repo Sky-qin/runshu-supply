@@ -21,9 +21,10 @@ async function _checkAuthority(params, callBack, ctxHook) {
   if (res && res.success) {
     const { data } = res;
     setUserLocalStorage(data);
-    callBack && callBack();
-    ctxHook && ctxHook();
+    callBack && callBack(res);
+    // ctxHook && ctxHook();
   } else {
+    callBack && callBack(res);
     // code 401 没有权限  权限问题；
     /* 这里根据一些错误码 进行不同动作 */
     // if (res.code === 10) {

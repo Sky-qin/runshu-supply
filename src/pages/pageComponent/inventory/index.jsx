@@ -7,11 +7,6 @@ import "./index.scss";
 
 const { Column } = Table;
 
-const layout = {
-  labelCol: { span: 6 },
-  wrapperCol: { span: 18 },
-};
-
 class Inventory extends React.Component {
   constructor(props) {
     super(props);
@@ -64,19 +59,51 @@ class Inventory extends React.Component {
     this.getTableList();
   };
 
+  handleShowDetail = (msg) => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: "inventory/save",
+      payload: {
+        currentMsg: { ...msg },
+      },
+    });
+
+    dispatch({
+      type: "inventory/queryInventoryProduct",
+    });
+  };
+
+  changeListData = (current, size) => {
+    const { dispatch } = this.props;
+    const { inventoryPagination } = this.props.inventory;
+    dispatch({
+      type: "inventory/save",
+      payload: {
+        inventoryPagination: {
+          ...inventoryPagination,
+          current,
+          size,
+        },
+      },
+    });
+
+    dispatch({ type: "inventory/queryInventoryProduct" });
+  };
+
   render() {
     const { dispatch } = this.props;
     const {
-      showEditDialog,
-      dialogTitle,
+      showDetailDialog,
+      inventoryPagination,
+      inventoryList,
       currentMsg,
-      deleteDialog,
       storageList,
       pagination,
       data,
       loading,
     } = this.props.inventory;
     const { current, size, total } = pagination;
+    console.log("ssss", showDetailDialog);
     return (
       <ContentWrap loading={loading}>
         <div className="opreation-bar">
@@ -128,27 +155,32 @@ class Inventory extends React.Component {
             width={200}
             render={(value, record, index) => (
               <Space size="middle">
-                <a onClick={() => this.handleEdit(record)}>查看详情</a>
+                <a onClick={() => this.handleShowDetail(record)}>查看详情</a>
               </Space>
             )}
           />
         </Table>
         {/* 编辑弹窗 */}
-        {/* {showEditDialog && (
+        {showDetailDialog && (
           <EditDialog
-            title={dialogTitle}
-            data={currentMsg}
+            title="库存详情"
+            data={{ inventoryList, currentMsg, inventoryPagination }}
             onClosed={() => {
               dispatch({
                 type: "inventory/save",
                 payload: {
-                  showEditDialog: false,
+                  showDetailDialog: false,
+                  inventoryPagination: {
+                    current: 1,
+                    size: 50,
+                    total: 0,
+                  },
                 },
               });
             }}
-            onOk={this.handleSave}
+            onChange={this.changeListData}
           />
-        )} */}
+        )}
       </ContentWrap>
     );
   }

@@ -4,7 +4,7 @@ import API from "../services/api";
 export default {
   namespace: "inventory",
   state: {
-    showEditDialog: false,
+    showDetailDialog: false,
     currentMsg: {},
     data: [],
     dialogTitle: "编辑",
@@ -14,6 +14,12 @@ export default {
     pagination: {
       current: 1,
       size: 10,
+      total: 0,
+    },
+    inventoryList: [],
+    inventoryPagination: {
+      current: 1,
+      size: 50,
       total: 0,
     },
   },
@@ -55,6 +61,35 @@ export default {
           type: "save",
           payload: {
             storageList: data.data || [],
+          },
+        });
+      } else {
+        message.error(data.message || "获取库存枚举失败");
+      }
+    },
+    *queryInventoryProduct({ payload }, { call, put, select }) {
+      const { currentMsg, inventoryPagination } = yield select(
+        (state) => state.inventory
+      );
+      const params = {
+        current: inventoryPagination.current,
+        size: inventoryPagination.size,
+        params: {
+          productCode: currentMsg.productCode,
+          stockId: currentMsg.stockId,
+        },
+      };
+      const { data } = yield call(API.queryInventoryProduct, params);
+      if (data && data.success) {
+        yield put({
+          type: "save",
+          payload: {
+            showDetailDialog: true,
+            inventoryPagination: {
+              ...inventoryPagination,
+              total: (data.data && data.data.total) || 0,
+            },
+            inventoryList: (data.data && data.data.records) || [],
           },
         });
       } else {

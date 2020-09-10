@@ -11,7 +11,7 @@
     }
   }
   .header-bar-right {
-    width: 160px;
+    width: 200px;
     // border-left: 1px solid #e9ebf2;
     display: flex;
     align-items: center;
@@ -33,14 +33,14 @@
     }
     .user-postion {
       height: 20px;
-      width: 80px !important;
+      // width: 80px !important;
       font-size: 12px;
       font-weight: 500;
       color: #999999;
       line-height: 20px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
+      // overflow: hidden;
+      // text-overflow: ellipsis;
+      // white-space: nowrap;
       cursor: pointer;
     }
   }

@@ -1,19 +1,10 @@
-import React, { Children } from "react";
+import React from "react";
 import { connect } from "dva";
-import { Button, Space, Table, Modal } from "antd";
-import { PlusOutlined } from "@ant-design/icons";
-import EditDialog from "./editDialog";
-// import zhCN from "antd/es/locale/zh_CN";
-// import T from "prop-types";
+import { Table } from "antd";
 import ContentWrap from "../../../components/contentWrap";
 import "./index.scss";
 
 const { Column } = Table;
-
-const layout = {
-  labelCol: { span: 6 },
-  wrapperCol: { span: 18 },
-};
 
 class ProductInfo extends React.Component {
   constructor(props) {
@@ -49,7 +40,6 @@ class ProductInfo extends React.Component {
   };
 
   render() {
-    const { dispatch } = this.props;
     const { pagination, data, loading } = this.props.productInfo;
     const { current, size, total } = pagination;
     return (
@@ -113,22 +103,6 @@ class ProductInfo extends React.Component {
             )}
           /> */}
         </Table>
-        {/* 编辑弹窗 */}
-        {/* {showEditDialog && (
-          <EditDialog
-            title={dialogTitle}
-            data={currentMsg}
-            onClosed={() => {
-              dispatch({
-                type: "productInfo/save",
-                payload: {
-                  showEditDialog: false,
-                },
-              });
-            }}
-            onOk={this.handleSave}
-          />
-        )} */}
       </ContentWrap>
     );
   }

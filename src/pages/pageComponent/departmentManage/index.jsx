@@ -1,4 +1,4 @@
-import React, { Children } from "react";
+import React from "react";
 import { connect } from "dva";
 import { Button, Space, Table, Modal } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
@@ -9,11 +9,6 @@ import ContentWrap from "../../../components/contentWrap";
 import "./index.scss";
 
 const { Column } = Table;
-
-const layout = {
-  labelCol: { span: 6 },
-  wrapperCol: { span: 18 },
-};
 
 class Test extends React.Component {
   constructor(props) {

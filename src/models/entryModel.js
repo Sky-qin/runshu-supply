@@ -9,7 +9,7 @@ export default {
   },
 
   effects: {
-    *queryMenu({}, { call, put, select }) {
+    *queryMenu({ payload }, { call, put, select }) {
       const { data } = yield call(API.queryMenu);
       if (data && data.success) {
         yield put({

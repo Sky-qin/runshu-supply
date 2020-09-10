@@ -20,6 +20,7 @@ app.model(require("./models/wxPersonnelManage").default);
 app.model(require("./models/consumeModel").default);
 app.model(require("./models/inventory").default);
 app.model(require("./models/productInfo").default);
+app.model(require("./models/feedbackModel").default);
 
 // 4. Router
 app.router(require("./router").default);

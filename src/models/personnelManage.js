@@ -99,7 +99,7 @@ export default {
         message.error(data.message || "修改失败！");
       }
     },
-    *deleteUser({}, { call, put, select }) {
+    *deleteUser({ payload }, { call, put, select }) {
       const { currentMsg } = yield select((state) => state.personnelManage);
       let params = {
         ids: (currentMsg && currentMsg.id && [currentMsg.id]) || [],
