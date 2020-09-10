@@ -259,6 +259,42 @@ const API = {
   },
 
   /**
+   * 菜单管理
+   */
+  // 菜单列表
+  getResourceList(params) {
+    return request({
+      url: `${Prefix}/role/selectResourceList`,
+      params,
+    });
+  },
+
+  // 添加菜单
+  insertResource(params) {
+    return request({
+      url: `${Prefix}/role/insertResource`,
+      method: "post",
+      params,
+    });
+  },
+  // 编辑菜单
+  updateResource(params) {
+    return request({
+      url: `${Prefix}/role/updateResource`,
+      method: "post",
+      params,
+    });
+  },
+  // 删除
+  deleteResource(params) {
+    return request({
+      url: `${Prefix}/role/deleteResource`,
+      method: "post",
+      params,
+    });
+  },
+
+  /**
    * 枚举类即接口
    */
   // 获取当前用户 医院枚举

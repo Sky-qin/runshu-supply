@@ -13,6 +13,7 @@ import ConsumeList from "../pageComponent/consumeList";
 import Inventory from "../pageComponent/inventory";
 import ProductInfo from "../pageComponent/productInfo";
 import FeedbackInfoManage from "../pageComponent/feedbackInfoManage";
+import MenuConfig from "../pageComponent/menuConfig";
 
 import "./index.scss";
 
@@ -27,11 +28,10 @@ class Home extends React.Component {
     dispatch({ type: "entryModel/queryMenu" });
   }
 
-  clickMenu = (item) => {
+  clickMenu = (key) => {
     const { history, dispatch } = this.props;
-    if (item.children && item.children.length > 0) return;
-    dispatch({ type: "entryModel/save", payload: { activeKey: item.value } });
-    history.push(`/entry/${item.value}`);
+    dispatch({ type: "entryModel/save", payload: { activeKey: key } });
+    history.push(`/entry/${key}`);
   };
 
   render() {
@@ -40,11 +40,13 @@ class Home extends React.Component {
       <div>
         <Header />
         <div className="content-wrap">
-          <Menu
-            clickMenu={this.clickMenu}
-            data={menuList}
-            activeMenu={activeKey}
-          />
+          {menuList && menuList.length > 0 && (
+            <Menu
+              clickMenu={this.clickMenu}
+              data={menuList}
+              activeMenu={activeKey}
+            />
+          )}
           <div className="content-right">
             <Switch>
               <Route path="/entry/hospitalManage" component={HospitalManage} />
@@ -68,6 +70,7 @@ class Home extends React.Component {
                 path="/entry/feedbackInfoManage"
                 component={FeedbackInfoManage}
               />
+              <Route path="/entry/menuConfig" component={MenuConfig} />
             </Switch>
           </div>
         </div>

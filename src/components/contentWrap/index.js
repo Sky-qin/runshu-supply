@@ -25,7 +25,9 @@ class ContentBox extends React.Component {
     return (
       <ContentDiv>
         <ConfigProvider locale={zhCN}>
-          <Spin spinning={loading}>{children}</Spin>
+          <Spin tip="数据加载中..." spinning={loading}>
+            {children}
+          </Spin>
         </ConfigProvider>
       </ContentDiv>
     );

@@ -100,7 +100,9 @@ export default {
         current,
         size,
       };
+      yield put({ type: "save", payload: { loading: true } });
       const { data } = yield call(API.queryRole, params);
+      yield put({ type: "save", payload: { loading: false } });
       if (data && data.success) {
         yield put({
           type: "save",

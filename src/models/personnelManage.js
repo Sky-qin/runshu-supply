@@ -29,7 +29,10 @@ export default {
           type: "dd",
         },
       };
+      yield put({ type: "save", payload: { loading: true } });
       const { data } = yield call(API.queryUser, params);
+      yield put({ type: "save", payload: { loading: false } });
+
       if (data && data.success) {
         yield put({
           type: "save",

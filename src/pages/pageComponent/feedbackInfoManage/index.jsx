@@ -197,6 +197,7 @@ class FeedbackInfoManage extends React.Component {
             onChange={(value) => this.onSearchChange("hospitalId", value)}
             options={hospitalList}
             placeholder="请选择医院"
+            value={searchParams.hospitalId || null}
             allowClear
           />
           <TreeSelect
@@ -214,16 +215,19 @@ class FeedbackInfoManage extends React.Component {
             placeholder="请选择状态"
             options={orderStatusList}
             onChange={(value) => this.onSearchChange("orderStatus", value)}
+            value={searchParams.orderStatus || null}
           />
           <WrapSelect
             placeholder="请选择申请人"
             options={applicantList}
             onChange={(value) => this.onSearchChange("creator", value)}
+            value={searchParams.creator || null}
           />
           <Search
             placeholder="请输入消耗单号"
             onSearch={(value) => this.onSearchChange("consumeName", value)}
             style={{ width: 200 }}
+            value={searchParams.consumeName || null}
           />
         </div>
         <div className="opreation-bar"></div>

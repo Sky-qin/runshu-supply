@@ -23,10 +23,10 @@
   background: #e9ebf2;
   overflow: hidden;
   // overflow-y: scroll;
-  // height: calc(100vh - 90px);
+  height: calc(100vh - 90px);
 }
 
 .content-right {
   flex: 1;
-  overflow: hidden;
+  overflow-y: scroll;
 }

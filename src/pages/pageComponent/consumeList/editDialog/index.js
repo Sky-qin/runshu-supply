@@ -79,6 +79,7 @@ class EditDialog extends React.Component {
 
   render() {
     const { showDetailDialog, detailMsg } = this.props.consumeModel;
+    console.log("detailMsg", detailMsg);
     return (
       <Modal
         title="消耗单详情"
@@ -94,6 +95,7 @@ class EditDialog extends React.Component {
           <div>科室：{detailMsg.departmentName || ""}</div>
           <div>申请人：{detailMsg.operationName || ""}</div>
           <div>申请时间：{detailMsg.operationTime || ""}</div>
+          <div>状态：{detailMsg.orderStatusDesc || ""}</div>
         </BasicDiv>
         <div style={{ overflowX: "scroll" }}>
           <Table

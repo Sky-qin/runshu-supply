@@ -101,9 +101,9 @@ class Inventory extends React.Component {
       pagination,
       data,
       loading,
+      stockId,
     } = this.props.inventory;
     const { current, size, total } = pagination;
-    console.log("ssss", showDetailDialog);
     return (
       <ContentWrap loading={loading}>
         <div className="opreation-bar">
@@ -123,6 +123,7 @@ class Inventory extends React.Component {
               style={{
                 width: "260px",
               }}
+              value={stockId || null}
               options={storageList}
               placeholder="请选择库位"
             />
