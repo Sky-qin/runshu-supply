@@ -1,5 +1,5 @@
 import React from "react";
-import { Carousel, Modal, Image } from "antd";
+import { Modal, Image } from "antd";
 import styled from "styled-components";
 import "./index.scss";
 
