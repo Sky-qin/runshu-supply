@@ -117,7 +117,7 @@ export default {
       }
     },
     *getOrderStatus({ payload }, { call, put, select }) {
-      const { data } = yield call(API.getOrderPCStatus);
+      const { data } = yield call(API.getOrderStatus);
       if (data && data.success) {
         yield put({
           type: "save",

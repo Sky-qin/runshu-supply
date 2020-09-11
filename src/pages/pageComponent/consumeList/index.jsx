@@ -2,6 +2,8 @@ import React from "react";
 import { connect } from "dva";
 import { Button, Space, Table, Modal, Select, Input, TreeSelect } from "antd";
 import styled from "styled-components";
+// import PreviewImge from "../../../components/previewImge";
+import DialogCarousel from "../../../components/dialogCarousel";
 import FeedbackDialog from "../../../components/feedbackDialog";
 import EditDialog from "./editDialog";
 // import T from "prop-types";
@@ -19,7 +21,10 @@ const WrapSelect = styled(Select)`
 class ConsumeList extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      showPicList: false,
+      picList: [],
+    };
   }
 
   componentDidMount() {
@@ -196,6 +201,11 @@ class ConsumeList extends React.Component {
     dispatch({ type: "consumeModel/getFeedbackDetail" });
   };
 
+  handleViewPicList = (picStr) => {
+    const list = picStr.split(",");
+    this.setState({ picList: list, showPicList: true });
+  };
+
   render() {
     const { dispatch } = this.props;
     const {
@@ -213,6 +223,7 @@ class ConsumeList extends React.Component {
       searchParams,
       dialogBtnLoading,
     } = this.props.consumeModel;
+    const { picList, showPicList } = this.state;
     const { current, size, total } = pagination;
     return (
       <ContentWrap loading={loading}>
@@ -275,7 +286,18 @@ class ConsumeList extends React.Component {
           <Column title="申请人" dataIndex="userName" width={100} />
           <Column title="申请时间" dataIndex="createTime" width={150} />
           <Column title="状态" dataIndex="orderStatusDesc" width={100} />
-          <Column title="手术单" dataIndex="" width={120} />
+          <Column
+            title="手术单"
+            dataIndex="operationPic"
+            width={120}
+            render={(value) => {
+              return value ? (
+                <a onClick={() => this.handleViewPicList(value)}>查看手术单</a>
+              ) : (
+                ""
+              );
+            }}
+          />
           <Column
             title="操作"
             dataIndex="name"
@@ -352,6 +374,20 @@ class ConsumeList extends React.Component {
             }}
           />
         )}
+        {/* <PreviewImge
+          visible={showImage}
+          src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
+          onClose={() => this.setState({ showImage: false })}
+        /> */}
+        <DialogCarousel
+          visible={showPicList}
+          data={picList}
+          onClose={() => {
+            this.setState({
+              showPicList: false,
+            });
+          }}
+        />
       </ContentWrap>
     );
   }
