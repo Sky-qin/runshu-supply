@@ -17,7 +17,7 @@ export default {
     pagination: {
       current: 1,
       size: 10,
-      total: 1000,
+      total: 0,
     },
   },
 

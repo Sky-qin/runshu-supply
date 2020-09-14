@@ -295,6 +295,17 @@ const API = {
   },
 
   /**
+   * 在售商品管理
+   */
+  onSaleProduct(params) {
+    return request({
+      url: `${Prefix}/supply/product/onsale/list`,
+      method: "post",
+      params,
+    });
+  },
+
+  /**
    * 枚举类即接口
    */
   // 获取当前用户 医院枚举

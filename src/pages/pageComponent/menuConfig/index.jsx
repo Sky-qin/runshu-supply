@@ -29,7 +29,7 @@ class MenuConfig extends React.Component {
   handleAdd = (msg = {}, type) => {
     const { dispatch } = this.props;
     const currentMsg =
-      type === "children" ? { parentId: msg.parentId } : { parentId: 0 };
+      type === "children" ? { parentId: msg.parentId } : { parentId: "0" };
     console.log("currentMsg", currentMsg);
     dispatch({
       type: "menuModel/save",
@@ -102,6 +102,7 @@ class MenuConfig extends React.Component {
       deleteDialog,
       data,
       loading,
+      type,
     } = this.props.menuModel;
     return (
       <ContentWrap loading={loading}>
@@ -171,6 +172,7 @@ class MenuConfig extends React.Component {
         {/* 编辑弹窗 */}
         {showEditDialog && (
           <EditDialog
+            type={type}
             title={dialogTitle}
             data={currentMsg}
             onClosed={() => {

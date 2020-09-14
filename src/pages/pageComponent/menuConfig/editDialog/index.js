@@ -42,7 +42,7 @@ class EditDialog extends React.Component {
   };
 
   render() {
-    const { dialogTitle, data } = this.props;
+    const { dialogTitle, data, type } = this.props;
     return (
       <Modal
         title={dialogTitle || "编辑"}
@@ -83,7 +83,7 @@ class EditDialog extends React.Component {
           >
             <Input />
           </Form.Item>
-          {data.parentId === 0 && (
+          {type !== "children" && data.parentId === "0" && (
             <Form.Item
               name="icon"
               label="菜单图标"

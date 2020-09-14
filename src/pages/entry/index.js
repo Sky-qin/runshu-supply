@@ -14,6 +14,7 @@ import Inventory from "../pageComponent/inventory";
 import ProductInfo from "../pageComponent/productInfo";
 import FeedbackInfoManage from "../pageComponent/feedbackInfoManage";
 import MenuConfig from "../pageComponent/menuConfig";
+import BusinessProducts from "../pageComponent/businessProducts";
 
 import "./index.scss";
 
@@ -71,6 +72,10 @@ class Home extends React.Component {
                 component={FeedbackInfoManage}
               />
               <Route path="/entry/menuConfig" component={MenuConfig} />
+              <Route
+                path="/entry/businessProducts"
+                component={BusinessProducts}
+              />
             </Switch>
           </div>
         </div>
