@@ -15,10 +15,11 @@ import ProductInfo from "../pageComponent/productInfo";
 import FeedbackInfoManage from "../pageComponent/feedbackInfoManage";
 import MenuConfig from "../pageComponent/menuConfig";
 import BusinessProducts from "../pageComponent/businessProducts";
+import Replenishment from "../pageComponent/replenishment";
 
 import "./index.scss";
 
-class Home extends React.Component {
+class Entry extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
@@ -76,6 +77,7 @@ class Home extends React.Component {
                 path="/entry/businessProducts"
                 component={BusinessProducts}
               />
+              <Route path="/entry/replenishment" component={Replenishment} />
             </Switch>
           </div>
         </div>
@@ -84,10 +86,10 @@ class Home extends React.Component {
   }
 }
 
-Home.propTypes = {
+Entry.propTypes = {
   name: PropTypes.string,
 };
 
 export default connect(({ entryModel }) => ({
   entryModel,
-}))(Home);
+}))(Entry);

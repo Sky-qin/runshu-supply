@@ -23,6 +23,7 @@ app.model(require("./models/productInfo").default);
 app.model(require("./models/feedbackModel").default);
 app.model(require("./models/menuModel").default);
 app.model(require("./models/businessProductsModel").default);
+app.model(require("./models/replenishmentModel").default);
 
 // 4. Router
 app.router(require("./router").default);
