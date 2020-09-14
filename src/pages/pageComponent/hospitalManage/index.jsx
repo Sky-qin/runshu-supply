@@ -3,9 +3,7 @@ import { connect } from "dva";
 import { Table, Button, Space, Modal } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import EditDialog from "./editDialog";
-// import T from "prop-types";
 import ContentBox from "../../../components/contentWrap";
-// import style
 import "./index.scss";
 const { Column } = Table;
 
