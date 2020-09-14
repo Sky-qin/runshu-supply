@@ -193,6 +193,24 @@ const API = {
     });
   },
 
+  // 即时库存
+  realInventoryList(params) {
+    return request({
+      url: `${Prefix}/supply/inventory/amount`,
+      method: "post",
+      params,
+    });
+  },
+
+  // 商品库位库存统计
+  productStock(params) {
+    return request({
+      url: `${Prefix}/supply/inventory/amount/stock`,
+      method: "post",
+      params,
+    });
+  },
+
   /**
    * 系统人员管理
    */
@@ -264,7 +282,7 @@ const API = {
   // 菜单列表
   getResourceList(params) {
     return request({
-      url: `${Prefix}/role/selectResourceList`,
+      url: `${Prefix}/resource/selectResourceList`,
       params,
     });
   },

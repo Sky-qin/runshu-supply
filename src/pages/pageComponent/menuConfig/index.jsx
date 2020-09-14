@@ -29,7 +29,7 @@ class MenuConfig extends React.Component {
   handleAdd = (msg = {}, type) => {
     const { dispatch } = this.props;
     const currentMsg =
-      type === "children" ? { parentId: msg.parentId } : { parentId: "0" };
+      type === "children" ? { parentId: msg.id } : { parentId: "0" };
     console.log("currentMsg", currentMsg);
     dispatch({
       type: "menuModel/save",
@@ -130,7 +130,7 @@ class MenuConfig extends React.Component {
             width={230}
             render={(value, record, index) => (
               <Space size="middle">
-                {!record.pid && (
+                {record.parentId === "0" && (
                   <a onClick={() => this.handleAdd(record, "children")}>
                     添加二级菜单
                   </a>
