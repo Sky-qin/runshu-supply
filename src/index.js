@@ -19,6 +19,7 @@ app.model(require("./models/personnelManage").default);
 app.model(require("./models/wxPersonnelManage").default);
 app.model(require("./models/consumeModel").default);
 app.model(require("./models/inventory").default);
+app.model(require("./models/realInventoryModel").default);
 app.model(require("./models/productInfo").default);
 app.model(require("./models/feedbackModel").default);
 app.model(require("./models/menuModel").default);

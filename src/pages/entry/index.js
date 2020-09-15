@@ -10,6 +10,7 @@ import PowerManage from "../pageComponent/powerManage";
 import SystemPersonnelManage from "../pageComponent/systemPersonnelManage";
 import WxPersonnelManage from "../pageComponent/wxPersonnelManage";
 import ConsumeList from "../pageComponent/consumeList";
+import RealTimeInventory from "../pageComponent/realTimeInventory";
 import Inventory from "../pageComponent/inventory";
 import ProductInfo from "../pageComponent/productInfo";
 import FeedbackInfoManage from "../pageComponent/feedbackInfoManage";
@@ -66,7 +67,11 @@ class Entry extends React.Component {
                 component={WxPersonnelManage}
               />
               <Route path="/entry/consumeList" component={ConsumeList} />
-              <Route path="/entry/inventory" component={Inventory} />
+              <Route path="/entry/locationInventory" component={Inventory} />
+              <Route
+                path="/entry/realTimeInventory"
+                component={RealTimeInventory}
+              />
               <Route path="/entry/productInfo" component={ProductInfo} />
               <Route
                 path="/entry/feedbackInfoManage"

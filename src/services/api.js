@@ -193,6 +193,24 @@ const API = {
     });
   },
 
+  // 即时库存
+  realInventoryList(params) {
+    return request({
+      url: `${Prefix}/supply/inventory/amount`,
+      method: "post",
+      params,
+    });
+  },
+
+  // 商品库位库存统计
+  productStock(params) {
+    return request({
+      url: `${Prefix}/supply/inventory/amount/stock`,
+      method: "post",
+      params,
+    });
+  },
+
   /**
    * 系统人员管理
    */
@@ -264,7 +282,7 @@ const API = {
   // 菜单列表
   getResourceList(params) {
     return request({
-      url: `${Prefix}/role/selectResourceList`,
+      url: `${Prefix}/resource/selectResourceList`,
       params,
     });
   },
@@ -272,7 +290,7 @@ const API = {
   // 添加菜单
   insertResource(params) {
     return request({
-      url: `${Prefix}/role/insertResource`,
+      url: `${Prefix}/resource/insertResource`,
       method: "post",
       params,
     });
@@ -280,7 +298,7 @@ const API = {
   // 编辑菜单
   updateResource(params) {
     return request({
-      url: `${Prefix}/role/updateResource`,
+      url: `${Prefix}/resource/updateResource`,
       method: "post",
       params,
     });
@@ -288,7 +306,7 @@ const API = {
   // 删除
   deleteResource(params) {
     return request({
-      url: `${Prefix}/role/deleteResource`,
+      url: `${Prefix}/resource/deleteResource`,
       method: "post",
       params,
     });
