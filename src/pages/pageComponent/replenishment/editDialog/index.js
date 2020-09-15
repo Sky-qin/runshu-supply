@@ -89,7 +89,7 @@ class EditDialog extends React.Component {
       <Modal
         title={title}
         visible
-        // style={{ minWidth: "1000px", maxWidth: "1100px" }}
+        style={{ minWidth: "1000px", maxWidth: "1100px" }}
         onCancel={this.handleCancel}
         maskClosable={false}
         footer={false}
@@ -119,8 +119,8 @@ class EditDialog extends React.Component {
             render={(value, record, index) => index + 1}
             width={110}
           />
-          <Column title="产品编号" dataIndex="" width={110} />
-          <Column title="产品名称" dataIndex="" width={130} />
+          <Column title="产品编号" dataIndex="productCode" width={110} />
+          <Column title="产品名称" dataIndex="productName" width={130} />
           <Column title="规格型号" dataIndex="" width={130} />
           <Column title="常见型号" dataIndex="" width={130} />
           <Column title="产品批号" dataIndex="" width={130} />

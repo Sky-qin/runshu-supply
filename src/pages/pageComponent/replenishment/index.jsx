@@ -182,7 +182,7 @@ class Replenishment extends React.Component {
         {/* 编辑弹窗 */}
         {showDetailDialog && (
           <EditDialog
-            title="库存详情"
+            title="补货单详情"
             data={{ inventoryList, currentMsg, inventoryPagination }}
             onClosed={() => {
               dispatch({
