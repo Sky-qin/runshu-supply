@@ -3,9 +3,8 @@ import { connect } from "dva";
 import { Button, Space, Table, Modal } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import EditDialog from "./editDialog";
-// import zhCN from "antd/es/locale/zh_CN";
-// import T from "prop-types";
 import ContentWrap from "../../../components/contentWrap";
+import OpreationBar from "../../../components/OpreationBar";
 import "./index.scss";
 
 const { Column } = Table;
@@ -39,6 +38,20 @@ class Test extends React.Component {
         currentMsg,
       },
     });
+  };
+
+  handleClick = (key) => {
+    const { dispatch } = this.props;
+    if (key === "add") {
+      dispatch({
+        type: "departmentManage/save",
+        payload: {
+          showEditDialog: true,
+          currentMsg: {},
+          dialogTitle: "新增科室",
+        },
+      });
+    }
   };
 
   handleEdit = (msg) => {
@@ -122,15 +135,11 @@ class Test extends React.Component {
     const { current, size, total } = pagination;
     return (
       <ContentWrap loading={loading}>
-        <div className="opreation-bar">
-          <Button
-            type="primary"
-            icon={<PlusOutlined />}
-            onClick={this.handleAdd}
-          >
-            新增
-          </Button>
-        </div>
+        <OpreationBar
+          buttonList={[{ key: "add", label: "新增", icon: <PlusOutlined /> }]}
+          total={total}
+          onClick={this.handleClick}
+        />
         <Table
           bordered
           rowKey={(record, index) => index}
@@ -153,7 +162,7 @@ class Test extends React.Component {
             width={200}
             render={(value, record, index) => (
               <Space size="middle">
-                {!record.pid && (
+                {record.pid === "0" && (
                   <a onClick={() => this.handleAdd(record, "children")}>
                     添加子科室
                   </a>

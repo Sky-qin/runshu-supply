@@ -4,6 +4,7 @@ import { Table, Button, Space, Modal } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import EditDialog from "./editDialog";
 import ContentBox from "../../../components/contentWrap";
+import OpreationBar from "../../../components/OpreationBar";
 import "./index.scss";
 const { Column } = Table;
 
@@ -45,16 +46,18 @@ class PowerManage extends React.Component {
     });
   };
 
-  handleAdd = (msg = {}) => {
+  handleClick = (key) => {
     const { dispatch } = this.props;
-    dispatch({
-      type: "powerManage/save",
-      payload: {
-        showEditDialog: true,
-        currentMsg: { ...msg },
-        dialogTitle: "新增",
-      },
-    });
+    if (key === "add") {
+      dispatch({
+        type: "powerManage/save",
+        payload: {
+          showEditDialog: true,
+          currentMsg: {},
+          dialogTitle: "新增",
+        },
+      });
+    }
   };
 
   handleChangeStatus = (msg, type) => {
@@ -125,15 +128,11 @@ class PowerManage extends React.Component {
     const { current, size, total } = pagination;
     return (
       <ContentBox loading={loading}>
-        <div className="opreation-bar">
-          <Button
-            type="primary"
-            icon={<PlusOutlined />}
-            onClick={this.handleAdd}
-          >
-            新增
-          </Button>
-        </div>
+        <OpreationBar
+          buttonList={[{ key: "add", label: "新增", icon: <PlusOutlined /> }]}
+          total={total}
+          onClick={this.handleClick}
+        />
         <Table
           bordered
           rowKey={(record, index) => index}
