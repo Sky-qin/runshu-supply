@@ -4,6 +4,7 @@ import { Space, Table, Select, Input, TreeSelect } from "antd";
 import styled from "styled-components";
 import FeedbackDialog from "../../../components/feedbackDialog";
 import ContentWrap from "../../../components/contentWrap";
+import OpreationBar from "../../../components/OpreationBar";
 import "./index.scss";
 
 const { Column } = Table;
@@ -230,7 +231,7 @@ class FeedbackInfoManage extends React.Component {
             value={searchParams.consumeName || null}
           />
         </div>
-        <div className="opreation-bar"></div>
+        <OpreationBar total={total} />
         <Table
           bordered
           rowKey={(record, index) => index}

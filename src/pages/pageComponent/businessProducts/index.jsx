@@ -3,6 +3,11 @@ import { connect } from "dva";
 import { Table } from "antd";
 import ContentWrap from "../../../components/contentWrap";
 import OpreationBar from "../../../components/OpreationBar";
+import {
+  PlusOutlined,
+  DeleteOutlined,
+  ExportOutlined,
+} from "@ant-design/icons";
 
 const { Column } = Table;
 
@@ -44,10 +49,7 @@ class BusinessProducts extends React.Component {
     const { current, size, total } = pagination;
     return (
       <ContentWrap loading={loading}>
-        <OpreationBar
-          // buttonList
-          linkList={[{ total }]}
-        />
+        <OpreationBar total={total} />
         <Table
           bordered
           rowKey={(record, index) => index}

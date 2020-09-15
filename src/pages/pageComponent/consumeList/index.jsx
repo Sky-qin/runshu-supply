@@ -2,12 +2,11 @@ import React from "react";
 import { connect } from "dva";
 import { Button, Space, Table, Modal, Select, Input, TreeSelect } from "antd";
 import styled from "styled-components";
-// import PreviewImge from "../../../components/previewImge";
 import DialogCarousel from "../../../components/dialogCarousel";
 import FeedbackDialog from "../../../components/feedbackDialog";
 import EditDialog from "./editDialog";
-// import T from "prop-types";
 import ContentWrap from "../../../components/contentWrap";
+import OpreationBar from "../../../components/OpreationBar";
 import "./index.scss";
 
 const { Column } = Table;
@@ -265,7 +264,7 @@ class ConsumeList extends React.Component {
             style={{ width: 200 }}
           />
         </div>
-        <div className="opreation-bar"></div>
+        <OpreationBar total={total} />
         <Table
           bordered
           rowKey={(record, index) => index}

@@ -2,6 +2,7 @@ import React from "react";
 import { connect } from "dva";
 import { Table } from "antd";
 import ContentWrap from "../../../components/contentWrap";
+import OpreationBar from "../../../components/OpreationBar";
 import "./index.scss";
 
 const { Column } = Table;
@@ -44,15 +45,7 @@ class ProductInfo extends React.Component {
     const { current, size, total } = pagination;
     return (
       <ContentWrap loading={loading}>
-        <div className="opreation-bar">
-          {/* <Button
-            type="primary"
-            icon={<PlusOutlined />}
-            onClick={this.handleAdd}
-          >
-            新增
-          </Button> */}
-        </div>
+        <OpreationBar total={total} />
         <Table
           bordered
           rowKey={(record, index) => index}
@@ -91,17 +84,6 @@ class ProductInfo extends React.Component {
             width={190}
           />
           <Column title="JDE进货单价" dataIndex="jdePrice" width={175} />
-          {/* <Column
-            title="操作"
-            dataIndex="name"
-            width={130}
-            fixed="right"
-            render={(value, record, index) => (
-              <Space size="middle">
-                <a onClick={() => this.handleEdit(record)}>查看详情</a>
-              </Space>
-            )}
-          /> */}
         </Table>
       </ContentWrap>
     );
