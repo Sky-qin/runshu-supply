@@ -51,11 +51,12 @@ class OpreationBar extends React.Component {
   };
 
   render() {
-    const { buttonList, linkList, total = 0 } = this.props;
+    const { buttonList, linkList, total = 0, custom } = this.props;
     return (
       <OpreationDiv>
         <div className="opreation-bar-inner" style={{ display: "flex" }}>
           <div className="opreation-bar-left">
+            {custom || null}
             {buttonList.map((item, index) => {
               return (
                 <Button

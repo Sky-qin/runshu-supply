@@ -1,11 +1,13 @@
 import React from "react";
 import { connect } from "dva";
-import { Table } from "antd";
+import { Table, Input } from "antd";
+import { ExportOutlined } from "@ant-design/icons";
 import ContentWrap from "../../../components/contentWrap";
 import OpreationBar from "../../../components/OpreationBar";
 import "./index.scss";
 
 const { Column } = Table;
+const { Search } = Input;
 
 class ProductLibrary extends React.Component {
   constructor(props) {
@@ -45,7 +47,22 @@ class ProductLibrary extends React.Component {
     const { current, size, total } = pagination;
     return (
       <ContentWrap loading={loading}>
-        <OpreationBar total={total} />
+        <OpreationBar
+          custom={
+            <>
+              <Search
+                placeholder="输入产品名称/编码"
+                onSearch={(value) => this.filterChange(value, "code1")}
+                style={{ width: 260 }}
+              />
+            </>
+          }
+          linkList={[
+            { key: "export", label: "导出", icon: <ExportOutlined /> },
+          ]}
+          total={total}
+          onClick={this.handleClick}
+        />
         <Table
           bordered
           rowKey={(record, index) => index}
@@ -60,30 +77,38 @@ class ProductLibrary extends React.Component {
             onShowSizeChange: this.changePagination,
           }}
         >
-          <Column title="产品编号" dataIndex="productCode" width={130} />
-          <Column title="JDE编码" dataIndex="jdeCode" width={120} />
-          <Column title="JDE名称" dataIndex="jdeName" width={150} />
-          <Column title="JDE规格" dataIndex="jdeModel" width={120} />
-          <Column title="产品名称" dataIndex="productName" width={150} />
+          <Column
+            title="序号"
+            render={(value, record, index) => index + 1}
+            width={80}
+          />
+          <Column title="产品名称" dataIndex="productName" width={160} />
           <Column title="产品简称" dataIndex="productShortName" width={130} />
-          <Column title="规格型号" dataIndex="model" width={125} />
-          <Column title="单位" dataIndex="unitName" width={90} />
+          <Column title="产品编码" dataIndex="productCode" width={130} />
+          <Column title="规格" dataIndex="model" width={125} />
+          <Column title="型号" dataIndex="regularModel" width={125} />
+          <Column title="单价" dataIndex="productPrice" width={90} />
           <Column title="产品属性" dataIndex="productProperty" width={130} />
           <Column title="产品类别" dataIndex="productCategory" width={130} />
-          <Column title="单价" dataIndex="productPrice" width={90} />
-          <Column title="生产厂家" dataIndex="productVendorName" width={150} />
+          <Column title="单位" dataIndex="unitName" width={80} />
+          <Column title="生产厂家" dataIndex="productVendorName" width={160} />
           <Column title="注册证号" dataIndex="registrationNo" width={135} />
           <Column
             title="生产许可证号"
             dataIndex="productLicenseNo"
             width={175}
           />
+
+          {/* <Column title="JDE编码" dataIndex="jdeCode" width={120} />
+          <Column title="JDE名称" dataIndex="jdeName" width={150} />
+          <Column title="JDE规格" dataIndex="jdeModel" width={120} />
+
           <Column
             title="JDE供应商名称"
             dataIndex="jdeSupplierName"
             width={190}
           />
-          <Column title="JDE进货单价" dataIndex="jdePrice" width={175} />
+          <Column title="JDE进货单价" dataIndex="jdePrice" width={175} /> */}
         </Table>
       </ContentWrap>
     );
