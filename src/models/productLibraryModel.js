@@ -2,7 +2,7 @@ import { message } from "antd";
 import API from "../services/api";
 
 export default {
-  namespace: "productInfo",
+  namespace: "productLibraryModel",
   state: {
     showEditDialog: false,
     currentMsg: {},
@@ -18,7 +18,7 @@ export default {
 
   effects: {
     *queryProductList({ payload }, { call, put, select }) {
-      const { pagination } = yield select((state) => state.productInfo);
+      const { pagination } = yield select((state) => state.productLibraryModel);
       const { current, size } = pagination;
       let params = {
         current,

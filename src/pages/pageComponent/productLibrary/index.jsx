@@ -7,7 +7,7 @@ import "./index.scss";
 
 const { Column } = Table;
 
-class ProductInfo extends React.Component {
+class ProductLibrary extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
@@ -20,15 +20,15 @@ class ProductInfo extends React.Component {
   getTableList = () => {
     const { dispatch } = this.props;
     dispatch({
-      type: "productInfo/queryProductList",
+      type: "productLibraryModel/queryProductList",
     });
   };
 
   changePagination = (current, size) => {
     const { dispatch } = this.props;
-    const { pagination } = this.props.productInfo;
+    const { pagination } = this.props.productLibraryModel;
     dispatch({
-      type: "productInfo/save",
+      type: "productLibraryModel/save",
       payload: {
         pagination: {
           ...pagination,
@@ -41,7 +41,7 @@ class ProductInfo extends React.Component {
   };
 
   render() {
-    const { pagination, data, loading } = this.props.productInfo;
+    const { pagination, data, loading } = this.props.productLibraryModel;
     const { current, size, total } = pagination;
     return (
       <ContentWrap loading={loading}>
@@ -90,6 +90,6 @@ class ProductInfo extends React.Component {
   }
 }
 
-export default connect(({ productInfo }) => ({
-  productInfo,
-}))(ProductInfo);
+export default connect(({ productLibraryModel }) => ({
+  productLibraryModel,
+}))(ProductLibrary);
