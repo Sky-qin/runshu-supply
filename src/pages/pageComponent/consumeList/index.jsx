@@ -1,23 +1,40 @@
 import React from "react";
 import { connect } from "dva";
-import { Button, Space, Table, Modal, Select, Input, TreeSelect } from "antd";
-import styled from "styled-components";
+import {
+  Button,
+  Space,
+  Table,
+  Modal,
+  Select,
+  Input,
+  TreeSelect,
+  Form,
+  Col,
+  Row,
+} from "antd";
 import DialogCarousel from "../../../components/dialogCarousel";
 import FeedbackDialog from "../../../components/feedbackDialog";
-import EditDialog from "./editDialog";
 import ContentWrap from "../../../components/contentWrap";
 import OpreationBar from "../../../components/OpreationBar";
+import EditDialog from "./editDialog";
+
 import "./index.scss";
 
 const { Column } = Table;
-const { Search } = Input;
+const layout = {
+  labelCol: { span: 8 },
+  wrapperCol: { span: 14 },
+};
 
-const WrapSelect = styled(Select)`
-  width: 160px;
-  margin-right: 12px;
-`;
+const tailLayout = {
+  wrapperCol: {
+    span: 24,
+  },
+};
 
 class ConsumeList extends React.Component {
+  searchRef = React.createRef();
+
   constructor(props) {
     super(props);
     this.state = {
@@ -145,12 +162,16 @@ class ConsumeList extends React.Component {
   onSearchChange = (key, value) => {
     const { dispatch } = this.props;
     const { searchParams, pagination } = this.props.consumeModel;
+    let { current: searchForm } = this.searchRef;
     let tmpParams = { searchParams: { ...searchParams, [key]: value } };
     // 获取科室
     if (key === "hospitalId") {
       tmpParams = {
         searchParams: { ...tmpParams.searchParams, departmentId: null },
       };
+      searchForm.setFieldsValue({
+        departmentId: null,
+      });
       if (value) {
         dispatch({
           type: "consumeModel/getDePartmentByHsp",
@@ -175,7 +196,7 @@ class ConsumeList extends React.Component {
         },
       },
     });
-    this.getTableList();
+    // this.getTableList();
   };
 
   closeFeedback = () => {
@@ -205,6 +226,24 @@ class ConsumeList extends React.Component {
     this.setState({ picList: list, showPicList: true });
   };
 
+  onFinish = (values) => {
+    this.getTableList();
+  };
+
+  onReset = () => {
+    let { current: searchForm } = this.searchRef;
+    const { dispatch } = this.props;
+    searchForm.resetFields();
+    dispatch({
+      type: "consumeModel/save",
+      payload: {
+        searchParams: {},
+        departmentList: [],
+      },
+    });
+    this.getTableList();
+  };
+
   render() {
     const { dispatch } = this.props;
     const {
@@ -219,175 +258,230 @@ class ConsumeList extends React.Component {
       statusTitle,
       feedbackInfo,
       feedbackDialog,
-      searchParams,
       dialogBtnLoading,
     } = this.props.consumeModel;
     const { picList, showPicList } = this.state;
     const { current, size, total } = pagination;
     return (
-      <ContentWrap loading={loading}>
-        <div className="opreation-bar">
-          <WrapSelect
-            onChange={(value) => this.onSearchChange("hospitalId", value)}
-            options={hospitalList}
-            placeholder="请选择医院"
-            value={searchParams.hospitalId || null}
-            allowClear
-          />
-          <TreeSelect
-            // treeDataSimpleMode
-            allowClear
-            style={{ width: "160px", marginRight: "12px" }}
-            filterTreeNode
-            treeNodeFilterProp="label"
-            placeholder="请选择科室"
-            value={searchParams.departmentId}
-            treeData={departmentList}
-            onChange={(value) => this.onSearchChange("departmentId", value)}
-          />
-          <WrapSelect
-            placeholder="请选择状态"
-            options={orderStatusList}
-            onChange={(value) => this.onSearchChange("orderStatus", value)}
-            value={searchParams.orderStatus || null}
-          />
-          <WrapSelect
-            placeholder="请选择申请人"
-            options={applicantList}
-            onChange={(value) => this.onSearchChange("creator", value)}
-            value={searchParams.creator || null}
-          />
-          <Search
-            placeholder="请输入消耗单号"
-            onSearch={(value) => this.onSearchChange("consumeName", value)}
-            value={searchParams.consumeName || null}
-            style={{ width: 200 }}
-          />
-        </div>
-        <OpreationBar total={total} />
-        <Table
-          bordered
-          rowKey={(record, index) => index}
-          dataSource={data}
-          scroll={{ x: 1500 }}
-          pagination={{
-            position: ["bottomCenter"],
-            current: current,
-            total: total || 0,
-            pageSize: size,
-            onChange: this.changePagination,
-            onShowSizeChange: this.changePagination,
-          }}
-        >
-          <Column title="消耗单号" dataIndex="consumeNumber" width={120} />
-          <Column title="医院" dataIndex="hispitalName" width={130} />
-          <Column title="科室" dataIndex="departmentName" width={120} />
-          <Column title="申请人" dataIndex="userName" width={100} />
-          <Column title="申请时间" dataIndex="createTime" width={150} />
-          <Column title="状态" dataIndex="orderStatusDesc" width={100} />
-          <Column
-            title="手术单"
-            dataIndex="operationPic"
-            width={120}
-            render={(value) => {
-              return value ? (
-                <a onClick={() => this.handleViewPicList(value)}>查看手术单</a>
-              ) : (
-                ""
-              );
+      <>
+        <ContentWrap>
+          <Form
+            {...layout}
+            ref={this.searchRef}
+            onFinish={this.onFinish}
+            style={{ marginTop: "24px" }}
+          >
+            <Row>
+              <Col span={6}>
+                <Form.Item label="医院" name="hospitalId">
+                  <Select
+                    onChange={(value) =>
+                      this.onSearchChange("hospitalId", value)
+                    }
+                    options={hospitalList}
+                    placeholder="请选择医院"
+                    allowClear
+                  />
+                </Form.Item>
+              </Col>
+              <Col span={6}>
+                <Form.Item label="科室" name="departmentId">
+                  <TreeSelect
+                    filterTreeNode
+                    treeNodeFilterProp="label"
+                    placeholder="请选择科室"
+                    treeData={departmentList}
+                    allowClear
+                    onChange={(value) =>
+                      this.onSearchChange("departmentId", value)
+                    }
+                  />
+                </Form.Item>
+              </Col>
+              <Col span={6}>
+                <Form.Item label="状态" name="orderStatus">
+                  <Select
+                    placeholder="请选择状态"
+                    options={orderStatusList}
+                    onChange={(value) =>
+                      this.onSearchChange("orderStatus", value)
+                    }
+                    allowClear
+                  />
+                </Form.Item>
+              </Col>
+              <Col span={6}>
+                <Form.Item label="申请人" name="creator">
+                  <Select
+                    placeholder="请选择申请人"
+                    options={applicantList}
+                    onChange={(value) => this.onSearchChange("creator", value)}
+                    allowClear
+                  />
+                </Form.Item>
+              </Col>
+            </Row>
+            <Row>
+              <Col span={6}>
+                <Form.Item label="消耗单号" name="consumeName">
+                  <Input
+                    placeholder="请输入消耗单号"
+                    onChange={(e) =>
+                      this.onSearchChange("consumeName", e.target.value)
+                    }
+                  />
+                </Form.Item>
+              </Col>
+            </Row>
+            <Row>
+              <Col
+                span={24}
+                style={{ display: "flex", justifyContent: "center" }}
+              >
+                <Form.Item style={{ width: "180px" }} {...tailLayout}>
+                  <Button type="primary" htmlType="submit">
+                    查询
+                  </Button>
+                  <Button
+                    style={{ marginLeft: "12px" }}
+                    htmlType="button"
+                    onClick={this.onReset}
+                  >
+                    重置
+                  </Button>
+                </Form.Item>
+              </Col>
+            </Row>
+          </Form>
+        </ContentWrap>
+        <ContentWrap loading={loading}>
+          <OpreationBar total={total} />
+          <Table
+            bordered
+            rowKey={(record, index) => index}
+            dataSource={data}
+            scroll={{ x: 1500 }}
+            pagination={{
+              position: ["bottomCenter"],
+              current: current,
+              total: total || 0,
+              pageSize: size,
+              onChange: this.changePagination,
+              onShowSizeChange: this.changePagination,
             }}
-          />
-          <Column
-            title="操作"
-            dataIndex="name"
-            width={180}
-            fixed="right"
-            render={(value, record) => {
-              const { orderStatus } = record;
-              return (
-                <Space size="middle">
-                  {orderStatus === 0 && (
-                    <a onClick={() => this.handleEdit(record, "确定", "1")}>
-                      确认
-                    </a>
-                  )}
-                  {orderStatus === 0 && (
-                    <a onClick={() => this.handleEdit(record, "驳回", "2")}>
-                      驳回
-                    </a>
-                  )}
-                  {orderStatus === 1 && (
-                    <a onClick={() => this.handleEdit(record, "撤销", "0")}>
-                      撤销
-                    </a>
-                  )}
-                  {orderStatus === 4 && (
-                    <a onClick={() => this.showFeedback(record)}>查看反馈</a>
-                  )}
-                  <a onClick={() => this.showDetail(record)}>查看详情</a>
-                </Space>
-              );
-            }}
-          />
-        </Table>
+          >
+            <Column title="消耗单号" dataIndex="consumeNumber" width={120} />
+            <Column title="医院" dataIndex="hispitalName" width={130} />
+            <Column title="科室" dataIndex="departmentName" width={120} />
+            <Column title="申请人" dataIndex="userName" width={100} />
+            <Column title="申请时间" dataIndex="createTime" width={150} />
+            <Column title="状态" dataIndex="orderStatusDesc" width={100} />
+            <Column
+              title="手术单"
+              dataIndex="operationPic"
+              width={120}
+              render={(value) => {
+                return value ? (
+                  <a onClick={() => this.handleViewPicList(value)}>
+                    查看手术单
+                  </a>
+                ) : (
+                  ""
+                );
+              }}
+            />
+            <Column
+              title="操作"
+              dataIndex="name"
+              width={180}
+              fixed="right"
+              render={(value, record) => {
+                const { orderStatus } = record;
+                return (
+                  <Space size="middle">
+                    {orderStatus === 0 && (
+                      <a onClick={() => this.handleEdit(record, "确定", "1")}>
+                        确认
+                      </a>
+                    )}
+                    {orderStatus === 0 && (
+                      <a onClick={() => this.handleEdit(record, "驳回", "2")}>
+                        驳回
+                      </a>
+                    )}
+                    {orderStatus === 1 && (
+                      <a onClick={() => this.handleEdit(record, "撤销", "0")}>
+                        撤销
+                      </a>
+                    )}
+                    {orderStatus === 4 && (
+                      <a onClick={() => this.showFeedback(record)}>查看反馈</a>
+                    )}
+                    <a onClick={() => this.showDetail(record)}>查看详情</a>
+                  </Space>
+                );
+              }}
+            />
+          </Table>
 
-        {/* 删除弹窗 */}
-        <Modal
-          title="提示"
-          visible={showStatusDialog}
-          onCancel={this.handleCloseDeleteDialog}
-          footer={[
-            <Button key="cancel" onClick={this.handleCloseDeleteDialog}>
-              取消
-            </Button>,
-            <Button
-              key="ok"
-              type="primary"
-              loading={dialogBtnLoading}
-              onClick={() => {
+          {/* 删除弹窗 */}
+          <Modal
+            title="提示"
+            visible={showStatusDialog}
+            onCancel={this.handleCloseDeleteDialog}
+            footer={[
+              <Button key="cancel" onClick={this.handleCloseDeleteDialog}>
+                取消
+              </Button>,
+              <Button
+                key="ok"
+                type="primary"
+                loading={dialogBtnLoading}
+                onClick={() => {
+                  dispatch({
+                    type: "consumeModel/updateConsumeStatus",
+                  });
+                }}
+              >
+                确定
+              </Button>,
+            ]}
+            maskClosable={false}
+          >
+            你确定要{` ${statusTitle} `}这个条消耗单吗？
+          </Modal>
+          {/* 编辑弹窗 */}
+          <EditDialog />
+          {feedbackDialog && (
+            <FeedbackDialog
+              data={feedbackInfo}
+              onClose={this.closeFeedback}
+              onChange={(status) => {
                 dispatch({
-                  type: "consumeModel/updateConsumeStatus",
+                  type: "consumeModel/updateFeedbackStatus",
+                  payload: {
+                    status,
+                  },
                 });
               }}
-            >
-              确定
-            </Button>,
-          ]}
-          maskClosable={false}
-        >
-          你确定要{` ${statusTitle} `}这个条消耗单吗？
-        </Modal>
-        {/* 编辑弹窗 */}
-        <EditDialog />
-        {feedbackDialog && (
-          <FeedbackDialog
-            data={feedbackInfo}
-            onClose={this.closeFeedback}
-            onChange={(status) => {
-              dispatch({
-                type: "consumeModel/updateFeedbackStatus",
-                payload: {
-                  status,
-                },
-              });
-            }}
-          />
-        )}
-        {/* <PreviewImge
+            />
+          )}
+          {/* <PreviewImge
           visible={showImage}
           src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
           onClose={() => this.setState({ showImage: false })}
         /> */}
-        <DialogCarousel
-          visible={showPicList}
-          data={picList}
-          onClose={() => {
-            this.setState({
-              showPicList: false,
-            });
-          }}
-        />
-      </ContentWrap>
+          <DialogCarousel
+            visible={showPicList}
+            data={picList}
+            onClose={() => {
+              this.setState({
+                showPicList: false,
+              });
+            }}
+          />
+        </ContentWrap>
+      </>
     );
   }
 }

@@ -84,7 +84,7 @@ class BusinessProducts extends React.Component {
             onChange: this.changePagination,
             onShowSizeChange: this.changePagination,
           }}
-          scroll={{ x: 2100 }}
+          scroll={{ x: 2150 }}
         >
           <Column
             title="序号"
@@ -92,7 +92,7 @@ class BusinessProducts extends React.Component {
             width={80}
           />
           <Column title="是否在售" dataIndex="" width={125} />
-          <Column title="产品名称" dataIndex="productName" width={150} />
+          <Column title="产品名称" dataIndex="productName" width={180} />
           <Column title="产品简称" dataIndex="productShortName" width={125} />
           <Column title="产品编码" dataIndex="productCode" width={125} />
           <Column title="JDE编码" dataIndex="jdeCode" width={120} />

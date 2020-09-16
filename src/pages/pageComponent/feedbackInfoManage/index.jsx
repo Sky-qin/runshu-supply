@@ -206,6 +206,7 @@ class FeedbackInfoManage extends React.Component {
       type: "feedbackModel/save",
       payload: {
         searchParams: {},
+        departmentList: [],
       },
     });
   };

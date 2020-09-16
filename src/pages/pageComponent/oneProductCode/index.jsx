@@ -97,7 +97,7 @@ class OneProductCode extends React.Component {
           <Column title="产品编码" dataIndex="productCode" width={120} />
           <Column title="JDE编码" dataIndex="jdeCode" width={120} />
           <Column title="辽宁阳光采购编码" dataIndex="" width={150} />
-          <Column title="吉林阳光采购编码" dataIndex="" width={120} />
+          <Column title="吉林阳光采购编码" dataIndex="" width={150} />
           <Column title="规格" dataIndex="model" width={120} />
           <Column title="型号" dataIndex="regularModel" width={90} />
           <Column title="单位" dataIndex="unitName" width={80} />

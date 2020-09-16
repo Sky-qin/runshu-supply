@@ -3,6 +3,7 @@ import { connect } from "dva";
 import { Space, Table } from "antd";
 import EditDialog from "./editDialog";
 import ContentWrap from "../../../components/contentWrap";
+import OpreationBar from "../../../components/OpreationBar";
 import "./index.scss";
 
 const { Column } = Table;
@@ -83,6 +84,7 @@ class RealTimeInventory extends React.Component {
     const { current, size, total } = pagination;
     return (
       <ContentWrap loading={loading}>
+        <OpreationBar total={total} />
         <Table
           bordered
           rowKey={(record, index) => index}
