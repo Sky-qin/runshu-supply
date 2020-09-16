@@ -20,7 +20,9 @@ class EditDialog extends React.Component {
     formObj.current
       .validateFields()
       .then((values) => {
-        onOk && typeof onOk === "function" && onOk({ ...values, type: "wx" });
+        onOk &&
+          typeof onOk === "function" &&
+          onOk({ ...values, hospitalIds: [values.hospitalIds], type: "wx" });
       })
       .catch((errorInfo) => {
         console.log("errorInfo", errorInfo);
@@ -105,11 +107,7 @@ class EditDialog extends React.Component {
             label="医院"
             rules={[{ required: true, message: "请选择医院" }]}
           >
-            <Select
-              mode="multiple"
-              optionFilterProp="label"
-              options={hospitalList}
-            />
+            <Select optionFilterProp="label" options={hospitalList} />
           </Form.Item>
         </Form>
       </Modal>
