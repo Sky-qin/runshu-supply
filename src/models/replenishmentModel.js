@@ -9,13 +9,6 @@ export default {
     data: [],
     dialogTitle: "编辑",
     loading: false,
-    activeKey: "",
-    activeTabKey: "",
-    tabList: [
-      { value: "1", label: "确定中" },
-      { value: "2", label: "部分备货" },
-      { value: "3", label: "入库" },
-    ],
     pagination: {
       current: 1,
       size: 10,
@@ -27,6 +20,9 @@ export default {
       size: 50,
       total: 0,
     },
+    hospitalList: [],
+    departmentList: [],
+    orderStatusList: [],
   },
 
   effects: {
