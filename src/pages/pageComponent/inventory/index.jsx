@@ -3,6 +3,7 @@ import { connect } from "dva";
 import { Space, Table, Select } from "antd";
 import EditDialog from "./editDialog";
 import ContentWrap from "../../../components/contentWrap";
+import OpreationBar from "../../../components/OpreationBar";
 import "./index.scss";
 
 const { Column } = Table;
@@ -106,29 +107,25 @@ class Inventory extends React.Component {
     const { current, size, total } = pagination;
     return (
       <ContentWrap loading={loading}>
-        <div className="opreation-bar">
-          {/* <Button
-            type="primary"
-            icon={<PlusOutlined />}
-            onClick={this.handleAdd}
-          >
-            新增
-          </Button> */}
-          <div>
-            <Select
-              optionFilterProp="label"
-              showSearch
-              allowClear={true}
-              onChange={(value) => this.onChangeFilter(value, "stockId")}
-              style={{
-                width: "260px",
-              }}
-              value={stockId || null}
-              options={storageList}
-              placeholder="请选择库位"
-            />
-          </div>
-        </div>
+        <OpreationBar
+          custom={
+            <>
+              <Select
+                optionFilterProp="label"
+                showSearch
+                allowClear={true}
+                onChange={(value) => this.onChangeFilter(value, "stockId")}
+                style={{
+                  width: "260px",
+                }}
+                value={stockId || null}
+                options={storageList}
+                placeholder="请选择库位"
+              />
+            </>
+          }
+          total={total}
+        />
         <Table
           bordered
           rowKey={(record, index) => index}

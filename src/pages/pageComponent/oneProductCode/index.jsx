@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "dva";
-import { Table, Input, Select } from "antd";
+import { Table, Input } from "antd";
 import { ExportOutlined } from "@ant-design/icons";
 import ContentWrap from "../../../components/contentWrap";
 import OpreationBar from "../../../components/OpreationBar";
@@ -8,7 +8,7 @@ import OpreationBar from "../../../components/OpreationBar";
 const { Column } = Table;
 const { Search } = Input;
 
-class BusinessProducts extends React.Component {
+class OneProductCode extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
@@ -21,15 +21,15 @@ class BusinessProducts extends React.Component {
   getTableList = () => {
     const { dispatch } = this.props;
     dispatch({
-      type: "businessProductsModel/getTableList",
+      type: "oneProductCodeModel/getTableList",
     });
   };
 
   changePagination = (current, size) => {
     const { dispatch } = this.props;
-    const { pagination } = this.props.businessProductsModel;
+    const { pagination } = this.props.oneProductCodeModel;
     dispatch({
-      type: "businessProductsModel/save",
+      type: "oneProductCodeModel/save",
       payload: {
         pagination: {
           ...pagination,
@@ -41,8 +41,18 @@ class BusinessProducts extends React.Component {
     this.getTableList();
   };
 
+  handleClick = (key) => {
+    if (key === "export") {
+      console.log("导出操作");
+    }
+  };
+
+  filterChange = (value, key) => {
+    console.log("ssss", value, key);
+  };
+
   render() {
-    const { pagination, data, loading } = this.props.businessProductsModel;
+    const { pagination, data, loading } = this.props.oneProductCodeModel;
     const { current, size, total } = pagination;
     return (
       <ContentWrap loading={loading}>
@@ -54,16 +64,6 @@ class BusinessProducts extends React.Component {
                 onSearch={(value) => this.filterChange(value, "code1")}
                 style={{ width: 260 }}
               />
-              <Select
-                placeholder="请选择在售情况"
-                options={[
-                  { value: "1", label: "是" },
-                  { value: "0", label: "否" },
-                ]}
-                allowClear
-                style={{ width: 260, marginLeft: 15 }}
-                onChange={(value) => this.filterChange(value, "code2")}
-              />
             </>
           }
           linkList={[
@@ -74,6 +74,7 @@ class BusinessProducts extends React.Component {
         />
         <Table
           bordered
+          scroll={{ x: 1850 }}
           rowKey={(record, index) => index}
           dataSource={data}
           pagination={{
@@ -84,45 +85,41 @@ class BusinessProducts extends React.Component {
             onChange: this.changePagination,
             onShowSizeChange: this.changePagination,
           }}
-          scroll={{ x: 2150 }}
         >
           <Column
             title="序号"
-            render={(value, rocord, index) => index + 1}
-            width={80}
+            render={(value, record, index) => index + 1}
+            width={65}
           />
-          <Column title="是否在售" dataIndex="" width={125} />
-          <Column title="产品名称" dataIndex="productName" width={180} />
-          <Column title="产品简称" dataIndex="productShortName" width={125} />
-          <Column title="产品编码" dataIndex="productCode" width={125} />
+          <Column title="流水号" dataIndex="serialNo" width={120} />
+          <Column title="产品名称" dataIndex="productName" width={150} />
+          <Column title="产品简称" dataIndex="productShortName" width={120} />
+          <Column title="产品编码" dataIndex="productCode" width={120} />
           <Column title="JDE编码" dataIndex="jdeCode" width={120} />
           <Column title="辽宁阳光采购编码" dataIndex="" width={150} />
           <Column title="吉林阳光采购编码" dataIndex="" width={150} />
           <Column title="规格" dataIndex="model" width={120} />
-          <Column title="型号" dataIndex="regularModel" width={100} />
-          <Column title="单位" dataIndex="unitName" width={100} />
-          <Column title="产品属性" dataIndex="productProperty" width={125} />
-          <Column title="产品类型" dataIndex="productCategory" width={125} />
-          <Column title="单价" dataIndex="" width={120} />
-          <Column title="生产厂家" dataIndex="productVendorName" width={180} />
-          <Column title="注册证号" dataIndex="registrationNo" width={135} />
+          <Column title="型号" dataIndex="regularModel" width={90} />
+          <Column title="单位" dataIndex="unitName" width={80} />
+          <Column title="生产厂家" dataIndex="productVendorName" width={130} />
+          <Column title="注册证号" dataIndex="registrationNo" width={120} />
           <Column
             title="生产许可证号"
             dataIndex="productLicenseNo"
-            width={175}
+            width={140}
           />
           <Column
             title="JDE供应商名称"
             dataIndex="jdeSupplierName"
-            width={175}
+            width={150}
           />
-          <Column title="JDE进货单价" dataIndex="jdePrice" width={150} />
+          <Column title="JDE进货单价" dataIndex="jdePrice" width={130} />
         </Table>
       </ContentWrap>
     );
   }
 }
 
-export default connect(({ businessProductsModel }) => ({
-  businessProductsModel,
-}))(BusinessProducts);
+export default connect(({ oneProductCodeModel }) => ({
+  oneProductCodeModel,
+}))(OneProductCode);

@@ -12,11 +12,12 @@ import WxPersonnelManage from "../pageComponent/wxPersonnelManage";
 import ConsumeList from "../pageComponent/consumeList";
 import RealTimeInventory from "../pageComponent/realTimeInventory";
 import Inventory from "../pageComponent/inventory";
-import ProductInfo from "../pageComponent/productInfo";
+import ProductLibrary from "../pageComponent/productLibrary";
 import FeedbackInfoManage from "../pageComponent/feedbackInfoManage";
 import MenuConfig from "../pageComponent/menuConfig";
 import BusinessProducts from "../pageComponent/businessProducts";
 import Replenishment from "../pageComponent/replenishment";
+import OneProductCode from "../pageComponent/oneProductCode";
 
 import "./index.scss";
 
@@ -72,7 +73,7 @@ class Entry extends React.Component {
                 path="/entry/realTimeInventory"
                 component={RealTimeInventory}
               />
-              <Route path="/entry/productInfo" component={ProductInfo} />
+              <Route path="/entry/productLibrary" component={ProductLibrary} />
               <Route
                 path="/entry/feedbackInfoManage"
                 component={FeedbackInfoManage}
@@ -83,6 +84,7 @@ class Entry extends React.Component {
                 component={BusinessProducts}
               />
               <Route path="/entry/replenishment" component={Replenishment} />
+              <Route path="/entry/oneProductCode" component={OneProductCode} />
             </Switch>
           </div>
         </div>

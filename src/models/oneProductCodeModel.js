@@ -2,12 +2,9 @@ import { message } from "antd";
 import API from "../services/api";
 
 export default {
-  namespace: "productInfo",
+  namespace: "oneProductCodeModel",
   state: {
-    showEditDialog: false,
-    currentMsg: {},
     data: [],
-    dialogTitle: "编辑",
     loading: false,
     pagination: {
       current: 1,
@@ -17,15 +14,15 @@ export default {
   },
 
   effects: {
-    *queryProductList({ payload }, { call, put, select }) {
-      const { pagination } = yield select((state) => state.productInfo);
+    *getTableList({ payload }, { call, put, select }) {
+      const { pagination } = yield select((state) => state.oneProductCodeModel);
       const { current, size } = pagination;
       let params = {
         current,
         size,
       };
       yield put({ type: "save", payload: { loading: true } });
-      const { data } = yield call(API.queryProductList, params);
+      const { data } = yield call(API.onSaleProduct, params);
       yield put({ type: "save", payload: { loading: false } });
 
       if (data && data.success) {

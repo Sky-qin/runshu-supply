@@ -23,6 +23,7 @@ export default {
     hospitalList: [],
     departmentList: [],
     orderStatusList: [],
+    searchParams: {},
   },
 
   effects: {
@@ -57,19 +58,19 @@ export default {
         message.error(data.message || "保存失败！");
       }
     },
-    *storageList({ payload }, { call, put }) {
-      const { data } = yield call(API.storageList);
-      if (data && data.success) {
-        yield put({
-          type: "save",
-          payload: {
-            storageList: data.data || [],
-          },
-        });
-      } else {
-        message.error(data.message || "获取库存枚举失败");
-      }
-    },
+    // *storageList({ payload }, { call, put }) {
+    //   const { data } = yield call(API.storageList);
+    //   if (data && data.success) {
+    //     yield put({
+    //       type: "save",
+    //       payload: {
+    //         storageList: data.data || [],
+    //       },
+    //     });
+    //   } else {
+    //     message.error(data.message || "获取库存枚举失败");
+    //   }
+    // },
     *queryInventoryProduct({ payload }, { call, put, select }) {
       const { currentMsg, inventoryPagination } = yield select(
         (state) => state.replenishmentModel
@@ -97,6 +98,39 @@ export default {
         });
       } else {
         message.error(data.message || "获取库存枚举失败");
+      }
+    },
+    *getHospital({ payload }, { call, put, select }) {
+      const { data } = yield call(API.getHospital);
+      if (data && data.success) {
+        yield put({
+          type: "save",
+          payload: {
+            hospitalList: data.data || [],
+          },
+        });
+      } else {
+        message.error(data.message || "获取医院枚举失败！");
+      }
+    },
+    *getDePartmentByHsp({ payload }, { call, put, select }) {
+      const { data } = yield call(API.getDePartmentByHsp, payload);
+      if (data && data.success) {
+        let departmentList = (data.data || []).map((item) => {
+          const { children } = item;
+          if (children && children.length > 0) {
+            return { ...item, selectable: false };
+          }
+          return item;
+        });
+        yield put({
+          type: "save",
+          payload: {
+            departmentList,
+          },
+        });
+      } else {
+        message.error(data.message || "获取医院下科室失败");
       }
     },
   },

@@ -96,15 +96,14 @@ class EditDialog extends React.Component {
       >
         <BasicDiv>
           <div>订单编号：{currentMsg.productCode || ""}</div>
-          <div>医院：{currentMsg.model || ""}</div>
-          <div>科室：{currentMsg.regularModel || ""}</div>
-          <div>申请人：{currentMsg.unitName || ""}</div>
-          <div>申请日期：{currentMsg.batchNo || ""}</div>
+          <div>库位：{"SSSS" || ""}</div>
+          <div>科室：{"SSSSS" || ""}</div>
+          <div>申请人：{"SSSS" || ""}</div>
+          <div>申请日期：{"SSSS" || ""}</div>
         </BasicDiv>
         <Table
           scroll={{ y: 400 }}
           dataSource={inventoryList}
-          // pagination={false}
           pagination={{
             position: ["bottomCenter"],
             current: inventoryPagination.current,
@@ -117,8 +116,9 @@ class EditDialog extends React.Component {
           <Column
             title="序号"
             render={(value, record, index) => index + 1}
-            width={110}
+            width={80}
           />
+
           <Column title="产品编号" dataIndex="productCode" width={110} />
           <Column title="产品名称" dataIndex="productName" width={130} />
           <Column title="规格型号" dataIndex="" width={130} />

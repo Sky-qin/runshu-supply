@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { Spin, ConfigProvider } from "antd";
+import T from "prop-types";
 import zhCN from "antd/es/locale/zh_CN";
 
 import "./index.scss";
@@ -13,6 +14,12 @@ const ContentDiv = styled.div`
 `;
 
 class ContentBox extends React.Component {
+  static propTypes = {
+    loading: T.bool,
+  };
+  static defaultProps = {
+    loading: false,
+  };
   constructor(props) {
     super(props);
     this.state = {};
