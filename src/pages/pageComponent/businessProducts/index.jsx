@@ -3,11 +3,6 @@ import { connect } from "dva";
 import { Table } from "antd";
 import ContentWrap from "../../../components/contentWrap";
 import OpreationBar from "../../../components/OpreationBar";
-import {
-  PlusOutlined,
-  DeleteOutlined,
-  ExportOutlined,
-} from "@ant-design/icons";
 
 const { Column } = Table;
 
