@@ -1,12 +1,13 @@
 import React from "react";
 import { connect } from "dva";
-import { Space, Table, Select } from "antd";
+import { Space, Table, Select, Input, InputNumber } from "antd";
 import EditDialog from "./editDialog";
 import ContentWrap from "../../../components/contentWrap";
 import OpreationBar from "../../../components/OpreationBar";
 import "./index.scss";
 
 const { Column } = Table;
+const { Search } = Input;
 
 class Inventory extends React.Component {
   constructor(props) {
@@ -16,9 +17,8 @@ class Inventory extends React.Component {
 
   componentDidMount() {
     const { dispatch } = this.props;
-    dispatch({
-      type: "inventory/storageList",
-    });
+    dispatch({ type: "inventory/storageList" });
+    dispatch({ type: "inventory/queryProductCategory" });
     this.getTableList();
   }
 
@@ -46,7 +46,8 @@ class Inventory extends React.Component {
   };
 
   onChangeFilter = (value, key) => {
-    const { dispatch, pagination } = this.props;
+    const { dispatch } = this.props;
+    const { pagination } = this.props.inventory;
     dispatch({
       type: "inventory/save",
       payload: {
@@ -57,6 +58,7 @@ class Inventory extends React.Component {
         },
       },
     });
+    if (key === "validPeriod") return;
     this.getTableList();
   };
 
@@ -102,7 +104,7 @@ class Inventory extends React.Component {
       pagination,
       data,
       loading,
-      stockId,
+      productCategoryList,
     } = this.props.inventory;
     const { current, size, total } = pagination;
     return (
@@ -110,17 +112,35 @@ class Inventory extends React.Component {
         <OpreationBar
           custom={
             <>
+              <Search
+                placeholder="输入产品名称/编码"
+                onSearch={(value) => this.onChangeFilter(value, "keyword")}
+                style={{ width: 260 }}
+              />
+              <InputNumber
+                placeholder="请输入有效期"
+                style={{ width: 260, marginLeft: 15 }}
+                onChange={(value) => this.onChangeFilter(value, "validPeriod")}
+                onPressEnter={this.getTableList}
+              />
               <Select
                 optionFilterProp="label"
                 showSearch
                 allowClear={true}
                 onChange={(value) => this.onChangeFilter(value, "stockId")}
-                style={{
-                  width: "260px",
-                }}
-                value={stockId || null}
+                style={{ width: 260, marginLeft: 15 }}
                 options={storageList}
                 placeholder="请选择库位"
+              />
+              <Select
+                showSearch
+                allowClear={true}
+                onChange={(value) =>
+                  this.onChangeFilter(value, "productCategory")
+                }
+                style={{ width: 260, marginLeft: 15 }}
+                options={productCategoryList}
+                placeholder="请选择产品类型"
               />
             </>
           }
@@ -141,12 +161,13 @@ class Inventory extends React.Component {
         >
           <Column title="产品编号" dataIndex="productCode" />
           <Column title="产品名称" dataIndex="productName" />
-          <Column title="规格型号" dataIndex="model" />
-          <Column title="常见型号" dataIndex="regularModel" />
+          <Column title="产品类别" dataIndex="productCategory" />
+          <Column title="规格" dataIndex="model" />
+          <Column title="型号" dataIndex="regularModel" />
           <Column title="单位" dataIndex="unitName" />
           <Column title="库存数量" dataIndex="stockAmount" />
           <Column title="生产厂家" dataIndex="vendorName" />
-          <Column title="位置" dataIndex="stockName" />
+          <Column title="库位" dataIndex="stockName" />
           <Column
             title="操作"
             dataIndex="name"

@@ -9,7 +9,7 @@ const OpreationDiv = styled.div`
     line-height: 56px;
   }
   .opreation-bar-left {
-    flex: 1;
+    flex: auto;
   }
   .opreation-bar-right {
     flex: 1;
@@ -73,6 +73,19 @@ class OpreationBar extends React.Component {
           </div>
           <div className="opreation-bar-right">
             {linkList.map((item, index) => {
+              const { key, url = "", params = {} } = item;
+              let aParams = {};
+
+              if (key === "export") {
+                aParams = {
+                  component: "a",
+                  href: `https://order.runshutech.com${url}?${Object.entries(
+                    params
+                  )
+                    .map((item) => item.join("="))
+                    .join("&")}`,
+                };
+              }
               return (
                 <Button
                   key={index}
@@ -80,6 +93,7 @@ class OpreationBar extends React.Component {
                   icon={item.icon || null}
                   className="link-item"
                   onClick={() => this.handleClickBtn(item)}
+                  {...aParams}
                 >
                   {item.label}
                 </Button>

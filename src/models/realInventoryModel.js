@@ -1,5 +1,6 @@
 import { message } from "antd";
 import API from "../services/api";
+import { transferList } from "../utils/tools";
 
 export default {
   namespace: "realInventoryModel",
@@ -18,15 +19,20 @@ export default {
 
   effects: {
     *getTableList({ payload }, { call, put, select }) {
-      const { pagination, stockId } = yield select(
-        (state) => state.realInventoryModel
-      );
+      const {
+        pagination,
+        keyword,
+        productCategory,
+        validPeriod,
+      } = yield select((state) => state.realInventoryModel);
       const { current, size } = pagination;
       let params = {
         current,
         size,
         params: {
-          stockId,
+          keyword,
+          productCategory,
+          validPeriod,
         },
       };
       yield put({ type: "save", payload: { loading: true } });
@@ -60,6 +66,23 @@ export default {
         });
       } else {
         message.error(data.message || "获取商品库存失败！");
+      }
+    },
+    *queryProductCategory({ payload }, { call, put, select }) {
+      const { data } = yield call(API.queryProductCategory);
+      if (data && data.success) {
+        yield put({
+          type: "save",
+          payload: {
+            productCategoryList: transferList(
+              data.data || [],
+              "label",
+              "label"
+            ),
+          },
+        });
+      } else {
+        message.error(data.message || "获取产品类别枚举失败");
       }
     },
   },

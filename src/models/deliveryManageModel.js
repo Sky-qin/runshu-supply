@@ -1,50 +1,42 @@
 import { message } from "antd";
 import API from "../services/api";
-import { transferList } from "../utils/tools";
 
 export default {
-  namespace: "inventory",
+  namespace: "deliveryManageModel",
   state: {
     showDetailDialog: false,
     currentMsg: {},
     data: [],
     dialogTitle: "编辑",
-    storageList: [],
     loading: false,
-    stockId: "",
-    keyword: "",
     pagination: {
       current: 1,
       size: 10,
       total: 0,
     },
-    productCategoryList: [],
     inventoryList: [],
     inventoryPagination: {
       current: 1,
       size: 50,
       total: 0,
     },
+    hospitalList: [],
+    departmentList: [],
+    orderStatusList: [],
+    searchParams: {},
   },
 
   effects: {
     *queryInventoryList({ payload }, { call, put, select }) {
-      const {
-        pagination,
-        stockId,
-        keyword,
-        productCategory,
-        validPeriod,
-      } = yield select((state) => state.inventory);
+      const { pagination, stockId } = yield select(
+        (state) => state.deliveryManageModel
+      );
       const { current, size } = pagination;
       let params = {
         current,
         size,
         params: {
           stockId,
-          keyword,
-          productCategory,
-          validPeriod,
         },
       };
       yield put({ type: "save", payload: { loading: true } });
@@ -66,22 +58,22 @@ export default {
         message.error(data.message || "保存失败！");
       }
     },
-    *storageList({ payload }, { call, put }) {
-      const { data } = yield call(API.storageList);
-      if (data && data.success) {
-        yield put({
-          type: "save",
-          payload: {
-            storageList: data.data || [],
-          },
-        });
-      } else {
-        message.error(data.message || "获取库存枚举失败");
-      }
-    },
+    // *storageList({ payload }, { call, put }) {
+    //   const { data } = yield call(API.storageList);
+    //   if (data && data.success) {
+    //     yield put({
+    //       type: "save",
+    //       payload: {
+    //         storageList: data.data || [],
+    //       },
+    //     });
+    //   } else {
+    //     message.error(data.message || "获取库存枚举失败");
+    //   }
+    // },
     *queryInventoryProduct({ payload }, { call, put, select }) {
       const { currentMsg, inventoryPagination } = yield select(
-        (state) => state.inventory
+        (state) => state.deliveryManageModel
       );
       const params = {
         current: inventoryPagination.current,
@@ -108,21 +100,37 @@ export default {
         message.error(data.message || "获取库存枚举失败");
       }
     },
-    *queryProductCategory({ payload }, { call, put, select }) {
-      const { data } = yield call(API.queryProductCategory);
+    *getHospital({ payload }, { call, put, select }) {
+      const { data } = yield call(API.getHospital);
       if (data && data.success) {
         yield put({
           type: "save",
           payload: {
-            productCategoryList: transferList(
-              data.data || [],
-              "label",
-              "label"
-            ),
+            hospitalList: data.data || [],
           },
         });
       } else {
-        message.error(data.message || "获取产品类别枚举失败");
+        message.error(data.message || "获取医院枚举失败！");
+      }
+    },
+    *getDePartmentByHsp({ payload }, { call, put, select }) {
+      const { data } = yield call(API.getDePartmentByHsp, payload);
+      if (data && data.success) {
+        let departmentList = (data.data || []).map((item) => {
+          const { children } = item;
+          if (children && children.length > 0) {
+            return { ...item, selectable: false };
+          }
+          return item;
+        });
+        yield put({
+          type: "save",
+          payload: {
+            departmentList,
+          },
+        });
+      } else {
+        message.error(data.message || "获取医院下科室失败");
       }
     },
   },

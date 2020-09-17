@@ -42,8 +42,29 @@ class ProductLibrary extends React.Component {
     this.getTableList();
   };
 
+  filterChange = (value, key) => {
+    const { dispatch } = this.props;
+    const { pagination } = this.props.productLibraryModel;
+    dispatch({
+      type: "productLibraryModel/save",
+      payload: {
+        [key]: value,
+        pagination: {
+          ...pagination,
+          current: 1,
+        },
+      },
+    });
+    this.getTableList();
+  };
+
   render() {
-    const { pagination, data, loading } = this.props.productLibraryModel;
+    const {
+      pagination,
+      data,
+      loading,
+      keyword,
+    } = this.props.productLibraryModel;
     const { current, size, total } = pagination;
     return (
       <ContentWrap loading={loading}>
@@ -52,13 +73,19 @@ class ProductLibrary extends React.Component {
             <>
               <Search
                 placeholder="输入产品名称/编码"
-                onSearch={(value) => this.filterChange(value, "code1")}
+                onSearch={(value) => this.filterChange(value, "keyword")}
                 style={{ width: 260 }}
               />
             </>
           }
           linkList={[
-            { key: "export", label: "导出", icon: <ExportOutlined /> },
+            {
+              key: "export",
+              label: "导出",
+              icon: <ExportOutlined />,
+              url: "/supply/product/exportIndustry",
+              params: { keyword },
+            },
           ]}
           total={total}
           onClick={this.handleClick}

@@ -315,9 +315,21 @@ const API = {
   /**
    * 在售商品管理
    */
+  // 表格查询
   onSaleProduct(params) {
     return request({
       url: `${Prefix}/supply/product/onsale/list`,
+      method: "post",
+      params,
+    });
+  },
+
+  /**
+   * 一品一码
+   */
+  oneProductCodeList(params) {
+    return request({
+      url: `${Prefix}/supply/inventory/listInventory`,
       method: "post",
       params,
     });
@@ -411,6 +423,13 @@ const API = {
   queryResource(params) {
     return request({
       url: `${Prefix}/role/queryResource`,
+      params,
+    });
+  },
+  // 产品类别
+  queryProductCategory(params) {
+    return request({
+      url: `${Prefix}/dic/category`,
       params,
     });
   },

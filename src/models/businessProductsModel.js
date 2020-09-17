@@ -11,17 +11,23 @@ export default {
       size: 10,
       total: 0,
     },
+    keyword: "",
+    isOnsale: "",
   },
 
   effects: {
     *getTableList({ payload }, { call, put, select }) {
-      const { pagination } = yield select(
+      const { pagination, keyword, isOnsale } = yield select(
         (state) => state.businessProductsModel
       );
       const { current, size } = pagination;
       let params = {
         current,
         size,
+        params: {
+          keyword,
+          isOnsale,
+        },
       };
       yield put({ type: "save", payload: { loading: true } });
       const { data } = yield call(API.onSaleProduct, params);
@@ -42,6 +48,13 @@ export default {
         message.error(data.message || "获取产品信息失败！");
       }
     },
+    // *exportList({ payload }, { call, put, select }) {
+    //   const { keyword, isOnsale } = yield select(
+    //     (state) => state.businessProductsModel
+    //   );
+    //   const { data } = yield call(API.exportOnsale, { keyword, isOnsale });
+    //   console.log("data", data);
+    // },
   },
 
   reducers: {

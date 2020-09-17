@@ -9,15 +9,17 @@ import {
   Col,
   Select,
   Button,
-  // TreeSelect,
+  DatePicker,
 } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import EditDialog from "./editDialog";
-import ContentWrap from "../../../components/contentWrap";
+import DetailDialog from "./detailDialog";
 import OpreationBar from "../../../components/OpreationBar";
+import ContentWrap from "../../../components/contentWrap";
 import "./index.scss";
 
 const { Column } = Table;
+const { RangePicker } = DatePicker;
 
 const layout = {
   labelCol: { span: 8 },
@@ -30,7 +32,7 @@ const tailLayout = {
   },
 };
 
-class Replenishment extends React.Component {
+class DeliveryManage extends React.Component {
   searchRef = React.createRef();
 
   constructor(props) {
@@ -41,7 +43,7 @@ class Replenishment extends React.Component {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
-      type: "replenishmentModel/getHospital",
+      type: "deliveryManageModel/getHospital",
     });
     this.getTableList();
   }
@@ -49,15 +51,15 @@ class Replenishment extends React.Component {
   getTableList = () => {
     const { dispatch } = this.props;
     dispatch({
-      type: "replenishmentModel/queryInventoryList",
+      type: "deliveryManageModel/queryInventoryList",
     });
   };
 
   changePagination = (current, size) => {
     const { dispatch } = this.props;
-    const { pagination } = this.props.replenishmentModel;
+    const { pagination } = this.props.deliveryManageModel;
     dispatch({
-      type: "replenishmentModel/save",
+      type: "deliveryManageModel/save",
       payload: {
         pagination: {
           ...pagination,
@@ -72,7 +74,7 @@ class Replenishment extends React.Component {
   onSearchChange = (key, value) => {
     const { dispatch } = this.props;
     let { current: searchForm } = this.searchRef;
-    const { searchParams, pagination } = this.props.replenishmentModel;
+    const { searchParams, pagination } = this.props.deliveryManageModel;
     let tmpParams = { searchParams: { ...searchParams, [key]: value } };
     // 获取科室
     if (key === "hospitalId") {
@@ -84,7 +86,7 @@ class Replenishment extends React.Component {
       });
       if (value) {
         dispatch({
-          type: "replenishmentModel/getDePartmentByHsp",
+          type: "deliveryManageModel/getDePartmentByHsp",
           payload: {
             id: value,
           },
@@ -97,7 +99,7 @@ class Replenishment extends React.Component {
       }
     }
     dispatch({
-      type: "replenishmentModel/save",
+      type: "deliveryManageModel/save",
       payload: {
         ...tmpParams,
         pagination: {
@@ -109,6 +111,7 @@ class Replenishment extends React.Component {
   };
 
   onFinish = (values) => {
+    console.log("values", values);
     this.getTableList();
   };
 
@@ -117,7 +120,7 @@ class Replenishment extends React.Component {
     const { dispatch } = this.props;
     searchForm.resetFields();
     dispatch({
-      type: "replenishmentModel/save",
+      type: "deliveryManageModel/save",
       payload: {
         searchParams: {},
         departmentList: [],
@@ -129,22 +132,22 @@ class Replenishment extends React.Component {
   handleShowDetail = (msg) => {
     const { dispatch } = this.props;
     dispatch({
-      type: "replenishmentModel/save",
+      type: "deliveryManageModel/save",
       payload: {
         currentMsg: { ...msg },
       },
     });
 
     dispatch({
-      type: "replenishmentModel/queryInventoryProduct",
+      type: "deliveryManageModel/queryInventoryProduct",
     });
   };
 
   changeListData = (current, size) => {
     const { dispatch } = this.props;
-    const { inventoryPagination } = this.props.replenishmentModel;
+    const { inventoryPagination } = this.props.deliveryManageModel;
     dispatch({
-      type: "replenishmentModel/save",
+      type: "deliveryManageModel/save",
       payload: {
         inventoryPagination: {
           ...inventoryPagination,
@@ -154,7 +157,7 @@ class Replenishment extends React.Component {
       },
     });
 
-    dispatch({ type: "replenishmentModel/queryInventoryProduct" });
+    dispatch({ type: "deliveryManageModel/queryInventoryProduct" });
   };
 
   render() {
@@ -170,7 +173,7 @@ class Replenishment extends React.Component {
       departmentList,
       hospitalList,
       orderStatusList,
-    } = this.props.replenishmentModel;
+    } = this.props.deliveryManageModel;
     const { current, size, total } = pagination;
     return (
       <>
@@ -182,8 +185,19 @@ class Replenishment extends React.Component {
             style={{ marginTop: "24px" }}
           >
             <Row>
-              <Col span={8}>
-                <Form.Item label="仓位" name="hospitalId">
+              <Col span={6}>
+                <Form.Item label="快递单号" name="deliveryCode">
+                  <Input
+                    onChange={(value) =>
+                      this.onSearchChange("deliveryCode", value)
+                    }
+                    placeholder="请选择医院"
+                    allowClear
+                  />
+                </Form.Item>
+              </Col>
+              <Col span={6}>
+                <Form.Item label="收货方" name="hospitalId">
                   <Select
                     onChange={(value) =>
                       this.onSearchChange("hospitalId", value)
@@ -208,25 +222,41 @@ class Replenishment extends React.Component {
                   />
                 </Form.Item>
               </Col> */}
-              <Col span={8}>
-                <Form.Item label="状态" name="orderStatus">
+              <Col span={6}>
+                <Form.Item label="发货人" name="person">
+                  <Select
+                    placeholder="请选择"
+                    options={[]}
+                    onChange={(value) => this.onSearchChange("person", value)}
+                    allowClear
+                  />
+                </Form.Item>
+              </Col>
+              <Col span={6}>
+                <Form.Item label="物流状态" name="deliveryStatus">
                   <Select
                     placeholder="请选择状态"
-                    options={orderStatusList}
+                    options={[]}
                     onChange={(value) =>
-                      this.onSearchChange("orderStatus", value)
+                      this.onSearchChange("deliveryStatus", value)
                     }
                     allowClear
                   />
                 </Form.Item>
               </Col>
-              <Col span={8}>
-                <Form.Item label="补货单号" name="consumeName">
-                  <Input
+            </Row>
+            <Row>
+              <Col span={6}>
+                <Form.Item label="发货时间" name="time">
+                  {/* <Input
                     placeholder="请输入补货单号"
                     onChange={(e) =>
-                      this.onSearchChange("consumeName", e.target.value)
+                      this.onSearchChange("time", e.target.value)
                     }
+                  /> */}
+                  <RangePicker
+                    format="YYYY-MM-DD"
+                    onChange={(value) => this.onSearchChange("time", value)}
                   />
                 </Form.Item>
               </Col>
@@ -270,13 +300,17 @@ class Replenishment extends React.Component {
               onShowSizeChange: this.changePagination,
             }}
           >
-            <Column title="补货单号" dataIndex="" width={130} />
-            <Column title="库位" dataIndex="" width={130} />
-            <Column title="补货数量" dataIndex="" width={130} />
-            <Column title="申请人" dataIndex="" width={130} />
-            <Column title="部门" dataIndex="" width={130} />
-            <Column title="申请日期" dataIndex="" width={130} />
-            <Column title="状态" dataIndex="" width={130} />
+            <Column
+              title="序号"
+              width={80}
+              render={(value, record, index) => index + 1}
+            />
+            <Column title="快递单号" dataIndex="" width={130} />
+            <Column title="快递公司" dataIndex="" width={150} />
+            <Column title="收货方" dataIndex="" width={150} />
+            <Column title="发货日期" dataIndex="" width={120} />
+            <Column title="发货人" dataIndex="" width={130} />
+            <Column title="物流状态" dataIndex="" width={130} />
             <Column
               title="操作"
               width={150}
@@ -289,15 +323,35 @@ class Replenishment extends React.Component {
               )}
             />
           </Table>
-
           {/* 编辑弹窗 */}
-          {showDetailDialog && (
+          {/* {showDetailDialog && (
             <EditDialog
               title="补货单详情"
               data={{ inventoryList, currentMsg, inventoryPagination }}
               onClosed={() => {
                 dispatch({
-                  type: "replenishmentModel/save",
+                  type: "deliveryManageModel/save",
+                  payload: {
+                    showDetailDialog: false,
+                    inventoryPagination: {
+                      current: 1,
+                      size: 50,
+                      total: 0,
+                    },
+                  },
+                });
+              }}
+              onChange={this.changeListData}
+            />
+          )} */}
+
+          {showDetailDialog && (
+            <DetailDialog
+              title="发货单详情"
+              data={{ inventoryList, currentMsg, inventoryPagination }}
+              onClosed={() => {
+                dispatch({
+                  type: "deliveryManageModel/save",
                   payload: {
                     showDetailDialog: false,
                     inventoryPagination: {
@@ -317,6 +371,6 @@ class Replenishment extends React.Component {
   }
 }
 
-export default connect(({ replenishmentModel }) => ({
-  replenishmentModel,
-}))(Replenishment);
+export default connect(({ deliveryManageModel }) => ({
+  deliveryManageModel,
+}))(DeliveryManage);

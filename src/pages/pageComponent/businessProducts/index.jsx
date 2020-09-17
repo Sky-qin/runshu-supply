@@ -41,8 +41,37 @@ class BusinessProducts extends React.Component {
     this.getTableList();
   };
 
+  filterChange = (value, key) => {
+    const { dispatch } = this.props;
+    const { pagination } = this.props.businessProductsModel;
+    dispatch({
+      type: "businessProductsModel/save",
+      payload: {
+        [key]: value,
+        pagination: {
+          ...pagination,
+          current: 1,
+        },
+      },
+    });
+    this.getTableList();
+  };
+
+  handleClickOpr = (key) => {
+    const { dispatch } = this.props;
+    // if (key === "export") {
+    //   dispatch({ type: "businessProductsModel/exportList" });
+    // }
+  };
+
   render() {
-    const { pagination, data, loading } = this.props.businessProductsModel;
+    const {
+      pagination,
+      data,
+      loading,
+      keyword,
+      isOnsale,
+    } = this.props.businessProductsModel;
     const { current, size, total } = pagination;
     return (
       <ContentWrap loading={loading}>
@@ -51,26 +80,32 @@ class BusinessProducts extends React.Component {
             <>
               <Search
                 placeholder="输入产品名称/编码"
-                onSearch={(value) => this.filterChange(value, "code1")}
+                onSearch={(value) => this.filterChange(value, "keyword")}
                 style={{ width: 260 }}
               />
               <Select
                 placeholder="请选择在售情况"
                 options={[
-                  { value: "1", label: "是" },
-                  { value: "0", label: "否" },
+                  { value: 1, label: "是" },
+                  { value: 0, label: "否" },
                 ]}
                 allowClear
                 style={{ width: 260, marginLeft: 15 }}
-                onChange={(value) => this.filterChange(value, "code2")}
+                onChange={(value) => this.filterChange(value, "isOnsale")}
               />
             </>
           }
           linkList={[
-            { key: "export", label: "导出", icon: <ExportOutlined /> },
+            {
+              key: "export",
+              label: "导出",
+              icon: <ExportOutlined />,
+              params: { keyword, isOnsale },
+              url: "/supply/product/onsale/export",
+            },
           ]}
           total={total}
-          onClick={this.handleClick}
+          onClick={this.handleClickOpr}
         />
         <Table
           bordered
@@ -91,7 +126,14 @@ class BusinessProducts extends React.Component {
             render={(value, rocord, index) => index + 1}
             width={80}
           />
-          <Column title="是否在售" dataIndex="" width={125} />
+          <Column
+            title="是否在售"
+            dataIndex="onsale"
+            width={125}
+            render={(value, record, index) => {
+              return value ? "是" : "否";
+            }}
+          />
           <Column title="产品名称" dataIndex="productName" width={180} />
           <Column title="产品简称" dataIndex="productShortName" width={125} />
           <Column title="产品编码" dataIndex="productCode" width={125} />

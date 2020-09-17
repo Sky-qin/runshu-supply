@@ -14,15 +14,21 @@ export default {
       size: 10,
       total: 0,
     },
+    keyword: "",
   },
 
   effects: {
     *queryProductList({ payload }, { call, put, select }) {
-      const { pagination } = yield select((state) => state.productLibraryModel);
+      const { pagination, keyword } = yield select(
+        (state) => state.productLibraryModel
+      );
       const { current, size } = pagination;
       let params = {
         current,
         size,
+        params: {
+          keyword,
+        },
       };
       yield put({ type: "save", payload: { loading: true } });
       const { data } = yield call(API.queryProductList, params);

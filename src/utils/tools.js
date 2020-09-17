@@ -12,4 +12,16 @@ const transferTree = (data) => {
   return data;
 };
 
-export { transferTree };
+const transferList = (data, value, label) => {
+  let list = [];
+  if (!Array.isArray(data)) {
+    return list;
+  }
+  list = data.map((item) => {
+    return { ...item, value: item[value], label: item[label] };
+  });
+
+  return list;
+};
+
+export { transferTree, transferList };

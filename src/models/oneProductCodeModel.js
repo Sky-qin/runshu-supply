@@ -11,18 +11,24 @@ export default {
       size: 10,
       total: 0,
     },
+    keyword: "",
   },
 
   effects: {
     *getTableList({ payload }, { call, put, select }) {
-      const { pagination } = yield select((state) => state.oneProductCodeModel);
+      const { pagination, keyword } = yield select(
+        (state) => state.oneProductCodeModel
+      );
       const { current, size } = pagination;
       let params = {
         current,
         size,
+        params: {
+          keyword,
+        },
       };
       yield put({ type: "save", payload: { loading: true } });
-      const { data } = yield call(API.onSaleProduct, params);
+      const { data } = yield call(API.oneProductCodeList, params);
       yield put({ type: "save", payload: { loading: false } });
 
       if (data && data.success) {

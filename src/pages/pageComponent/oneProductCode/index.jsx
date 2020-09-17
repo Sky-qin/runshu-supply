@@ -41,14 +41,20 @@ class OneProductCode extends React.Component {
     this.getTableList();
   };
 
-  handleClick = (key) => {
-    if (key === "export") {
-      console.log("导出操作");
-    }
-  };
-
   filterChange = (value, key) => {
-    console.log("ssss", value, key);
+    const { dispatch } = this.props;
+    const { pagination } = this.props.oneProductCodeModel;
+    dispatch({
+      type: "oneProductCodeModel/save",
+      payload: {
+        [key]: value,
+        pagination: {
+          ...pagination,
+          current: 1,
+        },
+      },
+    });
+    this.getTableList();
   };
 
   render() {
@@ -61,16 +67,12 @@ class OneProductCode extends React.Component {
             <>
               <Search
                 placeholder="输入产品名称/编码"
-                onSearch={(value) => this.filterChange(value, "code1")}
+                onSearch={(value) => this.filterChange(value, "keyword")}
                 style={{ width: 260 }}
               />
             </>
           }
-          linkList={[
-            { key: "export", label: "导出", icon: <ExportOutlined /> },
-          ]}
           total={total}
-          onClick={this.handleClick}
         />
         <Table
           bordered
@@ -101,7 +103,7 @@ class OneProductCode extends React.Component {
           <Column title="规格" dataIndex="model" width={120} />
           <Column title="型号" dataIndex="regularModel" width={90} />
           <Column title="单位" dataIndex="unitName" width={80} />
-          <Column title="生产厂家" dataIndex="productVendorName" width={130} />
+          <Column title="生产厂家" dataIndex="vendorName" width={130} />
           <Column title="注册证号" dataIndex="registrationNo" width={120} />
           <Column
             title="生产许可证号"
