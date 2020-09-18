@@ -169,7 +169,7 @@ class Replenishment extends React.Component {
       loading,
       departmentList,
       hospitalList,
-      orderStatusList,
+      replenishStatusList,
     } = this.props.replenishmentModel;
     const { current, size, total } = pagination;
     return (
@@ -212,7 +212,7 @@ class Replenishment extends React.Component {
                 <Form.Item label="状态" name="orderStatus">
                   <Select
                     placeholder="请选择状态"
-                    options={orderStatusList}
+                    options={replenishStatusList}
                     onChange={(value) =>
                       this.onSearchChange("orderStatus", value)
                     }
@@ -254,7 +254,7 @@ class Replenishment extends React.Component {
         </ContentWrap>
         <ContentWrap loading={loading}>
           <OpreationBar
-            buttonList={[{ key: "add", label: "新增", icon: <PlusOutlined /> }]}
+            // buttonList={[{ key: "add", label: "新增", icon: <PlusOutlined /> }]}
             total={total}
           />
           <Table
@@ -271,7 +271,7 @@ class Replenishment extends React.Component {
             }}
           >
             <Column title="补货单号" dataIndex="" width={130} />
-            <Column title="库位" dataIndex="" width={130} />
+            <Column title="仓位" dataIndex="hospitalName" width={130} />
             <Column title="补货数量" dataIndex="" width={130} />
             <Column title="申请人" dataIndex="" width={130} />
             <Column title="部门" dataIndex="" width={130} />

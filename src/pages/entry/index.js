@@ -19,6 +19,8 @@ import BusinessProducts from "../pageComponent/businessProducts";
 import Replenishment from "../pageComponent/replenishment";
 import OneProductCode from "../pageComponent/oneProductCode";
 import DeliveryManage from "../pageComponent/deliveryManage";
+import ShipperManage from "../pageComponent/shipperManage";
+import RecentWarn from "../pageComponent/recentWarn";
 
 import "./index.scss";
 
@@ -87,6 +89,8 @@ class Entry extends React.Component {
               <Route path="/entry/replenishment" component={Replenishment} />
               <Route path="/entry/oneProductCode" component={OneProductCode} />
               <Route path="/entry/deliveryManage" component={DeliveryManage} />
+              <Route path="/entry/shipperManage" component={ShipperManage} />
+              <Route path="/entry/recentWarn" component={RecentWarn} />
             </Switch>
           </div>
         </div>

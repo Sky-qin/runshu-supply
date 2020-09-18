@@ -1,9 +1,10 @@
 import React from "react";
 import { connect } from "dva";
 import styled from "styled-components";
-import { Modal, Button, Table } from "antd";
+import { Modal, Button, Table, Tabs } from "antd";
 
 const { Column } = Table;
+const { TabPane } = Tabs;
 
 const BasicDiv = styled.div`
   padding-left: 20px;
@@ -82,12 +83,84 @@ class EditDialog extends React.Component {
     onChange && typeof onChange === "function" && onChange(current, size);
   };
 
+  changeTab = (value) => {
+    console.log("value", value);
+  };
+
+  renderReplenishList = () => {
+    const { data } = this.props;
+    const { inventoryList, inventoryPagination } = data;
+    return (
+      <Table
+        bordered
+        scroll={{ y: 400 }}
+        dataSource={inventoryList}
+        rowKey="productCode"
+        pagination={{
+          hideOnSinglePage: true,
+          position: ["bottomCenter"],
+          current: inventoryPagination.current,
+          total: inventoryPagination.total || 0,
+          defaultPageSize: inventoryPagination.size,
+          onChange: this.changePagination,
+          showSizeChanger: false,
+        }}
+      >
+        <Column
+          title="序号"
+          render={(value, record, index) => index + 1}
+          width={80}
+        />
+
+        <Column title="产品编号" dataIndex="productCode" width={130} />
+        <Column title="产品名称" dataIndex="productName" width={180} />
+        <Column title="规格" dataIndex="model" width={120} />
+        <Column title="型号" dataIndex="" width={100} />
+        <Column title="单位" dataIndex="unitName" width={80} />
+        <Column title="单价" dataIndex="" width={100} />
+        <Column title="金额" dataIndex="" width={100} />
+        <Column title="补货数量" dataIndex="" width={100} />
+        <Column title="已补数量" dataIndex="" width={100} />
+        <Column title="未补数量" dataIndex="" width={100} />
+        <Column title="摘要" dataIndex="" width={180} />
+      </Table>
+    );
+  };
+
+  renderDeliveryList = () => {
+    const { data } = this.props;
+    const { inventoryList, inventoryPagination } = data;
+    return (
+      <Table
+        bordered
+        scroll={{ y: 400 }}
+        dataSource={inventoryList}
+        pagination={{
+          hideOnSinglePage: true,
+          position: ["bottomCenter"],
+          current: inventoryPagination.current,
+          total: inventoryPagination.total || 0,
+          defaultPageSize: inventoryPagination.size,
+          onChange: this.changePagination,
+          showSizeChanger: false,
+        }}
+      >
+        <Column title="物流单号" dataIndex="productCode" width={130} />
+        <Column title="产品名称" dataIndex="productName" width={180} />
+        <Column title="规格" dataIndex="model" width={120} />
+        <Column title="型号" dataIndex="" width={100} />
+        <Column title="单位" dataIndex="unitName" width={80} />
+        <Column title="单价" dataIndex="" width={100} />
+      </Table>
+    );
+  };
+
   render() {
-    const { title, data } = this.props;
-    const { inventoryList, currentMsg, inventoryPagination } = data;
+    const { data } = this.props;
+    const { currentMsg } = data;
     return (
       <Modal
-        title={title}
+        title="补货单详情"
         visible
         style={{ minWidth: "1000px", maxWidth: "1100px" }}
         onCancel={this.handleCancel}
@@ -101,37 +174,14 @@ class EditDialog extends React.Component {
           <div>申请人：{"SSSS" || ""}</div>
           <div>申请日期：{"SSSS" || ""}</div>
         </BasicDiv>
-        <Table
-          bordered
-          scroll={{ y: 400 }}
-          dataSource={inventoryList}
-          pagination={{
-            position: ["bottomCenter"],
-            current: inventoryPagination.current,
-            total: inventoryPagination.total || 0,
-            pageSize: inventoryPagination.size,
-            onChange: this.changePagination,
-            onShowSizeChange: this.changePagination,
-          }}
-        >
-          <Column
-            title="序号"
-            render={(value, record, index) => index + 1}
-            width={80}
-          />
-
-          <Column title="产品编号" dataIndex="productCode" width={130} />
-          <Column title="产品名称" dataIndex="productName" width={150} />
-          <Column title="规格" dataIndex="model" width={120} />
-          <Column title="型号" dataIndex="" width={100} />
-          <Column title="单位" dataIndex="unitName" width={100} />
-          <Column title="单价" dataIndex="" width={100} />
-          <Column title="金额" dataIndex="" width={100} />
-          <Column title="补货数量" dataIndex="" width={110} />
-          <Column title="已补数量" dataIndex="" width={110} />
-          <Column title="未补数量" dataIndex="" width={110} />
-          <Column title="摘要" dataIndex="" width={150} />
-        </Table>
+        <Tabs defaultActiveKey="replenishList" onChange={this.changeTab}>
+          <TabPane tab="补货清单" key="replenishList">
+            {this.renderReplenishList()}
+          </TabPane>
+          <TabPane tab="发货清单" key="deliveryList">
+            {this.renderDeliveryList()}
+          </TabPane>
+        </Tabs>
       </Modal>
     );
   }

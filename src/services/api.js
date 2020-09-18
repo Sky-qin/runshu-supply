@@ -336,6 +336,87 @@ const API = {
   },
 
   /**
+   * 发件人管理
+   */
+  // 发件人列表
+  getShipperList(params) {
+    return request({
+      url: `${Prefix}/consignor/selectPageConsignor`,
+      method: "post",
+      params,
+    });
+  },
+  // 发件人编辑
+  updateConsignor(params) {
+    return request({
+      url: `${Prefix}/consignor/updateConsignor`,
+      method: "post",
+      params,
+    });
+  },
+  // 新增发件人
+  insertConsignor(params) {
+    return request({
+      url: `${Prefix}/consignor/insertConsignor`,
+      method: "post",
+      params,
+    });
+  },
+  // 新增发件人
+  deleteConsignor(params) {
+    return request({
+      url: `${Prefix}/consignor/deleteConsignor`,
+      method: "post",
+      params,
+    });
+  },
+
+  /**
+   * 预警相关页面
+   */
+
+  // 预警设置列表
+  findProductBySetWarning(params) {
+    return request({
+      url: `${Prefix}/userMessage/findProductBySetWarning`,
+      method: "post",
+      params,
+    });
+  },
+  // 近效期预警信息列表
+  findPeriodWarning(params) {
+    return request({
+      url: `${Prefix}/userMessage/findPeriodWarning`,
+      method: "post",
+      params,
+    });
+  },
+  // 库存预警信息列表
+  findStockWarning(params) {
+    return request({
+      url: `${Prefix}/userMessage/findStockWarning`,
+      method: "post",
+      params,
+    });
+  },
+  // 查看商品
+  findProductByWarning(params) {
+    return request({
+      url: `${Prefix}/userMessage/findProductByWarning`,
+      method: "post",
+      params,
+    });
+  },
+  // 设置预警保存
+  setWarning(params) {
+    return request({
+      url: `${Prefix}/userMessage/setWarning`,
+      method: "post",
+      params,
+    });
+  },
+
+  /**
    * 枚举类即接口
    */
   // 获取当前用户 医院枚举
@@ -430,6 +511,13 @@ const API = {
   queryProductCategory(params) {
     return request({
       url: `${Prefix}/dic/category`,
+      params,
+    });
+  },
+  // 补货单状态枚举
+  replenishStatus(params) {
+    return request({
+      url: `${Prefix}/replenish/getStatus`,
       params,
     });
   },

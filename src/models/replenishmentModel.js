@@ -58,19 +58,6 @@ export default {
         message.error(data.message || "保存失败！");
       }
     },
-    // *storageList({ payload }, { call, put }) {
-    //   const { data } = yield call(API.storageList);
-    //   if (data && data.success) {
-    //     yield put({
-    //       type: "save",
-    //       payload: {
-    //         storageList: data.data || [],
-    //       },
-    //     });
-    //   } else {
-    //     message.error(data.message || "获取库存枚举失败");
-    //   }
-    // },
     *queryInventoryProduct({ payload }, { call, put, select }) {
       const { currentMsg, inventoryPagination } = yield select(
         (state) => state.replenishmentModel

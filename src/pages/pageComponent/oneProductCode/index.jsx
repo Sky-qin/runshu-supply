@@ -1,7 +1,6 @@
 import React from "react";
 import { connect } from "dva";
-import { Table, Input } from "antd";
-import { ExportOutlined } from "@ant-design/icons";
+import { Table, Input, Select } from "antd";
 import ContentWrap from "../../../components/contentWrap";
 import OpreationBar from "../../../components/OpreationBar";
 
@@ -70,13 +69,23 @@ class OneProductCode extends React.Component {
                 onSearch={(value) => this.filterChange(value, "keyword")}
                 style={{ width: 260 }}
               />
+              <Select
+                placeholder="请选择是否消耗"
+                options={[
+                  { value: true, label: "是" },
+                  { value: false, label: "否" },
+                ]}
+                allowClear
+                style={{ width: 260, marginLeft: 15 }}
+                onChange={(value) => this.filterChange(value, "isConsumed")}
+              />
             </>
           }
           total={total}
         />
         <Table
           bordered
-          scroll={{ x: 1850 }}
+          scroll={{ x: 1900 }}
           rowKey={(record, index) => index}
           dataSource={data}
           pagination={{
@@ -91,12 +100,27 @@ class OneProductCode extends React.Component {
           <Column
             title="序号"
             render={(value, record, index) => index + 1}
-            width={65}
+            width={80}
           />
           <Column title="流水号" dataIndex="serialNo" width={120} />
           <Column title="产品名称" dataIndex="productName" width={150} />
           <Column title="产品简称" dataIndex="productShortName" width={120} />
           <Column title="产品编码" dataIndex="productCode" width={120} />
+          <Column
+            title="消耗状态"
+            dataIndex="isConsumed"
+            width={110}
+            render={(value, record, index) => {
+              return value ? "是" : "否";
+            }}
+          />
+          <Column title="消耗日期" dataIndex="consumeDate" width={130} />
+          <Column
+            title="消耗类型"
+            dataIndex="consumeSystemTypeName"
+            width={110}
+          />
+
           <Column title="JDE编码" dataIndex="jdeCode" width={120} />
           <Column title="辽宁阳光采购编码" dataIndex="" width={150} />
           <Column title="吉林阳光采购编码" dataIndex="" width={150} />

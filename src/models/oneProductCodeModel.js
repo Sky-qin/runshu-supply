@@ -12,11 +12,12 @@ export default {
       total: 0,
     },
     keyword: "",
+    isConsumed: null,
   },
 
   effects: {
     *getTableList({ payload }, { call, put, select }) {
-      const { pagination, keyword } = yield select(
+      const { pagination, keyword, isConsumed } = yield select(
         (state) => state.oneProductCodeModel
       );
       const { current, size } = pagination;
@@ -25,6 +26,7 @@ export default {
         size,
         params: {
           keyword,
+          isConsumed,
         },
       };
       yield put({ type: "save", payload: { loading: true } });
