@@ -29,6 +29,9 @@ app.model(require("./models/oneProductCodeModel").default);
 app.model(require("./models/deliveryManageModel").default);
 app.model(require("./models/shipperManageModel").default);
 app.model(require("./models/recentWarnModel").default);
+app.model(require("./models/recentWarnModelInfo").default);
+app.model(require("./models/inventoryWarnModel").default);
+app.model(require("./models/inventoryWarnInfoModel").default);
 
 // 4. Router
 app.router(require("./router").default);

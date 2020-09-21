@@ -416,6 +416,15 @@ const API = {
     });
   },
 
+  // 删除预警设置
+  deleteWarning(params) {
+    return request({
+      url: `${Prefix}/userMessage/deleteWarning`,
+      method: "post",
+      params,
+    });
+  },
+
   /**
    * 枚举类即接口
    */

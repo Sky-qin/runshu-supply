@@ -21,6 +21,9 @@ import OneProductCode from "../pageComponent/oneProductCode";
 import DeliveryManage from "../pageComponent/deliveryManage";
 import ShipperManage from "../pageComponent/shipperManage";
 import RecentWarn from "../pageComponent/recentWarn";
+import RecentWarnInfo from "../pageComponent/recentWarnInfo";
+import InventoryWarnInfo from "../pageComponent/inventoryWarnInfo";
+import InventoryWarn from "../pageComponent/inventoryWarn";
 
 import "./index.scss";
 
@@ -91,6 +94,12 @@ class Entry extends React.Component {
               <Route path="/entry/deliveryManage" component={DeliveryManage} />
               <Route path="/entry/shipperManage" component={ShipperManage} />
               <Route path="/entry/recentWarn" component={RecentWarn} />
+              <Route path="/entry/recentWarnInfo" component={RecentWarnInfo} />
+              <Route
+                path="/entry/inventoryWarnInfo"
+                component={InventoryWarnInfo}
+              />
+              <Route path="/entry/inventoryWarn" component={InventoryWarn} />
             </Switch>
           </div>
         </div>

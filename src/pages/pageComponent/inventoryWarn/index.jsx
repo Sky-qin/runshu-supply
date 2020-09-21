@@ -10,7 +10,7 @@ import "./index.scss";
 const { Column } = Table;
 const { Search } = Input;
 
-class RecentWarn extends React.Component {
+class InventoryWarn extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
@@ -23,7 +23,7 @@ class RecentWarn extends React.Component {
   getTableList = () => {
     const { dispatch } = this.props;
     dispatch({
-      type: "recentWarnModel/getTableList",
+      type: "inventoryWarnModel/getTableList",
     });
   };
 
@@ -31,7 +31,7 @@ class RecentWarn extends React.Component {
     const { dispatch } = this.props;
     if (key === "add") {
       dispatch({
-        type: "recentWarnModel/save",
+        type: "inventoryWarnModel/save",
         payload: {
           showEditDialog: true,
           currentMsg: {},
@@ -45,7 +45,7 @@ class RecentWarn extends React.Component {
   handleEdit = (msg) => {
     const { dispatch } = this.props;
     dispatch({
-      type: "recentWarnModel/save",
+      type: "inventoryWarnModel/save",
       payload: {
         showEditDialog: true,
         dialogTitle: "编辑",
@@ -63,7 +63,7 @@ class RecentWarn extends React.Component {
   handleDelete = (msg) => {
     const { dispatch } = this.props;
     dispatch({
-      type: "recentWarnModel/save",
+      type: "inventoryWarnModel/save",
       payload: {
         deleteDialog: true,
         currentMsg: { ...msg },
@@ -74,17 +74,17 @@ class RecentWarn extends React.Component {
   handleSave = (values) => {
     const { dispatch } = this.props;
     dispatch({
-      type: "recentWarnModel/setWarning",
+      type: "inventoryWarnModel/setWarning",
       payload: { ...values },
     });
     // if (dialogTitle === "编辑") {
     //   dispatch({
-    //     type: "recentWarnModel/setWarning",
+    //     type: "inventoryWarnModel/setWarning",
     //     payload: { ...values },
     //   });
     // } else {
     //   dispatch({
-    //     type: "recentWarnModel/setWarning",
+    //     type: "inventoryWarnModel/setWarning",
     //     payload: { ...values },
     //   });
     // }
@@ -92,9 +92,9 @@ class RecentWarn extends React.Component {
 
   changePagination = (current, size) => {
     const { dispatch } = this.props;
-    const { pagination } = this.props.recentWarnModel;
+    const { pagination } = this.props.inventoryWarnModel;
     dispatch({
-      type: "recentWarnModel/save",
+      type: "inventoryWarnModel/save",
       payload: {
         pagination: {
           ...pagination,
@@ -109,7 +109,7 @@ class RecentWarn extends React.Component {
   handleCloseDeleteDialog = () => {
     const { dispatch } = this.props;
     dispatch({
-      type: "recentWarnModel/save",
+      type: "inventoryWarnModel/save",
       payload: {
         deleteDialog: false,
         dialogBtnLoading: false,
@@ -121,7 +121,7 @@ class RecentWarn extends React.Component {
     const { dispatch } = this.props;
     if (key === "product") {
       dispatch({
-        type: "recentWarnModel/findProductByWarning",
+        type: "inventoryWarnModel/findProductByWarning",
         payload: {
           keyWord: keyword,
         },
@@ -132,7 +132,7 @@ class RecentWarn extends React.Component {
   filterChange = (value, key) => {
     const { dispatch } = this.props;
     dispatch({
-      type: "recentWarnModel/save",
+      type: "inventoryWarnModel/save",
       payload: {
         [key]: value,
       },
@@ -153,7 +153,7 @@ class RecentWarn extends React.Component {
       dialogBtnLoading,
       criticalType,
       productList,
-    } = this.props.recentWarnModel;
+    } = this.props.inventoryWarnModel;
     const { current, size, total } = pagination;
     return (
       <ContentWrap loading={loading}>
@@ -196,7 +196,7 @@ class RecentWarn extends React.Component {
           <Column title="产品名称" dataIndex="productName" />
           <Column title="规格" dataIndex="model" />
           <Column title="生产厂家" dataIndex="productVerdor" />
-          <Column title="效期预警值" dataIndex="periodValue" />
+          <Column title="库存预警值" dataIndex="stockValue" />
           <Column
             title="操作"
             dataIndex="name"
@@ -225,7 +225,7 @@ class RecentWarn extends React.Component {
               loading={dialogBtnLoading}
               onClick={() => {
                 dispatch({
-                  type: "recentWarnModel/deleteWarning",
+                  type: "inventoryWarnModel/deleteWarning",
                 });
               }}
             >
@@ -246,7 +246,7 @@ class RecentWarn extends React.Component {
             onSearch={this.onSearchList}
             onClosed={() => {
               dispatch({
-                type: "recentWarnModel/save",
+                type: "inventoryWarnModel/save",
                 payload: {
                   showEditDialog: false,
                   dialogBtnLoading: false,
@@ -261,6 +261,6 @@ class RecentWarn extends React.Component {
   }
 }
 
-export default connect(({ recentWarnModel }) => ({
-  recentWarnModel,
-}))(RecentWarn);
+export default connect(({ inventoryWarnModel }) => ({
+  inventoryWarnModel,
+}))(InventoryWarn);

@@ -2,7 +2,7 @@ import { message } from "antd";
 import API from "../services/api";
 
 export default {
-  namespace: "recentWarnModel",
+  namespace: "inventoryWarnModel",
   state: {
     showEditDialog: false,
     currentMsg: {},
@@ -16,7 +16,7 @@ export default {
     },
     dialogBtnLoading: false,
     productList: [],
-    type: "2",
+    type: "1",
     criticalType: [
       { value: "30", label: "30天" },
       { value: "60", label: "60天" },
@@ -27,7 +27,7 @@ export default {
   effects: {
     *getTableList({ payload }, { call, put, select }) {
       const { pagination, type, keyWord } = yield select(
-        (state) => state.recentWarnModel
+        (state) => state.inventoryWarnModel
       );
       const { current, size } = pagination;
       let params = {
@@ -62,7 +62,7 @@ export default {
         current: 1,
         size: 20,
         params: {
-          type: "2",
+          type: "1",
           keyWord: payload.keyWord || "",
         },
       };
@@ -86,7 +86,7 @@ export default {
       }
     },
     *setWarning({ payload }, { call, put, select }) {
-      const { type } = yield select((state) => state.recentWarnModel);
+      const { type } = yield select((state) => state.inventoryWarnModel);
       let params = { ...payload, type };
       yield put({ type: "save", payload: { dialogBtnLoading: true } });
       const { data } = yield call(API.setWarning, params);
@@ -101,7 +101,7 @@ export default {
       }
     },
     *updateConsignor({ payload }, { call, put, select }) {
-      const { currentMsg } = yield select((state) => state.recentWarnModel);
+      const { currentMsg } = yield select((state) => state.inventoryWarnModel);
       let params = {
         ...payload,
         id: (currentMsg && currentMsg.id) || null,
@@ -120,7 +120,7 @@ export default {
     },
     *deleteWarning({ payload }, { call, put, select }) {
       const { currentMsg, type } = yield select(
-        (state) => state.recentWarnModel
+        (state) => state.inventoryWarnModel
       );
       let params = {
         id: currentMsg.id,
