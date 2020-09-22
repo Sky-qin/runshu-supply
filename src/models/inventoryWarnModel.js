@@ -72,8 +72,7 @@ export default {
         size: 20,
         params: {
           type: "1",
-          keyWord: payload.keyWord || "",
-          stockId: payload.stockId || null,
+          ...payload,
         },
       };
       const { data } = yield call(API.findProductByWarning, params);
