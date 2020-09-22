@@ -20,6 +20,7 @@ export default {
     criticalType: [
       { value: "30", label: "30天" },
       { value: "60", label: "60天" },
+      { value: "90", label: "90天" },
       { value: "180", label: "180天" },
     ],
   },

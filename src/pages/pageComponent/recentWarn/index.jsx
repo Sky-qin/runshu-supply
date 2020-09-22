@@ -196,7 +196,7 @@ class RecentWarn extends React.Component {
           <Column title="产品名称" dataIndex="productName" />
           <Column title="规格" dataIndex="model" />
           <Column title="生产厂家" dataIndex="productVerdor" />
-          <Column title="效期预警值" dataIndex="periodValue" />
+          <Column title="近效期预警值" dataIndex="periodValue" />
           <Column
             title="操作"
             dataIndex="name"

@@ -17,6 +17,8 @@ class InventoryWarn extends React.Component {
   }
 
   componentDidMount() {
+    const { dispatch } = this.props;
+    dispatch({ type: "inventoryWarnModel/getUserStock" });
     this.getTableList();
   }
 
@@ -77,17 +79,6 @@ class InventoryWarn extends React.Component {
       type: "inventoryWarnModel/setWarning",
       payload: { ...values },
     });
-    // if (dialogTitle === "编辑") {
-    //   dispatch({
-    //     type: "inventoryWarnModel/setWarning",
-    //     payload: { ...values },
-    //   });
-    // } else {
-    //   dispatch({
-    //     type: "inventoryWarnModel/setWarning",
-    //     payload: { ...values },
-    //   });
-    // }
   };
 
   changePagination = (current, size) => {
@@ -117,13 +108,21 @@ class InventoryWarn extends React.Component {
     });
   };
 
-  onSearchList = (keyword, key) => {
+  onSearchList = (obj, key) => {
     const { dispatch } = this.props;
     if (key === "product") {
       dispatch({
         type: "inventoryWarnModel/findProductByWarning",
         payload: {
-          keyWord: keyword,
+          ...obj,
+        },
+      });
+    }
+    if (key === "empty") {
+      dispatch({
+        type: "inventoryWarnModel/save",
+        payload: {
+          productList: [],
         },
       });
     }
@@ -151,8 +150,8 @@ class InventoryWarn extends React.Component {
       data,
       loading,
       dialogBtnLoading,
-      criticalType,
       productList,
+      stockList,
     } = this.props.inventoryWarnModel;
     const { current, size, total } = pagination;
     return (
@@ -194,6 +193,7 @@ class InventoryWarn extends React.Component {
           />
           <Column title="产品编码" dataIndex="productCode" />
           <Column title="产品名称" dataIndex="productName" />
+          <Column title="库位" dataIndex="stockName" />
           <Column title="规格" dataIndex="model" />
           <Column title="生产厂家" dataIndex="productVerdor" />
           <Column title="库存预警值" dataIndex="stockValue" />
@@ -241,7 +241,7 @@ class InventoryWarn extends React.Component {
           <EditDialog
             title={dialogTitle}
             data={currentMsg}
-            sourceList={{ criticalType, productList }}
+            sourceList={{ productList, stockList }}
             loading={dialogBtnLoading}
             onSearch={this.onSearchList}
             onClosed={() => {

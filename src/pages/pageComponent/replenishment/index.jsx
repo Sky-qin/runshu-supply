@@ -9,10 +9,10 @@ import {
   Col,
   Select,
   Button,
-  // TreeSelect,
+  Popconfirm,
 } from "antd";
-import { PlusOutlined } from "@ant-design/icons";
-import EditDialog from "./editDialog";
+import DetailDialog from "./detailDialog";
+import AddDialog from "./addGoods";
 import ContentWrap from "../../../components/contentWrap";
 import OpreationBar from "../../../components/OpreationBar";
 import "./index.scss";
@@ -43,13 +43,16 @@ class Replenishment extends React.Component {
     dispatch({
       type: "replenishmentModel/getHospital",
     });
+    dispatch({
+      type: "replenishmentModel/replenishStatus",
+    });
     this.getTableList();
   }
 
   getTableList = () => {
     const { dispatch } = this.props;
     dispatch({
-      type: "replenishmentModel/queryInventoryList",
+      type: "replenishmentModel/getTableList",
     });
   };
 
@@ -132,11 +135,8 @@ class Replenishment extends React.Component {
       type: "replenishmentModel/save",
       payload: {
         currentMsg: { ...msg },
+        showDetailDialog: true,
       },
-    });
-
-    dispatch({
-      type: "replenishmentModel/queryInventoryProduct",
     });
   };
 
@@ -157,6 +157,50 @@ class Replenishment extends React.Component {
     dispatch({ type: "replenishmentModel/queryInventoryProduct" });
   };
 
+  handleCheck = (msg) => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: "replenishmentModel/replenishSure",
+      payload: {
+        id: msg.id,
+      },
+    });
+  };
+  handleBack = (record) => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: "replenishmentModel/replenishRollBack",
+      payload: {
+        id: record.id,
+      },
+    });
+  };
+
+  handleGetAddInfo = (record) => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: "replenishmentModel/save",
+      payload: {
+        addproductDialog: true,
+      },
+    });
+  };
+
+  changeAddInfo = (msg) => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: "replenishmentModel/save",
+      payload: {
+        ...msg,
+      },
+    });
+  };
+
+  handleSubmit = () => {
+    const { addInfo } = this.props.replenishmentModel;
+    console.log("addInfo", addInfo);
+  };
+
   render() {
     const { dispatch } = this.props;
     const {
@@ -167,9 +211,10 @@ class Replenishment extends React.Component {
       pagination,
       data,
       loading,
-      departmentList,
       hospitalList,
       replenishStatusList,
+      addproductDialog,
+      addInfo,
     } = this.props.replenishmentModel;
     const { current, size, total } = pagination;
     return (
@@ -182,8 +227,8 @@ class Replenishment extends React.Component {
             style={{ marginTop: "24px" }}
           >
             <Row>
-              <Col span={8}>
-                <Form.Item label="仓位" name="hospitalId">
+              <Col span={6}>
+                <Form.Item label="医院" name="hospitalId">
                   <Select
                     onChange={(value) =>
                       this.onSearchChange("hospitalId", value)
@@ -194,21 +239,7 @@ class Replenishment extends React.Component {
                   />
                 </Form.Item>
               </Col>
-              {/* <Col span={6}>
-                <Form.Item label="科室" name="departmentId">
-                  <TreeSelect
-                    filterTreeNode
-                    treeNodeFilterProp="label"
-                    placeholder="请选择科室"
-                    treeData={departmentList}
-                    allowClear
-                    onChange={(value) =>
-                      this.onSearchChange("departmentId", value)
-                    }
-                  />
-                </Form.Item>
-              </Col> */}
-              <Col span={8}>
+              <Col span={6}>
                 <Form.Item label="状态" name="orderStatus">
                   <Select
                     placeholder="请选择状态"
@@ -220,12 +251,12 @@ class Replenishment extends React.Component {
                   />
                 </Form.Item>
               </Col>
-              <Col span={8}>
-                <Form.Item label="补货单号" name="consumeName">
+              <Col span={6}>
+                <Form.Item label="补货单号" name="replenishNumber">
                   <Input
                     placeholder="请输入补货单号"
                     onChange={(e) =>
-                      this.onSearchChange("consumeName", e.target.value)
+                      this.onSearchChange("replenishNumber", e.target.value)
                     }
                   />
                 </Form.Item>
@@ -253,14 +284,11 @@ class Replenishment extends React.Component {
           </Form>
         </ContentWrap>
         <ContentWrap loading={loading}>
-          <OpreationBar
-            // buttonList={[{ key: "add", label: "新增", icon: <PlusOutlined /> }]}
-            total={total}
-          />
+          <OpreationBar total={total} />
           <Table
             bordered
             rowKey={(record, index) => index}
-            dataSource={data}
+            dataSource={[{ orderStatus: 2 }]}
             pagination={{
               position: ["bottomCenter"],
               current: current,
@@ -270,20 +298,49 @@ class Replenishment extends React.Component {
               onShowSizeChange: this.changePagination,
             }}
           >
-            <Column title="补货单号" dataIndex="" width={130} />
-            <Column title="仓位" dataIndex="hospitalName" width={130} />
-            <Column title="补货数量" dataIndex="" width={130} />
-            <Column title="申请人" dataIndex="" width={130} />
-            <Column title="部门" dataIndex="" width={130} />
-            <Column title="申请日期" dataIndex="" width={130} />
-            <Column title="状态" dataIndex="" width={130} />
+            <Column title="补货单号" dataIndex="replenishNumber" width={130} />
+            <Column title="医院" dataIndex="hospitalName" width={130} />
+            <Column title="补货数量" dataIndex="replenishNum" width={130} />
+            <Column title="申请人" dataIndex="userName" width={130} />
+            <Column title="部门" dataIndex="departmentName" width={130} />
+            <Column title="申请日期" dataIndex="createTime" width={130} />
+            <Column title="状态" dataIndex="orderStatusStr" width={130} />
             <Column
               title="操作"
               width={150}
               lock="right"
               render={(value, record, index) => (
                 <Space size="middle">
-                  <a onClick={() => this.handleShowDetail(record)}>状态</a>
+                  {record.orderStatus && record.orderStatus === 1 && (
+                    <Popconfirm
+                      title="您是要确定该补货单吗？"
+                      onConfirm={() => this.handleCheck(record)}
+                      okText="确定"
+                      cancelText="取消"
+                    >
+                      <a href="#">确定</a>
+                    </Popconfirm>
+                  )}
+                  {record.orderStatus && record.orderStatus === 2 && (
+                    <a onClick={() => this.handleGetAddInfo(record)}>去发货</a>
+                  )}
+                  {record.orderStatus && record.orderStatus === 2 && (
+                    <Popconfirm
+                      title="您是要撤销这个补货单吗？"
+                      onConfirm={() => this.handleBack(record)}
+                      okText="确定"
+                      cancelText="取消"
+                    >
+                      <a href="#">撤销确定</a>
+                    </Popconfirm>
+                  )}
+
+                  {record.orderStatus && record.orderStatus === 4 && (
+                    <a onClick={() => this.handleGetAddInfo(record)}>
+                      继续发货
+                    </a>
+                  )}
+
                   <a onClick={() => this.handleShowDetail(record)}>查看详情</a>
                 </Space>
               )}
@@ -292,7 +349,7 @@ class Replenishment extends React.Component {
 
           {/* 编辑弹窗 */}
           {showDetailDialog && (
-            <EditDialog
+            <DetailDialog
               title="补货单详情"
               data={{ inventoryList, currentMsg, inventoryPagination }}
               onClosed={() => {
@@ -309,6 +366,23 @@ class Replenishment extends React.Component {
                 });
               }}
               onChange={this.changeListData}
+            />
+          )}
+          {/* 发货单 */}
+
+          {addproductDialog && (
+            <AddDialog
+              onChange={this.changeAddInfo}
+              onSubmit={this.handleSubmit}
+              data={{ addInfo }}
+              onClosed={() => {
+                dispatch({
+                  type: "replenishmentModel/save",
+                  payload: {
+                    addproductDialog: false,
+                  },
+                });
+              }}
             />
           )}
         </ContentWrap>

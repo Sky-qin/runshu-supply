@@ -426,6 +426,35 @@ const API = {
   },
 
   /**
+   * 补货单管理
+   */
+
+  // 补货单列表
+  replenishList(params) {
+    return request({
+      url: `${Prefix}/replenish/selectReplenishOrderList`,
+      method: "post",
+      params,
+    });
+  },
+  // 确定补货单
+  replenishSure(params) {
+    return request({
+      url: `${Prefix}/replenish/sure`,
+      method: "post",
+      params,
+    });
+  },
+  // 撤销补货单
+  replenishRollBack(params) {
+    return request({
+      url: `${Prefix}/replenish/rollBack`,
+      method: "post",
+      params,
+    });
+  },
+
+  /**
    * 枚举类即接口
    */
   // 获取当前用户 医院枚举
@@ -441,6 +470,14 @@ const API = {
   getAllHospital(params) {
     return request({
       url: `${Prefix}/user/queryHospital`,
+      params,
+    });
+  },
+
+  // h获取医院枚举
+  replenishHospitals(params) {
+    return request({
+      url: `${Prefix}/replenish/getHospitals`,
       params,
     });
   },
@@ -527,6 +564,13 @@ const API = {
   replenishStatus(params) {
     return request({
       url: `${Prefix}/replenish/getStatus`,
+      params,
+    });
+  },
+  // 获取用户库位信息
+  getUserStock(params) {
+    return request({
+      url: `${Prefix}/userMessage/getStock`,
       params,
     });
   },

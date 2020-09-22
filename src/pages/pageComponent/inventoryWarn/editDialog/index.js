@@ -43,12 +43,34 @@ class EditDialog extends React.Component {
 
   handleSearchProduct = (keyword, key) => {
     const { onSearch } = this.props;
-    onSearch && typeof onSearch === "function" && onSearch(keyword, key);
+    let { current: searchForm } = this.departmentRef;
+    let stockId = searchForm.getFieldValue("stockId");
+    onSearch &&
+      typeof onSearch === "function" &&
+      onSearch({ keyword, stockId }, key);
+  };
+
+  changeStock = (value) => {
+    const { onSearch } = this.props;
+    let { current: searchForm } = this.departmentRef;
+
+    if (value) {
+      onSearch &&
+        typeof onSearch === "function" &&
+        onSearch({ keyword: "", stockId: value }, "product");
+    } else {
+      searchForm.setFieldsValue({
+        productCode: null,
+      });
+      onSearch &&
+        typeof onSearch === "function" &&
+        onSearch({ keyword: "", stockId: value }, "empty");
+    }
   };
 
   render() {
     const { title, data, loading, sourceList } = this.props;
-    const { criticalType, productList } = sourceList;
+    const { productList, stockList } = sourceList;
     return (
       <Modal
         title={title || "编辑"}
@@ -76,8 +98,25 @@ class EditDialog extends React.Component {
           initialValues={{
             productCode: data.productCode,
             value: data.stockValue,
+            stockId: data.stockId,
           }}
         >
+          <Form.Item
+            name="stockId"
+            label="选择库位"
+            rules={[{ required: true }]}
+          >
+            <Select
+              showSearch
+              showArrow={false}
+              filterOption={false}
+              options={stockList}
+              placeholder="请选择库位"
+              onChange={this.changeStock}
+              allowClear
+              disabled={title === "编辑" ? true : false}
+            />
+          </Form.Item>
           <Form.Item
             name="productCode"
             label="选择产品"

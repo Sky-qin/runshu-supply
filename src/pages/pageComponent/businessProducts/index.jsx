@@ -57,13 +57,6 @@ class BusinessProducts extends React.Component {
     this.getTableList();
   };
 
-  handleClickOpr = (key) => {
-    const { dispatch } = this.props;
-    // if (key === "export") {
-    //   dispatch({ type: "businessProductsModel/exportList" });
-    // }
-  };
-
   render() {
     const {
       pagination,
@@ -105,7 +98,6 @@ class BusinessProducts extends React.Component {
             },
           ]}
           total={total}
-          onClick={this.handleClickOpr}
         />
         <Table
           bordered

@@ -5,9 +5,9 @@ export default {
   namespace: "replenishmentModel",
   state: {
     showDetailDialog: false,
+    addDialog: false,
     currentMsg: {},
     data: [],
-    dialogTitle: "编辑",
     loading: false,
     pagination: {
       current: 1,
@@ -21,14 +21,18 @@ export default {
       total: 0,
     },
     hospitalList: [],
-    departmentList: [],
-    orderStatusList: [],
-    searchParams: {},
+    replenishStatusList: [],
+    searchParams: {
+      hospitalId: null,
+      orderStatus: null,
+      replenishNumber: null,
+    },
+    addInfo: {},
   },
 
   effects: {
-    *queryInventoryList({ payload }, { call, put, select }) {
-      const { pagination, stockId } = yield select(
+    *getTableList({ payload }, { call, put, select }) {
+      const { pagination, searchParams } = yield select(
         (state) => state.replenishmentModel
       );
       const { current, size } = pagination;
@@ -36,11 +40,11 @@ export default {
         current,
         size,
         params: {
-          stockId,
+          ...searchParams,
         },
       };
       yield put({ type: "save", payload: { loading: true } });
-      const { data } = yield call(API.queryInventoryList, params);
+      const { data } = yield call(API.replenishList, params);
       yield put({ type: "save", payload: { loading: false } });
 
       if (data && data.success) {
@@ -58,37 +62,9 @@ export default {
         message.error(data.message || "保存失败！");
       }
     },
-    *queryInventoryProduct({ payload }, { call, put, select }) {
-      const { currentMsg, inventoryPagination } = yield select(
-        (state) => state.replenishmentModel
-      );
-      const params = {
-        current: inventoryPagination.current,
-        size: inventoryPagination.size,
-        params: {
-          productCode: currentMsg.productCode,
-          stockId: currentMsg.stockId,
-        },
-      };
-      const { data } = yield call(API.queryInventoryProduct, params);
-      if (data && data.success) {
-        yield put({
-          type: "save",
-          payload: {
-            showDetailDialog: true,
-            inventoryPagination: {
-              ...inventoryPagination,
-              total: (data.data && data.data.total) || 0,
-            },
-            inventoryList: (data.data && data.data.records) || [],
-          },
-        });
-      } else {
-        message.error(data.message || "获取库存枚举失败");
-      }
-    },
+
     *getHospital({ payload }, { call, put, select }) {
-      const { data } = yield call(API.getHospital);
+      const { data } = yield call(API.replenishHospitals);
       if (data && data.success) {
         yield put({
           type: "save",
@@ -100,24 +76,35 @@ export default {
         message.error(data.message || "获取医院枚举失败！");
       }
     },
-    *getDePartmentByHsp({ payload }, { call, put, select }) {
-      const { data } = yield call(API.getDePartmentByHsp, payload);
+    *replenishStatus({ payload }, { call, put, select }) {
+      const { data } = yield call(API.replenishStatus, payload);
       if (data && data.success) {
-        let departmentList = (data.data || []).map((item) => {
-          const { children } = item;
-          if (children && children.length > 0) {
-            return { ...item, selectable: false };
-          }
-          return item;
-        });
         yield put({
           type: "save",
           payload: {
-            departmentList,
+            replenishStatusList: data.data || [],
           },
         });
       } else {
-        message.error(data.message || "获取医院下科室失败");
+        message.error(data.message || "获取补货单状态失败");
+      }
+    },
+    *replenishSure({ payload }, { call, put }) {
+      const { data } = yield call(API.replenishSure, payload);
+      if (data && data.success) {
+        message.success("确认成功！");
+        yield put({ type: "getTableList" });
+      } else {
+        message.error(data.message || "确认失败，请重试！");
+      }
+    },
+    *replenishRollBack({ payload }, { call, put }) {
+      const { data } = yield call(API.replenishRollBack, payload);
+      if (data && data.success) {
+        message.success("撤销成功！");
+        yield put({ type: "getTableList" });
+      } else {
+        message.error(data.message || "撤销失败，请重试！");
       }
     },
   },

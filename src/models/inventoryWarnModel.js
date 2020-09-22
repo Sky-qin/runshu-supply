@@ -17,11 +17,7 @@ export default {
     dialogBtnLoading: false,
     productList: [],
     type: "1",
-    criticalType: [
-      { value: "30", label: "30天" },
-      { value: "60", label: "60天" },
-      { value: "180", label: "180天" },
-    ],
+    stockList: [],
   },
 
   effects: {
@@ -57,6 +53,19 @@ export default {
         message.error(data.message || "查询预警失败");
       }
     },
+    *getUserStock({ payload }, { call, put, select }) {
+      const { data } = yield call(API.getUserStock);
+      if (data && data.success) {
+        yield put({
+          type: "save",
+          payload: {
+            stockList: data.data || [],
+          },
+        });
+      } else {
+        message.error(data.message || "获取库位信息错误");
+      }
+    },
     *findProductByWarning({ payload }, { call, put, select }) {
       const params = {
         current: 1,
@@ -64,6 +73,7 @@ export default {
         params: {
           type: "1",
           keyWord: payload.keyWord || "",
+          stockId: payload.stockId || null,
         },
       };
       const { data } = yield call(API.findProductByWarning, params);

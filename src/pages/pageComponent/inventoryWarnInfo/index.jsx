@@ -2,7 +2,6 @@ import React from "react";
 import { connect } from "dva";
 import { Table, Input } from "antd";
 import styled from "styled-components";
-
 import ContentWrap from "../../../components/contentWrap";
 import OpreationBar from "../../../components/OpreationBar";
 
@@ -61,18 +60,7 @@ class InventoryWarnInfo extends React.Component {
     const { current, size, total } = pagination;
     return (
       <ContentWrap loading={loading}>
-        <OpreationBar
-          // custom={
-          //   <>
-          //     <Search
-          //       placeholder="输入产品名称/编码"
-          //       onSearch={(value) => this.filterChange(value, "keyWord")}
-          //       style={{ width: 260 }}
-          //     />
-          //   </>
-          // }
-          total={total}
-        />
+        <OpreationBar total={total} />
         <Table
           bordered
           rowKey={(record, index) => index}
@@ -93,6 +81,7 @@ class InventoryWarnInfo extends React.Component {
           />
           <Column title="产品编码" dataIndex="productCode" />
           <Column title="产品名称" dataIndex="productName" />
+          <Column title="库位" dataIndex="stockName" />
           <Column title="规格" dataIndex="model" />
           <Column title="生产厂家" dataIndex="vendorName" />
           <Column title="预警值" dataIndex="stockValue" />
