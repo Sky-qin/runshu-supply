@@ -1,12 +1,11 @@
 import React from "react";
 import { connect } from "dva";
-import { Table, Input } from "antd";
+import { Table } from "antd";
 import styled from "styled-components";
 import ContentWrap from "../../../components/contentWrap";
 import OpreationBar from "../../../components/OpreationBar";
 
 const { Column } = Table;
-const { Search } = Input;
 const WrapSpan = styled.span`
   color: red;
 `;

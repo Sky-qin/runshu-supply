@@ -3,6 +3,7 @@ import { connect } from "dva";
 import { Space, Table, Select, Input, InputNumber } from "antd";
 import EditDialog from "./editDialog";
 import ContentWrap from "../../../components/contentWrap";
+import TotalBoard from "../../../components/TotalBoard";
 import OpreationBar from "../../../components/OpreationBar";
 import "./index.scss";
 
@@ -108,99 +109,104 @@ class Inventory extends React.Component {
     } = this.props.inventory;
     const { current, size, total } = pagination;
     return (
-      <ContentWrap loading={loading}>
-        <OpreationBar
-          custom={
-            <>
-              <Search
-                placeholder="输入产品名称/编码"
-                onSearch={(value) => this.onChangeFilter(value, "keyword")}
-                style={{ width: 260 }}
-              />
-              <InputNumber
-                placeholder="请输入有效期"
-                style={{ width: 260, marginLeft: 15 }}
-                onChange={(value) => this.onChangeFilter(value, "validPeriod")}
-                onPressEnter={this.getTableList}
-              />
-              <Select
-                optionFilterProp="label"
-                showSearch
-                allowClear={true}
-                onChange={(value) => this.onChangeFilter(value, "stockId")}
-                style={{ width: 260, marginLeft: 15 }}
-                options={storageList}
-                placeholder="请选择库位"
-              />
-              <Select
-                showSearch
-                allowClear={true}
-                onChange={(value) =>
-                  this.onChangeFilter(value, "productCategory")
-                }
-                style={{ width: 260, marginLeft: 15 }}
-                options={productCategoryList}
-                placeholder="请选择产品类型"
-              />
-            </>
-          }
-          total={total}
-        />
-        <Table
-          bordered
-          rowKey={(record, index) => index}
-          dataSource={data}
-          pagination={{
-            position: ["bottomCenter"],
-            current: current,
-            total: total || 0,
-            pageSize: size,
-            onChange: this.changePagination,
-            onShowSizeChange: this.changePagination,
-          }}
-        >
-          <Column title="产品编号" dataIndex="productCode" />
-          <Column title="产品名称" dataIndex="productName" />
-          <Column title="产品类别" dataIndex="productCategory" />
-          <Column title="规格" dataIndex="model" />
-          <Column title="型号" dataIndex="regularModel" />
-          <Column title="单位" dataIndex="unitName" />
-          <Column title="库存数量" dataIndex="stockAmount" />
-          <Column title="生产厂家" dataIndex="vendorName" />
-          <Column title="库位" dataIndex="stockName" />
-          <Column
-            title="操作"
-            dataIndex="name"
-            width={200}
-            render={(value, record, index) => (
-              <Space size="middle">
-                <a onClick={() => this.handleShowDetail(record)}>查看详情</a>
-              </Space>
-            )}
+      <>
+        <TotalBoard />
+        <ContentWrap loading={loading}>
+          <OpreationBar
+            custom={
+              <>
+                <Search
+                  placeholder="输入产品名称/编码"
+                  onSearch={(value) => this.onChangeFilter(value, "keyword")}
+                  style={{ width: 260 }}
+                />
+                <InputNumber
+                  placeholder="请输入有效期"
+                  style={{ width: 260, marginLeft: 15 }}
+                  onChange={(value) =>
+                    this.onChangeFilter(value, "validPeriod")
+                  }
+                  onPressEnter={this.getTableList}
+                />
+                <Select
+                  optionFilterProp="label"
+                  showSearch
+                  allowClear={true}
+                  onChange={(value) => this.onChangeFilter(value, "stockId")}
+                  style={{ width: 260, marginLeft: 15 }}
+                  options={storageList}
+                  placeholder="请选择库位"
+                />
+                <Select
+                  showSearch
+                  allowClear={true}
+                  onChange={(value) =>
+                    this.onChangeFilter(value, "productCategory")
+                  }
+                  style={{ width: 260, marginLeft: 15 }}
+                  options={productCategoryList}
+                  placeholder="请选择产品类型"
+                />
+              </>
+            }
+            total={total}
           />
-        </Table>
-        {/* 编辑弹窗 */}
-        {showDetailDialog && (
-          <EditDialog
-            title="库存详情"
-            data={{ inventoryList, currentMsg, inventoryPagination }}
-            onClosed={() => {
-              dispatch({
-                type: "inventory/save",
-                payload: {
-                  showDetailDialog: false,
-                  inventoryPagination: {
-                    current: 1,
-                    size: 50,
-                    total: 0,
-                  },
-                },
-              });
+          <Table
+            bordered
+            rowKey={(record, index) => index}
+            dataSource={data}
+            pagination={{
+              position: ["bottomCenter"],
+              current: current,
+              total: total || 0,
+              pageSize: size,
+              onChange: this.changePagination,
+              onShowSizeChange: this.changePagination,
             }}
-            onChange={this.changeListData}
-          />
-        )}
-      </ContentWrap>
+          >
+            <Column title="产品编号" dataIndex="productCode" />
+            <Column title="产品名称" dataIndex="productName" />
+            <Column title="产品类别" dataIndex="productCategory" />
+            <Column title="规格" dataIndex="model" />
+            <Column title="型号" dataIndex="regularModel" />
+            <Column title="单位" dataIndex="unitName" />
+            <Column title="库存数量" dataIndex="stockAmount" />
+            <Column title="生产厂家" dataIndex="vendorName" />
+            <Column title="库位" dataIndex="stockName" />
+            <Column
+              title="操作"
+              dataIndex="name"
+              width={200}
+              render={(value, record, index) => (
+                <Space size="middle">
+                  <a onClick={() => this.handleShowDetail(record)}>查看详情</a>
+                </Space>
+              )}
+            />
+          </Table>
+          {/* 编辑弹窗 */}
+          {showDetailDialog && (
+            <EditDialog
+              title="库存详情"
+              data={{ inventoryList, currentMsg, inventoryPagination }}
+              onClosed={() => {
+                dispatch({
+                  type: "inventory/save",
+                  payload: {
+                    showDetailDialog: false,
+                    inventoryPagination: {
+                      current: 1,
+                      size: 50,
+                      total: 0,
+                    },
+                  },
+                });
+              }}
+              onChange={this.changeListData}
+            />
+          )}
+        </ContentWrap>
+      </>
     );
   }
 }

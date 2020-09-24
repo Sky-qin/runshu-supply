@@ -454,6 +454,108 @@ const API = {
     });
   },
 
+  // 去发货获取基本信息
+  getSendBsicInfo(params) {
+    return request({
+      url: `${Prefix}/sendOrder/sendListShow`,
+      params,
+    });
+  },
+
+  // 扫码添加或手动添加
+  addGoods(params) {
+    return request({
+      url: `${Prefix}/sendOrder/scanCodeSendOrder`,
+      method: "post",
+      params,
+    });
+  },
+
+  // 删除商品
+  deleteGoods(params) {
+    return request({
+      url: `${Prefix}/sendOrder/deleteSendOrder`,
+      method: "post",
+      params,
+    });
+  },
+
+  // 根据发货人员查手机号
+  getMobileById(params) {
+    return request({
+      url: `${Prefix}/consignor/selectMobileById`,
+      params,
+    });
+  },
+
+  // 提交发货单
+  sendOrderSubmit(params) {
+    return request({
+      url: `${Prefix}/sendOrder/sendOrderSubmit`,
+      method: "post",
+      params,
+    });
+  },
+
+  // 发货详情
+  getSendOrderInfo(params) {
+    return request({
+      url: `${Prefix}/replenish/sendOrderInfo`,
+      params,
+    });
+  },
+
+  /**
+   * 发货管理
+   */
+  // 发货列表
+  getSendOrderList(params) {
+    return request({
+      url: `${Prefix}/sendOrder/selectSendOrderList`,
+      method: "post",
+      params,
+    });
+  },
+  // 查看物流信息
+  getDeliveryInfo(params) {
+    return request({
+      url: `${Prefix}/replenish/selectDeliveryInfo`,
+      method: "post",
+      params,
+    });
+  },
+
+  // 补货单详情
+  querySendOrderDetail(params) {
+    return request({
+      url: `${Prefix}/sendOrder/querySendOrderDetail`,
+      params,
+    });
+  },
+  // 查看可发货的补货单
+  getReplenishList(params) {
+    return request({
+      url: `${Prefix}/sendOrder/querySendOrderBefore`,
+      params,
+    });
+  },
+  // 查看补货单详情
+  queryReplenishProductDetail(params) {
+    return request({
+      url: `${Prefix}/sendOrder/queryReplenishProductDetail`,
+      params,
+    });
+  },
+
+  // 编辑物流信息
+  updateDeliveryInfo(params) {
+    return request({
+      url: `${Prefix}/sendOrder/editSendOrder`,
+      method: "post",
+      params,
+    });
+  },
+
   /**
    * 枚举类即接口
    */
@@ -571,6 +673,20 @@ const API = {
   getUserStock(params) {
     return request({
       url: `${Prefix}/userMessage/getStock`,
+      params,
+    });
+  },
+  // 发货人枚举
+  getSendPersonList(params) {
+    return request({
+      url: `${Prefix}/consignor/selectSendPerson`,
+      params,
+    });
+  },
+  // 物流状态枚举
+  getDeliveryStatus(params) {
+    return request({
+      url: `${Prefix}/sendOrder/getDeliveryStatus`,
       params,
     });
   },

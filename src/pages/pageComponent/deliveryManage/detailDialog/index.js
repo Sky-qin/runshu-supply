@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "dva";
 import styled from "styled-components";
-import { Modal, Button, Table } from "antd";
+import { Modal, Table, Space } from "antd";
 
 const { Column } = Table;
 
@@ -13,10 +13,6 @@ const BasicDiv = styled.div`
     margin-right: 20px;
     line-height: 48px;
   }
-`;
-
-const BasicName = styled.div`
-  padding-left: 20px;
 `;
 
 class EditDialog extends React.Component {
@@ -45,46 +41,14 @@ class EditDialog extends React.Component {
     });
   };
 
-  renderFooter = (msg) => {
-    const { orderStatus } = msg;
-    let list = [];
-    if (orderStatus === 0) {
-      list.push();
-      list = [
-        <Button key="cancel" onClick={() => this.handleEdit(msg, "驳回", "2")}>
-          驳回
-        </Button>,
-        <Button
-          key="ok"
-          type="primary"
-          onClick={() => this.handleEdit(msg, "确定", "1")}
-        >
-          确定
-        </Button>,
-      ];
-    }
-    if (orderStatus === 4) {
-      list = [
-        <Button
-          key="ok"
-          type="primary"
-          onClick={() => this.handleEdit(msg, "确认撤销", "5")}
-        >
-          确认撤销
-        </Button>,
-      ];
-    }
-    return list;
-  };
-
-  changePagination = (current, size) => {
+  getDetail = (record) => {
     const { onChange } = this.props;
-    onChange && typeof onChange === "function" && onChange(current, size);
+    onChange && typeof onChange === "function" && onChange(record);
   };
 
   render() {
     const { title, data } = this.props;
-    const { inventoryList, currentMsg, inventoryPagination } = data;
+    const { productList, basicInfo } = data;
     return (
       <Modal
         title={title}
@@ -95,42 +59,48 @@ class EditDialog extends React.Component {
         footer={false}
       >
         <BasicDiv>
-          <div>订单编号：{currentMsg.productCode || ""}</div>
-          <div>库位：{"SSSS" || ""}</div>
-          <div>科室：{"SSSSS" || ""}</div>
-          <div>申请人：{"SSSS" || ""}</div>
-          <div>申请日期：{"SSSS" || ""}</div>
+          <div>发货单号：{basicInfo.sendOrder || ""}</div>
+          <div>日期：{basicInfo.sendOrderTime || ""}</div>
+          <div>调出仓库：{basicInfo.outStock || ""}</div>
+          <div>调入仓库：{basicInfo.inStock || ""}</div>
+          <div>调拨类型：{basicInfo.allotType || ""}</div>
+          <div>快递单号：{basicInfo.expNo || ""}</div>
+          <div>发货人：{basicInfo.sendOrderPerson || ""}</div>
+          <div>手机号：{basicInfo.sendOrderPhone || ""}</div>
+          <div>摘要：{basicInfo.orderDesc || ""}</div>
         </BasicDiv>
         <Table
           bordered
           scroll={{ y: 400 }}
-          dataSource={inventoryList}
-          pagination={{
-            position: ["bottomCenter"],
-            current: inventoryPagination.current,
-            total: inventoryPagination.total || 0,
-            pageSize: inventoryPagination.size,
-            onChange: this.changePagination,
-            onShowSizeChange: this.changePagination,
-          }}
+          dataSource={productList}
+          pagination={false}
+          rowKey="serialNo"
         >
           <Column
             title="序号"
             render={(value, record, index) => index + 1}
             width={80}
           />
-
+          <Column title="流水号" dataIndex="serialNo" width={110} />
           <Column title="产品编号" dataIndex="productCode" width={130} />
-          <Column title="产品名称" dataIndex="productName" width={150} />
-          <Column title="规格" dataIndex="model" width={120} />
-          <Column title="型号" dataIndex="" width={100} />
-          <Column title="单位" dataIndex="unitName" width={100} />
-          <Column title="单价" dataIndex="" width={100} />
-          <Column title="金额" dataIndex="" width={100} />
-          <Column title="补货数量" dataIndex="" width={110} />
-          <Column title="已补数量" dataIndex="" width={110} />
-          <Column title="未补数量" dataIndex="" width={110} />
-          <Column title="摘要" dataIndex="" width={150} />
+          <Column title="产品名称" dataIndex="productName" width={220} />
+          <Column title="规格" dataIndex="model" width={130} />
+          <Column title="型号" dataIndex="regModel" width={100} />
+          <Column title="单位" dataIndex="unit" width={90} />
+          <Column title="单价" dataIndex="productPrice" width={90} />
+          <Column
+            title="补货单号"
+            dataIndex="replenishNumber"
+            width={120}
+            fixed="right"
+            render={(value, record, index) => {
+              return (
+                <Space size="middle">
+                  <a onClick={() => this.getDetail(record)}>{value}</a>
+                </Space>
+              );
+            }}
+          />
         </Table>
       </Modal>
     );

@@ -65,7 +65,7 @@ class OneProductCode extends React.Component {
           custom={
             <>
               <Search
-                placeholder="输入产品名称/编码"
+                placeholder="输入产品名称/编码/流水号"
                 onSearch={(value) => this.filterChange(value, "keyword")}
                 style={{ width: 260 }}
               />

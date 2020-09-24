@@ -167,7 +167,7 @@ class MenuConfig extends React.Component {
           ]}
           maskClosable={false}
         >
-          你确定要删除 {currentMsg.name} 这个科室吗？
+          你确定要删除 {currentMsg.name} 这个菜单吗？
         </Modal>
         {/* 编辑弹窗 */}
         {showEditDialog && (

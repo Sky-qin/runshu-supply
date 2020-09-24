@@ -12,8 +12,12 @@ import {
   DatePicker,
 } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
-import EditDialog from "./editDialog";
+import AddDialog from "./addDialog";
 import DetailDialog from "./detailDialog";
+import DeliveryDialog from "./deliveryDialog";
+import ReplenishmentDetail from "./replenishmentDetail";
+import EditDeliveryDialog from "./editDeliveryDialog";
+import SubmitSendGoods from "../../../components/submitSendGoods";
 import OpreationBar from "../../../components/OpreationBar";
 import ContentWrap from "../../../components/contentWrap";
 import "./index.scss";
@@ -42,16 +46,16 @@ class DeliveryManage extends React.Component {
 
   componentDidMount() {
     const { dispatch } = this.props;
-    dispatch({
-      type: "deliveryManageModel/getHospital",
-    });
+    dispatch({ type: "deliveryManageModel/getHospital" });
+    dispatch({ type: "deliveryManageModel/getDeliveryStatus" });
+    dispatch({ type: "deliveryManageModel/getSendPersonList" });
     this.getTableList();
   }
 
   getTableList = () => {
     const { dispatch } = this.props;
     dispatch({
-      type: "deliveryManageModel/queryInventoryList",
+      type: "deliveryManageModel/getTableList",
     });
   };
 
@@ -73,31 +77,8 @@ class DeliveryManage extends React.Component {
 
   onSearchChange = (key, value) => {
     const { dispatch } = this.props;
-    let { current: searchForm } = this.searchRef;
     const { searchParams, pagination } = this.props.deliveryManageModel;
     let tmpParams = { searchParams: { ...searchParams, [key]: value } };
-    // 获取科室
-    if (key === "hospitalId") {
-      tmpParams = {
-        searchParams: { ...tmpParams.searchParams, departmentId: null },
-      };
-      searchForm.setFieldsValue({
-        departmentId: null,
-      });
-      if (value) {
-        dispatch({
-          type: "deliveryManageModel/getDePartmentByHsp",
-          payload: {
-            id: value,
-          },
-        });
-      } else {
-        tmpParams = {
-          ...tmpParams,
-          departmentList: [],
-        };
-      }
-    }
     dispatch({
       type: "deliveryManageModel/save",
       payload: {
@@ -110,8 +91,7 @@ class DeliveryManage extends React.Component {
     });
   };
 
-  onFinish = (values) => {
-    console.log("values", values);
+  onFinish = () => {
     this.getTableList();
   };
 
@@ -129,21 +109,49 @@ class DeliveryManage extends React.Component {
     this.getTableList();
   };
 
+  handleEditDelivery = (record) => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: "deliveryManageModel/save",
+      payload: {
+        currentMsg: { ...record },
+        showEditDeliveryDialog: true,
+      },
+    });
+  };
+
+  handleShowDelivery = (record) => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: "deliveryManageModel/save",
+      payload: {
+        showDeliveryDialog: true,
+      },
+    });
+    dispatch({
+      type: "deliveryManageModel/getDeliveryInfo",
+      payload: {
+        deliveryId: record.deliveryId,
+      },
+    });
+  };
+
   handleShowDetail = (msg) => {
     const { dispatch } = this.props;
     dispatch({
       type: "deliveryManageModel/save",
       payload: {
         currentMsg: { ...msg },
+        showDetailDialog: true,
       },
     });
 
     dispatch({
-      type: "deliveryManageModel/queryInventoryProduct",
+      type: "deliveryManageModel/querySendOrderDetail",
     });
   };
 
-  changeListData = (current, size) => {
+  changeListData = (current, size, hospitalId) => {
     const { dispatch } = this.props;
     const { inventoryPagination } = this.props.deliveryManageModel;
     dispatch({
@@ -154,10 +162,111 @@ class DeliveryManage extends React.Component {
           current,
           size,
         },
+        hospitalId,
       },
     });
 
-    dispatch({ type: "deliveryManageModel/queryInventoryProduct" });
+    // dispatch({ type: "deliveryManageModel/queryInventoryProduct" });
+  };
+
+  handleClickOpreation = (key) => {
+    const { dispatch } = this.props;
+    if (key === "add") {
+      dispatch({
+        type: "deliveryManageModel/save",
+        payload: {
+          addDialog: true,
+        },
+      });
+      dispatch({ type: "deliveryManageModel/getReplenishList" });
+    }
+  };
+
+  handleGetAddInfo = (selectedRowKeys) => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: "deliveryManageModel/save",
+      payload: {
+        addproductDialog: true,
+        // currentMsg: { ...record },
+        selectedRowKeys,
+      },
+    });
+    dispatch({
+      type: "deliveryManageModel/getAddInfo",
+      payload: {
+        selectedRowKeys,
+      },
+    });
+  };
+
+  changeAddInfo = (msg, type) => {
+    const { dispatch } = this.props;
+    if (type === "person") {
+      dispatch({
+        type: "deliveryManageModel/getMobileById",
+        payload: {
+          ...msg,
+        },
+      });
+      return;
+    }
+    dispatch({
+      type: "deliveryManageModel/save",
+      payload: {
+        ...msg,
+      },
+    });
+  };
+
+  handleAddGoods = () => {
+    const { dispatch } = this.props;
+    dispatch({ type: "deliveryManageModel/addGoods" });
+  };
+
+  handleDeleteGoods = (record, index) => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: "deliveryManageModel/deleteGoods",
+      payload: { msg: record, index },
+    });
+  };
+
+  setCode = (code) => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: "deliveryManageModel/save",
+      payload: {
+        scanCode: code,
+      },
+    });
+  };
+
+  handleSubmit = () => {
+    const { dispatch } = this.props;
+    dispatch({ type: "deliveryManageModel/sendOrderSubmit" });
+  };
+
+  getReplenishmentDetail = (record) => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: "deliveryManageModel/queryReplenishProductDetail",
+      payload: { itemId: record.itemId },
+    });
+  };
+
+  handleDelivery = (values) => {
+    const { dispatch } = this.props;
+    const { currentMsg } = this.props.deliveryManageModel;
+    const params = {
+      id: currentMsg.id,
+      deliveryId: currentMsg.deliveryId,
+      ...values,
+    };
+    dispatch({
+      type: "deliveryManageModel/updateDeliveryInfo",
+      payload: { ...params },
+    });
   };
 
   render() {
@@ -170,9 +279,25 @@ class DeliveryManage extends React.Component {
       pagination,
       data,
       loading,
-      departmentList,
       hospitalList,
-      orderStatusList,
+      personList,
+      addDialog,
+      addproductDialog,
+      addInfo,
+      scanCode,
+      replenishOrderList,
+      scanCodeProductList,
+      drawerLoading,
+      deliveryStatusList,
+      productList,
+      basicInfo,
+      replenishmentDetailDialog,
+      replenishmentList,
+      replenishTodoList,
+      showDeliveryDialog,
+      deliveryInfo,
+      showEditDeliveryDialog,
+      dialogBtnLoading,
     } = this.props.deliveryManageModel;
     const { current, size, total } = pagination;
     return (
@@ -186,48 +311,38 @@ class DeliveryManage extends React.Component {
           >
             <Row>
               <Col span={6}>
-                <Form.Item label="快递单号" name="deliveryCode">
+                <Form.Item label="快递单号" name="expNo">
                   <Input
-                    onChange={(value) =>
-                      this.onSearchChange("deliveryCode", value)
+                    onChange={(e) =>
+                      this.onSearchChange("expNo", e.target.value)
                     }
-                    placeholder="请选择医院"
+                    placeholder="请输入"
                     allowClear
                   />
                 </Form.Item>
               </Col>
               <Col span={6}>
-                <Form.Item label="收货方" name="hospitalId">
+                <Form.Item label="收货方" name="receiveName">
                   <Select
                     onChange={(value) =>
-                      this.onSearchChange("hospitalId", value)
+                      this.onSearchChange("receiveName", value)
                     }
                     options={hospitalList}
-                    placeholder="请选择医院"
+                    placeholder="请选择"
                     allowClear
+                    showSearch
+                    optionFilterProp="label"
                   />
                 </Form.Item>
               </Col>
-              {/* <Col span={6}>
-                <Form.Item label="科室" name="departmentId">
-                  <TreeSelect
-                    filterTreeNode
-                    treeNodeFilterProp="label"
-                    placeholder="请选择科室"
-                    treeData={departmentList}
-                    allowClear
-                    onChange={(value) =>
-                      this.onSearchChange("departmentId", value)
-                    }
-                  />
-                </Form.Item>
-              </Col> */}
               <Col span={6}>
-                <Form.Item label="发货人" name="person">
+                <Form.Item label="发货人" name="deliveryName">
                   <Select
                     placeholder="请选择"
-                    options={[]}
-                    onChange={(value) => this.onSearchChange("person", value)}
+                    options={personList}
+                    onChange={(value) =>
+                      this.onSearchChange("deliveryName", value)
+                    }
                     allowClear
                   />
                 </Form.Item>
@@ -235,8 +350,8 @@ class DeliveryManage extends React.Component {
               <Col span={6}>
                 <Form.Item label="物流状态" name="deliveryStatus">
                   <Select
-                    placeholder="请选择状态"
-                    options={[]}
+                    placeholder="请选择"
+                    options={deliveryStatusList}
                     onChange={(value) =>
                       this.onSearchChange("deliveryStatus", value)
                     }
@@ -248,12 +363,6 @@ class DeliveryManage extends React.Component {
             <Row>
               <Col span={6}>
                 <Form.Item label="发货时间" name="time">
-                  {/* <Input
-                    placeholder="请输入补货单号"
-                    onChange={(e) =>
-                      this.onSearchChange("time", e.target.value)
-                    }
-                  /> */}
                   <RangePicker
                     format="YYYY-MM-DD"
                     onChange={(value) => this.onSearchChange("time", value)}
@@ -286,6 +395,7 @@ class DeliveryManage extends React.Component {
           <OpreationBar
             buttonList={[{ key: "add", label: "新增", icon: <PlusOutlined /> }]}
             total={total}
+            onClick={this.handleClickOpreation}
           />
           <Table
             bordered
@@ -305,34 +415,48 @@ class DeliveryManage extends React.Component {
               width={80}
               render={(value, record, index) => index + 1}
             />
-            <Column title="快递单号" dataIndex="" width={130} />
-            <Column title="快递公司" dataIndex="" width={150} />
-            <Column title="收货方" dataIndex="" width={150} />
-            <Column title="发货日期" dataIndex="" width={120} />
-            <Column title="发货人" dataIndex="" width={130} />
-            <Column title="物流状态" dataIndex="" width={130} />
+            <Column title="快递单号" dataIndex="expNo" width={130} />
+            <Column title="快递公司" dataIndex="expCompanyName" width={150} />
+            <Column title="收货方" dataIndex="receiveName" width={180} />
+            <Column title="发货日期" dataIndex="deliveryTime" width={120} />
+            <Column title="发货人" dataIndex="deliveryName" width={120} />
+            <Column
+              title="物流状态"
+              dataIndex="deliveryStatusDesc"
+              width={130}
+            />
             <Column
               title="操作"
-              width={150}
+              width={160}
               lock="right"
               render={(value, record, index) => (
                 <Space size="middle">
-                  <a onClick={() => this.handleShowDetail(record)}>状态</a>
+                  <a onClick={() => this.handleEditDelivery(record)}>
+                    修改物流
+                  </a>
+                  <a onClick={() => this.handleShowDelivery(record)}>
+                    物流详情
+                  </a>
                   <a onClick={() => this.handleShowDetail(record)}>查看详情</a>
                 </Space>
               )}
             />
           </Table>
           {/* 编辑弹窗 */}
-          {/* {showDetailDialog && (
-            <EditDialog
-              title="补货单详情"
-              data={{ inventoryList, currentMsg, inventoryPagination }}
+          {addDialog && (
+            <AddDialog
+              title="选择补货单"
+              data={{
+                hospitalList,
+                currentMsg,
+                replenishTodoList,
+                inventoryPagination,
+              }}
               onClosed={() => {
                 dispatch({
                   type: "deliveryManageModel/save",
                   payload: {
-                    showDetailDialog: false,
+                    addDialog: false,
                     inventoryPagination: {
                       current: 1,
                       size: 50,
@@ -342,27 +466,105 @@ class DeliveryManage extends React.Component {
                 });
               }}
               onChange={this.changeListData}
+              onOk={this.handleGetAddInfo}
             />
-          )} */}
+          )}
+
+          {/* 发货单 */}
+          {addproductDialog && (
+            <SubmitSendGoods
+              onChange={this.changeAddInfo}
+              onAddGoods={this.handleAddGoods}
+              onDelete={this.handleDeleteGoods}
+              onCodeChange={this.setCode}
+              onSubmit={this.handleSubmit}
+              data={{
+                addInfo,
+                scanCode,
+                replenishOrderList,
+                scanCodeProductList,
+                personList,
+                drawerLoading,
+              }}
+              onClosed={() => {
+                dispatch({
+                  type: "deliveryManageModel/save",
+                  payload: {
+                    addproductDialog: false,
+                    addInfo: {},
+                    scanCode: "",
+                    replenishOrderList: [],
+                    scanCodeProductList: [],
+                  },
+                });
+              }}
+            />
+          )}
 
           {showDetailDialog && (
             <DetailDialog
               title="发货单详情"
-              data={{ inventoryList, currentMsg, inventoryPagination }}
+              data={{ productList, basicInfo }}
               onClosed={() => {
                 dispatch({
                   type: "deliveryManageModel/save",
                   payload: {
                     showDetailDialog: false,
-                    inventoryPagination: {
-                      current: 1,
-                      size: 50,
-                      total: 0,
-                    },
                   },
                 });
               }}
-              onChange={this.changeListData}
+              onChange={this.getReplenishmentDetail}
+            />
+          )}
+
+          {replenishmentDetailDialog && (
+            <ReplenishmentDetail
+              title="发货单详情"
+              data={replenishmentList}
+              onClosed={() => {
+                dispatch({
+                  type: "deliveryManageModel/save",
+                  payload: {
+                    replenishmentDetailDialog: false,
+                  },
+                });
+              }}
+            />
+          )}
+
+          {showDeliveryDialog && (
+            <DeliveryDialog
+              title="物流详情"
+              data={deliveryInfo}
+              onClosed={() => {
+                dispatch({
+                  type: "deliveryManageModel/save",
+                  payload: {
+                    showDeliveryDialog: false,
+                  },
+                });
+              }}
+              onChange={this.getReplenishmentDetail}
+            />
+          )}
+
+          {/* 编辑物流信息弹窗 */}
+          {showEditDeliveryDialog && (
+            <EditDeliveryDialog
+              title="修改物流信息"
+              data={currentMsg}
+              personList={personList}
+              loading={dialogBtnLoading}
+              onClosed={() => {
+                dispatch({
+                  type: "deliveryManageModel/save",
+                  payload: {
+                    showEditDeliveryDialog: false,
+                    dialogBtnLoading: false,
+                  },
+                });
+              }}
+              onOk={this.handleDelivery}
             />
           )}
         </ContentWrap>

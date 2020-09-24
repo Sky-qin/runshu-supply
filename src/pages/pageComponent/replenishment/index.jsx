@@ -12,7 +12,7 @@ import {
   Popconfirm,
 } from "antd";
 import DetailDialog from "./detailDialog";
-import AddDialog from "./addGoods";
+import SubmitSendGoods from "../../../components/submitSendGoods";
 import ContentWrap from "../../../components/contentWrap";
 import OpreationBar from "../../../components/OpreationBar";
 import "./index.scss";
@@ -40,12 +40,9 @@ class Replenishment extends React.Component {
 
   componentDidMount() {
     const { dispatch } = this.props;
-    dispatch({
-      type: "replenishmentModel/getHospital",
-    });
-    dispatch({
-      type: "replenishmentModel/replenishStatus",
-    });
+    dispatch({ type: "replenishmentModel/getHospital" });
+    dispatch({ type: "replenishmentModel/replenishStatus" });
+    dispatch({ type: "replenishmentModel/getSendPersonList" });
     this.getTableList();
   }
 
@@ -138,6 +135,12 @@ class Replenishment extends React.Component {
         showDetailDialog: true,
       },
     });
+    dispatch({
+      type: "replenishmentModel/getAddInfo",
+      payload: {
+        ...msg,
+      },
+    });
   };
 
   changeListData = (current, size) => {
@@ -182,12 +185,28 @@ class Replenishment extends React.Component {
       type: "replenishmentModel/save",
       payload: {
         addproductDialog: true,
+        currentMsg: { ...record },
+      },
+    });
+    dispatch({
+      type: "replenishmentModel/getAddInfo",
+      payload: {
+        ...record,
       },
     });
   };
 
-  changeAddInfo = (msg) => {
+  changeAddInfo = (msg, type) => {
     const { dispatch } = this.props;
+    if (type === "person") {
+      dispatch({
+        type: "replenishmentModel/getMobileById",
+        payload: {
+          ...msg,
+        },
+      });
+      return;
+    }
     dispatch({
       type: "replenishmentModel/save",
       payload: {
@@ -196,17 +215,54 @@ class Replenishment extends React.Component {
     });
   };
 
+  handleAddGoods = () => {
+    const { dispatch } = this.props;
+    dispatch({ type: "replenishmentModel/addGoods" });
+  };
+
+  handleDeleteGoods = (record, index) => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: "replenishmentModel/deleteGoods",
+      payload: { msg: record, index },
+    });
+  };
+
+  setCode = (code) => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: "replenishmentModel/save",
+      payload: {
+        scanCode: code,
+      },
+    });
+  };
+
   handleSubmit = () => {
-    const { addInfo } = this.props.replenishmentModel;
-    console.log("addInfo", addInfo);
+    const { dispatch } = this.props;
+    dispatch({ type: "replenishmentModel/sendOrderSubmit" });
+  };
+
+  getDetailList = (type) => {
+    const { dispatch } = this.props;
+    const { currentMsg } = this.props.replenishmentModel;
+    if (type === "replenishList") {
+      dispatch({
+        type: "replenishmentModel/getAddInfo",
+        payload: {
+          ...currentMsg,
+        },
+      });
+    }
+    if (type === "deliveryList") {
+      dispatch({ type: "replenishmentModel/getSendOrderInfo" });
+    }
   };
 
   render() {
     const { dispatch } = this.props;
     const {
       showDetailDialog,
-      inventoryPagination,
-      inventoryList,
       currentMsg,
       pagination,
       data,
@@ -215,6 +271,12 @@ class Replenishment extends React.Component {
       replenishStatusList,
       addproductDialog,
       addInfo,
+      replenishOrderList,
+      scanCodeProductList,
+      personList,
+      scanCode,
+      drawerLoading,
+      deliverInfoList,
     } = this.props.replenishmentModel;
     const { current, size, total } = pagination;
     return (
@@ -234,6 +296,8 @@ class Replenishment extends React.Component {
                       this.onSearchChange("hospitalId", value)
                     }
                     options={hospitalList}
+                    showSearch
+                    optionFilterProp="label"
                     placeholder="请选择医院"
                     allowClear
                   />
@@ -288,7 +352,7 @@ class Replenishment extends React.Component {
           <Table
             bordered
             rowKey={(record, index) => index}
-            dataSource={[{ orderStatus: 2 }]}
+            dataSource={data}
             pagination={{
               position: ["bottomCenter"],
               current: current,
@@ -351,17 +415,13 @@ class Replenishment extends React.Component {
           {showDetailDialog && (
             <DetailDialog
               title="补货单详情"
-              data={{ inventoryList, currentMsg, inventoryPagination }}
+              data={{ replenishOrderList, currentMsg, deliverInfoList }}
+              onGetTableList={this.getDetailList}
               onClosed={() => {
                 dispatch({
                   type: "replenishmentModel/save",
                   payload: {
                     showDetailDialog: false,
-                    inventoryPagination: {
-                      current: 1,
-                      size: 50,
-                      total: 0,
-                    },
                   },
                 });
               }}
@@ -369,17 +429,30 @@ class Replenishment extends React.Component {
             />
           )}
           {/* 发货单 */}
-
           {addproductDialog && (
-            <AddDialog
+            <SubmitSendGoods
               onChange={this.changeAddInfo}
+              onAddGoods={this.handleAddGoods}
+              onDelete={this.handleDeleteGoods}
+              onCodeChange={this.setCode}
               onSubmit={this.handleSubmit}
-              data={{ addInfo }}
+              data={{
+                addInfo,
+                scanCode,
+                replenishOrderList,
+                scanCodeProductList,
+                personList,
+                drawerLoading,
+              }}
               onClosed={() => {
                 dispatch({
                   type: "replenishmentModel/save",
                   payload: {
                     addproductDialog: false,
+                    addInfo: {},
+                    scanCode: "",
+                    replenishOrderList: [],
+                    scanCodeProductList: [],
                   },
                 });
               }}

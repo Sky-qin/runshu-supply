@@ -4,6 +4,7 @@ import { Space, Table, InputNumber, Select, Input } from "antd";
 import EditDialog from "./editDialog";
 import ContentWrap from "../../../components/contentWrap";
 import OpreationBar from "../../../components/OpreationBar";
+import TotalBoard from "../../../components/TotalBoard";
 import "./index.scss";
 
 const { Column } = Table;
@@ -86,86 +87,91 @@ class RealTimeInventory extends React.Component {
     } = this.props.realInventoryModel;
     const { current, size, total } = pagination;
     return (
-      <ContentWrap loading={loading}>
-        <OpreationBar
-          custom={
-            <>
-              <Search
-                placeholder="输入产品名称/编码"
-                onSearch={(value) => this.onChangeFilter(value, "keyword")}
-                style={{ width: 260 }}
-              />
-              <InputNumber
-                placeholder="请输入有效期"
-                style={{ width: 260, marginLeft: 15 }}
-                onChange={(value) => this.onChangeFilter(value, "validPeriod")}
-                onPressEnter={this.getTableList}
-              />
-              <Select
-                showSearch
-                allowClear={true}
-                onChange={(value) =>
-                  this.onChangeFilter(value, "productCategory")
-                }
-                style={{ width: 260, marginLeft: 15 }}
-                options={productCategoryList}
-                placeholder="请选择产品类型"
-              />
-            </>
-          }
-          total={total}
-        />
-        <Table
-          bordered
-          rowKey={(record, index) => index}
-          dataSource={data}
-          pagination={{
-            position: ["bottomCenter"],
-            current: current,
-            total: total || 0,
-            pageSize: size,
-            onChange: this.changePagination,
-            onShowSizeChange: this.changePagination,
-          }}
-        >
-          <Column title="产品编号" dataIndex="productCode" />
-          <Column title="产品名称" dataIndex="productName" />
-          <Column title="产品类别" dataIndex="productCategory" />
-          <Column title="规格" dataIndex="model" />
-          <Column title="型号" dataIndex="regularModel" />
-          <Column title="产品批号" dataIndex="batchNo" />
-          <Column title="单位" dataIndex="unitName" />
-          <Column title="库存数量" dataIndex="stockAmount" />
-          <Column title="生产日期" dataIndex="productDate" />
-          <Column title="有效期" dataIndex="validPeriodDate" />
-          <Column
-            title="库位数量"
-            dataIndex="stockNum"
-            render={(value, record, index) => {
-              return (
-                <Space size="middle">
-                  <a onClick={() => this.handleShowDetail(record)}>{value}</a>
-                </Space>
-              );
-            }}
+      <>
+        <TotalBoard />
+        <ContentWrap loading={loading}>
+          <OpreationBar
+            custom={
+              <>
+                <Search
+                  placeholder="输入产品名称/编码"
+                  onSearch={(value) => this.onChangeFilter(value, "keyword")}
+                  style={{ width: 260 }}
+                />
+                <InputNumber
+                  placeholder="请输入有效期"
+                  style={{ width: 260, marginLeft: 15 }}
+                  onChange={(value) =>
+                    this.onChangeFilter(value, "validPeriod")
+                  }
+                  onPressEnter={this.getTableList}
+                />
+                <Select
+                  showSearch
+                  allowClear={true}
+                  onChange={(value) =>
+                    this.onChangeFilter(value, "productCategory")
+                  }
+                  style={{ width: 260, marginLeft: 15 }}
+                  options={productCategoryList}
+                  placeholder="请选择产品类型"
+                />
+              </>
+            }
+            total={total}
           />
-        </Table>
-        {/* 编辑弹窗 */}
-        {showDetailDialog && (
-          <EditDialog
-            title="商品库存详情"
-            data={{ productInventoryList, currentMsg }}
-            onClosed={() => {
-              dispatch({
-                type: "realInventoryModel/save",
-                payload: {
-                  showDetailDialog: false,
-                },
-              });
+          <Table
+            bordered
+            rowKey={(record, index) => index}
+            dataSource={data}
+            pagination={{
+              position: ["bottomCenter"],
+              current: current,
+              total: total || 0,
+              pageSize: size,
+              onChange: this.changePagination,
+              onShowSizeChange: this.changePagination,
             }}
-          />
-        )}
-      </ContentWrap>
+          >
+            <Column title="产品编号" dataIndex="productCode" />
+            <Column title="产品名称" dataIndex="productName" />
+            <Column title="产品类别" dataIndex="productCategory" />
+            <Column title="规格" dataIndex="model" />
+            <Column title="型号" dataIndex="regularModel" />
+            <Column title="产品批号" dataIndex="batchNo" />
+            <Column title="单位" dataIndex="unitName" />
+            <Column title="库存数量" dataIndex="stockAmount" />
+            <Column title="生产日期" dataIndex="productDate" />
+            <Column title="有效期" dataIndex="validPeriodDate" />
+            <Column
+              title="库位数量"
+              dataIndex="stockNum"
+              render={(value, record, index) => {
+                return (
+                  <Space size="middle">
+                    <a onClick={() => this.handleShowDetail(record)}>{value}</a>
+                  </Space>
+                );
+              }}
+            />
+          </Table>
+          {/* 编辑弹窗 */}
+          {showDetailDialog && (
+            <EditDialog
+              title="商品库存详情"
+              data={{ productInventoryList, currentMsg }}
+              onClosed={() => {
+                dispatch({
+                  type: "realInventoryModel/save",
+                  payload: {
+                    showDetailDialog: false,
+                  },
+                });
+              }}
+            />
+          )}
+        </ContentWrap>
+      </>
     );
   }
 }

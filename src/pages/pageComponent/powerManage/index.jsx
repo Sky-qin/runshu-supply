@@ -209,7 +209,7 @@ class PowerManage extends React.Component {
             : currentMsg.isDelete
             ? "启用"
             : "停用"}{" "}
-          {currentMsg.name} 这个科室吗？
+          {currentMsg.name} 这个角色吗？
         </Modal>
 
         {showEditDialog && (
