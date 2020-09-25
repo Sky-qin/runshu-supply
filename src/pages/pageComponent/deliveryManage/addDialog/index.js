@@ -138,6 +138,7 @@ class AddDialog extends React.Component {
           <Column title="申请日期" dataIndex="replenishTime" width={130} />
           <Column title="补货单号" dataIndex="replenishOrder" width={150} />
           <Column title="客户" dataIndex="customer" width={120} />
+          <Column title="状态" dataIndex="orderStatusLabel" width={120} />
           <Column title="补货数量" dataIndex="replenishNum" width={100} />
           <Column title="已补数量" dataIndex="deliverNum" width={100} />
           <Column title="未补数量" dataIndex="waitNum" width={100} />

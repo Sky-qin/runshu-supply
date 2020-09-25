@@ -1,6 +1,7 @@
 import React from "react";
 import { connect } from "dva";
-import { Table, Input } from "antd";
+import { Table, Input, Select } from "antd";
+import { ExportOutlined } from "@ant-design/icons";
 import styled from "styled-components";
 
 import ContentWrap from "../../../components/contentWrap";
@@ -19,6 +20,11 @@ class RecentWarnInfo extends React.Component {
   }
 
   componentDidMount() {
+    const { dispatch } = this.props;
+    dispatch({
+      type: "recentWarnInfoModel/getAllStock",
+      payload: { keyword: "" },
+    });
     this.getTableList();
   }
 
@@ -45,7 +51,7 @@ class RecentWarnInfo extends React.Component {
     this.getTableList();
   };
 
-  filterChange = (value, key) => {
+  onChangeFilter = (value, key) => {
     const { dispatch } = this.props;
     dispatch({
       type: "recentWarnInfoModel/save",
@@ -56,21 +62,52 @@ class RecentWarnInfo extends React.Component {
     this.getTableList();
   };
 
+  getStockList = (value) => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: "recentWarnInfoModel/getAllStock",
+      payload: {
+        keyword: value,
+      },
+    });
+  };
+
   render() {
-    const { pagination, data, loading } = this.props.recentWarnInfoModel;
+    const {
+      pagination,
+      data,
+      loading,
+      stockList,
+      stockId,
+    } = this.props.recentWarnInfoModel;
     const { current, size, total } = pagination;
+
     return (
       <ContentWrap loading={loading}>
         <OpreationBar
-          // custom={
-          //   <>
-          //     <Search
-          //       placeholder="输入产品名称/编码"
-          //       onSearch={(value) => this.filterChange(value, "keyWord")}
-          //       style={{ width: 260 }}
-          //     />
-          //   </>
-          // }
+          custom={
+            <>
+              <Select
+                showSearch
+                allowClear={true}
+                filterOption={false}
+                onChange={(value) => this.onChangeFilter(value, "stockId")}
+                onSearch={(value) => this.getStockList(value)}
+                style={{ width: 260, marginLeft: 15 }}
+                options={stockList}
+                placeholder="请选择库位"
+              />
+            </>
+          }
+          linkList={[
+            {
+              key: "export",
+              label: "导出",
+              icon: <ExportOutlined />,
+              params: { stockId },
+              url: "/userMessage/exportPeriod",
+            },
+          ]}
           total={total}
         />
         <Table

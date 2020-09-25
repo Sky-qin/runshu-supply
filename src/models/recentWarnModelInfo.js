@@ -12,11 +12,13 @@ export default {
       total: 0,
     },
     type: "2",
+    stockList: [],
+    stockId: "",
   },
 
   effects: {
     *getTableList({ payload }, { call, put, select }) {
-      const { pagination, type, keyWord } = yield select(
+      const { pagination, type, stockId } = yield select(
         (state) => state.recentWarnInfoModel
       );
       const { current, size } = pagination;
@@ -24,7 +26,7 @@ export default {
         current,
         size,
         params: {
-          keyWord,
+          stockId,
           type,
         },
       };
@@ -45,6 +47,19 @@ export default {
         });
       } else {
         message.error(data.message || "查询预警失败");
+      }
+    },
+    *getAllStock({ payload }, { call, put, select }) {
+      const { data } = yield call(API.getAllStock, payload);
+      if (data && data.success) {
+        yield put({
+          type: "save",
+          payload: {
+            stockList: data.data || [],
+          },
+        });
+      } else {
+        message.error(data.message || "获取库位信息错误");
       }
     },
   },
