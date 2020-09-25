@@ -145,6 +145,24 @@ export default {
         serialNo: scanCode,
         replenishOrderList,
       };
+      const list = scanCode.split(".");
+      const addCode = list[list.length - 1];
+      let canAdd = true;
+      (scanCodeProductList || []).map((item) => {
+        if (item.serialNo == addCode) {
+          canAdd = false;
+        }
+      });
+      if (!canAdd) {
+        message.warning("该商品已经被添加，请添加其他商品！");
+        yield put({
+          type: "save",
+          payload: {
+            scanCode: "",
+          },
+        });
+        return;
+      }
 
       yield put({ type: "save", payload: { drawerLoading: true } });
       const { data } = yield call(API.addGoods, params);

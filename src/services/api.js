@@ -690,6 +690,13 @@ const API = {
       params,
     });
   },
+  // 模糊查询所有库位
+  getAllStock(params) {
+    return request({
+      url: `${Prefix}/userMessage/getStockName`,
+      params,
+    });
+  },
 };
 
 export default API;

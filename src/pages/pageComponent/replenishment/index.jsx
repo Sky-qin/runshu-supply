@@ -11,6 +11,7 @@ import {
   Button,
   Popconfirm,
 } from "antd";
+import styled from "styled-components";
 import DetailDialog from "./detailDialog";
 import SubmitSendGoods from "../../../components/submitSendGoods";
 import ContentWrap from "../../../components/contentWrap";
@@ -29,6 +30,10 @@ const tailLayout = {
     span: 24,
   },
 };
+
+const SpanBox = styled.span`
+  color: red;
+`;
 
 class Replenishment extends React.Component {
   searchRef = React.createRef();
@@ -368,7 +373,22 @@ class Replenishment extends React.Component {
             <Column title="申请人" dataIndex="userName" width={130} />
             <Column title="部门" dataIndex="departmentName" width={130} />
             <Column title="申请日期" dataIndex="createTime" width={130} />
-            <Column title="状态" dataIndex="orderStatusStr" width={130} />
+            <Column
+              title="状态"
+              dataIndex="orderStatusStr"
+              width={160}
+              render={(value, record) => {
+                const { orderStatus, delivery } = record;
+
+                return (
+                  <Space>
+                    <a>{value}</a>
+                    {(orderStatus === 2 || orderStatus === 4) &&
+                      delivery === "1" && <SpanBox>对方提醒发货</SpanBox>}
+                  </Space>
+                );
+              }}
+            />
             <Column
               title="操作"
               width={150}
