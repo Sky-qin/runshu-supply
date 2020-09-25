@@ -557,6 +557,41 @@ const API = {
   },
 
   /**
+   * 库位管理
+   */
+  // 列表
+  getStockManageList(params) {
+    return request({
+      url: `${Prefix}/supply/stock/list`,
+      method: "post",
+      params,
+    });
+  },
+  /**
+   * 供应商管理
+   */
+  // 列表
+  getSupplierManageList(params) {
+    return request({
+      url: `${Prefix}/supply/supplier/list`,
+      method: "post",
+      params,
+    });
+  },
+
+  /**
+   * 生产厂家管理
+   */
+  // 列表
+  getVendorManageList(params) {
+    return request({
+      url: `${Prefix}/supply/vendor/list`,
+      method: "post",
+      params,
+    });
+  },
+
+  /**
    * 枚举类即接口
    */
   // 获取当前用户 医院枚举

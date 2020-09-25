@@ -336,12 +336,12 @@ class DeliveryManage extends React.Component {
                 </Form.Item>
               </Col>
               <Col span={6}>
-                <Form.Item label="发货人" name="deliveryName">
+                <Form.Item label="发货人" name="deliveryUserId">
                   <Select
                     placeholder="请选择"
                     options={personList}
                     onChange={(value) =>
-                      this.onSearchChange("deliveryName", value)
+                      this.onSearchChange("deliveryUserId", value)
                     }
                     allowClear
                   />

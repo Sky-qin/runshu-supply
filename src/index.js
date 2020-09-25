@@ -32,6 +32,9 @@ app.model(require("./models/recentWarnModel").default);
 app.model(require("./models/recentWarnModelInfo").default);
 app.model(require("./models/inventoryWarnModel").default);
 app.model(require("./models/inventoryWarnInfoModel").default);
+app.model(require("./models/inventoryManageModel").default);
+app.model(require("./models/supplierManageModel").default);
+app.model(require("./models/manufacturerManageModel").default);
 
 // 4. Router
 app.router(require("./router").default);
