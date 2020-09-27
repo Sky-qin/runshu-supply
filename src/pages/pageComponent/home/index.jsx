@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "dva";
 import styled from "styled-components";
 import { Radio, Tabs } from "antd";
-import { Area } from "@ant-design/charts";
+import { Chart, LineAdvance } from "bizcharts";
 import ContentWrap from "../../../components/contentWrap";
 import Sort from "../../../assets/sort.png";
 
@@ -144,20 +144,18 @@ class Home extends React.Component {
     this.getCartsData();
   };
 
-  renderCarts = () => {
-    const { chartsData } = this.props.homeModel;
-    const config = {
-      padding: "6px",
-      forceFit: true,
-      data: chartsData || [],
-      xField: "date",
-      yField: "count",
-      smooth: true,
-      yAxis: { nice: true },
-      label: { visible: false },
-    };
-
-    return <Area {...config} />;
+  renderCarts = (data) => {
+    return (
+      <Chart padding={[10, 0, 50, 40]} autoFit height={350} data={data}>
+        <LineAdvance
+          shape="smooth"
+          point
+          area
+          position="date*count"
+          // color="city"
+        />
+      </Chart>
+    );
   };
 
   render() {
@@ -266,7 +264,7 @@ class Home extends React.Component {
                     <TabPane tab={item.label} key={item.value}>
                       {chartsData &&
                         chartsData.length > 0 &&
-                        this.renderCarts()}
+                        this.renderCarts(chartsData)}
                     </TabPane>
                   );
                 })}
@@ -309,8 +307,8 @@ class Home extends React.Component {
                   return (
                     <div key={index} className="top-ten-item-table-col">
                       <div className="sort-row">{this.renderSort(index)}</div>
-                      <div className="value-row">{item.value}</div>
-                      <div className="num-row">{item.label}</div>
+                      <div className="value-row">{item.label}</div>
+                      <div className="num-row">{item.value}</div>
                     </div>
                   );
                 })}
@@ -337,15 +335,15 @@ class Home extends React.Component {
               <div className="top-ten-item-table">
                 <div className="top-ten-item-table-col top-ten-item-table-header">
                   <div className="sort-row">排行</div>
-                  <div className="value-row">消耗单号</div>
+                  <div className="value-row">医院</div>
                   <div className="num-row">商品数量（件）</div>
                 </div>
                 {(hospitalConsumeOrderTop || []).map((item, index) => {
                   return (
                     <div key={index} className="top-ten-item-table-col">
                       <div className="sort-row">{this.renderSort(index)}</div>
-                      <div className="value-row">{item.value}</div>
-                      <div className="num-row">{item.label}</div>
+                      <div className="value-row">{item.label}</div>
+                      <div className="num-row">{item.value}</div>
                     </div>
                   );
                 })}
@@ -369,8 +367,8 @@ class Home extends React.Component {
               <div className="top-ten-item-table">
                 <div className="top-ten-item-table-col top-ten-item-table-header">
                   <div className="sort-row">排行</div>
-                  <div className="value-row">消耗单号</div>
-                  <div className="num-row">商品数量（件）</div>
+                  <div className="value-row">医院</div>
+                  <div className="num-row">订单数量</div>
                 </div>
                 {(replenishOrderTop || []).map((item, index) => {
                   return (
