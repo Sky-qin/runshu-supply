@@ -39,7 +39,10 @@ class Entry extends React.Component {
 
   componentDidMount() {
     const { dispatch } = this.props;
+    const { activeKey } = this.props.entryModel;
+
     dispatch({ type: "entryModel/queryMenu" });
+    this.clickMenu(activeKey);
   }
 
   clickMenu = (key) => {

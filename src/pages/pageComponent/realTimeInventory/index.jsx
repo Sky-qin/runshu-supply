@@ -124,6 +124,7 @@ class RealTimeInventory extends React.Component {
             bordered
             rowKey={(record, index) => index}
             dataSource={data}
+            scroll={{ x: 1300 }}
             pagination={{
               position: ["bottomCenter"],
               current: current,
@@ -133,19 +134,21 @@ class RealTimeInventory extends React.Component {
               onShowSizeChange: this.changePagination,
             }}
           >
-            <Column title="产品编号" dataIndex="productCode" />
-            <Column title="产品名称" dataIndex="productName" />
-            <Column title="产品类别" dataIndex="productCategory" />
-            <Column title="规格" dataIndex="model" />
-            <Column title="型号" dataIndex="regularModel" />
-            <Column title="产品批号" dataIndex="batchNo" />
-            <Column title="单位" dataIndex="unitName" />
-            <Column title="库存数量" dataIndex="stockAmount" />
-            <Column title="生产日期" dataIndex="productDate" />
-            <Column title="有效期" dataIndex="validPeriodDate" />
+            <Column title="产品编号" dataIndex="productCode" width={125} />
+            <Column title="产品名称" dataIndex="productName" width={160} />
+            <Column title="产品类别" dataIndex="productCategory" width={160} />
+            <Column title="规格" dataIndex="model" width={120} />
+            <Column title="型号" dataIndex="regularModel" width={120} />
+            <Column title="产品批号" dataIndex="batchNo" width={120} />
+            <Column title="单位" dataIndex="unitName" width={80} />
+            <Column title="库存数量" dataIndex="stockAmount" width={120} />
+            <Column title="生产日期" dataIndex="productDate" width={120} />
+            <Column title="有效期" dataIndex="validPeriodDate" width={120} />
             <Column
               title="库位数量"
               dataIndex="stockNum"
+              width={120}
+              fixed="right"
               render={(value, record, index) => {
                 return (
                   <Space size="middle">

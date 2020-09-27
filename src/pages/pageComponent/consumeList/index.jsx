@@ -221,8 +221,7 @@ class ConsumeList extends React.Component {
     dispatch({ type: "consumeModel/getFeedbackDetail" });
   };
 
-  handleViewPicList = (picStr) => {
-    const list = picStr.split(",");
+  handleViewPicList = (list) => {
     this.setState({ picList: list, showPicList: true });
   };
 
@@ -378,7 +377,7 @@ class ConsumeList extends React.Component {
             <Column title="状态" dataIndex="orderStatusDesc" width={100} />
             <Column
               title="手术单"
-              dataIndex="operationPic"
+              dataIndex="operationPicList"
               width={120}
               render={(value) => {
                 return value ? (

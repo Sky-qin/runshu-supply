@@ -357,8 +357,9 @@ export default {
         message.error(data.message || "查询详情失败！");
       }
     },
-    *getReplenishList({ payload }, { call, put }) {
-      const { data } = yield call(API.getReplenishList);
+    *getReplenishList({ payload }, { call, put, select }) {
+      const { hospitalId } = yield select((state) => state.deliveryManageModel);
+      const { data } = yield call(API.getReplenishList, { hospitalId });
       if (data && data.success) {
         yield put({
           type: "save",
@@ -385,7 +386,6 @@ export default {
     },
     *updateDeliveryInfo({ payload }, { call, put, select }) {
       yield put({ type: "save", payload: { dialogBtnLoading: true } });
-      console.log("params", payload);
       const { data } = yield call(API.updateDeliveryInfo, payload);
       yield put({ type: "save", payload: { dialogBtnLoading: false } });
       if (data && data.success) {

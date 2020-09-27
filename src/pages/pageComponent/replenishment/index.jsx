@@ -391,8 +391,8 @@ class Replenishment extends React.Component {
             />
             <Column
               title="操作"
-              width={150}
-              lock="right"
+              width={310}
+              fixed="right"
               render={(value, record, index) => (
                 <Space size="middle">
                   {record.orderStatus && record.orderStatus === 1 && (

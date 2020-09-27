@@ -112,6 +112,7 @@ class RecentWarnInfo extends React.Component {
         />
         <Table
           bordered
+          scroll={{ x: 1300 }}
           rowKey={(record, index) => index}
           dataSource={data}
           pagination={{
@@ -128,17 +129,18 @@ class RecentWarnInfo extends React.Component {
             width={80}
             render={(value, record, index) => index + 1}
           />
-          <Column title="流水号" dataIndex="serialNo" />
-          <Column title="产品名称" dataIndex="productName" />
-          <Column title="规格" dataIndex="model" />
-          <Column title="生产厂家" dataIndex="vendorName" />
-          <Column title="仓库" dataIndex="stockName" />
-          <Column title="生产日期" dataIndex="productDate" />
-          <Column title="有效期" dataIndex="validPeriodDate" />
-          <Column title="预警值" dataIndex="periodValue" />
+          <Column title="流水号" dataIndex="serialNo" width={90} />
+          <Column title="产品名称" dataIndex="productName" width={160} />
+          <Column title="规格" dataIndex="model" width={120} />
+          <Column title="生产厂家" dataIndex="vendorName" width={160} />
+          <Column title="仓库" dataIndex="stockName" width={160} />
+          <Column title="生产日期" dataIndex="productDate" width={120} />
+          <Column title="有效期" dataIndex="validPeriodDate" width={120} />
+          <Column title="预警值" dataIndex="periodValue" width={90} />
           <Column
             title="剩余天数"
             dataIndex="surplusDays"
+            width={120}
             render={(value) => {
               return <WrapSpan>{value}</WrapSpan>;
             }}

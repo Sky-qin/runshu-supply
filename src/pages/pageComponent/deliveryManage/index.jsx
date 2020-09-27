@@ -166,7 +166,7 @@ class DeliveryManage extends React.Component {
       },
     });
 
-    // dispatch({ type: "deliveryManageModel/queryInventoryProduct" });
+    dispatch({ type: "deliveryManageModel/getReplenishList" });
   };
 
   handleClickOpreation = (key) => {
@@ -427,7 +427,7 @@ class DeliveryManage extends React.Component {
             />
             <Column
               title="操作"
-              width={160}
+              width={315}
               lock="right"
               render={(value, record, index) => (
                 <Space size="middle">

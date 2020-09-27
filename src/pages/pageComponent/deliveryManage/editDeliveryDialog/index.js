@@ -64,7 +64,7 @@ class EditDeliveryDialog extends React.Component {
             deliveryUserId: data.deliveryUserId,
           }}
         >
-          <Form.Item name="expNo" label="物流单号" rules={[{ required: true }]}>
+          <Form.Item name="expNo" label="快递单号" rules={[{ required: true }]}>
             <Input />
           </Form.Item>
           <Form.Item label="发货人" name="deliveryUserId">

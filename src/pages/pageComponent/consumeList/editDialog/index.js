@@ -100,7 +100,7 @@ class EditDialog extends React.Component {
           <div>流水号：{detailMsg.consumeNumber || ""}</div>
           <div>医院：{detailMsg.hispitalName || ""}</div>
           <div>科室：{detailMsg.departmentName || ""}</div>
-          <div>申请人：{detailMsg.operationName || ""}</div>
+          <div>申请人：{detailMsg.userName || ""}</div>
           <div>申请时间：{detailMsg.operationTime || ""}</div>
           <div>状态：{detailMsg.orderStatusDesc || ""}</div>
         </BasicDiv>

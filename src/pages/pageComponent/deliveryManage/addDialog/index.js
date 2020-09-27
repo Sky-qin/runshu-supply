@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "dva";
-import { Modal, Button, Table, Form, Select, Row, Col } from "antd";
+import { Modal, Button, Table, Form, Select, Row, Col, message } from "antd";
 
 const { Column } = Table;
 const layout = {
@@ -27,6 +27,9 @@ class AddDialog extends React.Component {
     const { onOk } = this.props;
     const { selectedRowKeys } = this.state;
     let formObj = this.formRef;
+    if (selectedRowKeys && selectedRowKeys.length === 0) {
+      return message.warning("请选择补货单！");
+    }
     formObj.current
       .validateFields()
       .then(() => {
@@ -117,6 +120,7 @@ class AddDialog extends React.Component {
         <Table
           bordered
           scroll={{ y: 400 }}
+          rowKey={(record, index) => index}
           dataSource={replenishTodoList}
           rowKey="id"
           rowSelection={{

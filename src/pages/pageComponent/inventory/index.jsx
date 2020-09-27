@@ -154,6 +154,7 @@ class Inventory extends React.Component {
           <Table
             bordered
             rowKey={(record, index) => index}
+            scroll={{ x: 1500 }}
             dataSource={data}
             pagination={{
               position: ["bottomCenter"],
@@ -164,19 +165,20 @@ class Inventory extends React.Component {
               onShowSizeChange: this.changePagination,
             }}
           >
-            <Column title="产品编号" dataIndex="productCode" />
-            <Column title="产品名称" dataIndex="productName" />
-            <Column title="产品类别" dataIndex="productCategory" />
-            <Column title="规格" dataIndex="model" />
-            <Column title="型号" dataIndex="regularModel" />
-            <Column title="单位" dataIndex="unitName" />
-            <Column title="库存数量" dataIndex="stockAmount" />
-            <Column title="生产厂家" dataIndex="vendorName" />
-            <Column title="库位" dataIndex="stockName" />
+            <Column title="产品编号" width={120} dataIndex="productCode" />
+            <Column title="产品名称" width={200} dataIndex="productName" />
+            <Column title="产品类别" width={120} dataIndex="productCategory" />
+            <Column title="规格" width={120} dataIndex="model" />
+            <Column title="型号" width={120} dataIndex="regularModel" />
+            <Column title="单位" width={80} dataIndex="unitName" />
+            <Column title="库存数量" width={120} dataIndex="stockAmount" />
+            <Column title="生产厂家" width={200} dataIndex="vendorName" />
+            <Column title="库位" width={160} dataIndex="stockName" />
             <Column
               title="操作"
               dataIndex="name"
-              width={200}
+              fixed="right"
+              width={160}
               render={(value, record, index) => (
                 <Space size="middle">
                   <a onClick={() => this.handleShowDetail(record)}>查看详情</a>
