@@ -28,9 +28,9 @@ class ContentBox extends React.Component {
   componentDidMount() {}
 
   render() {
-    const { children, loading } = this.props;
+    const { children, loading, style = {} } = this.props;
     return (
-      <ContentDiv>
+      <ContentDiv style={style}>
         <ConfigProvider locale={zhCN}>
           <Spin tip="数据加载中..." spinning={loading}>
             {children}

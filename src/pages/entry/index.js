@@ -4,6 +4,7 @@ import { Route, Switch } from "dva/router";
 import PropTypes from "prop-types";
 import Header from "../../components/Header";
 import Menu from "../../components/Menu";
+import Home from "../pageComponent/home";
 import HospitalManage from "../pageComponent/hospitalManage";
 import DepartmentManage from "../pageComponent/departmentManage";
 import PowerManage from "../pageComponent/powerManage";
@@ -62,6 +63,7 @@ class Entry extends React.Component {
           )}
           <div className="content-right">
             <Switch>
+              <Route path="/entry/home" component={Home} />
               <Route path="/entry/hospitalManage" component={HospitalManage} />
               <Route
                 path="/entry/departmentManage"

@@ -14,6 +14,35 @@ const API = {
       params,
     });
   },
+
+  /**
+   * 首页
+   */
+  // 首页汇总
+  getTodayIndex(params) {
+    return request({
+      url: `${Prefix}/index/getTodayIndex`,
+      params,
+    });
+  },
+  // 折线图
+  getStatistics(params) {
+    return request({
+      url: `${Prefix}/index/getStatistics`,
+      method: "post",
+      params,
+    });
+  },
+
+  // top10数据
+  getIndexTopTen(params) {
+    return request({
+      url: `${Prefix}/index/getIndexTop`,
+      method: "post",
+      params,
+    });
+  },
+
   /**
    * 科室管理
    */
