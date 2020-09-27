@@ -105,7 +105,7 @@ export default {
           },
         });
       } else {
-        message.error(data.message || "查询折线图数据失败！");
+        message.error(data.message || "查看top10数据失败！");
       }
     },
   },
