@@ -417,7 +417,7 @@ class DeliveryManage extends React.Component {
             />
             <Column title="快递单号" dataIndex="expNo" width={130} />
             <Column title="快递公司" dataIndex="expCompanyName" width={150} />
-            <Column title="收货方" dataIndex="receiveName" width={180} />
+            <Column title="收货方" dataIndex="customerName" width={180} />
             <Column title="发货日期" dataIndex="deliveryTime" width={120} />
             <Column title="发货人" dataIndex="deliveryName" width={120} />
             <Column
