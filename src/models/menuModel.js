@@ -8,6 +8,8 @@ export default {
     loading: false,
     deleteDialog: false,
     currentMsg: {},
+    expandedRowKeys: [],
+    currentExpand: {},
   },
 
   effects: {
@@ -76,6 +78,16 @@ export default {
         yield put({ type: "getResourceList" });
       } else {
         message.error(data.message || "删除失败！");
+      }
+    },
+    *changeSort({ payload }, { call, put }) {
+      yield put({ type: "save", payload: { loading: true } });
+      const { data } = yield call(API.resourceSorted, payload);
+      yield put({ type: "save", payload: { loading: false } });
+      if (data && data.success) {
+        yield put({ type: "getResourceList" });
+      } else {
+        message.error(data.message || "排序失败，请重试！");
       }
     },
   },

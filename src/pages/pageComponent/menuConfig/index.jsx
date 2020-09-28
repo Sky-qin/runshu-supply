@@ -1,12 +1,25 @@
 import React from "react";
 import { connect } from "dva";
 import { Button, Space, Table, Modal } from "antd";
-import { PlusOutlined } from "@ant-design/icons";
+import { PlusOutlined, UpOutlined, DownOutlined } from "@ant-design/icons";
+import styled from "styled-components";
 import EditDialog from "./editDialog";
 import ContentWrap from "../../../components/contentWrap";
 import "./index.scss";
 
 const { Column } = Table;
+
+const WrapSpan = styled.span`
+  display: inline-block;
+  width: 25px;
+  line-height: 25px;
+  background: #e6f7ff;
+  border-radius: 50%;
+  height: 25px;
+  text-align: center;
+  color: #1890ff;
+  cursor: pointer;
+`;
 
 class MenuConfig extends React.Component {
   constructor(props) {
@@ -15,7 +28,6 @@ class MenuConfig extends React.Component {
   }
 
   componentDidMount() {
-    // this.handleLogin();
     this.getTableList();
   }
 
@@ -93,6 +105,92 @@ class MenuConfig extends React.Component {
     });
   };
 
+  renderSort = (value, record, index) => {
+    const { data, currentExpand } = this.props.menuModel;
+    const len = data.length;
+    const { id, parentId } = record;
+    if (parentId === "0") {
+      if (index === 0) {
+        return (
+          <Space size="middle">
+            <WrapSpan>
+              <DownOutlined onClick={() => this.handleSort(id, "down")} />
+            </WrapSpan>
+          </Space>
+        );
+      }
+      if (index === len - 1) {
+        return (
+          <Space size="middle">
+            <WrapSpan style={{ background: "#fff" }} />
+            <WrapSpan>
+              <UpOutlined onClick={() => this.handleSort(id, "up")} />
+            </WrapSpan>
+          </Space>
+        );
+      }
+      return (
+        <Space size="middle">
+          <WrapSpan>
+            <DownOutlined onClick={() => this.handleSort(id, "down")} />
+          </WrapSpan>
+          <WrapSpan>
+            <UpOutlined onClick={() => this.handleSort(id, "up")} />
+          </WrapSpan>
+        </Space>
+      );
+    } else {
+      const childrenLen = ((currentExpand && currentExpand.children) || [])
+        .length;
+      if (index === 0) {
+        return (
+          <Space size="middle">
+            <WrapSpan>
+              <DownOutlined onClick={() => this.handleSort(id, "down")} />
+            </WrapSpan>
+          </Space>
+        );
+      }
+      if (index === childrenLen - 1) {
+        return (
+          <Space size="middle">
+            <WrapSpan style={{ background: "#fff" }} />
+            <WrapSpan>
+              <UpOutlined onClick={() => this.handleSort(id, "up")} />
+            </WrapSpan>
+          </Space>
+        );
+      }
+      return (
+        <Space size="middle">
+          <WrapSpan>
+            <DownOutlined onClick={() => this.handleSort(id, "down")} />
+          </WrapSpan>
+          <WrapSpan>
+            <UpOutlined onClick={() => this.handleSort(id, "up")} />
+          </WrapSpan>
+        </Space>
+      );
+    }
+  };
+
+  handleSort = (id, action) => {
+    const { dispatch } = this.props;
+    dispatch({ type: "menuModel/changeSort", payload: { id, action } });
+  };
+
+  getCurrentExpandKey = (opend, record) => {
+    const { dispatch } = this.props;
+    console.log(record);
+    dispatch({
+      type: "menuModel/save",
+      payload: {
+        expandedRowKeys: opend ? [record.id] : [],
+        currentExpand: opend ? record : {},
+      },
+    });
+  };
+
   render() {
     const { dispatch } = this.props;
     const {
@@ -103,6 +201,7 @@ class MenuConfig extends React.Component {
       data,
       loading,
       type,
+      expandedRowKeys,
     } = this.props.menuModel;
     return (
       <ContentWrap loading={loading}>
@@ -117,13 +216,16 @@ class MenuConfig extends React.Component {
         </div>
         <Table
           bordered
-          rowKey={(record, index) => index}
+          rowKey="id"
+          expandedRowKeys={expandedRowKeys}
+          onExpand={this.getCurrentExpandKey}
           dataSource={data}
           pagination={false}
         >
           <Column title="菜单名称" dataIndex="resourceName" />
           <Column title="菜单标识" dataIndex="resourceSign" />
           <Column title="菜单图标" dataIndex="icon" />
+          <Column title="排序调整" width={100} render={this.renderSort} />
           <Column
             title="操作"
             dataIndex="name"

@@ -341,6 +341,15 @@ const API = {
     });
   },
 
+  // 排序管理
+  resourceSorted(params) {
+    return request({
+      url: `${Prefix}/resource/resourceSorted`,
+      method: "post",
+      params,
+    });
+  },
+
   /**
    * 在售商品管理
    */
