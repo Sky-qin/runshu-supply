@@ -36,6 +36,7 @@ app.model(require("./models/inventoryManageModel").default);
 app.model(require("./models/supplierManageModel").default);
 app.model(require("./models/manufacturerManageModel").default);
 app.model(require("./models/homeModel").default);
+app.model(require("./models/sunshinePurchaseInfoModel").default);
 
 // 4. Router
 app.router(require("./router").default);

@@ -621,6 +621,25 @@ const API = {
   },
 
   /**
+   * 阳光采购信息维护
+   */
+  // 区域阳光采购信息表头
+  getSunTitle(params) {
+    return request({
+      url: `${Prefix}/sunlight/findTitle`,
+      params,
+    });
+  },
+  // 区域阳光采购表格信息
+  getSunList(params) {
+    return request({
+      url: `${Prefix}/sunlight/findData`,
+      method: "post",
+      params,
+    });
+  },
+
+  /**
    * 枚举类即接口
    */
   // 获取当前用户 医院枚举
@@ -758,6 +777,14 @@ const API = {
   getAllStock(params) {
     return request({
       url: `${Prefix}/userMessage/getStockName`,
+      params,
+    });
+  },
+  // 省份下拉枚举
+  getProvinceList(params) {
+    return request({
+      url: `${Prefix}/sunlight/listProvince`,
+      method: "post",
       params,
     });
   },

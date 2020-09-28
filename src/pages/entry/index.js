@@ -28,6 +28,7 @@ import InventoryWarn from "../pageComponent/inventoryWarn";
 import InventoryManage from "../pageComponent/inventoryManage";
 import SupplierManage from "../pageComponent/supplierManage";
 import ManufacturerManage from "../pageComponent/manufacturerManage";
+import SunshinePurchaseInfo from "../pageComponent/sunshinePurchaseInfo";
 
 import "./index.scss";
 
@@ -116,6 +117,10 @@ class Entry extends React.Component {
               <Route
                 path="/entry/manufacturerManage"
                 component={ManufacturerManage}
+              />{" "}
+              <Route
+                path="/entry/sunshinePurchaseInfo"
+                component={SunshinePurchaseInfo}
               />
             </Switch>
           </div>
