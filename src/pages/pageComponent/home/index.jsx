@@ -210,7 +210,7 @@ class Home extends React.Component {
                   <i className="board-icon iconxiangzi iconfont" />
                 </IconWrap>
                 <WrapBox>
-                  <div className="text-common">今日补货 </div>
+                  <div className="text-common">今日消耗</div>
                 </WrapBox>
               </WrapTopDiv>
               <WrapBoardFooter>
@@ -234,7 +234,7 @@ class Home extends React.Component {
                   <i className="board-icon iconxiangzi iconfont" />
                 </IconWrap>
                 <WrapBox>
-                  <div className="text-common">今日消耗</div>
+                  <div className="text-common">今日补货</div>
                 </WrapBox>
               </WrapTopDiv>
               <WrapBoardFooter>
