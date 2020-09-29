@@ -45,6 +45,7 @@ class EditDialog extends React.Component {
         <Table
           bordered
           dataSource={productInventoryList}
+          rowKey={(record, index) => index}
           pagination={false}
           scroll={{ y: 450 }}
         >

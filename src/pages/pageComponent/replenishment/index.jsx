@@ -391,7 +391,7 @@ class Replenishment extends React.Component {
             />
             <Column
               title="操作"
-              width={310}
+              width={315}
               fixed="right"
               render={(value, record, index) => (
                 <Space size="middle">
