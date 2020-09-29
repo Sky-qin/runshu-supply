@@ -105,7 +105,7 @@ class SunshinePurchaseInfo extends React.Component {
           rowKey={(record, index) => index}
           columns={tableTitle}
           dataSource={data}
-          scroll={{ x: 1500 }}
+          scroll={{ x: 1800 }}
           pagination={{
             position: ["bottomCenter"],
             current: current,

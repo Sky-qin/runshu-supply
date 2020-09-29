@@ -376,7 +376,7 @@ class Replenishment extends React.Component {
             <Column
               title="状态"
               dataIndex="orderStatusStr"
-              width={160}
+              width={290}
               render={(value, record) => {
                 const { orderStatus, delivery } = record;
 
@@ -391,7 +391,7 @@ class Replenishment extends React.Component {
             />
             <Column
               title="操作"
-              width={315}
+              width={340}
               fixed="right"
               render={(value, record, index) => (
                 <Space size="middle">

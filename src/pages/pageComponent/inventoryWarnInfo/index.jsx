@@ -86,6 +86,7 @@ class InventoryWarnInfo extends React.Component {
           <Column title="预警值" dataIndex="stockValue" />
           <Column
             title="库存数量"
+            width={120}
             dataIndex="stock"
             render={(value) => {
               return <WrapSpan>{value}</WrapSpan>;

@@ -188,6 +188,7 @@ class DeliveryManage extends React.Component {
       type: "deliveryManageModel/save",
       payload: {
         addproductDialog: true,
+        hospitalId: "",
         // currentMsg: { ...record },
         selectedRowKeys,
       },
@@ -457,6 +458,7 @@ class DeliveryManage extends React.Component {
                   type: "deliveryManageModel/save",
                   payload: {
                     addDialog: false,
+                    hospitalId: "",
                     inventoryPagination: {
                       current: 1,
                       size: 50,

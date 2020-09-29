@@ -123,9 +123,8 @@ class EditDialog extends React.Component {
     return (
       <>
         <div>快递公司：{record.expCompanyName || ""}</div>
-        {/* <div>快递单号：{record.orderNo || ""}</div> */}
         <div style={{ marginBottom: "20px" }}>
-          快递单号：{record.orderNo || ""}
+          快递单号：{record.expNo || ""}
         </div>
         <Timeline>
           {(nodeList || []).map((item, index) => {
