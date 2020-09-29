@@ -1,11 +1,9 @@
 import React from "react";
 import { connect } from "dva";
-import { Space, Table, Button, Select, Input } from "antd";
+import { Table, Button, Select, Input } from "antd";
 import ContentWrap from "../../../components/contentWrap";
 import OpreationBar from "../../../components/OpreationBar";
 import "./index.scss";
-
-const { Column } = Table;
 
 class SunshinePurchaseInfo extends React.Component {
   constructor(props) {
