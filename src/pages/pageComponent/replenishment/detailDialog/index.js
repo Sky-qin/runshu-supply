@@ -147,6 +147,7 @@ class EditDialog extends React.Component {
     return (
       <Table
         bordered
+        rowKey={(record, index) => index}
         scroll={{ y: 400 }}
         dataSource={deliverInfoList}
         rowKey="orderNo"

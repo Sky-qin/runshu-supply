@@ -380,7 +380,7 @@ class ConsumeList extends React.Component {
               dataIndex="operationPicList"
               width={120}
               render={(value) => {
-                return value ? (
+                return value && value.length > 0 ? (
                   <a onClick={() => this.handleViewPicList(value)}>
                     查看手术单
                   </a>

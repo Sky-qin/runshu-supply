@@ -58,12 +58,11 @@ class SunshinePurchaseInfo extends React.Component {
     });
     if (key === "province") {
       dispatch({ type: "sunshinePurchaseInfoModel/getSunTitle" });
+      this.getTableList();
     }
-    this.getTableList();
   };
 
   render() {
-    const { dispatch } = this.props;
     const {
       pagination,
       data,

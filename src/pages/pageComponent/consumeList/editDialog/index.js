@@ -106,6 +106,7 @@ class EditDialog extends React.Component {
         </BasicDiv>
         <div style={{ overflowX: "scroll" }}>
           <Table
+            rowKey={(record, index) => index}
             style={{
               width: "1500px",
               maxWidth: "none",

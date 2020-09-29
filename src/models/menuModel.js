@@ -14,10 +14,13 @@ export default {
 
   effects: {
     *getResourceList({ payload }, { call, put, select }) {
+      const { expandedRowKeys } = yield select((state) => state.menuModel);
+
       yield put({ type: "save", payload: { loading: true } });
       const { data } = yield call(API.getResourceList);
       yield put({ type: "save", payload: { loading: false } });
       if (data && data.success) {
+        let currentExpand = {};
         let list = (data.data || []).map((item) => {
           return {
             ...item.resource,
@@ -27,10 +30,18 @@ export default {
                 : item.childrenList,
           };
         });
+        if (expandedRowKeys && expandedRowKeys[0]) {
+          list.map((item) => {
+            if (item.id === expandedRowKeys[0]) {
+              currentExpand = item;
+            }
+          });
+        }
         yield put({
           type: "save",
           payload: {
             data: list,
+            currentExpand,
           },
         });
       } else {

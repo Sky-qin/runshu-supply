@@ -181,7 +181,6 @@ class MenuConfig extends React.Component {
 
   getCurrentExpandKey = (opend, record) => {
     const { dispatch } = this.props;
-    console.log(record);
     dispatch({
       type: "menuModel/save",
       payload: {
@@ -269,7 +268,7 @@ class MenuConfig extends React.Component {
           ]}
           maskClosable={false}
         >
-          你确定要删除 {currentMsg.name} 这个菜单吗？
+          你确定要删除 {currentMsg.resourceName} 这个菜单吗？
         </Modal>
         {/* 编辑弹窗 */}
         {showEditDialog && (
