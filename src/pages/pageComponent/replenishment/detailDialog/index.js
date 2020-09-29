@@ -120,23 +120,26 @@ class EditDialog extends React.Component {
 
   renderContent = (record) => {
     const { nodeList } = record;
+    const { deliveryList } = nodeList;
     return (
-      <>
+      <div style={{ width: 500 }}>
         <div>快递公司：{record.expCompanyName || ""}</div>
         <div style={{ marginBottom: "20px" }}>
           快递单号：{record.expNo || ""}
         </div>
         <Timeline>
-          {(nodeList || []).map((item, index) => {
+          {(deliveryList || []).map((item, index) => {
             return (
               <Timeline.Item>
-                <div>{item.nodeStatusLabel}</div>
-                <div>{item.detail}</div>
+                <div>{item.nodeLabel}</div>
+                {(item.nodeList || []).map((node, index) => {
+                  return <div key={index}>{node.detail || ""}</div>;
+                })}
               </Timeline.Item>
             );
           })}
         </Timeline>
-      </>
+      </div>
     );
   };
 
