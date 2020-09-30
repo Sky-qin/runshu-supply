@@ -50,6 +50,9 @@ const BoardWrap = styled.div`
         }
       }
     }
+    .jump-to-list {
+      cursor: pointer;
+    }
     .item-board-right {
       width: 200px;
       text-align: center;
@@ -115,6 +118,11 @@ class TotalBoard extends React.Component {
     }
   }
 
+  cliclkToList = (key) => {
+    const { onClick } = this.props;
+    onClick && typeof onClick === "function" && onClick(key);
+  };
+
   render() {
     const {
       inventoryWarningNo,
@@ -129,7 +137,10 @@ class TotalBoard extends React.Component {
       <ContentWrap>
         <BoardWrap>
           <div className="item-board">
-            <div className="item-board-left light-red">
+            <div
+              className="item-board-left light-red jump-to-list"
+              onClick={() => this.cliclkToList("inventoryWarnInfo")}
+            >
               <img src={redCircular} />
               <div className="item-board-left-info">
                 <div className="item-board-left-info-num">
@@ -140,7 +151,10 @@ class TotalBoard extends React.Component {
                 </div>
               </div>
             </div>
-            <div className="item-board-right deep-red">
+            <div
+              className="item-board-right deep-red jump-to-list"
+              onClick={() => this.cliclkToList("recentWarnInfo")}
+            >
               <img
                 src={lightning}
                 style={{ width: 50, height: 50, margin: "40px 0 25px" }}
