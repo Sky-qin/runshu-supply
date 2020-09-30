@@ -39,7 +39,7 @@ class SystemPersonnelManage extends React.Component {
     const { pagination } = this.props.personnelManage;
     dispatch({
       type: "personnelManage/save",
-      paylaod: {
+      payload: {
         pagination: {
           ...pagination,
           current,
@@ -47,6 +47,7 @@ class SystemPersonnelManage extends React.Component {
         },
       },
     });
+    this.getTableList();
   };
 
   handleClick = (key) => {
@@ -126,6 +127,7 @@ class SystemPersonnelManage extends React.Component {
       userRoleList,
     } = this.props.personnelManage;
     const { current, size, total } = pagination;
+    console.log("pagination", pagination);
     return (
       <ContentBox loading={loading}>
         <OpreationBar

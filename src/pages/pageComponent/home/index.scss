@@ -40,6 +40,8 @@
 .top-ten {
   display: flex;
   background: #e9ebf2;
+  overflow-x: auto;
+  overflow-y: hidden;
   &-center {
     margin: 0px 12px;
   }
@@ -49,6 +51,7 @@
     padding: 12px;
     border-radius: 8px;
     min-height: 300px;
+    min-width: 360px;
     &-top-bar {
       height: 25px;
       font-size: 18px;
@@ -66,9 +69,10 @@
     }
     &-table-col {
       display: flex;
-      height: 38px;
-      line-height: 38px;
+      line-height: 30px;
       color: #999;
+      align-items: "baseline ";
+      padding: 3px 0;
       .sort-row {
         width: 60px;
         text-align: center;
