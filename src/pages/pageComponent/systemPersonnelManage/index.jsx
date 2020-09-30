@@ -127,7 +127,6 @@ class SystemPersonnelManage extends React.Component {
       userRoleList,
     } = this.props.personnelManage;
     const { current, size, total } = pagination;
-    console.log("pagination", pagination);
     return (
       <ContentBox loading={loading}>
         <OpreationBar
