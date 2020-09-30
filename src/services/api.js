@@ -594,6 +594,14 @@ const API = {
     });
   },
 
+  // 获取补货单医院
+  queryReplenishHospitals(params) {
+    return request({
+      url: `${Prefix}/sendOrder/queryReplenishHospitals`,
+      params,
+    });
+  },
+
   /**
    * 库位管理
    */

@@ -117,7 +117,7 @@ class Entry extends React.Component {
               <Route
                 path="/entry/manufacturerManage"
                 component={ManufacturerManage}
-              />{" "}
+              />
               <Route
                 path="/entry/sunshinePurchaseInfo"
                 component={SunshinePurchaseInfo}

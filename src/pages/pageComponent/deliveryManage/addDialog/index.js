@@ -64,7 +64,7 @@ class AddDialog extends React.Component {
     const { selectedRowKeys, hospitalId } = this.state;
     const { title, data } = this.props;
     const {
-      hospitalList,
+      hospitalTodoList,
       inventoryPagination,
       loading,
       replenishTodoList,
@@ -107,7 +107,7 @@ class AddDialog extends React.Component {
               >
                 <Select
                   showArrow
-                  options={hospitalList}
+                  options={hospitalTodoList}
                   onChange={(value) => this.changeTableList(value)}
                   showSearch
                   optionFilterProp="label"

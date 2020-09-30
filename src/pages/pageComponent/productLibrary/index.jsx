@@ -1,13 +1,12 @@
 import React from "react";
 import { connect } from "dva";
-import { Table, Input } from "antd";
-import { ExportOutlined } from "@ant-design/icons";
+import { Table, Input, Button } from "antd";
+import { ExportOutlined, SearchOutlined } from "@ant-design/icons";
 import ContentWrap from "../../../components/contentWrap";
 import OpreationBar from "../../../components/OpreationBar";
 import "./index.scss";
 
 const { Column } = Table;
-const { Search } = Input;
 
 class ProductLibrary extends React.Component {
   constructor(props) {
@@ -55,6 +54,7 @@ class ProductLibrary extends React.Component {
         },
       },
     });
+    if (key === "keyword") return;
     this.getTableList();
   };
 
@@ -71,11 +71,20 @@ class ProductLibrary extends React.Component {
         <OpreationBar
           custom={
             <>
-              <Search
-                placeholder="输入产品名称/编码"
-                onSearch={(value) => this.filterChange(value, "keyword")}
-                style={{ width: 260 }}
-              />
+              <div style={{ width: 260, display: "inline-block" }}>
+                <Input
+                  style={{ width: 225 }}
+                  placeholder="输入产品名称/编码"
+                  value={keyword}
+                  onChange={(e) => this.filterChange(e.target.value, "keyword")}
+                  allowClear
+                />
+                <Button
+                  style={{ position: "relative", left: "-3px", top: "1px" }}
+                  onClick={this.getTableList}
+                  icon={<SearchOutlined />}
+                />
+              </div>
             </>
           }
           linkList={[

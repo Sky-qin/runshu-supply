@@ -1,11 +1,11 @@
 import React from "react";
 import { connect } from "dva";
-import { Table, Input } from "antd";
+import { Table, Input, Button } from "antd";
+import { SearchOutlined } from "@ant-design/icons";
 import ContentWrap from "../../../components/contentWrap";
 import OpreationBar from "../../../components/OpreationBar";
 
 const { Column } = Table;
-const { Search } = Input;
 class InventoryManage extends React.Component {
   constructor(props) {
     super(props);
@@ -52,22 +52,39 @@ class InventoryManage extends React.Component {
         },
       },
     });
+    if (key === "keyword") return;
     this.getTableList();
   };
 
   render() {
-    const { pagination, data, loading } = this.props.inventoryManafeModel;
+    const {
+      pagination,
+      data,
+      loading,
+      keyword,
+    } = this.props.inventoryManafeModel;
     const { current, size, total } = pagination;
     return (
       <ContentWrap loading={loading}>
         <OpreationBar
           custom={
             <>
-              <Search
-                placeholder="输入库位名称"
-                onSearch={(value) => this.onChangeFilter(value, "keyword")}
-                style={{ width: 260 }}
-              />
+              <div style={{ width: 260, display: "inline-block" }}>
+                <Input
+                  style={{ width: 225 }}
+                  placeholder="输入库位名称"
+                  value={keyword}
+                  onChange={(e) =>
+                    this.onChangeFilter(e.target.value, "keyword")
+                  }
+                  allowClear
+                />
+                <Button
+                  style={{ position: "relative", left: "-3px", top: "1px" }}
+                  onClick={this.getTableList}
+                  icon={<SearchOutlined />}
+                />
+              </div>
             </>
           }
           total={total}

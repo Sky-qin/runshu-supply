@@ -224,6 +224,7 @@ class FeedbackInfoManage extends React.Component {
       departmentList,
       feedbackInfo,
       feedbackDialog,
+      searchParams,
     } = this.props.feedbackModel;
     const { current, size, total } = pagination;
     return (
@@ -234,6 +235,9 @@ class FeedbackInfoManage extends React.Component {
             ref={this.searchRef}
             onFinish={this.onFinish}
             style={{ marginTop: "24px" }}
+            initialValues={{
+              ...searchParams,
+            }}
           >
             <Row>
               <Col span={6}>
