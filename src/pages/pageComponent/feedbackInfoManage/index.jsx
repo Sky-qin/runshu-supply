@@ -236,7 +236,11 @@ class FeedbackInfoManage extends React.Component {
             onFinish={this.onFinish}
             style={{ marginTop: "24px" }}
             initialValues={{
-              ...searchParams,
+              hospitalId: searchParams.hospitalId || null,
+              departmentId: searchParams.departmentId || null,
+              orderStatus: searchParams.orderStatus || null,
+              creator: searchParams.creator || null,
+              consumeName: searchParams.consumeName || null,
             }}
           >
             <Row>

@@ -74,7 +74,7 @@ class EditDialog extends React.Component {
           scroll={{ y: 400 }}
           dataSource={productList}
           pagination={false}
-          rowKey="serialNo"
+          rowKey={(record, index) => index}
         >
           <Column
             title="序号"

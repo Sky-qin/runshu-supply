@@ -32,6 +32,8 @@ const tailLayout = {
   },
 };
 
+const colorList = { 0: "#f60", 1: "#52c41a", 2: "red", 3: "red" };
+
 class ConsumeList extends React.Component {
   searchRef = React.createRef();
 
@@ -271,7 +273,11 @@ class ConsumeList extends React.Component {
             onFinish={this.onFinish}
             style={{ marginTop: "24px" }}
             initialValues={{
-              ...searchParams,
+              hospitalId: searchParams.hospitalId || null,
+              departmentId: searchParams.departmentId || null,
+              orderStatus: searchParams.orderStatus || null,
+              creator: searchParams.creator || null,
+              consumeName: searchParams.consumeName || null,
             }}
           >
             <Row>
@@ -379,7 +385,18 @@ class ConsumeList extends React.Component {
             <Column title="科室" dataIndex="departmentName" width={120} />
             <Column title="申请人" dataIndex="userName" width={100} />
             <Column title="申请时间" dataIndex="createTime" width={150} />
-            <Column title="状态" dataIndex="orderStatusDesc" width={100} />
+            <Column
+              title="状态"
+              dataIndex="orderStatusDesc"
+              width={100}
+              render={(value, record, index) => {
+                return (
+                  <span style={{ color: colorList[record.orderStatus] }}>
+                    {value}
+                  </span>
+                );
+              }}
+            />
             <Column
               title="手术单"
               dataIndex="operationPicList"

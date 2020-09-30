@@ -35,6 +35,15 @@ const SpanBox = styled.span`
   color: red;
 `;
 
+const colorList = {
+  1: "#f60",
+  2: "#f60",
+  3: "red",
+  4: "#f60",
+  5: "#f60",
+  6: "#52c41a",
+};
+
 class Replenishment extends React.Component {
   searchRef = React.createRef();
 
@@ -386,7 +395,9 @@ class Replenishment extends React.Component {
 
                 return (
                   <Space>
-                    <a>{value}</a>
+                    <span style={{ color: colorList[orderStatus] }}>
+                      {value}
+                    </span>
                     {(orderStatus === 2 || orderStatus === 4) &&
                       delivery === "1" && <SpanBox>对方提醒发货</SpanBox>}
                   </Space>
