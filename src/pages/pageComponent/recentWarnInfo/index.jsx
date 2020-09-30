@@ -91,6 +91,7 @@ class RecentWarnInfo extends React.Component {
                 showSearch
                 allowClear={true}
                 filterOption={false}
+                value={stockId || null}
                 onChange={(value) => this.onChangeFilter(value, "stockId")}
                 onSearch={(value) => this.getStockList(value)}
                 style={{ width: 260, marginLeft: 15 }}
@@ -142,7 +143,10 @@ class RecentWarnInfo extends React.Component {
             dataIndex="surplusDays"
             width={120}
             render={(value) => {
-              return <WrapSpan>{value}</WrapSpan>;
+              let days = Number(value);
+              return (
+                <WrapSpan>{days >= 0 ? value : `${value}（已过期）`}</WrapSpan>
+              );
             }}
           />
         </Table>

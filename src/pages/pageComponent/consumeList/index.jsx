@@ -258,6 +258,7 @@ class ConsumeList extends React.Component {
       feedbackInfo,
       feedbackDialog,
       dialogBtnLoading,
+      searchParams,
     } = this.props.consumeModel;
     const { picList, showPicList } = this.state;
     const { current, size, total } = pagination;
@@ -269,6 +270,9 @@ class ConsumeList extends React.Component {
             ref={this.searchRef}
             onFinish={this.onFinish}
             style={{ marginTop: "24px" }}
+            initialValues={{
+              ...searchParams,
+            }}
           >
             <Row>
               <Col span={6}>
@@ -290,6 +294,7 @@ class ConsumeList extends React.Component {
                     treeNodeFilterProp="label"
                     placeholder="请选择科室"
                     treeData={departmentList}
+                    value={searchParams.departmentId}
                     allowClear
                     onChange={(value) =>
                       this.onSearchChange("departmentId", value)

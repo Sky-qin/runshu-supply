@@ -282,6 +282,7 @@ class Replenishment extends React.Component {
       scanCode,
       drawerLoading,
       deliverInfoList,
+      searchParams,
     } = this.props.replenishmentModel;
     const { current, size, total } = pagination;
     return (
@@ -292,6 +293,9 @@ class Replenishment extends React.Component {
             ref={this.searchRef}
             onFinish={this.onFinish}
             style={{ marginTop: "24px" }}
+            initialValues={{
+              ...searchParams,
+            }}
           >
             <Row>
               <Col span={6}>

@@ -46,7 +46,9 @@ class DeliveryDialog extends React.Component {
               <Timeline.Item key={`item${index}`}>
                 <div>{item.nodeLabel}</div>
                 {(item.nodeList || []).map((node, index) => {
-                  return <div key={index}>{node.detail}</div>;
+                  return (
+                    <div key={index}>{`${node.nodeTime}——${node.detail}`}</div>
+                  );
                 })}
               </Timeline.Item>
             );

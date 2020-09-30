@@ -37,6 +37,7 @@ export default {
     replenishmentList: [],
     replenishTodoList: [],
     deliveryInfo: [],
+    hospitalTodoList: [],
     showDeliveryDialog: false,
     dialogBtnLoading: false,
     showEditDeliveryDialog: false,
@@ -92,6 +93,20 @@ export default {
         message.error(data.message || "获取医院枚举失败！");
       }
     },
+    *queryReplenishHospitals({ payload }, { call, put, select }) {
+      const { data } = yield call(API.queryReplenishHospitals);
+      if (data && data.success) {
+        yield put({
+          type: "save",
+          payload: {
+            hospitalTodoList: data.data || [],
+          },
+        });
+      } else {
+        message.error(data.message || "获取医院枚举失败！");
+      }
+    },
+
     *getSendPersonList({ payload }, { call, put, select }) {
       const { data } = yield call(API.getSendPersonList);
       if (data && data.success) {

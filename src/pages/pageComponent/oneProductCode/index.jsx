@@ -1,11 +1,11 @@
 import React from "react";
 import { connect } from "dva";
-import { Table, Input, Select } from "antd";
+import { Table, Input, Select, Button } from "antd";
+import { SearchOutlined } from "@ant-design/icons";
 import ContentWrap from "../../../components/contentWrap";
 import OpreationBar from "../../../components/OpreationBar";
 
 const { Column } = Table;
-const { Search } = Input;
 
 class OneProductCode extends React.Component {
   constructor(props) {
@@ -53,24 +53,41 @@ class OneProductCode extends React.Component {
         },
       },
     });
+    if (key === "keyword") return;
     this.getTableList();
   };
 
   render() {
-    const { pagination, data, loading } = this.props.oneProductCodeModel;
+    const {
+      pagination,
+      data,
+      loading,
+      keyword,
+      isConsumed,
+    } = this.props.oneProductCodeModel;
     const { current, size, total } = pagination;
     return (
       <ContentWrap loading={loading}>
         <OpreationBar
           custom={
             <>
-              <Search
-                placeholder="输入产品名称/编码/流水号"
-                onSearch={(value) => this.filterChange(value, "keyword")}
-                style={{ width: 260 }}
-              />
+              <div style={{ width: 260, display: "inline-block" }}>
+                <Input
+                  style={{ width: 225 }}
+                  placeholder="输入产品名称/编码"
+                  value={keyword}
+                  onChange={(e) => this.filterChange(e.target.value, "keyword")}
+                  allowClear
+                />
+                <Button
+                  style={{ position: "relative", left: "-3px", top: "1px" }}
+                  onClick={this.getTableList}
+                  icon={<SearchOutlined />}
+                />
+              </div>
               <Select
                 placeholder="请选择是否消耗"
+                value={isConsumed}
                 options={[
                   { value: true, label: "是" },
                   { value: false, label: "否" },

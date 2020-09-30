@@ -1,6 +1,7 @@
 import React from "react";
 import { connect } from "dva";
-import { Space, Table, Select, Input, InputNumber } from "antd";
+import { Space, Table, Select, Input, InputNumber, Button } from "antd";
+import { SearchOutlined } from "@ant-design/icons";
 import EditDialog from "./editDialog";
 import ContentWrap from "../../../components/contentWrap";
 import TotalBoard from "../../../components/TotalBoard";
@@ -59,7 +60,7 @@ class Inventory extends React.Component {
         },
       },
     });
-    if (key === "validPeriod") return;
+    if (key === "validPeriod" || key === "keyword") return;
     this.getTableList();
   };
 
@@ -106,6 +107,10 @@ class Inventory extends React.Component {
       data,
       loading,
       productCategoryList,
+      keyword,
+      validPeriod,
+      stockId,
+      productCategory,
     } = this.props.inventory;
     const { current, size, total } = pagination;
     return (
@@ -115,13 +120,26 @@ class Inventory extends React.Component {
           <OpreationBar
             custom={
               <>
-                <Search
-                  placeholder="输入产品名称/编码"
-                  onSearch={(value) => this.onChangeFilter(value, "keyword")}
-                  style={{ width: 260 }}
-                />
+                <div style={{ width: 260, display: "inline-block" }}>
+                  <Input
+                    style={{ width: 225 }}
+                    placeholder="输入产品名称/编码"
+                    value={keyword}
+                    onChange={(e) =>
+                      this.onChangeFilter(e.target.value, "keyword")
+                    }
+                    allowClear
+                  />
+                  <Button
+                    style={{ position: "relative", left: "-3px", top: "1px" }}
+                    onClick={this.getTableList}
+                    icon={<SearchOutlined />}
+                  />
+                </div>
+
                 <InputNumber
                   placeholder="请输入有效期"
+                  value={validPeriod}
                   style={{ width: 260, marginLeft: 15 }}
                   onChange={(value) =>
                     this.onChangeFilter(value, "validPeriod")
@@ -132,6 +150,7 @@ class Inventory extends React.Component {
                   optionFilterProp="label"
                   showSearch
                   allowClear={true}
+                  value={stockId || null}
                   onChange={(value) => this.onChangeFilter(value, "stockId")}
                   style={{ width: 260, marginLeft: 15 }}
                   options={storageList}
@@ -140,6 +159,7 @@ class Inventory extends React.Component {
                 <Select
                   showSearch
                   allowClear={true}
+                  value={productCategory || null}
                   onChange={(value) =>
                     this.onChangeFilter(value, "productCategory")
                   }

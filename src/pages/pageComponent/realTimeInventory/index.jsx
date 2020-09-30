@@ -1,6 +1,7 @@
 import React from "react";
 import { connect } from "dva";
-import { Space, Table, InputNumber, Select, Input } from "antd";
+import { Space, Table, InputNumber, Select, Input, Button } from "antd";
+import { SearchOutlined } from "@ant-design/icons";
 import EditDialog from "./editDialog";
 import ContentWrap from "../../../components/contentWrap";
 import OpreationBar from "../../../components/OpreationBar";
@@ -59,7 +60,7 @@ class RealTimeInventory extends React.Component {
         },
       },
     });
-    if (key === "validPeriod") return;
+    if (key === "validPeriod" || key === "keyword") return;
     this.getTableList();
   };
 
@@ -84,6 +85,9 @@ class RealTimeInventory extends React.Component {
       data,
       loading,
       productCategoryList,
+      validPeriod,
+      productCategory,
+      keyword,
     } = this.props.realInventoryModel;
     const { current, size, total } = pagination;
     return (
@@ -93,14 +97,27 @@ class RealTimeInventory extends React.Component {
           <OpreationBar
             custom={
               <>
-                <Search
-                  placeholder="输入产品名称/编码"
-                  onSearch={(value) => this.onChangeFilter(value, "keyword")}
-                  style={{ width: 260 }}
-                />
+                <div style={{ width: 260, display: "inline-block" }}>
+                  <Input
+                    style={{ width: 225 }}
+                    placeholder="输入产品名称/编码"
+                    value={keyword}
+                    onChange={(e) =>
+                      this.onChangeFilter(e.target.value, "keyword")
+                    }
+                    allowClear
+                  />
+                  <Button
+                    style={{ position: "relative", left: "-3px", top: "1px" }}
+                    onClick={this.getTableList}
+                    icon={<SearchOutlined />}
+                  />
+                </div>
+
                 <InputNumber
                   placeholder="请输入有效期"
                   style={{ width: 260, marginLeft: 15 }}
+                  value={validPeriod || null}
                   onChange={(value) =>
                     this.onChangeFilter(value, "validPeriod")
                   }
@@ -109,6 +126,7 @@ class RealTimeInventory extends React.Component {
                 <Select
                   showSearch
                   allowClear={true}
+                  value={productCategory || null}
                   onChange={(value) =>
                     this.onChangeFilter(value, "productCategory")
                   }

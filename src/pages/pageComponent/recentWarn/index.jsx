@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "dva";
 import { Button, Space, Table, Modal, Input } from "antd";
-import { PlusOutlined } from "@ant-design/icons";
+import { PlusOutlined, SearchOutlined } from "@ant-design/icons";
 import EditDialog from "./editDialog";
 import ContentWrap from "../../../components/contentWrap";
 import OpreationBar from "../../../components/OpreationBar";
@@ -77,17 +77,6 @@ class RecentWarn extends React.Component {
       type: "recentWarnModel/setWarning",
       payload: { ...values },
     });
-    // if (dialogTitle === "编辑") {
-    //   dispatch({
-    //     type: "recentWarnModel/setWarning",
-    //     payload: { ...values },
-    //   });
-    // } else {
-    //   dispatch({
-    //     type: "recentWarnModel/setWarning",
-    //     payload: { ...values },
-    //   });
-    // }
   };
 
   changePagination = (current, size) => {
@@ -137,6 +126,7 @@ class RecentWarn extends React.Component {
         [key]: value,
       },
     });
+    if (key === "keyword") return;
     this.getTableList();
   };
 
@@ -153,6 +143,7 @@ class RecentWarn extends React.Component {
       dialogBtnLoading,
       criticalType,
       productList,
+      keyword,
     } = this.props.recentWarnModel;
     const { current, size, total } = pagination;
     return (
@@ -161,11 +152,20 @@ class RecentWarn extends React.Component {
           total={false}
           custom={
             <>
-              <Search
-                placeholder="输入产品名称/编码"
-                onSearch={(value) => this.filterChange(value, "keyWord")}
-                style={{ width: 260 }}
-              />
+              <div style={{ width: 260, display: "inline-block" }}>
+                <Input
+                  style={{ width: 225 }}
+                  placeholder="输入产品名称/编码"
+                  value={keyword}
+                  onChange={(e) => this.filterChange(e.target.value, "keyword")}
+                  allowClear
+                />
+                <Button
+                  style={{ position: "relative", left: "-3px", top: "1px" }}
+                  onClick={this.getTableList}
+                  icon={<SearchOutlined />}
+                />
+              </div>
             </>
           }
         />

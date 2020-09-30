@@ -179,6 +179,7 @@ class DeliveryManage extends React.Component {
         },
       });
       dispatch({ type: "deliveryManageModel/getReplenishList" });
+      dispatch({ type: "deliveryManageModel/queryReplenishHospitals" });
     }
   };
 
@@ -275,7 +276,6 @@ class DeliveryManage extends React.Component {
     const {
       showDetailDialog,
       inventoryPagination,
-      inventoryList,
       currentMsg,
       pagination,
       data,
@@ -299,6 +299,8 @@ class DeliveryManage extends React.Component {
       deliveryInfo,
       showEditDeliveryDialog,
       dialogBtnLoading,
+      searchParams,
+      hospitalTodoList,
     } = this.props.deliveryManageModel;
     const { current, size, total } = pagination;
     return (
@@ -309,6 +311,9 @@ class DeliveryManage extends React.Component {
             ref={this.searchRef}
             onFinish={this.onFinish}
             style={{ marginTop: "24px" }}
+            initialValues={{
+              ...searchParams,
+            }}
           >
             <Row>
               <Col span={6}>
@@ -448,7 +453,7 @@ class DeliveryManage extends React.Component {
             <AddDialog
               title="选择补货单"
               data={{
-                hospitalList,
+                hospitalTodoList,
                 currentMsg,
                 replenishTodoList,
                 inventoryPagination,
