@@ -95,6 +95,12 @@ class Inventory extends React.Component {
     dispatch({ type: "inventory/queryInventoryProduct" });
   };
 
+  clickToList = (key) => {
+    const { history, dispatch } = this.props;
+    dispatch({ type: "entryModel/save", payload: { activeKey: key } });
+    history.push(`/entry/${key}`);
+  };
+
   render() {
     const { dispatch } = this.props;
     const {
@@ -115,7 +121,7 @@ class Inventory extends React.Component {
     const { current, size, total } = pagination;
     return (
       <>
-        <TotalBoard />
+        <TotalBoard onClick={this.clickToList} />
         <ContentWrap loading={loading}>
           <OpreationBar
             custom={

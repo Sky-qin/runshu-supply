@@ -24,7 +24,7 @@ class Header extends React.Component {
       <Menu
         onClick={this.handleClick}
         style={{ width: 240, overflowY: "scroll", overflowX: "hidden" }}
-        defaultSelectedKeys={[activeMenu]}
+        selectedKeys={[activeMenu]}
         mode="inline"
       >
         {(data || []).map((item, index) => {
