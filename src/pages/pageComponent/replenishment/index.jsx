@@ -316,6 +316,7 @@ class Replenishment extends React.Component {
                     options={hospitalList}
                     showSearch
                     optionFilterProp="label"
+                    dropdownMatchSelectWidth={false}
                     placeholder="请选择医院"
                     allowClear
                   />

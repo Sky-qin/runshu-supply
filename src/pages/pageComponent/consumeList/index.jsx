@@ -289,6 +289,9 @@ class ConsumeList extends React.Component {
                     }
                     options={hospitalList}
                     placeholder="请选择医院"
+                    dropdownMatchSelectWidth={false}
+                    showSearch
+                    optionFilterProp="label"
                     allowClear
                   />
                 </Form.Item>

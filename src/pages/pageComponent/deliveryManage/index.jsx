@@ -338,6 +338,7 @@ class DeliveryManage extends React.Component {
                     allowClear
                     showSearch
                     optionFilterProp="label"
+                    dropdownMatchSelectWidth={false}
                   />
                 </Form.Item>
               </Col>
