@@ -53,7 +53,7 @@ class EditDialog extends React.Component {
       <Modal
         title={title}
         visible
-        style={{ minWidth: "1000px", maxWidth: "1100px" }}
+        style={{ minWidth: "1100px", maxWidth: "1100px" }}
         onCancel={this.handleCancel}
         maskClosable={false}
         footer={false}
@@ -71,7 +71,7 @@ class EditDialog extends React.Component {
         </BasicDiv>
         <Table
           bordered
-          scroll={{ y: 400 }}
+          scroll={{ x: 1000, y: 500 }}
           dataSource={productList}
           pagination={false}
           rowKey={(record, index) => index}
@@ -82,16 +82,16 @@ class EditDialog extends React.Component {
             width={80}
           />
           <Column title="流水号" dataIndex="serialNo" width={110} />
-          <Column title="产品编号" dataIndex="productCode" width={130} />
+          <Column title="产品编号" dataIndex="productCode" width={120} />
           <Column title="产品名称" dataIndex="productName" width={220} />
           <Column title="规格" dataIndex="model" width={130} />
-          <Column title="型号" dataIndex="regModel" width={100} />
+          <Column title="型号" dataIndex="regModel" width={90} />
           <Column title="单位" dataIndex="unit" width={90} />
           <Column title="单价" dataIndex="productPrice" width={90} />
           <Column
             title="补货单号"
             dataIndex="replenishNumber"
-            width={120}
+            width={140}
             fixed="right"
             render={(value, record, index) => {
               return (

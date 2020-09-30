@@ -1,5 +1,6 @@
 import { message } from "antd";
 import API from "../services/api";
+import { transferList } from "../utils/tools";
 
 export default {
   namespace: "productLibraryModel",
@@ -14,20 +15,29 @@ export default {
       size: 10,
       total: 0,
     },
-    keyword: "",
+    productCategoryList: [],
+    productVendorList: [],
+    keyword: null,
+    productCategory: null,
+    productVendor: null,
   },
 
   effects: {
     *queryProductList({ payload }, { call, put, select }) {
-      const { pagination, keyword } = yield select(
-        (state) => state.productLibraryModel
-      );
+      const {
+        pagination,
+        keyword,
+        productCategory,
+        productVendor,
+      } = yield select((state) => state.productLibraryModel);
       const { current, size } = pagination;
       let params = {
         current,
         size,
         params: {
           keyword,
+          productCategory,
+          productVendor,
         },
       };
       yield put({ type: "save", payload: { loading: true } });
@@ -47,6 +57,36 @@ export default {
         });
       } else {
         message.error(data.message || "获取产品信息失败！");
+      }
+    },
+    *queryProductCategory({ payload }, { call, put, select }) {
+      const { data } = yield call(API.queryProductCategory);
+      if (data && data.success) {
+        yield put({
+          type: "save",
+          payload: {
+            productCategoryList: transferList(
+              data.data || [],
+              "label",
+              "label"
+            ),
+          },
+        });
+      } else {
+        message.error(data.message || "获取产品类别枚举失败！");
+      }
+    },
+    *productListVendor({ payload }, { call, put }) {
+      const { data } = yield call(API.productListVendor);
+      if (data && data.success) {
+        yield put({
+          type: "save",
+          payload: {
+            productVendorList: data.data || [],
+          },
+        });
+      } else {
+        message.error(data.message || "获取生产厂家枚举失败！");
       }
     },
   },

@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "dva";
-import { Table, Input, Button } from "antd";
+import { Table, Input, Button, Select } from "antd";
 import { ExportOutlined, SearchOutlined } from "@ant-design/icons";
 import ContentWrap from "../../../components/contentWrap";
 import OpreationBar from "../../../components/OpreationBar";
@@ -15,6 +15,9 @@ class ProductLibrary extends React.Component {
   }
 
   componentDidMount() {
+    const { dispatch } = this.props;
+    dispatch({ type: "productLibraryModel/queryProductCategory" });
+    dispatch({ type: "productLibraryModel/productListVendor" });
     this.getTableList();
   }
 
@@ -64,6 +67,10 @@ class ProductLibrary extends React.Component {
       data,
       loading,
       keyword,
+      productCategory,
+      productVendor,
+      productCategoryList,
+      productVendorList,
     } = this.props.productLibraryModel;
     const { current, size, total } = pagination;
     return (
@@ -85,6 +92,28 @@ class ProductLibrary extends React.Component {
                   icon={<SearchOutlined />}
                 />
               </div>
+              <Select
+                placeholder="请选择产品类别"
+                value={productCategory || null}
+                showSearch
+                optionFilterProp="label"
+                options={productCategoryList}
+                allowClear
+                style={{ width: 260, marginLeft: 15 }}
+                onChange={(value) =>
+                  this.filterChange(value, "productCategory")
+                }
+              />
+              <Select
+                placeholder="请选择生产厂家"
+                value={productVendor || null}
+                showSearch
+                optionFilterProp="label"
+                options={productVendorList}
+                allowClear
+                style={{ width: 260, marginLeft: 15 }}
+                onChange={(value) => this.filterChange(value, "productVendor")}
+              />
             </>
           }
           linkList={[

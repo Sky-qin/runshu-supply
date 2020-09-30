@@ -805,6 +805,13 @@ const API = {
       params,
     });
   },
+  // 厂家枚举
+  productListVendor(params) {
+    return request({
+      url: `${Prefix}/supply/product/listVendor`,
+      params,
+    });
+  },
 };
 
 export default API;
