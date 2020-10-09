@@ -407,6 +407,7 @@ class DeliveryManage extends React.Component {
           <Table
             bordered
             rowKey={(record, index) => index}
+            scroll={{ x: 1500 }}
             dataSource={data}
             pagination={{
               position: ["bottomCenter"],
@@ -424,9 +425,9 @@ class DeliveryManage extends React.Component {
             />
             <Column title="快递单号" dataIndex="expNo" width={130} />
             <Column title="快递公司" dataIndex="expCompanyName" width={150} />
-            <Column title="收货方" dataIndex="customerName" width={180} />
+            <Column title="收货方" dataIndex="customerName" width={200} />
             <Column title="发货日期" dataIndex="deliveryTime" width={120} />
-            <Column title="发货人" dataIndex="deliveryName" width={120} />
+            <Column title="发货人" dataIndex="deliveryName" width={100} />
             <Column
               title="物流状态"
               dataIndex="deliveryStatusDesc"
@@ -434,8 +435,8 @@ class DeliveryManage extends React.Component {
             />
             <Column
               title="操作"
-              width={315}
-              lock="right"
+              width={260}
+              fixed="right"
               render={(value, record, index) => (
                 <Space size="middle">
                   <a onClick={() => this.handleEditDelivery(record)}>

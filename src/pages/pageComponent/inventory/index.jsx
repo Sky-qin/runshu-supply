@@ -204,7 +204,7 @@ class Inventory extends React.Component {
               title="操作"
               dataIndex="name"
               fixed="right"
-              width={160}
+              width={120}
               render={(value, record, index) => (
                 <Space size="middle">
                   <a onClick={() => this.handleShowDetail(record)}>查看详情</a>

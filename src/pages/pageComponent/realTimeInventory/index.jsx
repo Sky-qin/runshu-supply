@@ -158,20 +158,20 @@ class RealTimeInventory extends React.Component {
               onShowSizeChange: this.changePagination,
             }}
           >
-            <Column title="产品编号" dataIndex="productCode" width={125} />
+            <Column title="产品编号" dataIndex="productCode" width={130} />
             <Column title="产品名称" dataIndex="productName" width={160} />
             <Column title="产品类别" dataIndex="productCategory" width={160} />
             <Column title="规格" dataIndex="model" width={120} />
             <Column title="型号" dataIndex="regularModel" width={120} />
             <Column title="产品批号" dataIndex="batchNo" width={120} />
             <Column title="单位" dataIndex="unitName" width={80} />
-            <Column title="库存数量" dataIndex="stockAmount" width={120} />
+            <Column title="库存数量" dataIndex="stockAmount" width={100} />
             <Column title="生产日期" dataIndex="productDate" width={120} />
             <Column title="有效期" dataIndex="validPeriodDate" width={120} />
             <Column
               title="库位数量"
               dataIndex="stockNum"
-              width={120}
+              width={100}
               fixed="right"
               render={(value, record, index) => {
                 return (

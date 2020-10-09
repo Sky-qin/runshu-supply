@@ -143,6 +143,7 @@ class HospitalManage extends React.Component {
         <Table
           bordered
           rowKey={(record, index) => index}
+          scroll={{ x: 1500 }}
           dataSource={data}
           pagination={{
             position: ["bottomCenter"],
@@ -158,15 +159,16 @@ class HospitalManage extends React.Component {
             render={(value, record, index) => index + 1}
             width={65}
           />
-          <Column title="医院名称" dataIndex="name" width={180} />
-          <Column title="科室" dataIndex="departmentName" width={120} />
+          <Column title="医院名称" dataIndex="name" width={260} />
+          <Column title="科室" dataIndex="departmentName" width={100} />
           <Column title="城市" dataIndex="cityName" width={180} />
           <Column title="地址" dataIndex="address" width={160} />
-          <Column title="联系人" dataIndex="person" width={120} />
+          <Column title="联系人" dataIndex="person" width={100} />
           <Column title="联系电话" dataIndex="phone" width={120} />
           <Column
             title="操作"
             dataIndex="name"
+            fixed="right"
             width={110}
             render={(value, record, index) => (
               <Space size="middle">

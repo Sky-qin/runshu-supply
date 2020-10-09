@@ -187,6 +187,7 @@ class InventoryWarn extends React.Component {
         <Table
           bordered
           rowKey={(record, index) => index}
+          scroll={{ x: 1300 }}
           dataSource={data}
           pagination={{
             position: ["bottomCenter"],
@@ -202,15 +203,16 @@ class InventoryWarn extends React.Component {
             width={80}
             render={(value, record, index) => index + 1}
           />
-          <Column title="产品编码" dataIndex="productCode" />
-          <Column title="产品名称" dataIndex="productName" />
-          <Column title="库位" dataIndex="stockName" />
-          <Column title="规格" dataIndex="model" />
-          <Column title="生产厂家" dataIndex="productVerdor" />
-          <Column title="库存预警值" dataIndex="stockValue" />
+          <Column title="产品编码" dataIndex="productCode" width={120} />
+          <Column title="产品名称" dataIndex="productName" width={180} />
+          <Column title="库位" dataIndex="stockName" width={150} />
+          <Column title="规格" dataIndex="model" width={120} />
+          <Column title="生产厂家" dataIndex="productVerdor" width={200} />
+          <Column title="库存预警值" dataIndex="stockValue" width={140} />
           <Column
             title="操作"
             dataIndex="name"
+            fixed="right"
             width={120}
             render={(value, record, index) => (
               <Space size="middle">

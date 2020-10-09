@@ -178,6 +178,7 @@ class RecentWarn extends React.Component {
           bordered
           rowKey={(record, index) => index}
           dataSource={data}
+          scroll={{ x: 1300 }}
           pagination={{
             position: ["bottomCenter"],
             current: current,
@@ -192,15 +193,16 @@ class RecentWarn extends React.Component {
             width={80}
             render={(value, record, index) => index + 1}
           />
-          <Column title="产品编码" dataIndex="productCode" />
-          <Column title="产品名称" dataIndex="productName" />
-          <Column title="规格" dataIndex="model" />
-          <Column title="生产厂家" dataIndex="productVerdor" />
-          <Column title="近效期预警值" dataIndex="periodValue" />
+          <Column title="产品编码" dataIndex="productCode" width={120} />
+          <Column title="产品名称" dataIndex="productName" width={180} />
+          <Column title="规格" dataIndex="model" width={100} />
+          <Column title="生产厂家" dataIndex="productVerdor" width={200} />
+          <Column title="近效期预警值" dataIndex="periodValue" width={140} />
           <Column
             title="操作"
             dataIndex="name"
             width={120}
+            fixed="right"
             render={(value, record, index) => (
               <Space size="middle">
                 <a onClick={() => this.handleEdit(record)}>编辑</a>
