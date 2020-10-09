@@ -147,13 +147,7 @@ class Home extends React.Component {
   renderCarts = (data) => {
     return (
       <Chart padding={[10, 40, 50, 40]} autoFit height={350} data={data}>
-        <LineAdvance
-          shape="smooth"
-          point
-          area
-          position="date*count"
-          // color="city"
-        />
+        <LineAdvance shape="smooth" point area position="date*count" />
       </Chart>
     );
   };

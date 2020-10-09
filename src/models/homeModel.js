@@ -67,9 +67,12 @@ export default {
       yield put({ type: "save", payload: { chartsLoading: false } });
 
       if (data && data.success) {
+        let list = (data.data || []).map((item) => {
+          return { ...item, count: Number(item.count || 0) };
+        });
         yield put({
           type: "save",
-          payload: { chartsData: data.data || [] },
+          payload: { chartsData: list },
         });
       } else {
         message.error(data.message || "查询折线图数据失败！");
