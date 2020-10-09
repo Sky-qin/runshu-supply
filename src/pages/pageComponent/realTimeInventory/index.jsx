@@ -49,7 +49,8 @@ class RealTimeInventory extends React.Component {
   };
 
   onChangeFilter = (value, key) => {
-    const { dispatch, pagination } = this.props;
+    const { dispatch } = this.props;
+    const { pagination } = this.props.realInventoryModel;
     dispatch({
       type: "realInventoryModel/save",
       payload: {

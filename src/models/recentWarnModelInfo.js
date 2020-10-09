@@ -11,7 +11,7 @@ export default {
       size: 10,
       total: 0,
     },
-    type: "2",
+    type: "1",
     stockList: [],
     stockId: "",
   },
