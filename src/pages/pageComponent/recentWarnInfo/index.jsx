@@ -141,7 +141,8 @@ class RecentWarnInfo extends React.Component {
           <Column
             title="剩余天数"
             dataIndex="surplusDays"
-            width={120}
+            width={140}
+            fixed="right"
             render={(value) => {
               let days = Number(value);
               return (

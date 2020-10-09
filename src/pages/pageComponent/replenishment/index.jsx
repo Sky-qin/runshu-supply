@@ -370,6 +370,7 @@ class Replenishment extends React.Component {
           <OpreationBar total={total} />
           <Table
             bordered
+            scroll={{ x: 1500 }}
             rowKey={(record, index) => index}
             dataSource={data}
             pagination={{
@@ -381,19 +382,18 @@ class Replenishment extends React.Component {
               onShowSizeChange: this.changePagination,
             }}
           >
-            <Column title="补货单号" dataIndex="replenishNumber" width={130} />
-            <Column title="医院" dataIndex="hospitalName" width={130} />
-            <Column title="补货数量" dataIndex="replenishNum" width={130} />
-            <Column title="申请人" dataIndex="userName" width={130} />
-            <Column title="部门" dataIndex="departmentName" width={130} />
+            <Column title="补货单号" dataIndex="replenishNumber" width={135} />
+            <Column title="医院" dataIndex="hospitalName" width={150} />
+            <Column title="补货数量" dataIndex="replenishNum" width={100} />
+            <Column title="申请人" dataIndex="userName" width={100} />
+            <Column title="部门" dataIndex="departmentName" width={100} />
             <Column title="申请日期" dataIndex="createTime" width={130} />
             <Column
               title="状态"
               dataIndex="orderStatusStr"
-              width={290}
+              width={260}
               render={(value, record) => {
                 const { orderStatus, delivery } = record;
-
                 return (
                   <Space>
                     <span style={{ color: colorList[orderStatus] }}>
@@ -407,7 +407,7 @@ class Replenishment extends React.Component {
             />
             <Column
               title="操作"
-              width={340}
+              width={280}
               fixed="right"
               render={(value, record, index) => (
                 <Space size="middle">

@@ -94,6 +94,7 @@ class SupplierManage extends React.Component {
         <Table
           bordered
           rowKey={(record, index) => index}
+          scroll={{ x: 1500 }}
           dataSource={data}
           pagination={{
             position: ["bottomCenter"],

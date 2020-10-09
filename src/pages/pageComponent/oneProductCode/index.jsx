@@ -126,7 +126,7 @@ class OneProductCode extends React.Component {
           <Column
             title="消耗状态"
             dataIndex="isConsumed"
-            width={110}
+            width={120}
             render={(value, record, index) => {
               return value ? "是" : "否";
             }}
@@ -135,14 +135,14 @@ class OneProductCode extends React.Component {
           <Column
             title="消耗类型"
             dataIndex="consumeSystemTypeName"
-            width={110}
+            width={120}
           />
 
           <Column title="JDE编码" dataIndex="jdeCode" width={120} />
           <Column title="辽宁阳光采购编码" dataIndex="" width={150} />
           <Column title="吉林阳光采购编码" dataIndex="" width={150} />
           <Column title="规格" dataIndex="model" width={120} />
-          <Column title="型号" dataIndex="regularModel" width={90} />
+          <Column title="型号" dataIndex="regularModel" width={120} />
           <Column title="单位" dataIndex="unitName" width={80} />
           <Column title="生产厂家" dataIndex="vendorName" width={130} />
           <Column title="注册证号" dataIndex="registrationNo" width={120} />
