@@ -144,9 +144,10 @@ class Home extends React.Component {
     this.getCartsData();
   };
 
-  renderCarts = (data) => {
+  renderCarts = () => {
+    const { chartsData } = this.props.homeModel
     return (
-      <Chart padding={[10, 40, 50, 40]} autoFit height={350} data={data}>
+      <Chart padding={[10, 40, 50, 40]} autoFit height={350} data={chartsData}>
         <LineAdvance shape="smooth" point area position="date*count" />
       </Chart>
     );
@@ -241,7 +242,7 @@ class Home extends React.Component {
                   <WrapNumText>待确认</WrapNumText>
                 </div>
                 <div className="left-line">
-                  <WrapNum>{consumeStatistics.money}</WrapNum>
+                  <WrapNum>{replenishStatistics.money}</WrapNum>
                   <WrapNumText>金额（万元）</WrapNumText>
                 </div>
               </WrapBoardFooter>
@@ -258,7 +259,7 @@ class Home extends React.Component {
                     <TabPane tab={item.label} key={item.value}>
                       {chartsData &&
                         chartsData.length > 0 &&
-                        this.renderCarts(chartsData)}
+                        this.renderCarts()}
                     </TabPane>
                   );
                 })}
@@ -294,14 +295,14 @@ class Home extends React.Component {
               <div className="top-ten-item-table">
                 <div className="top-ten-item-table-col top-ten-item-table-header">
                   <div className="sort-row">排行</div>
-                  <div className="value-row">消耗单号</div>
+                  <div className="value-row">消耗器材</div>
                   <div className="num-row">商品数量（件）</div>
                 </div>
                 {(consumeOrderTop || []).map((item, index) => {
                   return (
                     <div key={index} className="top-ten-item-table-col">
                       <div className="sort-row">{this.renderSort(index)}</div>
-                      <div className="value-row">{item.label}</div>
+                      <div className="value-row">{item.label}<div className="value-row-tip">{`型号：${item.model}`}</div></div>
                       <div className="num-row">{item.value}</div>
                     </div>
                   );

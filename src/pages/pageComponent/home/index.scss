@@ -82,6 +82,10 @@
       .value-row {
         color: #2f2f2f;
         flex: auto;
+        .value-row-tip {
+          color: #999;
+          font-size: 12px;
+        }
       }
       .num-row {
         text-align: center;
