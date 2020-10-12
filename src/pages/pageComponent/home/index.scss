@@ -74,14 +74,18 @@
       align-items: "baseline ";
       padding: 3px 0;
       .sort-row {
-        width: 60px;
+        width: 50px;
         text-align: center;
         font-style: oblique;
         font-weight: 500;
       }
       .value-row {
         color: #2f2f2f;
-        flex: auto;
+        flex: 1;
+        .value-row-tip {
+          color: #999;
+          font-size: 12px;
+        }
       }
       .num-row {
         text-align: center;

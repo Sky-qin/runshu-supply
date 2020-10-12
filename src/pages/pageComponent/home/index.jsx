@@ -2,7 +2,10 @@ import React from "react";
 import { connect } from "dva";
 import styled from "styled-components";
 import { Radio, Tabs } from "antd";
-import { Chart, LineAdvance } from "bizcharts";
+// import { Chart, LineAdvance } from "bizcharts";
+import echarts from "echarts";
+import "echarts/lib/chart/line";
+import "echarts/lib/component/tooltip";
 import ContentWrap from "../../../components/contentWrap";
 import Sort from "../../../assets/sort.png";
 
@@ -84,11 +87,91 @@ class Home extends React.Component {
     dispatch({ type: "homeModel/getTodayIndex" });
     this.getCartsData();
     this.getTopTenData();
+
+
+    var myChart = echarts.init(document.getElementById("echarts"));
+    window.addEventListener("resize", function () {
+      myChart.resize();
+    });
+    this.renderChart();
   }
+
+  renderChart = () => {
+    const { chartsDataX, chartsDataY } = this.props.homeModel;
+    var myChart = echarts.init(document.getElementById("echarts"));
+
+    // 绘制图表
+    myChart.setOption({
+      tooltip: {
+        trigger: "axis",
+      },
+      xAxis: {
+        type: "category",
+        boundaryGap: false,
+        axisLine: {
+          show: true,
+          lineStyle: {
+            color: "#ccc",
+          },
+        },
+        splitLine: {
+          show: true,
+          lineStyle: {
+            color: "#e4e4e4",
+            width: 1,
+            type: "none",
+          },
+        },
+        axisTick: {
+          show: false,
+        },
+        axisLabel: {
+          color: "#888",
+        },
+        data: chartsDataX,
+      },
+      yAxis: {
+        type: "value",
+        axisLine: {
+          show: true,
+          lineStyle: {
+            color: "#ccc",
+          },
+        },
+        axisLabel: {
+          color: "#888",
+        },
+        splitLine: {
+          show: true,
+          lineStyle: {
+            color: "#e4e4e4",
+            width: 1,
+            type: "none",
+          },
+        },
+      },
+      series: [
+        {
+          name: "数量",
+          type: "line",
+          data: chartsDataY,
+          areaStyle: {
+            color: "#eaf5fd",
+          },
+          lineStyle: {
+            normal: {
+              color: "#0089ff",
+              width: 2,
+            },
+          },
+        },
+      ],
+    });
+  };
 
   getCartsData = () => {
     const { dispatch } = this.props;
-    dispatch({ type: "homeModel/getStatistics" });
+    dispatch({ type: "homeModel/getStatistics", payload: { callBack: this.renderChart } });
   };
 
   getTopTenData = () => {
@@ -144,13 +227,14 @@ class Home extends React.Component {
     this.getCartsData();
   };
 
-  renderCarts = (data) => {
-    return (
-      <Chart padding={[10, 40, 50, 40]} autoFit height={350} data={data}>
-        <LineAdvance shape="smooth" point area position="date*count" />
-      </Chart>
-    );
-  };
+  // renderCarts = () => {
+  //   const { chartsData } = this.props.homeModel
+  //   return (
+  //     <Chart padding={[10, 40, 50, 40]} autoFit height={350} data={chartsData}>
+  //       <LineAdvance shape="smooth" point area position="date*count" />
+  //     </Chart>
+  //   );
+  // };
 
   render() {
     const {
@@ -168,7 +252,9 @@ class Home extends React.Component {
       inventoryStatistics,
       consumeStatistics,
       replenishStatistics,
-      chartsData,
+      // chartsData,
+      // chartsDataY,
+      // chartsDataX,
       totalLoading,
       chartsLoading,
       topTenLoading,
@@ -241,7 +327,7 @@ class Home extends React.Component {
                   <WrapNumText>待确认</WrapNumText>
                 </div>
                 <div className="left-line">
-                  <WrapNum>{consumeStatistics.money}</WrapNum>
+                  <WrapNum>{replenishStatistics.money}</WrapNum>
                   <WrapNumText>金额（万元）</WrapNumText>
                 </div>
               </WrapBoardFooter>
@@ -256,9 +342,9 @@ class Home extends React.Component {
                 {(chartsTabList || []).map((item, index) => {
                   return (
                     <TabPane tab={item.label} key={item.value}>
-                      {chartsData &&
+                      {/* {chartsData &&
                         chartsData.length > 0 &&
-                        this.renderCarts(chartsData)}
+                        this.renderCarts()} */}
                     </TabPane>
                   );
                 })}
@@ -271,6 +357,7 @@ class Home extends React.Component {
               value={date}
               optionType="button"
             />
+            <div id="echarts" style={{ width: "88%", height: 350 }}></div>
           </div>
         </ContentWrap>
 
@@ -294,14 +381,14 @@ class Home extends React.Component {
               <div className="top-ten-item-table">
                 <div className="top-ten-item-table-col top-ten-item-table-header">
                   <div className="sort-row">排行</div>
-                  <div className="value-row">消耗单号</div>
+                  <div className="value-row">消耗器材</div>
                   <div className="num-row">商品数量（件）</div>
                 </div>
                 {(consumeOrderTop || []).map((item, index) => {
                   return (
                     <div key={index} className="top-ten-item-table-col">
                       <div className="sort-row">{this.renderSort(index)}</div>
-                      <div className="value-row">{item.label}</div>
+                      <div className="value-row">{item.label}<div className="value-row-tip">{`型号：${item.model}`}</div></div>
                       <div className="num-row">{item.value}</div>
                     </div>
                   );
