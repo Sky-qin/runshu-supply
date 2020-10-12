@@ -29,6 +29,8 @@ export default {
       { value: "3", label: "月" },
     ],
     chartsData: [],
+    chartsDataY: [],
+    chartsDataX: [],
     topPic: [TopOne, TopTwo, TopThree],
     date: "1",
     type: "1",
@@ -67,13 +69,19 @@ export default {
       yield put({ type: "save", payload: { chartsLoading: false } });
 
       if (data && data.success) {
+        let chartsDataY = [];
+        let chartsDataX = [];
         let list = (data.data || []).map((item) => {
+          chartsDataY.push(Number(item.count || 0));
+          chartsDataX.push(item.date);
           return { ...item, count: Number(item.count || 0) };
         });
         yield put({
           type: "save",
-          payload: { chartsData: list },
+          payload: { chartsDataY, chartsDataX, chartsData: [] },
         });
+        const { callBack } = payload;
+        callBack && typeof callBack === "function" && callBack();
       } else {
         message.error(data.message || "查询折线图数据失败！");
       }
