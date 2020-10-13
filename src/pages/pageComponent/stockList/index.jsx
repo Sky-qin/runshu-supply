@@ -1,16 +1,6 @@
 import React from "react";
 import { connect } from "dva";
-import {
-  Space,
-  Table,
-  Input,
-  Form,
-  Row,
-  Col,
-  Select,
-  Button,
-  Popconfirm,
-} from "antd";
+import { Space, Table, Input, Form, Row, Col, Select, Button } from "antd";
 import styled from "styled-components";
 import DetailDialog from "./detailDialog";
 import SubmitSendGoods from "../../../components/submitSendGoods";
@@ -323,7 +313,7 @@ class StockList extends React.Component {
                 </Form.Item>
               </Col>
               <Col span={6}>
-                <Form.Item label="状态" name="orderStatus">
+                <Form.Item label="申请人" name="orderStatus">
                   <Select
                     placeholder="请选择状态"
                     options={replenishStatusList}
@@ -382,15 +372,14 @@ class StockList extends React.Component {
               onShowSizeChange: this.changePagination,
             }}
           >
-            <Column title="补货单号" dataIndex="replenishNumber" width={135} />
-            <Column title="医院" dataIndex="hospitalName" width={150} />
-            <Column title="补货数量" dataIndex="replenishNum" width={100} />
-            <Column title="申请人" dataIndex="userName" width={100} />
-            <Column title="部门" dataIndex="departmentName" width={100} />
-            <Column title="申请日期" dataIndex="createTime" width={130} />
+            <Column title="单号" dataIndex="code1" width={135} />
+            <Column title="调出仓库" dataIndex="code2" width={150} />
+            <Column title="调入仓库" dataIndex="code3" width={120} />
+            <Column title="申请日期" dataIndex="code4" width={120} />
+            <Column title="备货截止日期" dataIndex="code5" width={130} />
             <Column
               title="状态"
-              dataIndex="orderStatusStr"
+              dataIndex="code6"
               width={260}
               render={(value, record) => {
                 const { orderStatus, delivery } = record;
@@ -399,8 +388,6 @@ class StockList extends React.Component {
                     <span style={{ color: colorList[orderStatus] }}>
                       {value}
                     </span>
-                    {(orderStatus === 2 || orderStatus === 4) &&
-                      delivery === "1" && <SpanBox>对方提醒发货</SpanBox>}
                   </Space>
                 );
               }}
@@ -411,28 +398,8 @@ class StockList extends React.Component {
               fixed="right"
               render={(value, record, index) => (
                 <Space size="middle">
-                  {record.orderStatus && record.orderStatus === 1 && (
-                    <Popconfirm
-                      title="您是要确定该补货单吗？"
-                      onConfirm={() => this.handleCheck(record)}
-                      okText="确定"
-                      cancelText="取消"
-                    >
-                      <a href="#">确定</a>
-                    </Popconfirm>
-                  )}
                   {record.orderStatus && record.orderStatus === 2 && (
                     <a onClick={() => this.handleGetAddInfo(record)}>去发货</a>
-                  )}
-                  {record.orderStatus && record.orderStatus === 2 && (
-                    <Popconfirm
-                      title="您是要撤销这个补货单吗？"
-                      onConfirm={() => this.handleBack(record)}
-                      okText="确定"
-                      cancelText="取消"
-                    >
-                      <a href="#">撤销确定</a>
-                    </Popconfirm>
                   )}
 
                   {record.orderStatus && record.orderStatus === 4 && (

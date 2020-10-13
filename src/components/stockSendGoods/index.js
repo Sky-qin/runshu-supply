@@ -52,7 +52,7 @@ const layout = {
   wrapperCol: { span: 18 },
 };
 
-class SubmitSendGoods extends React.Component {
+class StockSendGoods extends React.Component {
   formRef = React.createRef();
 
   constructor(props) {
@@ -135,70 +135,36 @@ class SubmitSendGoods extends React.Component {
           >
             <Row>
               <Col span={8}>
-                <Form.Item label="发货单号:">
-                  {addInfo.sendOrder || ""}
-                </Form.Item>
+                <Form.Item label="单号:">XXXXXXXXX</Form.Item>
               </Col>
 
               <Col span={8}>
-                <Form.Item label="日期:">{addInfo.nowDate || ""}</Form.Item>
+                <Form.Item label="申请人:">XXXXXXXXX</Form.Item>
               </Col>
               <Col span={8}>
-                <Form.Item label="调出仓库:">
-                  {addInfo.outStock || ""}
-                </Form.Item>
+                <Form.Item label="申请日期:">XXXXXXXXXXXXXXXXXX</Form.Item>
               </Col>
             </Row>
             <Row>
               <Col span={8}>
-                <Form.Item label="调入仓库:">{addInfo.inStock || ""}</Form.Item>
+                <Form.Item label="备货截止日期:">XXXXXXXXXXXXXXXXXX</Form.Item>
               </Col>
 
               <Col span={8}>
-                <Form.Item label="调拨类型:">
-                  {addInfo.allotType || ""}
-                </Form.Item>
+                <Form.Item label="调出仓库:">XXXXXXXXXXXXXXXXXX</Form.Item>
               </Col>
               <Col span={8}>
-                <Form.Item label="客户:">{addInfo.customer || ""}</Form.Item>
+                <Form.Item label="调入仓库:">XXXXXXXXXXXXXXXXXX</Form.Item>
               </Col>
             </Row>
             <Row>
               <Col span={8}>
-                <Form.Item
-                  label="快递单号:"
-                  name="orderNo"
-                  rules={[{ required: true, message: "请输入快递单号" }]}
-                >
-                  <Input
-                    onChange={(e) =>
-                      this.onFormChange("orderNo", e.target.value)
-                    }
-                    placeholder="请输入快递单号"
-                    allowClear
-                  />
-                </Form.Item>
+                <Form.Item label="调拨类型:">XXXXXXXXXXXXXXXXXX</Form.Item>
               </Col>
 
               <Col span={8}>
-                <Form.Item
-                  label="发货人:"
-                  name="person"
-                  rules={[{ required: true, message: "请选择发货人" }]}
-                >
-                  <Select
-                    placeholder="请选择"
-                    options={personList}
-                    onChange={(value) => this.onFormChange("person", value)}
-                    allowClear
-                  />
-                </Form.Item>
+                <Form.Item label="客户:">XXXXXXXXXXXXXXXXXX</Form.Item>
               </Col>
-              <Col span={8}>
-                <Form.Item label="手机号:">{addInfo.mobile}</Form.Item>
-              </Col>
-            </Row>
-            <Row>
               <Col span={8}>
                 <Form.Item label="备注:" name="desc">
                   <TextArea
@@ -327,4 +293,4 @@ class SubmitSendGoods extends React.Component {
   }
 }
 
-export default SubmitSendGoods;
+export default StockSendGoods;
