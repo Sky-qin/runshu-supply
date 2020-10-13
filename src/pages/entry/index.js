@@ -29,6 +29,8 @@ import InventoryManage from "../pageComponent/inventoryManage";
 import SupplierManage from "../pageComponent/supplierManage";
 import ManufacturerManage from "../pageComponent/manufacturerManage";
 import SunshinePurchaseInfo from "../pageComponent/sunshinePurchaseInfo";
+import StockList from "../pageComponent/stockList";
+import MessagePushManage from "../pageComponent/messagePushManage";
 
 import "./index.scss";
 
@@ -121,6 +123,11 @@ class Entry extends React.Component {
               <Route
                 path="/entry/sunshinePurchaseInfo"
                 component={SunshinePurchaseInfo}
+              />
+              <Route path="/entry/stockList" component={StockList} />
+              <Route
+                path="/entry/messagePushManage"
+                component={MessagePushManage}
               />
             </Switch>
           </div>

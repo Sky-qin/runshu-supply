@@ -657,6 +657,34 @@ const API = {
   },
 
   /**
+   *  消息推送管理
+   */
+  // 推送列表
+  selectAllPushMessage(params) {
+    return request({
+      url: `${Prefix}/pushMessage/selectAllPushMessage`,
+      method: "post",
+      params,
+    });
+  },
+  // 添加消息推送人员
+  addPushPerson(params) {
+    return request({
+      url: `${Prefix}/pushMessage/insertPushMessageUsers`,
+      method: "post",
+      params,
+    });
+  },
+  // 删除推送人
+  deletePushUser(params) {
+    return request({
+      url: `${Prefix}/pushMessage/deletePushUser`,
+      method: "post",
+      params,
+    });
+  },
+
+  /**
    * 枚举类即接口
    */
   // 获取当前用户 医院枚举
@@ -810,6 +838,22 @@ const API = {
     return request({
       url: `${Prefix}/supply/product/listVendor`,
       params,
+    });
+  },
+  // 消息推送tab枚举
+  selectPushMessageType(params) {
+    return request({
+      url: `${Prefix}/pushMessage/selectPushMessageType`,
+      params,
+      method: "post",
+    });
+  },
+  // 消息推送用户枚举查询
+  selectAllSysUser(params) {
+    return request({
+      url: `${Prefix}/pushMessage/selectAllSysUser`,
+      params,
+      method: "post",
     });
   },
 };
