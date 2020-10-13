@@ -77,7 +77,7 @@ class AddPersonDialog extends React.Component {
               filterOption={false}
               onSearch={(value) => this.handleSearchPerson(value)}
               options={personList || []}
-              placeholder="请选择商品"
+              placeholder="请选择"
               allowClear
             />
           </Form.Item>
