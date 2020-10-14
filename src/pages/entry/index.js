@@ -31,6 +31,7 @@ import ManufacturerManage from "../pageComponent/manufacturerManage";
 import SunshinePurchaseInfo from "../pageComponent/sunshinePurchaseInfo";
 import StockList from "../pageComponent/stockList";
 import MessagePushManage from "../pageComponent/messagePushManage";
+import StockReturnWarehouse from "../pageComponent/stockReturnWarehouse";
 
 import "./index.scss";
 
@@ -128,6 +129,10 @@ class Entry extends React.Component {
               <Route
                 path="/entry/messagePushManage"
                 component={MessagePushManage}
+              />
+              <Route
+                path="/entry/stockReturnWarehouse"
+                component={StockReturnWarehouse}
               />
             </Switch>
           </div>

@@ -5,7 +5,7 @@ import {
   Button,
   Table,
   Form,
-  // Select,
+  Select,
   Col,
   Row,
   Input,
@@ -52,7 +52,7 @@ const layout = {
   wrapperCol: { span: 18 },
 };
 
-class StockSendGoods extends React.Component {
+class SendGoods extends React.Component {
   formRef = React.createRef();
 
   constructor(props) {
@@ -108,7 +108,7 @@ class StockSendGoods extends React.Component {
   };
 
   render() {
-    const { data = {} } = this.props;
+    const { data = {}, title, groupTitle } = this.props;
     const {
       addInfo = {},
       scanCode,
@@ -118,7 +118,7 @@ class StockSendGoods extends React.Component {
     } = data;
     return (
       <Drawer
-        title="备货单"
+        title={title || "详情"}
         visible
         width={1100}
         className="drawer-box"
@@ -134,35 +134,52 @@ class StockSendGoods extends React.Component {
           >
             <Row>
               <Col span={8}>
-                <Form.Item label="单号:">XXXXXXXXX</Form.Item>
+                <Form.Item
+                  label="调出仓库:"
+                  name="person"
+                  rules={[{ required: true, message: "请选择调出仓库" }]}
+                >
+                  <Select
+                    placeholder="请选择"
+                    options={[]}
+                    onChange={(value) => this.onFormChange("person", value)}
+                    allowClear
+                  />
+                </Form.Item>
               </Col>
 
               <Col span={8}>
-                <Form.Item label="申请人:">XXXXXXXXX</Form.Item>
+                <Form.Item
+                  label="调入仓库:"
+                  name="person"
+                  rules={[{ required: true, message: "请选择调入仓库" }]}
+                >
+                  <Select
+                    placeholder="请选择"
+                    options={[]}
+                    onChange={(value) => this.onFormChange("person", value)}
+                    allowClear
+                  />
+                </Form.Item>
               </Col>
-              <Col span={8}>
-                <Form.Item label="申请日期:">XXXXXXXXXXXXXXXXXX</Form.Item>
-              </Col>
-            </Row>
-            <Row>
-              <Col span={8}>
-                <Form.Item label="备货截止日期:">XXXXXXXXXXXXXXXXXX</Form.Item>
-              </Col>
-
-              <Col span={8}>
-                <Form.Item label="调出仓库:">XXXXXXXXXXXXXXXXXX</Form.Item>
-              </Col>
-              <Col span={8}>
-                <Form.Item label="调入仓库:">XXXXXXXXXXXXXXXXXX</Form.Item>
-              </Col>
-            </Row>
-            <Row>
               <Col span={8}>
                 <Form.Item label="调拨类型:">XXXXXXXXXXXXXXXXXX</Form.Item>
               </Col>
-
+            </Row>
+            <Row>
               <Col span={8}>
-                <Form.Item label="客户:">XXXXXXXXXXXXXXXXXX</Form.Item>
+                <Form.Item
+                  label="客户:"
+                  name="person"
+                  rules={[{ required: true, message: "请选择客户" }]}
+                >
+                  <Select
+                    placeholder="请选择"
+                    options={[]}
+                    onChange={(value) => this.onFormChange("person", value)}
+                    allowClear
+                  />
+                </Form.Item>
               </Col>
               <Col span={8}>
                 <Form.Item label="备注:" name="desc">
@@ -175,54 +192,11 @@ class StockSendGoods extends React.Component {
               </Col>
             </Row>
           </Form>
-          <div>
-            <WrapTitle>
-              <span className="berfore-bar" />
-              <span className="group-title">备货单</span>
-            </WrapTitle>
-            <Table
-              bordered
-              scroll={{ y: 500 }}
-              rowKey={(record, index) => index}
-              dataSource={replenishOrderList}
-              rowKey="productCode"
-              pagination={false}
-            >
-              <Column
-                title="补货单编码"
-                dataIndex="replenishNumber"
-                width={145}
-              />
-              <Column title="产品编码" dataIndex="productCode" width={120} />
-              <Column title="产品名称" dataIndex="productName" width={150} />
-              <Column title="规格" dataIndex="model" width={100} />
-              <Column title="型号" dataIndex="regModel" width={80} />
-              <Column title="单位" dataIndex="unit" width={70} />
-              <Column title="生产厂家" dataIndex="productVendor" width={100} />
-              <Column
-                title="备货数量"
-                dataIndex="replenishNum"
-                width={90}
-                fixed="right"
-              />
-              <Column
-                title="已备数量"
-                dataIndex="deliverNum"
-                width={90}
-                fixed="right"
-              />
-              <Column
-                title="未备数量"
-                dataIndex="waitNum"
-                width={90}
-                fixed="right"
-              />
-            </Table>
-          </div>
+
           <BasicDiv>
             <WrapTitle>
               <span className="berfore-bar" />
-              <span className="group-title">备货清单</span>
+              <span className="group-title">{groupTitle || "清单"}</span>
             </WrapTitle>
             <div style={{ padding: "8px" }}>
               流水号:
@@ -287,4 +261,4 @@ class StockSendGoods extends React.Component {
   }
 }
 
-export default StockSendGoods;
+export default SendGoods;
