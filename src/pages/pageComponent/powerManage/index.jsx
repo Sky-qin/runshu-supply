@@ -151,8 +151,8 @@ class PowerManage extends React.Component {
             render={(value, record, index) => index + 1}
             width={65}
           />
-          <Column title="职位名称" dataIndex="roleName" />
-          <Column title="职位备注" dataIndex="roleRemark" />
+          <Column title="角色名称" dataIndex="roleName" />
+          <Column title="角色备注" dataIndex="roleRemark" />
           <Column title="更新时间" dataIndex="updateTime" />
           <Column
             title="操作"

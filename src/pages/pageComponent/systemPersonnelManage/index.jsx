@@ -154,7 +154,23 @@ class SystemPersonnelManage extends React.Component {
           />
           <Column title="用户名" dataIndex="userName" />
           <Column title="手机号" dataIndex="userPhone" />
-          <Column title="职位" dataIndex="roleName" />
+          <Column
+            title="角色"
+            dataIndex="roleName"
+            render={(value, record) => {
+              const { wxCode } = record;
+              return (
+                <span>
+                  {value}
+                  {wxCode ? (
+                    <span className="color-green">（微信已授权）</span>
+                  ) : (
+                    ""
+                  )}
+                </span>
+              );
+            }}
+          />
           <Column title="创建日期" dataIndex="createTime" />
           <Column
             title="操作"
