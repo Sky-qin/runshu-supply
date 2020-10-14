@@ -1,5 +1,5 @@
 import React from "react";
-import { Modal, Form, Input, Button, Tree } from "antd";
+import { Modal, Form, Input, Button, Tree, Radio } from "antd";
 
 const { TextArea } = Input;
 
@@ -36,11 +36,6 @@ class EditDialog extends React.Component {
     const { onClosed } = this.props;
     onClosed && typeof onClosed === "function" && onClosed();
   };
-
-  /* 自定义的一些函数 */
-  // onSelect = (selectedKeys, info) => {
-  //   console.log("selected", selectedKeys, info);
-  // };
 
   onCheck = (checkedKeys, info) => {
     let formObj = this.fromRef;
@@ -88,22 +83,23 @@ class EditDialog extends React.Component {
             roleName: data.roleName || "",
             roleRemark: data.roleRemark || "",
             resourceSigns: data.resourceSigns || [],
+            isSale: data.isSale || false,
           }}
         >
           <Form.Item
             name="roleName"
-            label="职位名称"
-            rules={[{ required: true, message: "请输入职位名称" }]}
+            label="角色名称"
+            rules={[{ required: true, message: "请输入角色名称" }]}
           >
             <Input />
           </Form.Item>
-          <Form.Item name="roleRemark" label="职位备注">
+          <Form.Item name="roleRemark" label="角色备注">
             <TextArea rows={2} />
           </Form.Item>
           <Form.Item
             name="resourceSigns"
             label="权限"
-            rules={[{ required: true, message: "请选择职位权限" }]}
+            rules={[{ required: true, message: "请选择角色权限" }]}
           >
             <Tree
               checkable
@@ -113,6 +109,12 @@ class EditDialog extends React.Component {
               onCheck={this.onCheck}
               treeData={resourceList}
             />
+          </Form.Item>
+          <Form.Item name="isSale" label="开启销售小程序">
+            <Radio.Group>
+              <Radio value={false}>否</Radio>
+              <Radio value={true}>是</Radio>
+            </Radio.Group>
           </Form.Item>
         </Form>
       </Modal>
