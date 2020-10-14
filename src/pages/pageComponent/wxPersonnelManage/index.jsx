@@ -39,7 +39,7 @@ class WxPersonnelManage extends React.Component {
     const { pagination } = this.props.wxPersonnelManage;
     dispatch({
       type: "wxPersonnelManage/save",
-      paylaod: {
+      payload: {
         pagination: {
           ...pagination,
           current,
@@ -47,6 +47,7 @@ class WxPersonnelManage extends React.Component {
         },
       },
     });
+    this.getTableList();
   };
 
   handleClick = (key) => {
