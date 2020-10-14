@@ -1,7 +1,6 @@
 import React from "react";
 import { connect } from "dva";
 import { Space, Table, Input, Form, Row, Col, Select, Button } from "antd";
-import styled from "styled-components";
 import DetailDialog from "./detailDialog";
 import SubmitSendGoods from "../../../components/stockSendGoods";
 import ContentWrap from "../../../components/contentWrap";
@@ -20,10 +19,6 @@ const tailLayout = {
     span: 24,
   },
 };
-
-const SpanBox = styled.span`
-  color: red;
-`;
 
 const colorList = {
   1: "#f60",
@@ -75,31 +70,9 @@ class StockList extends React.Component {
 
   onSearchChange = (key, value) => {
     const { dispatch } = this.props;
-    let { current: searchForm } = this.searchRef;
     const { searchParams, pagination } = this.props.stockListModel;
     let tmpParams = { searchParams: { ...searchParams, [key]: value } };
-    // 获取科室
-    if (key === "hospitalId") {
-      tmpParams = {
-        searchParams: { ...tmpParams.searchParams, departmentId: null },
-      };
-      searchForm.setFieldsValue({
-        departmentId: null,
-      });
-      if (value) {
-        dispatch({
-          type: "stockListModel/getDePartmentByHsp",
-          payload: {
-            id: value,
-          },
-        });
-      } else {
-        tmpParams = {
-          ...tmpParams,
-          departmentList: [],
-        };
-      }
-    }
+
     dispatch({
       type: "stockListModel/save",
       payload: {
@@ -119,14 +92,18 @@ class StockList extends React.Component {
   onReset = () => {
     let { current: searchForm } = this.searchRef;
     const { dispatch } = this.props;
-    searchForm.resetFields();
     dispatch({
       type: "stockListModel/save",
       payload: {
-        searchParams: {},
+        searchParams: {
+          hospitalId: null,
+        },
         departmentList: [],
       },
     });
+    setTimeout(() => {
+      searchForm.resetFields();
+    }, 0);
     this.getTableList();
   };
 
@@ -375,7 +352,7 @@ class StockList extends React.Component {
           <OpreationBar total={total} />
           <Table
             bordered
-            scroll={{ x: 1500 }}
+            scroll={{ x: 1300 }}
             rowKey={(record, index) => index}
             dataSource={data}
             pagination={{
@@ -387,18 +364,23 @@ class StockList extends React.Component {
               onShowSizeChange: this.changePagination,
             }}
           >
+            <Column
+              title="序号"
+              render={(value, record, index) => index + 1}
+              width={80}
+            />
             <Column title="单号" dataIndex="code1" width={135} />
             <Column title="调出仓库" dataIndex="code2" width={150} />
             <Column title="调入仓库" dataIndex="code3" width={120} />
             <Column title="客户" dataIndex="" width={120} />
             <Column title="申请日期" dataIndex="code4" width={120} />
             <Column title="备货截止日期" dataIndex="code5" width={130} />
-            <Column title="申请人" dataIndex="code5" width={130} />
-            <Column title="备货数量" dataIndex="code5" width={130} />
+            <Column title="申请人" dataIndex="code5" width={100} />
+            <Column title="备货数量" dataIndex="code5" width={120} />
             <Column
               title="状态"
               dataIndex="code6"
-              width={260}
+              width={120}
               render={(value, record) => {
                 const { orderStatus, delivery } = record;
                 return (
@@ -412,7 +394,7 @@ class StockList extends React.Component {
             />
             <Column
               title="操作"
-              width={280}
+              width={170}
               fixed="right"
               render={(value, record, index) => (
                 <Space size="middle">
