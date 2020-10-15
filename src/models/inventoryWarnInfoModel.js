@@ -5,6 +5,8 @@ export default {
   namespace: "inventoryWarnInfoModel",
   state: {
     data: [],
+    stockList: [],
+    stockId: "",
     loading: false,
     pagination: {
       current: 1,
@@ -16,7 +18,7 @@ export default {
 
   effects: {
     *getTableList({ payload }, { call, put, select }) {
-      const { pagination, type, keyWord } = yield select(
+      const { pagination, type, stockId } = yield select(
         (state) => state.inventoryWarnInfoModel
       );
       const { current, size } = pagination;
@@ -24,7 +26,7 @@ export default {
         current,
         size,
         params: {
-          keyWord,
+          stockId,
           type,
         },
       };
@@ -45,6 +47,19 @@ export default {
         });
       } else {
         message.error(data.message || "查询预警失败");
+      }
+    },
+    *getUserStock({ payload }, { call, put, select }) {
+      const { data } = yield call(API.getUserStock);
+      if (data && data.success) {
+        yield put({
+          type: "save",
+          payload: {
+            stockList: data.data || [],
+          },
+        });
+      } else {
+        message.error(data.message || "获取库位信息错误");
       }
     },
   },

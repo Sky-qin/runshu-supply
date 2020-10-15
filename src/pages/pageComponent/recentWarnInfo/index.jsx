@@ -157,7 +157,7 @@ class RecentWarnInfo extends React.Component {
                 value={stockId || null}
                 onChange={(value) => this.onChangeFilter(value, "stockId")}
                 onSearch={(value) => this.getStockList(value)}
-                style={{ width: 260, marginLeft: 15 }}
+                style={{ width: 260 }}
                 options={stockList}
                 placeholder="请选择库位"
               />
