@@ -5,7 +5,7 @@ import {
   Button,
   Table,
   Form,
-  Select,
+  // Select,
   Col,
   Row,
   Input,
@@ -52,7 +52,9 @@ const layout = {
   wrapperCol: { span: 18 },
 };
 
-class SubmitSendGoods extends React.Component {
+let enterTime = null;
+
+class StockSendGoods extends React.Component {
   formRef = React.createRef();
 
   constructor(props) {
@@ -107,6 +109,15 @@ class SubmitSendGoods extends React.Component {
       });
   };
 
+  onPressEnter = () => {
+    if (enterTime) {
+      clearTimeout(enterTime);
+    }
+    enterTime = setTimeout(() => {
+      clearTimeout(enterTime);
+    }, 200);
+  };
+
   render() {
     const { data = {} } = this.props;
     const {
@@ -114,12 +125,11 @@ class SubmitSendGoods extends React.Component {
       scanCode,
       replenishOrderList,
       scanCodeProductList,
-      personList,
       drawerLoading,
     } = data;
     return (
       <Drawer
-        title="发货单"
+        title="备货单"
         visible
         width={1100}
         className="drawer-box"
@@ -135,70 +145,36 @@ class SubmitSendGoods extends React.Component {
           >
             <Row>
               <Col span={8}>
-                <Form.Item label="发货单号:">
-                  {addInfo.sendOrder || ""}
-                </Form.Item>
+                <Form.Item label="单号:">XXXXXXXXX</Form.Item>
               </Col>
 
               <Col span={8}>
-                <Form.Item label="日期:">{addInfo.nowDate || ""}</Form.Item>
+                <Form.Item label="申请人:">XXXXXXXXX</Form.Item>
               </Col>
               <Col span={8}>
-                <Form.Item label="调出仓库:">
-                  {addInfo.outStock || ""}
-                </Form.Item>
+                <Form.Item label="申请日期:">XXXXXXXXXXXXXXXXXX</Form.Item>
               </Col>
             </Row>
             <Row>
               <Col span={8}>
-                <Form.Item label="调入仓库:">{addInfo.inStock || ""}</Form.Item>
+                <Form.Item label="备货截止日期:">XXXXXXXXXXXXXXXXXX</Form.Item>
               </Col>
 
               <Col span={8}>
-                <Form.Item label="调拨类型:">
-                  {addInfo.allotType || ""}
-                </Form.Item>
+                <Form.Item label="调出仓库:">XXXXXXXXXXXXXXXXXX</Form.Item>
               </Col>
               <Col span={8}>
-                <Form.Item label="客户:">{addInfo.customer || ""}</Form.Item>
+                <Form.Item label="调入仓库:">XXXXXXXXXXXXXXXXXX</Form.Item>
               </Col>
             </Row>
             <Row>
               <Col span={8}>
-                <Form.Item
-                  label="快递单号:"
-                  name="orderNo"
-                  rules={[{ required: true, message: "请输入快递单号" }]}
-                >
-                  <Input
-                    onChange={(e) =>
-                      this.onFormChange("orderNo", e.target.value)
-                    }
-                    placeholder="请输入快递单号"
-                    allowClear
-                  />
-                </Form.Item>
+                <Form.Item label="调拨类型:">XXXXXXXXXXXXXXXXXX</Form.Item>
               </Col>
 
               <Col span={8}>
-                <Form.Item
-                  label="发货人:"
-                  name="person"
-                  rules={[{ required: true, message: "请选择发货人" }]}
-                >
-                  <Select
-                    placeholder="请选择"
-                    options={personList}
-                    onChange={(value) => this.onFormChange("person", value)}
-                    allowClear
-                  />
-                </Form.Item>
+                <Form.Item label="客户:">XXXXXXXXXXXXXXXXXX</Form.Item>
               </Col>
-              <Col span={8}>
-                <Form.Item label="手机号:">{addInfo.mobile}</Form.Item>
-              </Col>
-            </Row>
-            <Row>
               <Col span={8}>
                 <Form.Item label="备注:" name="desc">
                   <TextArea
@@ -213,7 +189,7 @@ class SubmitSendGoods extends React.Component {
           <div>
             <WrapTitle>
               <span className="berfore-bar" />
-              <span className="group-title">补货单</span>
+              <span className="group-title">备货单</span>
             </WrapTitle>
             <Table
               bordered
@@ -235,19 +211,19 @@ class SubmitSendGoods extends React.Component {
               <Column title="单位" dataIndex="unit" width={70} />
               <Column title="生产厂家" dataIndex="productVendor" width={100} />
               <Column
-                title="补货数量"
+                title="备货数量"
                 dataIndex="replenishNum"
                 width={90}
                 fixed="right"
               />
               <Column
-                title="已补数量"
+                title="已备数量"
                 dataIndex="deliverNum"
                 width={90}
                 fixed="right"
               />
               <Column
-                title="未补数量"
+                title="未备数量"
                 dataIndex="waitNum"
                 width={90}
                 fixed="right"
@@ -257,7 +233,7 @@ class SubmitSendGoods extends React.Component {
           <BasicDiv>
             <WrapTitle>
               <span className="berfore-bar" />
-              <span className="group-title">发货清单</span>
+              <span className="group-title">备货清单</span>
             </WrapTitle>
             <div style={{ padding: "8px" }}>
               流水号:
@@ -265,6 +241,7 @@ class SubmitSendGoods extends React.Component {
                 style={{ width: "650px", marginLeft: "12px" }}
                 value={scanCode}
                 onChange={(e) => this.changeCode(e.target.value)}
+                onPressEnter={this.onPressEnter}
                 allowClear
               />
               <Button
@@ -296,11 +273,6 @@ class SubmitSendGoods extends React.Component {
               <Column title="单价" dataIndex="unit" width={80} />
               <Column title="生产厂家" dataIndex="productVendor" width={150} />
               <Column
-                title="补货单编码"
-                dataIndex="replenishNumber"
-                width={120}
-              />
-              <Column
                 title="操作"
                 width={80}
                 fixed="right"
@@ -327,4 +299,4 @@ class SubmitSendGoods extends React.Component {
   }
 }
 
-export default SubmitSendGoods;
+export default StockSendGoods;

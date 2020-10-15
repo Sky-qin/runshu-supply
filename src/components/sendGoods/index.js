@@ -52,7 +52,7 @@ const layout = {
   wrapperCol: { span: 18 },
 };
 
-class SubmitSendGoods extends React.Component {
+class SendGoods extends React.Component {
   formRef = React.createRef();
 
   constructor(props) {
@@ -108,18 +108,17 @@ class SubmitSendGoods extends React.Component {
   };
 
   render() {
-    const { data = {} } = this.props;
+    const { data = {}, title, groupTitle } = this.props;
     const {
       addInfo = {},
       scanCode,
       replenishOrderList,
       scanCodeProductList,
-      personList,
       drawerLoading,
     } = data;
     return (
       <Drawer
-        title="发货单"
+        title={title || "详情"}
         visible
         width={1100}
         className="drawer-box"
@@ -135,46 +134,15 @@ class SubmitSendGoods extends React.Component {
           >
             <Row>
               <Col span={8}>
-                <Form.Item label="发货单号:">
-                  {addInfo.sendOrder || ""}
-                </Form.Item>
-              </Col>
-
-              <Col span={8}>
-                <Form.Item label="日期:">{addInfo.nowDate || ""}</Form.Item>
-              </Col>
-              <Col span={8}>
-                <Form.Item label="调出仓库:">
-                  {addInfo.outStock || ""}
-                </Form.Item>
-              </Col>
-            </Row>
-            <Row>
-              <Col span={8}>
-                <Form.Item label="调入仓库:">{addInfo.inStock || ""}</Form.Item>
-              </Col>
-
-              <Col span={8}>
-                <Form.Item label="调拨类型:">
-                  {addInfo.allotType || ""}
-                </Form.Item>
-              </Col>
-              <Col span={8}>
-                <Form.Item label="客户:">{addInfo.customer || ""}</Form.Item>
-              </Col>
-            </Row>
-            <Row>
-              <Col span={8}>
                 <Form.Item
-                  label="快递单号:"
-                  name="orderNo"
-                  rules={[{ required: true, message: "请输入快递单号" }]}
+                  label="调出仓库:"
+                  name="person"
+                  rules={[{ required: true, message: "请选择调出仓库" }]}
                 >
-                  <Input
-                    onChange={(e) =>
-                      this.onFormChange("orderNo", e.target.value)
-                    }
-                    placeholder="请输入快递单号"
+                  <Select
+                    placeholder="请选择"
+                    options={[]}
+                    onChange={(value) => this.onFormChange("person", value)}
                     allowClear
                   />
                 </Form.Item>
@@ -182,23 +150,37 @@ class SubmitSendGoods extends React.Component {
 
               <Col span={8}>
                 <Form.Item
-                  label="发货人:"
+                  label="调入仓库:"
                   name="person"
-                  rules={[{ required: true, message: "请选择发货人" }]}
+                  rules={[{ required: true, message: "请选择调入仓库" }]}
                 >
                   <Select
                     placeholder="请选择"
-                    options={personList}
+                    options={[]}
                     onChange={(value) => this.onFormChange("person", value)}
                     allowClear
                   />
                 </Form.Item>
               </Col>
               <Col span={8}>
-                <Form.Item label="手机号:">{addInfo.mobile}</Form.Item>
+                <Form.Item label="调拨类型:">XXXXXXXXXXXXXXXXXX</Form.Item>
               </Col>
             </Row>
             <Row>
+              <Col span={8}>
+                <Form.Item
+                  label="客户:"
+                  name="person"
+                  rules={[{ required: true, message: "请选择客户" }]}
+                >
+                  <Select
+                    placeholder="请选择"
+                    options={[]}
+                    onChange={(value) => this.onFormChange("person", value)}
+                    allowClear
+                  />
+                </Form.Item>
+              </Col>
               <Col span={8}>
                 <Form.Item label="备注:" name="desc">
                   <TextArea
@@ -210,54 +192,11 @@ class SubmitSendGoods extends React.Component {
               </Col>
             </Row>
           </Form>
-          <div>
-            <WrapTitle>
-              <span className="berfore-bar" />
-              <span className="group-title">补货单</span>
-            </WrapTitle>
-            <Table
-              bordered
-              scroll={{ y: 500 }}
-              rowKey={(record, index) => index}
-              dataSource={replenishOrderList}
-              rowKey="productCode"
-              pagination={false}
-            >
-              <Column
-                title="补货单编码"
-                dataIndex="replenishNumber"
-                width={145}
-              />
-              <Column title="产品编码" dataIndex="productCode" width={120} />
-              <Column title="产品名称" dataIndex="productName" width={150} />
-              <Column title="规格" dataIndex="model" width={100} />
-              <Column title="型号" dataIndex="regModel" width={80} />
-              <Column title="单位" dataIndex="unit" width={70} />
-              <Column title="生产厂家" dataIndex="productVendor" width={100} />
-              <Column
-                title="补货数量"
-                dataIndex="replenishNum"
-                width={90}
-                fixed="right"
-              />
-              <Column
-                title="已补数量"
-                dataIndex="deliverNum"
-                width={90}
-                fixed="right"
-              />
-              <Column
-                title="未补数量"
-                dataIndex="waitNum"
-                width={90}
-                fixed="right"
-              />
-            </Table>
-          </div>
+
           <BasicDiv>
             <WrapTitle>
               <span className="berfore-bar" />
-              <span className="group-title">发货清单</span>
+              <span className="group-title">{groupTitle || "清单"}</span>
             </WrapTitle>
             <div style={{ padding: "8px" }}>
               流水号:
@@ -296,11 +235,6 @@ class SubmitSendGoods extends React.Component {
               <Column title="单价" dataIndex="unit" width={80} />
               <Column title="生产厂家" dataIndex="productVendor" width={150} />
               <Column
-                title="补货单编码"
-                dataIndex="replenishNumber"
-                width={120}
-              />
-              <Column
                 title="操作"
                 width={80}
                 fixed="right"
@@ -327,4 +261,4 @@ class SubmitSendGoods extends React.Component {
   }
 }
 
-export default SubmitSendGoods;
+export default SendGoods;

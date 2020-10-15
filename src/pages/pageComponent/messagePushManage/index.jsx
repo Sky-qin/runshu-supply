@@ -6,7 +6,7 @@ import AddTypeDialog from "./addTypeDialog";
 import AddPersonDialog from "./addPersonDialog";
 import DeletePersonDialog from "./deletePersonDialog";
 import ContentWrap from "../../../components/contentWrap";
-import OpreationBar from "../../../components/OpreationBar";
+// import OpreationBar from "../../../components/OpreationBar";
 import "./index.scss";
 
 const { Column } = Table;
@@ -166,17 +166,17 @@ class MessagePushManage extends React.Component {
           {(pushInfoTypeList || []).map((item, index) => {
             return (
               <TabPane tab={item.pushModuleName} key={item.pushModule}>
-                <OpreationBar
-                  // buttonList={[
-                  //   {
-                  //     key: "add",
-                  //     label: "新增推送消息",
-                  //     icon: <PlusOutlined />,
-                  //   },
-                  // ]}
-                  // onClick={this.handleClickOpreation}
+                {/* <OpreationBar
+                  buttonList={[
+                    {
+                      key: "add",
+                      label: "新增推送消息",
+                      icon: <PlusOutlined />,
+                    },
+                  ]}
+                  onClick={this.handleClickOpreation}
                   total={false}
-                />
+                /> */}
                 <Table
                   bordered
                   rowKey={(record) => record.id}

@@ -39,6 +39,8 @@ app.model(require("./models/homeModel").default);
 app.model(require("./models/sunshinePurchaseInfoModel").default);
 app.model(require("./models/stockListModel").default);
 app.model(require("./models/messagePushModel").default);
+app.model(require("./models/stockReturnWarehouseModel").default);
+app.model(require("./models/makeInventoryModel").default);
 
 // 4. Router
 app.router(require("./router").default);

@@ -39,7 +39,6 @@ export default {
     *selectPushMessageType({ payload }, { call, put, select }) {
       const { data } = yield call(API.selectPushMessageType);
       if (data && data.success) {
-        console.log("data", data);
         yield put({
           type: "save",
           payload: {
