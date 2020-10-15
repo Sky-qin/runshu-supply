@@ -52,6 +52,8 @@ const layout = {
   wrapperCol: { span: 18 },
 };
 
+let enterTime = null;
+
 class StockSendGoods extends React.Component {
   formRef = React.createRef();
 
@@ -105,6 +107,15 @@ class StockSendGoods extends React.Component {
         console.log("errorInfo", errorInfo);
         return;
       });
+  };
+
+  onPressEnter = () => {
+    if (enterTime) {
+      clearTimeout(enterTime);
+    }
+    enterTime = setTimeout(() => {
+      clearTimeout(enterTime);
+    }, 200);
   };
 
   render() {
@@ -230,6 +241,7 @@ class StockSendGoods extends React.Component {
                 style={{ width: "650px", marginLeft: "12px" }}
                 value={scanCode}
                 onChange={(e) => this.changeCode(e.target.value)}
+                onPressEnter={this.onPressEnter}
                 allowClear
               />
               <Button
