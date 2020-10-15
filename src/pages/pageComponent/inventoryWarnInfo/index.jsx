@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "dva";
-import { Table } from "antd";
+import { Table, Select } from "antd";
 import styled from "styled-components";
 import ContentWrap from "../../../components/contentWrap";
 import OpreationBar from "../../../components/OpreationBar";
@@ -17,6 +17,8 @@ class InventoryWarnInfo extends React.Component {
   }
 
   componentDidMount() {
+    const { dispatch } = this.props;
+    dispatch({ type: "inventoryWarnInfoModel/getUserStock" });
     this.getTableList();
   }
 
@@ -43,7 +45,7 @@ class InventoryWarnInfo extends React.Component {
     this.getTableList();
   };
 
-  filterChange = (value, key) => {
+  onChangeFilter = (value, key) => {
     const { dispatch } = this.props;
     dispatch({
       type: "inventoryWarnInfoModel/save",
@@ -54,12 +56,46 @@ class InventoryWarnInfo extends React.Component {
     this.getTableList();
   };
 
+  getStockList = (value) => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: "inventoryWarnInfoModel/getAllStock",
+      payload: {
+        keyword: value,
+      },
+    });
+  };
+
   render() {
-    const { pagination, data, loading } = this.props.inventoryWarnInfoModel;
+    const {
+      pagination,
+      data,
+      loading,
+      stockId,
+      stockList,
+    } = this.props.inventoryWarnInfoModel;
     const { current, size, total } = pagination;
     return (
       <ContentWrap loading={loading}>
-        <OpreationBar total={total} />
+        <OpreationBar
+          custom={
+            <>
+              <Select
+                allowClear={true}
+                showSearch
+                optionFilterProp="label"
+                dropdownMatchSelectWidth={false}
+                value={stockId || null}
+                onChange={(value) => this.onChangeFilter(value, "stockId")}
+                onSearch={(value) => this.getStockList(value)}
+                style={{ width: 260 }}
+                options={stockList}
+                placeholder="请选择库位"
+              />
+            </>
+          }
+          total={total}
+        />
         <Table
           bordered
           rowKey={(record, index) => index}
