@@ -32,6 +32,7 @@ import SunshinePurchaseInfo from "../pageComponent/sunshinePurchaseInfo";
 import StockList from "../pageComponent/stockList";
 import MessagePushManage from "../pageComponent/messagePushManage";
 import StockReturnWarehouse from "../pageComponent/stockReturnWarehouse";
+import MakeInventory from "../pageComponent/makeInventory";
 
 import "./index.scss";
 
@@ -134,6 +135,7 @@ class Entry extends React.Component {
                 path="/entry/stockReturnWarehouse"
                 component={StockReturnWarehouse}
               />
+              <Route path="/entry/makeInventory" component={MakeInventory} />
             </Switch>
           </div>
         </div>
