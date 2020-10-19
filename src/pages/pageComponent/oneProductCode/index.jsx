@@ -132,12 +132,6 @@ class OneProductCode extends React.Component {
             }}
           />
           <Column title="消耗日期" dataIndex="consumeDate" width={130} />
-          <Column
-            title="消耗类型"
-            dataIndex="consumeSystemTypeName"
-            width={120}
-          />
-
           <Column title="JDE编码" dataIndex="jdeCode" width={120} />
           <Column title="辽宁阳光采购编码" dataIndex="" width={150} />
           <Column title="吉林阳光采购编码" dataIndex="" width={150} />

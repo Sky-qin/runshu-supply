@@ -17,6 +17,8 @@ import {
 const { Column } = Table;
 const { TextArea } = Input;
 
+let enterTime = null;
+
 const BasicDiv = styled.div`
   padding-top: 20px;
   margin-bottom: 50px;
@@ -105,6 +107,18 @@ class SubmitSendGoods extends React.Component {
         console.log("errorInfo", errorInfo);
         return;
       });
+  };
+
+  onPressEnter = () => {
+    const { data = {} } = this.props;
+    const { scanCode } = data;
+    if (enterTime) {
+      clearTimeout(enterTime);
+    }
+    enterTime = setTimeout(() => {
+      clearTimeout(enterTime);
+      this.handleAddGoods(scanCode);
+    }, 100);
   };
 
   render() {
@@ -265,6 +279,7 @@ class SubmitSendGoods extends React.Component {
                 style={{ width: "650px", marginLeft: "12px" }}
                 value={scanCode}
                 onChange={(e) => this.changeCode(e.target.value)}
+                onPressEnter={this.onPressEnter}
                 allowClear
               />
               <Button

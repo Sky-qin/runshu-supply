@@ -1,5 +1,4 @@
 import React from "react";
-import { connect } from "dva";
 import styled from "styled-components";
 import { Modal, Table } from "antd";
 
@@ -12,19 +11,6 @@ const BasicDiv = styled.div`
     width: 280px;
     margin-right: 20px;
     line-height: 48px;
-  }
-`;
-
-const WrapTitle = styled.div`
-  font-size: 18px;
-  line-height: 30px;
-  display: flex;
-  padding: 10px 0px;
-  .berfore-bar {
-    height: 30px;
-    width: 4px;
-    background: #1890ff;
-    margin-right: 4px;
   }
 `;
 
@@ -41,25 +27,12 @@ class DetailDialog extends React.Component {
     onClosed && typeof onClosed === "function" && onClosed();
   };
 
-  handleEdit = (msg, text, status) => {
-    const { dispatch } = this.props;
-    dispatch({
-      type: "consumeModel/save",
-      payload: {
-        clickStatus: status,
-        statusTitle: text,
-        showStatusDialog: true,
-        currentMsg: { ...msg },
-      },
-    });
-  };
-
   render() {
-    const { data, replenishOrderList, groupTitle } = this.props;
-    const { currentMsg } = data;
+    const { data } = this.props;
+    const { basicInfo, detailList } = data;
     return (
       <Modal
-        title="补货单详情"
+        title="盘点单详情"
         visible
         style={{ minWidth: "1000px", maxWidth: "1100px", height: "600px" }}
         onCancel={this.handleCancel}
@@ -67,22 +40,18 @@ class DetailDialog extends React.Component {
         footer={false}
       >
         <BasicDiv>
-          <div>单号：XXXXXXXXXXXXXXXX</div>
-          <div>盘点仓库：XXXXXXXXXXXXXXXX</div>
-          <div>盘点人：XXXXXXXXXXXXXXXX</div>
-          <div>创建时间：XXXXXXXXXXXXXXXX</div>
-          <div>库存数量：XXXXXXXXXXXXXXXX</div>
-          <div>盘点数量：XXXXXXXXXXXXXXXX</div>
-          <div>盘点状态：XXXXXXXXXXXXXXXX</div>
+          <div>单号：{basicInfo.checkNo}</div>
+          <div>盘点仓库：{basicInfo.stockName}</div>
+          <div>盘点人：{basicInfo.creatorName}</div>
+          <div>创建时间：{basicInfo.createTime}</div>
+          <div>库存数量：{basicInfo.inventoryNumber}</div>
+          <div>盘点数量：{basicInfo.checkNumber}</div>
+          <div>盘点状态：{basicInfo.checkStatusName}</div>
         </BasicDiv>
-        <WrapTitle>
-          <span className="berfore-bar" />
-          <span className="group-title">{groupTitle || "清单"}</span>
-        </WrapTitle>
         <Table
           bordered
           scroll={{ y: 400 }}
-          dataSource={replenishOrderList}
+          dataSource={detailList}
           rowKey="productCode"
           pagination={false}
         >
@@ -95,17 +64,15 @@ class DetailDialog extends React.Component {
           <Column title="产品名称" dataIndex="productName" width={180} />
           <Column title="规格" dataIndex="model" width={120} />
           <Column title="型号" dataIndex="regModel" width={100} />
-          <Column title="单位" dataIndex="unit" width={65} />
-          <Column title="单价" dataIndex="" width={100} />
-          <Column title="库存数量" dataIndex="" width={100} />
-          <Column title="盘点数量" dataIndex="" width={100} />
-          <Column title="盈亏情况" dataIndex="" width={100} />
+          <Column title="单位" dataIndex="unitName" width={65} />
+          <Column title="单价" dataIndex="productPrice" width={100} />
+          <Column title="库存数量" dataIndex="inventoryNumber" width={100} />
+          <Column title="盘点数量" dataIndex="checkNumber" width={100} />
+          <Column title="盈亏情况" dataIndex="number" width={100} />
         </Table>
       </Modal>
     );
   }
 }
 
-export default connect(({ consumeModel }) => ({
-  consumeModel,
-}))(DetailDialog);
+export default DetailDialog;

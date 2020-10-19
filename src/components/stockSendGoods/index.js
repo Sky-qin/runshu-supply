@@ -110,12 +110,15 @@ class StockSendGoods extends React.Component {
   };
 
   onPressEnter = () => {
+    const { data = {} } = this.props;
+    const { scanCode } = data;
     if (enterTime) {
       clearTimeout(enterTime);
     }
     enterTime = setTimeout(() => {
       clearTimeout(enterTime);
-    }, 200);
+      this.handleAddGoods(scanCode);
+    }, 100);
   };
 
   render() {

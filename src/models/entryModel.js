@@ -5,7 +5,7 @@ export default {
   namespace: "entryModel",
   state: {
     menuList: [],
-    activeKey: "stockList", // home
+    activeKey: "home", // home
   },
 
   effects: {

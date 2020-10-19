@@ -5,19 +5,14 @@ import {
   Button,
   Table,
   Form,
-  Select,
   Col,
   Row,
   Input,
   message,
-  Space,
   Spin,
 } from "antd";
 
 const { Column } = Table;
-const { TextArea } = Input;
-
-let enterTime = null;
 
 const BasicDiv = styled.div`
   padding-top: 20px;
@@ -54,7 +49,9 @@ const layout = {
   wrapperCol: { span: 18 },
 };
 
-class SendGoods extends React.Component {
+let enterTime = null;
+
+class AddCheckNum extends React.Component {
   formRef = React.createRef();
 
   constructor(props) {
@@ -65,15 +62,6 @@ class SendGoods extends React.Component {
   handleCancel = () => {
     const { onClosed } = this.props;
     onClosed && typeof onClosed === "function" && onClosed();
-  };
-
-  onFormChange = (key, value) => {
-    const { onChange, data = {} } = this.props;
-    const { addInfo = {} } = data;
-    let tmp = { ...addInfo, [key]: value };
-    onChange &&
-      typeof onChange === "function" &&
-      onChange({ addInfo: { ...tmp } }, key);
   };
 
   changeCode = (value) => {
@@ -88,11 +76,6 @@ class SendGoods extends React.Component {
       return;
     }
     onAddGoods && typeof onAddGoods === "function" && onAddGoods();
-  };
-
-  handleDeleteGoods = (record, index) => {
-    const { onDelete } = this.props;
-    onDelete && typeof onDelete === "function" && onDelete(record, index);
   };
 
   handleSubmit = () => {
@@ -122,13 +105,14 @@ class SendGoods extends React.Component {
   };
 
   render() {
-    const { data = {}, title, groupTitle } = this.props;
+    const { data = {}, title } = this.props;
     const {
-      addInfo = {},
       scanCode,
-      replenishOrderList,
-      scanCodeProductList,
+      inventoryCheck,
+      productList,
+      statisticList,
       drawerLoading,
+      stockMsg = {},
     } = data;
     return (
       <Drawer
@@ -140,77 +124,70 @@ class SendGoods extends React.Component {
         maskClosable={false}
       >
         <Spin spinning={drawerLoading}>
-          <Form
-            {...layout}
-            ref={this.formRef}
-            onFinish={this.onFinish}
-            style={{ marginTop: "24px" }}
-          >
+          <Form {...layout} ref={this.formRef} onFinish={this.onFinish}>
             <Row>
-              <Col span={8}>
-                <Form.Item
-                  label="调出仓库:"
-                  name="person"
-                  rules={[{ required: true, message: "请选择调出仓库" }]}
-                >
-                  <Select
-                    placeholder="请选择"
-                    options={[]}
-                    onChange={(value) => this.onFormChange("person", value)}
-                    allowClear
-                  />
-                </Form.Item>
-              </Col>
-
-              <Col span={8}>
-                <Form.Item
-                  label="调入仓库:"
-                  name="person"
-                  rules={[{ required: true, message: "请选择调入仓库" }]}
-                >
-                  <Select
-                    placeholder="请选择"
-                    options={[]}
-                    onChange={(value) => this.onFormChange("person", value)}
-                    allowClear
-                  />
-                </Form.Item>
-              </Col>
-              <Col span={8}>
-                <Form.Item label="调拨类型:">XXXXXXXXXXXXXXXXXX</Form.Item>
+              <Col span={6}>
+                <Form.Item label="盘点仓库:">{stockMsg.label || ""}</Form.Item>
               </Col>
             </Row>
             <Row>
-              <Col span={8}>
-                <Form.Item
-                  label="客户:"
-                  name="person"
-                  rules={[{ required: true, message: "请选择客户" }]}
-                >
-                  <Select
-                    placeholder="请选择"
-                    options={[]}
-                    onChange={(value) => this.onFormChange("person", value)}
-                    allowClear
-                  />
+              <Col span={6}>
+                <Form.Item label="库存数量:">
+                  {inventoryCheck.inventoryNumber || 0}
                 </Form.Item>
               </Col>
-              <Col span={8}>
-                <Form.Item label="备注:" name="desc">
-                  <TextArea
-                    rows={3}
-                    placeholder="请输入备注"
-                    onChange={(e) => this.onFormChange("desc", e.target.value)}
-                  />
+              <Col span={6}>
+                <Form.Item label="盘点数量:">
+                  {inventoryCheck.checkNumber || 0}
+                </Form.Item>
+              </Col>
+              <Col span={6}>
+                <Form.Item label="盘盈数量:">
+                  {inventoryCheck.surplusNumber || 0}
+                </Form.Item>
+              </Col>
+              <Col span={6}>
+                <Form.Item label="盘亏数量:">
+                  {inventoryCheck.lossNumber || 0}
                 </Form.Item>
               </Col>
             </Row>
+            <Row></Row>
           </Form>
 
+          <div>
+            <WrapTitle>
+              <span className="berfore-bar" />
+              <span className="group-title">盘点汇总</span>
+            </WrapTitle>
+            <Table
+              bordered
+              scroll={{ y: 500 }}
+              rowKey={(record, index) => index}
+              dataSource={statisticList}
+              rowKey="productCode"
+              pagination={false}
+            >
+              <Column
+                title="序号"
+                render={(value, record, index) => index + 1}
+                width={65}
+              />
+              <Column title="产品编码" dataIndex="productCode" width={120} />
+              <Column title="产品名称" dataIndex="productName" width={165} />
+              <Column title="规格" dataIndex="model" width={100} />
+              <Column title="型号" dataIndex="regModel" width={80} />
+              <Column title="单位" dataIndex="unitName" width={70} />
+              <Column title="单价" dataIndex="productPrice" width={70} />
+              <Column title="库存数量" dataIndex="inventoryNumber" width={90} />
+              <Column title="盘点数量" dataIndex="checkNumber" width={90} />
+              <Column title="盈亏情况" dataIndex="" width={90} />
+            </Table>
+          </div>
           <BasicDiv>
             <WrapTitle>
               <span className="berfore-bar" />
-              <span className="group-title">{groupTitle || "清单"}</span>
+              <span className="group-title">盘点清单</span>
             </WrapTitle>
             <div style={{ padding: "8px" }}>
               流水号:
@@ -219,6 +196,7 @@ class SendGoods extends React.Component {
                 value={scanCode}
                 onChange={(e) => this.changeCode(e.target.value)}
                 onPressEnter={this.onPressEnter}
+                placeholder="请用扫码枪扫码或手动输入流水码"
                 allowClear
               />
               <Button
@@ -232,7 +210,7 @@ class SendGoods extends React.Component {
             <Table
               bordered
               scroll={{ y: 400 }}
-              dataSource={scanCodeProductList}
+              dataSource={productList}
               rowKey="serialNo"
               pagination={false}
             >
@@ -246,25 +224,11 @@ class SendGoods extends React.Component {
               <Column title="产品名称" dataIndex="productName" width={180} />
               <Column title="规格" dataIndex="model" width={100} />
               <Column title="型号" dataIndex="regModel" width={80} />
-              <Column title="单位" dataIndex="unit" width={80} />
-              <Column title="单价" dataIndex="unit" width={80} />
-              <Column title="生产厂家" dataIndex="productVendor" width={150} />
-              <Column
-                title="操作"
-                width={80}
-                fixed="right"
-                render={(value, record, index) => {
-                  return (
-                    <Space size="middle">
-                      <a onClick={() => this.handleDeleteGoods(record, index)}>
-                        删除
-                      </a>
-                    </Space>
-                  );
-                }}
-              />
+              <Column title="单位" dataIndex="unitName" width={80} />
+              <Column title="单价" dataIndex="productPrice" width={80} />
             </Table>
           </BasicDiv>
+
           <FooterBar>
             <Button type="primary" onClick={this.handleSubmit}>
               提交
@@ -276,4 +240,4 @@ class SendGoods extends React.Component {
   }
 }
 
-export default SendGoods;
+export default AddCheckNum;

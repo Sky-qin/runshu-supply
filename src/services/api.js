@@ -706,6 +706,59 @@ const API = {
   // 备货返库清单
 
   /**
+   * 盘点管理
+   */
+  // 盘点管理列表
+  inventoryCheckList(params) {
+    return request({
+      url: `${Prefix}/inventoryCheck/manage/list`,
+      method: "post",
+      params,
+    });
+  },
+  // 盘点单详情
+  inventoryCheckDetail(params) {
+    return request({
+      url: `${Prefix}/inventoryCheck/manage/detail`,
+      params,
+    });
+  },
+  // 选择库位后下一步
+  checkInventory(params) {
+    return request({
+      url: `${Prefix}/inventoryCheck/manage/selectCheckInventory`,
+      method: "post",
+      params,
+    });
+  },
+  // 库位解锁、上锁
+  stockLockOrUnlock(params) {
+    return request({
+      url: `${Prefix}/inventoryCheck/manage/stockLockOrUnlock`,
+      method: "post",
+      params,
+    });
+  },
+
+  // 扫码添加
+  addCheckGood(params) {
+    return request({
+      url: `${Prefix}/inventoryCheck/manage/check`,
+      method: "post",
+      params,
+    });
+  },
+
+  // 盘点信息提交
+  sendCheckInfo(params) {
+    return request({
+      url: `${Prefix}/inventoryCheck/manage/generateInventoryOrder`,
+      method: "post",
+      params,
+    });
+  },
+
+  /**
    * 枚举类即接口
    */
   // 获取当前用户 医院枚举
@@ -873,6 +926,28 @@ const API = {
   selectAllSysUser(params) {
     return request({
       url: `${Prefix}/pushMessage/selectAllSysUser`,
+      params,
+      method: "post",
+    });
+  },
+  // 盘点状态枚举
+  checkStatusList(params) {
+    return request({
+      url: `${Prefix}/inventoryCheck/manage/checkStatus/list`,
+      params,
+    });
+  },
+  // 盘点人下拉枚举
+  checkCreatorList(params) {
+    return request({
+      url: `${Prefix}/inventoryCheck/manage/checkCreator/list`,
+      params,
+    });
+  },
+  // 盘点库位下拉枚举
+  queryStockList(params) {
+    return request({
+      url: `${Prefix}/inventoryCheck/manage/queryStock/list`,
       params,
       method: "post",
     });
