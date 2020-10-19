@@ -4,7 +4,10 @@ import { Space, Table, Input, Form, Row, Col, Select, Button } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 // import styled from "styled-components";
 import DetailDialog from "./detailDialog";
-import SendGoods from "../../../components/sendGoods";
+import AddDialog from "./addDialog";
+import LockInventoryDialog from "./lockInventory";
+import UnLockInventoryDialog from "./unLockInventory";
+import AddCheckNum from "../../../components/addCheckNum";
 import ContentWrap from "../../../components/contentWrap";
 import OpreationBar from "../../../components/OpreationBar";
 import "./index.scss";
@@ -32,9 +35,11 @@ class MakeInventory extends React.Component {
 
   componentDidMount() {
     const { dispatch } = this.props;
-    dispatch({ type: "makeInventoryModel/getHospital" });
-    dispatch({ type: "makeInventoryModel/replenishStatus" });
-    dispatch({ type: "makeInventoryModel/getSendPersonList" });
+    dispatch({ type: "makeInventoryModel/storageList" });
+    dispatch({ type: "makeInventoryModel/checkStatusList" });
+    dispatch({ type: "makeInventoryModel/checkCreatorList" });
+
+    this.getLockList();
     this.getTableList();
   }
 
@@ -42,6 +47,14 @@ class MakeInventory extends React.Component {
     const { dispatch } = this.props;
     dispatch({
       type: "makeInventoryModel/getTableList",
+    });
+  };
+
+  getLockList = () => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: "makeInventoryModel/lockStockList",
+      payload: { type: "init" },
     });
   };
 
@@ -63,31 +76,8 @@ class MakeInventory extends React.Component {
 
   onSearchChange = (key, value) => {
     const { dispatch } = this.props;
-    let { current: searchForm } = this.searchRef;
     const { searchParams, pagination } = this.props.makeInventoryModel;
     let tmpParams = { searchParams: { ...searchParams, [key]: value } };
-    // 获取科室
-    if (key === "hospitalId") {
-      tmpParams = {
-        searchParams: { ...tmpParams.searchParams, departmentId: null },
-      };
-      searchForm.setFieldsValue({
-        departmentId: null,
-      });
-      if (value) {
-        dispatch({
-          type: "makeInventoryModel/getDePartmentByHsp",
-          payload: {
-            id: value,
-          },
-        });
-      } else {
-        tmpParams = {
-          ...tmpParams,
-          departmentList: [],
-        };
-      }
-    }
     dispatch({
       type: "makeInventoryModel/save",
       payload: {
@@ -128,79 +118,7 @@ class MakeInventory extends React.Component {
       },
     });
     dispatch({
-      type: "makeInventoryModel/getAddInfo",
-      payload: {
-        ...msg,
-      },
-    });
-  };
-
-  changeListData = (current, size) => {
-    const { dispatch } = this.props;
-    const { inventoryPagination } = this.props.makeInventoryModel;
-    dispatch({
-      type: "makeInventoryModel/save",
-      payload: {
-        inventoryPagination: {
-          ...inventoryPagination,
-          current,
-          size,
-        },
-      },
-    });
-
-    dispatch({ type: "makeInventoryModel/queryInventoryProduct" });
-  };
-
-  handleCheck = (msg) => {
-    const { dispatch } = this.props;
-    dispatch({
-      type: "makeInventoryModel/replenishSure",
-      payload: {
-        id: msg.id,
-      },
-    });
-  };
-  handleBack = (record) => {
-    const { dispatch } = this.props;
-    dispatch({
-      type: "makeInventoryModel/replenishRollBack",
-      payload: {
-        id: record.id,
-      },
-    });
-  };
-
-  handleGetAddInfo = (record) => {
-    const { dispatch } = this.props;
-    dispatch({
-      type: "makeInventoryModel/save",
-      payload: {
-        addproductDialog: true,
-        currentMsg: { ...record },
-      },
-    });
-    dispatch({
-      type: "makeInventoryModel/getAddInfo",
-      payload: {
-        ...record,
-      },
-    });
-  };
-
-  changeAddInfo = (msg, type) => {
-    const { dispatch } = this.props;
-    if (type === "person") {
-      dispatch({
-        type: "makeInventoryModel/getMobileById",
-        payload: {
-          ...msg,
-        },
-      });
-      return;
-    }
-    dispatch({
-      type: "makeInventoryModel/save",
+      type: "makeInventoryModel/getDetailInfo",
       payload: {
         ...msg,
       },
@@ -210,14 +128,6 @@ class MakeInventory extends React.Component {
   handleAddGoods = () => {
     const { dispatch } = this.props;
     dispatch({ type: "makeInventoryModel/addGoods" });
-  };
-
-  handleDeleteGoods = (record, index) => {
-    const { dispatch } = this.props;
-    dispatch({
-      type: "makeInventoryModel/deleteGoods",
-      payload: { msg: record, index },
-    });
   };
 
   setCode = (code) => {
@@ -232,37 +142,83 @@ class MakeInventory extends React.Component {
 
   handleSubmit = () => {
     const { dispatch } = this.props;
-    dispatch({ type: "makeInventoryModel/sendOrderSubmit" });
-  };
-
-  getDetailList = (type) => {
-    const { dispatch } = this.props;
-    const { currentMsg } = this.props.makeInventoryModel;
-    if (type === "replenishList") {
-      dispatch({
-        type: "makeInventoryModel/getAddInfo",
-        payload: {
-          ...currentMsg,
-        },
-      });
-    }
-    if (type === "deliveryList") {
-      dispatch({ type: "makeInventoryModel/getSendOrderInfo" });
-    }
+    dispatch({
+      type: "makeInventoryModel/sendCheckInfo",
+      payload: {},
+    });
   };
 
   handleClickOpreation = (key) => {
     const { dispatch } = this.props;
     if (key === "add") {
+      dispatch({ type: "makeInventoryModel/storageList" });
       dispatch({
-        type: "deliveryManageModel/save",
+        type: "makeInventoryModel/save",
         payload: {
-          addDialog: true,
+          checkInventoryDialog: true,
         },
       });
-      dispatch({ type: "deliveryManageModel/getReplenishList" });
-      dispatch({ type: "deliveryManageModel/queryReplenishHospitals" });
     }
+    if (key === "lock") {
+      dispatch({ type: "makeInventoryModel/unlockStockList" });
+      dispatch({
+        type: "makeInventoryModel/save",
+        payload: {
+          lockDialog: true,
+        },
+      });
+    }
+    if (key === "unlock") {
+      dispatch({ type: "makeInventoryModel/lockStockList" });
+    }
+  };
+
+  handleLock = (stockId, callBack) => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: "makeInventoryModel/stockLockOrUnlock",
+      payload: {
+        stockId,
+        type: "checkInventory",
+        callBack,
+      },
+    });
+  };
+
+  // 选择库位
+  chcekInventory = (values) => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: "makeInventoryModel/save",
+      payload: {
+        stockMsg: values,
+      },
+    });
+    dispatch({
+      type: "makeInventoryModel/checkInventory",
+      payload: { stockId: values.value },
+    });
+  };
+
+  // 库存上锁弹窗
+  lockInventory = (values) => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: "makeInventoryModel/stockLockOrUnlock",
+      payload: { ...values, type: "lock" },
+    });
+  };
+
+  // 库存解锁
+  handleUnLock = (msg) => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: "makeInventoryModel/stockLockOrUnlock",
+      payload: {
+        stockId: msg.value,
+        type: "unlock",
+      },
+    });
   };
 
   render() {
@@ -273,16 +229,26 @@ class MakeInventory extends React.Component {
       pagination,
       data,
       loading,
-      hospitalList,
-      addproductDialog,
-      addInfo,
-      replenishOrderList,
-      scanCodeProductList,
+      addOrder,
+      checkInventoryDialog,
+      dialogBtnLoading,
+      inventoryCheck,
+      productList,
+      statisticList,
       personList,
       scanCode,
       drawerLoading,
-      deliverInfoList,
       searchParams,
+      storageList,
+      checkStatusList,
+      basicInfo,
+      detailList,
+      lockDialog,
+      unLockDialog,
+      unlockStockList,
+      stockMsg,
+      lockStockList,
+      lockNum,
     } = this.props.makeInventoryModel;
     const { current, size, total } = pagination;
     return (
@@ -299,12 +265,12 @@ class MakeInventory extends React.Component {
           >
             <Row>
               <Col span={6}>
-                <Form.Item label="盘点仓库" name="hospitalId">
+                <Form.Item label="盘点仓库" name="stockId">
                   <Select
-                    onChange={(value) =>
-                      this.onSearchChange("hospitalId", value)
+                    onChange={(value, obj) =>
+                      this.onSearchChange("stockId", value)
                     }
-                    options={hospitalList}
+                    options={storageList}
                     showSearch
                     optionFilterProp="label"
                     dropdownMatchSelectWidth={false}
@@ -314,12 +280,12 @@ class MakeInventory extends React.Component {
                 </Form.Item>
               </Col>
               <Col span={6}>
-                <Form.Item label="盘点状态" name="hospitalId">
+                <Form.Item label="盘点状态" name="checkStatus">
                   <Select
                     onChange={(value) =>
-                      this.onSearchChange("hospitalId", value)
+                      this.onSearchChange("checkStatus", value)
                     }
-                    options={hospitalList}
+                    options={checkStatusList}
                     showSearch
                     optionFilterProp="label"
                     dropdownMatchSelectWidth={false}
@@ -329,23 +295,21 @@ class MakeInventory extends React.Component {
                 </Form.Item>
               </Col>
               <Col span={6}>
-                <Form.Item label="盘点人" name="orderStatus">
+                <Form.Item label="盘点人" name="creator">
                   <Select
-                    placeholder="请选择状态"
-                    options={[]}
-                    onChange={(value) =>
-                      this.onSearchChange("orderStatus", value)
-                    }
+                    placeholder="请选择"
+                    options={personList}
+                    onChange={(value) => this.onSearchChange("creator", value)}
                     allowClear
                   />
                 </Form.Item>
               </Col>
               <Col span={6}>
-                <Form.Item label="单号" name="replenishNumber">
+                <Form.Item label="单号" name="checkNo">
                   <Input
                     placeholder="请输入单号"
                     onChange={(e) =>
-                      this.onSearchChange("replenishNumber", e.target.value)
+                      this.onSearchChange("checkNo", e.target.value)
                     }
                   />
                 </Form.Item>
@@ -374,9 +338,36 @@ class MakeInventory extends React.Component {
         </ContentWrap>
         <ContentWrap loading={loading}>
           <OpreationBar
-            buttonList={[{ key: "add", label: "新增", icon: <PlusOutlined /> }]}
+            custom={
+              <Space>
+                <Button
+                  type="primary"
+                  icon={<PlusOutlined />}
+                  onClick={() => this.handleClickOpreation("add")}
+                >
+                  新增
+                </Button>
+
+                <Button
+                  style={{ marginLeft: "20px" }}
+                  type="primary"
+                  shape="round"
+                  danger
+                  onClick={() => this.handleClickOpreation("lock")}
+                >
+                  盘点上锁
+                </Button>
+                <Button
+                  style={{ marginLeft: "8px" }}
+                  type="primary"
+                  shape="round"
+                  onClick={() => this.handleClickOpreation("unlock")}
+                >
+                  盘点解锁{`（${lockNum || 0}）`}
+                </Button>
+              </Space>
+            }
             total={total}
-            onClick={this.handleClickOpreation}
           />
           <Table
             bordered
@@ -398,16 +389,16 @@ class MakeInventory extends React.Component {
               width={80}
             />
 
-            <Column title="单号" dataIndex="code1" width={135} />
-            <Column title="盘点仓库" dataIndex="code2" width={180} />
-            <Column title="库存数量" dataIndex="code3" width={120} />
-            <Column title="盘点数量" dataIndex="code4" width={120} />
-            <Column title="盘点状态" dataIndex="code5" width={130} />
-            <Column title="盘点人" dataIndex="code5" width={130} />
-            <Column title="盘点时间" dataIndex="code5" width={130} />
+            <Column title="单号" dataIndex="checkNo" width={135} />
+            <Column title="盘点仓库" dataIndex="stockName" width={180} />
+            <Column title="库存数量" dataIndex="inventoryNumber" width={120} />
+            <Column title="盘点数量" dataIndex="checkNumber" width={120} />
+            <Column title="盘点状态" dataIndex="checkStatusName" width={130} />
+            <Column title="盘点人" dataIndex="creatorName" width={130} />
+            <Column title="盘点时间" dataIndex="createTime" width={130} />
             <Column
               title="操作"
-              width={280}
+              width={100}
               fixed="right"
               render={(value, record, index) => (
                 <Space size="middle">
@@ -416,14 +407,11 @@ class MakeInventory extends React.Component {
               )}
             />
           </Table>
-
           {/* 详情弹窗 */}
           {showDetailDialog && (
             <DetailDialog
-              title="备货返库单详情"
-              groupTitle="备货返库清单"
-              data={{ replenishOrderList, currentMsg, deliverInfoList }}
-              onGetTableList={this.getDetailList}
+              title="盘点单详情"
+              data={{ detailList, basicInfo }}
               onClosed={() => {
                 dispatch({
                   type: "makeInventoryModel/save",
@@ -432,39 +420,91 @@ class MakeInventory extends React.Component {
                   },
                 });
               }}
-              onChange={this.changeListData}
             />
           )}
-          {/* 发货单 */}
-          {addproductDialog && (
-            <SendGoods
-              title="备货返库单"
-              groupTitle="备货返库清单"
-              onChange={this.changeAddInfo}
+          {/* 创建盘点单 */}
+          {addOrder && (
+            <AddCheckNum
+              title="新增盘点单"
               onAddGoods={this.handleAddGoods}
-              onDelete={this.handleDeleteGoods}
               onCodeChange={this.setCode}
               onSubmit={this.handleSubmit}
               data={{
-                addInfo,
                 scanCode,
-                replenishOrderList,
-                scanCodeProductList,
+                inventoryCheck,
+                productList,
+                statisticList,
                 personList,
                 drawerLoading,
+                stockMsg,
               }}
               onClosed={() => {
                 dispatch({
                   type: "makeInventoryModel/save",
                   payload: {
-                    addproductDialog: false,
-                    addInfo: {},
+                    addOrder: false,
+                    inventoryCheck: {},
+                    productList: [],
+                    statisticList: [],
                     scanCode: "",
-                    replenishOrderList: [],
-                    scanCodeProductList: [],
                   },
                 });
               }}
+            />
+          )}
+          {/* 盘点选择库位 */}
+          {checkInventoryDialog && (
+            <AddDialog
+              title="添加盘点单"
+              data={{ storageList }}
+              loading={dialogBtnLoading}
+              onLock={this.handleLock}
+              onClosed={() => {
+                dispatch({
+                  type: "makeInventoryModel/save",
+                  payload: {
+                    checkInventoryDialog: false,
+                    dialogBtnLoading: false,
+                  },
+                });
+              }}
+              onOk={this.chcekInventory}
+            />
+          )}
+          {/* 锁库弹窗 */}
+          {lockDialog && (
+            <LockInventoryDialog
+              title="盘点上锁"
+              data={{ unlockStockList }}
+              loading={dialogBtnLoading}
+              onClosed={() => {
+                dispatch({
+                  type: "makeInventoryModel/save",
+                  payload: {
+                    lockDialog: false,
+                    dialogBtnLoading: false,
+                  },
+                });
+              }}
+              onOk={this.lockInventory}
+            />
+          )}
+          {/* 解锁库存弹窗 */}
+          {unLockDialog && (
+            <UnLockInventoryDialog
+              title="盘点解锁"
+              data={{ lockStockList }}
+              loading={dialogBtnLoading}
+              onClosed={() => {
+                dispatch({
+                  type: "makeInventoryModel/save",
+                  payload: {
+                    unLockDialog: false,
+                    dialogBtnLoading: false,
+                  },
+                });
+              }}
+              onUnLock={this.handleUnLock}
             />
           )}
         </ContentWrap>
