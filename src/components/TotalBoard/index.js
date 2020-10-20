@@ -17,7 +17,7 @@ const BoardWrap = styled.div`
   overflow-x: auto;
   .item-board {
     flex: 1;
-    height: 220px;
+    height: 150px;
     margin: 12px;
     display: flex;
 
@@ -28,7 +28,7 @@ const BoardWrap = styled.div`
       border-radius: 5px 0 0 5px;
       .item-board-left-info {
         position: relative;
-        top: -140px;
+        top: -100px;
         .item-board-left-info-num {
           font-size: 40px;
           font-weight: 600;
@@ -80,7 +80,7 @@ const BoardWrap = styled.div`
 `;
 
 const SmallBoardWrap = styled.div`
-  height: 220px;
+  height: 150px;
   min-width: 245px;
   margin: 12px;
   display: flex;
@@ -152,42 +152,13 @@ class TotalBoard extends React.Component {
     return (
       <ContentWrap loading={loading}>
         <BoardWrap>
-          {/* <div className="item-board">
-            <div
-              className="item-board-left light-red jump-to-list"
-              onClick={() => this.cliclkToList("inventoryWarnInfo")}
-            >
-              <img src={redCircular} />
-              <div className="item-board-left-info">
-                <div className="item-board-left-info-num">
-                  {inventoryWarningNo || 0}
-                </div>
-                <div className="item-board-left-info-text red-text-color">
-                  库存预警
-                </div>
-              </div>
-            </div>
-            <div
-              className="item-board-right deep-red jump-to-list"
-              onClick={() => this.cliclkToList("recentWarnInfo")}
-            >
-              <img
-                src={lightning}
-                style={{ width: 50, height: 50, margin: "40px 0 25px" }}
-              />
-              <div>近效期预警</div>
-              <div style={{ fontSize: "32px", fontWeight: 500, color: "#fff" }}>
-                {earlyWarningNo}
-              </div>
-            </div>
-          </div> */}
           <SmallBoardWrap
             style={{ background: "rgba(20, 213, 112, 1)" }}
             onClick={() => this.cliclkToList("inventoryWarnInfo")}
           >
             <img
               src={warning}
-              style={{ width: 50, height: 50, margin: "40px 0 25px" }}
+              style={{ width: 33, height: 33, margin: "28px 0 10px" }}
             />
             <div>库存预警</div>
             <div style={{ fontSize: "32px", fontWeight: 500, color: "#fff" }}>
@@ -200,7 +171,7 @@ class TotalBoard extends React.Component {
           >
             <img
               src={lightning}
-              style={{ width: 50, height: 50, margin: "40px 0 25px" }}
+              style={{ width: 33, height: 33, margin: "28px 0 10px" }}
             />
             <div>近效期预警</div>
             <div style={{ fontSize: "32px", fontWeight: 500, color: "#fff" }}>
@@ -222,7 +193,7 @@ class TotalBoard extends React.Component {
             <div className="item-board-right deep-blue">
               <img
                 src={combination}
-                style={{ width: 50, height: 50, margin: "44px 0 25px" }}
+                style={{ width: 33, height: 33, margin: "28px 0 10px" }}
               />
               <div>库存商品总金额（万）</div>
               <div style={{ fontSize: "32px", fontWeight: 500, color: "#fff" }}>
@@ -243,7 +214,7 @@ class TotalBoard extends React.Component {
             <div className="item-board-right deep-orange">
               <img
                 src={amount}
-                style={{ width: 50, height: 50, margin: "44px 0 25px" }}
+                style={{ width: 33, height: 33, margin: "28px 0 10px" }}
               />
               <div>近7天消耗商品总金额（万）</div>
               <div style={{ fontSize: "32px", fontWeight: 500, color: "#fff" }}>
