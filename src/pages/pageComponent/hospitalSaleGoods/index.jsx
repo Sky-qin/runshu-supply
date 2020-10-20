@@ -211,7 +211,7 @@ class HospitalSaleGoods extends React.Component {
               render={(value, record, index) => index + 1}
               width={70}
             />
-            <Column title="医院名称" dataIndex="" width={160} />
+            <Column title="医院名称" dataIndex="hospitalName" width={160} />
             <Column
               title="是否在售"
               dataIndex="onsale"
