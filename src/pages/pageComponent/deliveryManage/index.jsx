@@ -103,7 +103,6 @@ class DeliveryManage extends React.Component {
       type: "deliveryManageModel/save",
       payload: {
         searchParams: {},
-        departmentList: [],
       },
     });
     this.getTableList();
@@ -271,6 +270,16 @@ class DeliveryManage extends React.Component {
     });
   };
 
+  componentWillUnmount() {
+    const { dispatch } = this.props;
+    dispatch({
+      type: "deliveryManageModel/save",
+      payload: {
+        searchParams: {},
+      },
+    });
+  }
+
   render() {
     const { dispatch } = this.props;
     const {
@@ -311,9 +320,6 @@ class DeliveryManage extends React.Component {
             ref={this.searchRef}
             onFinish={this.onFinish}
             style={{ marginTop: "24px" }}
-            initialValues={{
-              ...searchParams,
-            }}
           >
             <Row>
               <Col span={6}>

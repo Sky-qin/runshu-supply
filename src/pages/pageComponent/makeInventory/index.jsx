@@ -2,7 +2,6 @@ import React from "react";
 import { connect } from "dva";
 import { Space, Table, Input, Form, Row, Col, Select, Button } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
-// import styled from "styled-components";
 import DetailDialog from "./detailDialog";
 import AddDialog from "./addDialog";
 import LockInventoryDialog from "./lockInventory";
@@ -221,11 +220,20 @@ class MakeInventory extends React.Component {
     });
   };
 
+  componentWillUnmount() {
+    const { dispatch } = this.props;
+    dispatch({
+      type: "makeInventoryModel/save",
+      payload: {
+        searchParams: {},
+      },
+    });
+  }
+
   render() {
     const { dispatch } = this.props;
     const {
       showDetailDialog,
-      currentMsg,
       pagination,
       data,
       loading,
@@ -238,7 +246,6 @@ class MakeInventory extends React.Component {
       personList,
       scanCode,
       drawerLoading,
-      searchParams,
       storageList,
       checkStatusList,
       basicInfo,
@@ -259,9 +266,6 @@ class MakeInventory extends React.Component {
             ref={this.searchRef}
             onFinish={this.onFinish}
             style={{ marginTop: "24px" }}
-            initialValues={{
-              ...searchParams,
-            }}
           >
             <Row>
               <Col span={6}>

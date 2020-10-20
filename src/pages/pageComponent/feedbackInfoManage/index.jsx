@@ -212,6 +212,17 @@ class FeedbackInfoManage extends React.Component {
     this.getTableList();
   };
 
+  componentWillUnmount() {
+    const { dispatch } = this.props;
+    dispatch({
+      type: "feedbackModel/save",
+      payload: {
+        searchParams: {},
+        departmentList: [],
+      },
+    });
+  }
+
   render() {
     const { dispatch } = this.props;
     const {
@@ -224,7 +235,6 @@ class FeedbackInfoManage extends React.Component {
       departmentList,
       feedbackInfo,
       feedbackDialog,
-      searchParams,
     } = this.props.feedbackModel;
     const { current, size, total } = pagination;
     return (
@@ -235,13 +245,6 @@ class FeedbackInfoManage extends React.Component {
             ref={this.searchRef}
             onFinish={this.onFinish}
             style={{ marginTop: "24px" }}
-            initialValues={{
-              hospitalId: searchParams.hospitalId || null,
-              departmentId: searchParams.departmentId || null,
-              orderStatus: searchParams.orderStatus || null,
-              creator: searchParams.creator || null,
-              consumeName: searchParams.consumeName || null,
-            }}
           >
             <Row>
               <Col span={6}>
