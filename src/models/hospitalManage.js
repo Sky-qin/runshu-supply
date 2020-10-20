@@ -19,12 +19,12 @@ export default {
       size: 10,
       total: 0,
     },
-    hospitalName: null,
+    condition: null,
   },
 
   effects: {
     *getTableList({ payload }, { call, put, select }) {
-      const { pagination, hospitalName } = yield select(
+      const { pagination, condition } = yield select(
         (state) => state.hospitalManage
       );
       const { current, size } = pagination;
@@ -32,7 +32,7 @@ export default {
         current,
         size,
         params: {
-          hospitalName,
+          condition,
         },
       };
       yield put({ type: "save", payload: { loading: true } });

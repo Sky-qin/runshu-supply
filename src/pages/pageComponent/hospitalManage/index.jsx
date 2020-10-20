@@ -141,7 +141,7 @@ class HospitalManage extends React.Component {
       data,
       deleteDialog,
       dialogBtnLoading,
-      hospitalName,
+      condition,
     } = this.props.hospitalManage;
     const { current, size, total } = pagination;
     return (
@@ -154,9 +154,9 @@ class HospitalManage extends React.Component {
                 <Input
                   style={{ width: 225 }}
                   placeholder="输入医院名称"
-                  value={hospitalName}
+                  value={condition}
                   onChange={(e) =>
-                    this.filterChange(e.target.value, "hospitalName")
+                    this.filterChange(e.target.value, "condition")
                   }
                   allowClear
                 />
