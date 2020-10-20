@@ -47,7 +47,7 @@ export default {
       }
     },
     *getHospital({ payload }, { call, put, select }) {
-      const { data } = yield call(API.getHospital);
+      const { data } = yield call(API.hospitalList);
       if (data && data.success) {
         yield put({
           type: "save",

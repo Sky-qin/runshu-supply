@@ -131,9 +131,11 @@ class HospitalSaleGoods extends React.Component {
                 </Form.Item>
               </Col>
               <Col span={6}>
-                <Form.Item label="医院" name="stockId">
+                <Form.Item label="医院" name="hospitalName">
                   <Select
-                    onChange={(value) => this.onSearchChange("stockId", value)}
+                    onChange={(value) =>
+                      this.onSearchChange("hospitalName", value)
+                    }
                     options={hospitalList}
                     placeholder="请选择"
                     dropdownMatchSelectWidth={false}

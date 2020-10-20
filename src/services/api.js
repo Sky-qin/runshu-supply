@@ -964,6 +964,13 @@ const API = {
       method: "post",
     });
   },
+  // 医院在售商品医院枚举
+  hospitalList(params) {
+    return request({
+      url: `${Prefix}/product/hospitalOnsale/hospital/list`,
+      params,
+    });
+  },
 };
 
 export default API;
