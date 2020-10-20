@@ -41,6 +41,7 @@ app.model(require("./models/stockListModel").default);
 app.model(require("./models/messagePushModel").default);
 app.model(require("./models/stockReturnWarehouseModel").default);
 app.model(require("./models/makeInventoryModel").default);
+app.model(require("./models/hospitalSaleGoodsModel").default);
 
 // 4. Router
 app.router(require("./router").default);
