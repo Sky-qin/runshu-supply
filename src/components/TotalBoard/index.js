@@ -30,7 +30,7 @@ const BoardWrap = styled.div`
         position: relative;
         top: -100px;
         .item-board-left-info-num {
-          font-size: 40px;
+          font-size: 28px;
           font-weight: 600;
           color: #fff;
           line-height: 56px;
@@ -161,7 +161,7 @@ class TotalBoard extends React.Component {
               style={{ width: 33, height: 33, margin: "28px 0 10px" }}
             />
             <div>库存预警</div>
-            <div style={{ fontSize: "32px", fontWeight: 500, color: "#fff" }}>
+            <div style={{ fontSize: "28px", fontWeight: 500, color: "#fff" }}>
               {inventoryWarningNo}
             </div>
           </SmallBoardWrap>
@@ -174,7 +174,7 @@ class TotalBoard extends React.Component {
               style={{ width: 33, height: 33, margin: "28px 0 10px" }}
             />
             <div>近效期预警</div>
-            <div style={{ fontSize: "32px", fontWeight: 500, color: "#fff" }}>
+            <div style={{ fontSize: "28px", fontWeight: 500, color: "#fff" }}>
               {earlyWarningNo}
             </div>
           </SmallBoardWrap>
@@ -196,7 +196,7 @@ class TotalBoard extends React.Component {
                 style={{ width: 33, height: 33, margin: "28px 0 10px" }}
               />
               <div>库存商品总金额（万）</div>
-              <div style={{ fontSize: "32px", fontWeight: 500, color: "#fff" }}>
+              <div style={{ fontSize: "28px", fontWeight: 500, color: "#fff" }}>
                 {prettyProductAmount}
               </div>
             </div>
@@ -217,7 +217,7 @@ class TotalBoard extends React.Component {
                 style={{ width: 33, height: 33, margin: "28px 0 10px" }}
               />
               <div>近7天消耗商品总金额（万）</div>
-              <div style={{ fontSize: "32px", fontWeight: 500, color: "#fff" }}>
+              <div style={{ fontSize: "28px", fontWeight: 500, color: "#fff" }}>
                 {prettyRec7DConsumeAmount}
               </div>
             </div>
