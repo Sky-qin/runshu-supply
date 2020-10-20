@@ -759,6 +759,18 @@ const API = {
   },
 
   /**
+   * 医院在售商品库
+   */
+  // 医院在售商品列表
+  hospitalOnsaleList(params) {
+    return request({
+      url: `${Prefix}/product/hospitalOnsale/list`,
+      method: "post",
+      params,
+    });
+  },
+
+  /**
    * 枚举类即接口
    */
   // 获取当前用户 医院枚举

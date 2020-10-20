@@ -33,6 +33,7 @@ import StockList from "../pageComponent/stockList";
 import MessagePushManage from "../pageComponent/messagePushManage";
 import StockReturnWarehouse from "../pageComponent/stockReturnWarehouse";
 import MakeInventory from "../pageComponent/makeInventory";
+import HospitalSaleGoods from "../pageComponent/hospitalSaleGoods";
 
 import "./index.scss";
 
@@ -136,6 +137,10 @@ class Entry extends React.Component {
                 component={StockReturnWarehouse}
               />
               <Route path="/entry/makeInventory" component={MakeInventory} />
+              <Route
+                path="/entry/hospitalSaleGoods"
+                component={HospitalSaleGoods}
+              />
             </Switch>
           </div>
         </div>
