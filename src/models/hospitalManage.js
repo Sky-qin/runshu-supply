@@ -19,15 +19,21 @@ export default {
       size: 10,
       total: 0,
     },
+    hospitalName: null,
   },
 
   effects: {
     *getTableList({ payload }, { call, put, select }) {
-      const { pagination } = yield select((state) => state.hospitalManage);
+      const { pagination, hospitalName } = yield select(
+        (state) => state.hospitalManage
+      );
       const { current, size } = pagination;
       let params = {
         current,
         size,
+        params: {
+          hospitalName,
+        },
       };
       yield put({ type: "save", payload: { loading: true } });
       const { data } = yield call(API.queryHospital, params);

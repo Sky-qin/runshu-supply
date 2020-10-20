@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "dva";
-import { Table, Button, Space, Modal } from "antd";
-import { PlusOutlined } from "@ant-design/icons";
+import { Table, Button, Space, Modal, Input } from "antd";
+import { PlusOutlined, SearchOutlined } from "@ant-design/icons";
 import EditDialog from "./editDialog";
 import ContentBox from "../../../components/contentWrap";
 import OpreationBar from "../../../components/OpreationBar";
@@ -117,6 +117,16 @@ class HospitalManage extends React.Component {
     }
   };
 
+  filterChange = (value, key) => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: "hospitalManage/save",
+      payload: {
+        [key]: value,
+      },
+    });
+  };
+
   render() {
     const { dispatch } = this.props;
     const {
@@ -131,10 +141,34 @@ class HospitalManage extends React.Component {
       data,
       deleteDialog,
       dialogBtnLoading,
+      hospitalName,
     } = this.props.hospitalManage;
     const { current, size, total } = pagination;
     return (
       <ContentBox loading={loading}>
+        <OpreationBar
+          total={false}
+          custom={
+            <>
+              <div style={{ width: 260, display: "inline-block" }}>
+                <Input
+                  style={{ width: 225 }}
+                  placeholder="输入医院名称"
+                  value={hospitalName}
+                  onChange={(e) =>
+                    this.filterChange(e.target.value, "hospitalName")
+                  }
+                  allowClear
+                />
+                <Button
+                  style={{ position: "relative", left: "-3px", top: "1px" }}
+                  onClick={this.getTableList}
+                  icon={<SearchOutlined />}
+                />
+              </div>
+            </>
+          }
+        />
         <OpreationBar
           buttonList={[{ key: "add", label: "新增", icon: <PlusOutlined /> }]}
           total={total}
