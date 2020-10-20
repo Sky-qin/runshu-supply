@@ -1,13 +1,14 @@
 import React from "react";
 import ContentWrap from "../contentWrap";
-import T from "prop-types";
+// import T from "prop-types";
 import styled from "styled-components";
 import request from "../../services/request";
 import { Prefix } from "../../utils/config";
-import redCircular from "../../assets/redCircular.png";
+// import redCircular from "../../assets/redCircular.png";
 import blueCircular from "../../assets/blueCircular.png";
 import orangeCircular from "../../assets/orangeCircular.png";
 import lightning from "../../assets/lightning.png";
+import warning from "../../assets/warning.png";
 import combination from "../../assets/combination.png";
 import amount from "../../assets/amount.png";
 
@@ -24,6 +25,7 @@ const BoardWrap = styled.div`
       flex: 2;
       text-align: center;
       position: relative;
+      border-radius: 5px 0 0 5px;
       .item-board-left-info {
         position: relative;
         top: -140px;
@@ -50,13 +52,11 @@ const BoardWrap = styled.div`
         }
       }
     }
-    .jump-to-list {
-      cursor: pointer;
-    }
     .item-board-right {
       width: 200px;
       text-align: center;
       color: #fff;
+      border-radius: 0px 5px 5px 0px;
     }
     .light-red {
       background: #ff696b;
@@ -79,6 +79,18 @@ const BoardWrap = styled.div`
   }
 `;
 
+const SmallBoardWrap = styled.div`
+  height: 220px;
+  min-width: 245px;
+  margin: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #fff;
+  border-radius: 5px;
+  cursor: pointer;
+`;
+
 class TotalBoard extends React.Component {
   static propTypes = {};
   static defaultProps = {};
@@ -94,6 +106,7 @@ class TotalBoard extends React.Component {
       prettyProductAmount: 0,
       prettyRec7DConsumeAmount: 0,
       rec7DConsumeNo: 0,
+      loading: false,
     };
   }
 
@@ -102,11 +115,13 @@ class TotalBoard extends React.Component {
   }
 
   async _checkAuthority(params = {}) {
+    this.setState({ loading: true });
     const { data: res } = await request({
       url: `${Prefix}/supply/inventory/statistic`,
       method: "post",
       params,
     });
+    this.setState({ loading: false });
 
     if (res && res.success) {
       const { data } = res;
@@ -131,12 +146,13 @@ class TotalBoard extends React.Component {
       prettyRec7DConsumeAmount,
       rec7DConsumeNo,
       prettyProductAmount,
+      loading,
     } = this.state;
     const {} = this.props;
     return (
-      <ContentWrap>
+      <ContentWrap loading={loading}>
         <BoardWrap>
-          <div className="item-board">
+          {/* <div className="item-board">
             <div
               className="item-board-left light-red jump-to-list"
               onClick={() => this.cliclkToList("inventoryWarnInfo")}
@@ -164,7 +180,33 @@ class TotalBoard extends React.Component {
                 {earlyWarningNo}
               </div>
             </div>
-          </div>
+          </div> */}
+          <SmallBoardWrap
+            style={{ background: "rgba(20, 213, 112, 1)" }}
+            onClick={() => this.cliclkToList("inventoryWarnInfo")}
+          >
+            <img
+              src={warning}
+              style={{ width: 50, height: 50, margin: "40px 0 25px" }}
+            />
+            <div>库存预警</div>
+            <div style={{ fontSize: "32px", fontWeight: 500, color: "#fff" }}>
+              {inventoryWarningNo}
+            </div>
+          </SmallBoardWrap>
+          <SmallBoardWrap
+            style={{ background: "rgba(34, 171, 255, 1)" }}
+            onClick={() => this.cliclkToList("recentWarnInfo")}
+          >
+            <img
+              src={lightning}
+              style={{ width: 50, height: 50, margin: "40px 0 25px" }}
+            />
+            <div>近效期预警</div>
+            <div style={{ fontSize: "32px", fontWeight: 500, color: "#fff" }}>
+              {earlyWarningNo}
+            </div>
+          </SmallBoardWrap>
           <div className="item-board">
             <div className="item-board-left light-blue">
               <img src={blueCircular} />
