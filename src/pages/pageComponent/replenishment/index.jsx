@@ -85,31 +85,9 @@ class Replenishment extends React.Component {
 
   onSearchChange = (key, value) => {
     const { dispatch } = this.props;
-    let { current: searchForm } = this.searchRef;
     const { searchParams, pagination } = this.props.replenishmentModel;
     let tmpParams = { searchParams: { ...searchParams, [key]: value } };
-    // 获取科室
-    if (key === "hospitalId") {
-      tmpParams = {
-        searchParams: { ...tmpParams.searchParams, departmentId: null },
-      };
-      searchForm.setFieldsValue({
-        departmentId: null,
-      });
-      if (value) {
-        dispatch({
-          type: "replenishmentModel/getDePartmentByHsp",
-          payload: {
-            id: value,
-          },
-        });
-      } else {
-        tmpParams = {
-          ...tmpParams,
-          departmentList: [],
-        };
-      }
-    }
+
     dispatch({
       type: "replenishmentModel/save",
       payload: {
@@ -134,7 +112,6 @@ class Replenishment extends React.Component {
       type: "replenishmentModel/save",
       payload: {
         searchParams: {},
-        departmentList: [],
       },
     });
     this.getTableList();
@@ -273,6 +250,16 @@ class Replenishment extends React.Component {
     }
   };
 
+  componentWillUnmount() {
+    const { dispatch } = this.props;
+    dispatch({
+      type: "replenishmentModel/save",
+      payload: {
+        searchParams: {},
+      },
+    });
+  }
+
   render() {
     const { dispatch } = this.props;
     const {
@@ -291,7 +278,6 @@ class Replenishment extends React.Component {
       scanCode,
       drawerLoading,
       deliverInfoList,
-      searchParams,
     } = this.props.replenishmentModel;
     const { current, size, total } = pagination;
     return (
@@ -302,9 +288,6 @@ class Replenishment extends React.Component {
             ref={this.searchRef}
             onFinish={this.onFinish}
             style={{ marginTop: "24px" }}
-            initialValues={{
-              ...searchParams,
-            }}
           >
             <Row>
               <Col span={6}>

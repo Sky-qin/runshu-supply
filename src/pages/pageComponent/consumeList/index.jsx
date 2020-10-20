@@ -245,6 +245,17 @@ class ConsumeList extends React.Component {
     this.getTableList();
   };
 
+  componentWillUnmount() {
+    const { dispatch } = this.props;
+    dispatch({
+      type: "consumeModel/save",
+      payload: {
+        searchParams: {},
+        departmentList: [],
+      },
+    });
+  }
+
   render() {
     const { dispatch } = this.props;
     const {
@@ -272,13 +283,6 @@ class ConsumeList extends React.Component {
             ref={this.searchRef}
             onFinish={this.onFinish}
             style={{ marginTop: "24px" }}
-            initialValues={{
-              hospitalId: searchParams.hospitalId || null,
-              departmentId: searchParams.departmentId || null,
-              orderStatus: searchParams.orderStatus || null,
-              creator: searchParams.creator || null,
-              consumeName: searchParams.consumeName || null,
-            }}
           >
             <Row>
               <Col span={6}>

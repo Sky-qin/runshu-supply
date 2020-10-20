@@ -95,10 +95,7 @@ class StockList extends React.Component {
     dispatch({
       type: "stockListModel/save",
       payload: {
-        searchParams: {
-          hospitalId: null,
-        },
-        departmentList: [],
+        searchParams: {},
       },
     });
     setTimeout(() => {
@@ -240,6 +237,16 @@ class StockList extends React.Component {
     }
   };
 
+  componentWillUnmount() {
+    const { dispatch } = this.props;
+    dispatch({
+      type: "stockListModel/save",
+      payload: {
+        searchParams: {},
+      },
+    });
+  }
+
   render() {
     const { dispatch } = this.props;
     const {
@@ -269,9 +276,6 @@ class StockList extends React.Component {
             ref={this.searchRef}
             onFinish={this.onFinish}
             style={{ marginTop: "24px" }}
-            initialValues={{
-              ...searchParams,
-            }}
           >
             <Row>
               <Col span={6}>

@@ -263,6 +263,16 @@ class StockReturnWarehouse extends React.Component {
     }
   };
 
+  componentWillUnmount() {
+    const { dispatch } = this.props;
+    dispatch({
+      type: "stockListModel/save",
+      payload: {
+        searchParams: {},
+      },
+    });
+  }
+
   render() {
     const { dispatch } = this.props;
     const {
@@ -292,9 +302,6 @@ class StockReturnWarehouse extends React.Component {
             ref={this.searchRef}
             onFinish={this.onFinish}
             style={{ marginTop: "24px" }}
-            initialValues={{
-              ...searchParams,
-            }}
           >
             <Row>
               <Col span={6}>
