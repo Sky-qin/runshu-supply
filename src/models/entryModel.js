@@ -18,7 +18,7 @@ export default {
           const { children } = item;
           if (index === 0) {
             if (children && children.length > 0) {
-              activeKey = children[0].value;
+              activeKey = getUrlParam("pageType") || children[0].value;
             } else {
               activeKey = item.value;
             }
