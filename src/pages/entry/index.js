@@ -2,7 +2,6 @@ import React from "react";
 import { connect } from "dva";
 import { Route, Switch } from "dva/router";
 import PropTypes from "prop-types";
-import { getUrlParam } from "../../utils/tools";
 import Header from "../../components/Header";
 import Menu from "../../components/Menu";
 import Home from "../pageComponent/home";
@@ -46,8 +45,8 @@ class Entry extends React.Component {
 
   componentDidMount() {
     const { dispatch } = this.props;
-    const activeKey =
-      getUrlParam("pageType") || this.props.entryModel.activeKey;
+    const { activeKey } = this.props.entryModel;
+
     dispatch({ type: "entryModel/queryMenu" });
     this.clickMenu(activeKey);
   }

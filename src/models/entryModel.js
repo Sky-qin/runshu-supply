@@ -1,11 +1,12 @@
 import { message } from "antd";
 import API from "../services/api";
+import { getUrlParam } from "../utils/tools";
 
 export default {
   namespace: "entryModel",
   state: {
     menuList: [],
-    activeKey: "home", // home
+    activeKey: getUrlParam("pageType") || "home", // home
   },
 
   effects: {
