@@ -20,7 +20,7 @@ export default {
             if (children && children.length > 0) {
               activeKey = getUrlParam("pageType") || children[0].value;
             } else {
-              activeKey = item.value;
+              activeKey = getUrlParam("pageType") || item.value;
             }
           }
         });
