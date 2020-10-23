@@ -301,7 +301,7 @@ class InventoryLoss extends React.Component {
             <Column title="单号" dataIndex="orderNumber" width={120} />
             <Column title="仓库" dataIndex="stockName" width={180} />
             <Column
-              title="入库数量"
+              title="出库数量"
               dataIndex="productTotalNumber"
               width={120}
             />
@@ -321,7 +321,7 @@ class InventoryLoss extends React.Component {
           {/* 详情弹窗 */}
           {showDetailDialog && (
             <DetailDialog
-              title="盘点单详情"
+              title="盘亏单详情"
               data={{ detailList, basicInfo }}
               onClosed={() => {
                 dispatch({
@@ -336,7 +336,7 @@ class InventoryLoss extends React.Component {
           {/* 创建盘点单 */}
           {addOrder && (
             <AddProfitAndLoss
-              title="新增盘盈单"
+              title="新增盘亏单"
               onChange={this.changeAddInfo}
               onAddGoods={this.handleAddGoods}
               onCodeChange={this.setCode}

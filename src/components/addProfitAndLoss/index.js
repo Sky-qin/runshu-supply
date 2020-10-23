@@ -162,7 +162,7 @@ class AddProfitAndLoss extends React.Component {
             </Row>
             <Row>
               <Col span={12}>
-                <Form.Item label="入库数量:">{productList.length}</Form.Item>
+                <Form.Item label="数量:">{productList.length}</Form.Item>
               </Col>
             </Row>
           </Form>

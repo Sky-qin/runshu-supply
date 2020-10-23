@@ -47,7 +47,7 @@ class DetailDialog extends React.Component {
           <div>盘点仓库：{basicInfo.stockName}</div>
           <div>创建人：{basicInfo.userName}</div>
           <div>创建时间：{basicInfo.createTime}</div>
-          <div>入库数量：{basicInfo.productTotalNumber}</div>
+          <div>出库数量：{basicInfo.productTotalNumber}</div>
           <div>备注：{basicInfo.remarks}</div>
         </BasicDiv>
         <Table
