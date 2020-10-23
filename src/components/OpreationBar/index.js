@@ -10,6 +10,7 @@ const OpreationDiv = styled.div`
   }
   .opreation-bar-left {
     flex: auto;
+    max-width: 70%;
   }
   .opreation-bar-right {
     flex: 1;
@@ -75,7 +76,6 @@ class OpreationBar extends React.Component {
             {linkList.map((item, index) => {
               const { key, url = "", params = {} } = item;
               let aParams = {};
-
               if (key === "export") {
                 aParams = {
                   component: "a",
@@ -92,7 +92,7 @@ class OpreationBar extends React.Component {
                   type="link"
                   icon={item.icon || null}
                   className="link-item"
-                  onClick={() => this.handleClickBtn(item)}
+                  // onClick={() => this.handleClickBtn(item)}
                   {...aParams}
                 >
                   {item.label}

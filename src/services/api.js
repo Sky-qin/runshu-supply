@@ -231,6 +231,15 @@ const API = {
     });
   },
 
+  // 汇总查询
+  stockStatistic(params) {
+    return request({
+      url: `${Prefix}/supply/inventory/stock/statistic`,
+      method: "post",
+      params,
+    });
+  },
+
   // 商品库位库存统计
   productStock(params) {
     return request({
@@ -759,6 +768,58 @@ const API = {
   },
 
   /**
+   * 盘盈/亏入库
+   */
+  // 盘盈入库单列表
+  inventoryProfitList(params) {
+    return request({
+      url: `${Prefix}/allotProductOrder/management/selectSurplusOrder`,
+      method: "post",
+      params,
+    });
+  },
+  // 盘亏出库单列表
+  inventoryLossList(params) {
+    return request({
+      url: `${Prefix}/allotProductOrder/management/selectLossOrder`,
+      method: "post",
+      params,
+    });
+  },
+  // 盘盈/亏扫码添加商品
+  findProductByScanCode(params) {
+    return request({
+      url: `${Prefix}/allotProductOrder/management/findProductByScanCode`,
+      method: "post",
+      params,
+    });
+  },
+  // 添加盘亏单
+  addLossOrder(params) {
+    return request({
+      url: `${Prefix}/allotProductOrder/management/addLossOrder`,
+      method: "post",
+      params,
+    });
+  },
+
+  // 添加盘盈单
+  addSurplusOrder(params) {
+    return request({
+      url: `${Prefix}/allotProductOrder/management/addSurplusOrder`,
+      method: "post",
+      params,
+    });
+  },
+  // 盘盈/亏详情查询
+  selectOrderDetail(params) {
+    return request({
+      url: `${Prefix}/allotProductOrder/management/selectOrderDetail`,
+      method: "post",
+      params,
+    });
+  },
+  /**
    * 医院在售商品库
    */
   // 医院在售商品列表
@@ -953,6 +1014,13 @@ const API = {
   checkCreatorList(params) {
     return request({
       url: `${Prefix}/inventoryCheck/manage/checkCreator/list`,
+      params,
+    });
+  },
+  // 盘盈/亏库创建人下拉枚举
+  findTabulatorList(params) {
+    return request({
+      url: `${Prefix}/allotProductOrder/management/findTabulator`,
       params,
     });
   },

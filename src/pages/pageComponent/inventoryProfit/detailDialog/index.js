@@ -32,7 +32,7 @@ class DetailDialog extends React.Component {
 
   render() {
     const { data } = this.props;
-    const { basicInfo, detailList } = data;
+    const { basicInfo } = data;
     return (
       <Modal
         title="盘点单详情"
@@ -43,18 +43,17 @@ class DetailDialog extends React.Component {
         footer={false}
       >
         <BasicDiv>
-          <div>单号：{basicInfo.checkNo}</div>
+          <div>单号：{basicInfo.orderNumber}</div>
           <div>盘点仓库：{basicInfo.stockName}</div>
-          <div>盘点人：{basicInfo.creatorName}</div>
+          <div>创建人：{basicInfo.userName}</div>
           <div>创建时间：{basicInfo.createTime}</div>
-          <div>库存数量：{basicInfo.inventoryNumber}</div>
-          <div>盘点数量：{basicInfo.checkNumber}</div>
-          <div>盘点状态：{basicInfo.checkStatusName}</div>
+          <div>入库数量：{basicInfo.productTotalNumber}</div>
+          <div>备注：{basicInfo.remarks}</div>
         </BasicDiv>
         <Table
           bordered
           scroll={{ y: 400 }}
-          dataSource={detailList}
+          dataSource={basicInfo.productList || []}
           rowKey="productCode"
           pagination={false}
         >
@@ -63,15 +62,13 @@ class DetailDialog extends React.Component {
             render={(value, record, index) => index + 1}
             width={65}
           />
-          <Column title="产品编号" dataIndex="productCode" width={130} />
+          <Column title="流水号" dataIndex="serialNo" width={100} />
+          <Column title="产品编号" dataIndex="productCode" width={120} />
           <Column title="产品名称" dataIndex="productName" width={180} />
           <Column title="规格" dataIndex="model" width={120} />
           <Column title="型号" dataIndex="regModel" width={100} />
           <Column title="单位" dataIndex="unitName" width={65} />
-          <Column title="单价" dataIndex="productPrice" width={100} />
-          <Column title="库存数量" dataIndex="inventoryNumber" width={100} />
-          <Column title="盘点数量" dataIndex="checkNumber" width={100} />
-          <Column title="盘点状态" dataIndex="checkStatusLabel" width={100} />
+          <Column title="单价" dataIndex="productPrice" width={100} />\{" "}
         </Table>
       </Modal>
     );

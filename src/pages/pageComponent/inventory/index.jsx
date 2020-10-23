@@ -21,6 +21,7 @@ class Inventory extends React.Component {
     const { dispatch } = this.props;
     dispatch({ type: "inventory/storageList" });
     dispatch({ type: "inventory/queryProductCategory" });
+    this.getStockStatistic();
     this.getTableList();
   }
 
@@ -29,6 +30,12 @@ class Inventory extends React.Component {
     dispatch({
       type: "inventory/queryInventoryList",
     });
+  };
+
+  getStockStatistic = () => {
+    const { dispatch } = this.props;
+
+    dispatch({ type: "inventory/stockStatistic" });
   };
 
   changePagination = (current, size) => {
@@ -45,6 +52,7 @@ class Inventory extends React.Component {
       },
     });
     this.getTableList();
+    this.getStockStatistic();
   };
 
   onChangeFilter = (value, key) => {
@@ -62,6 +70,7 @@ class Inventory extends React.Component {
     });
     if (key === "validPeriod" || key === "keyword") return;
     this.getTableList();
+    this.getStockStatistic();
   };
 
   handleShowDetail = (msg) => {
@@ -117,6 +126,8 @@ class Inventory extends React.Component {
       validPeriod,
       stockId,
       productCategory,
+      inventoryNumber,
+      prettyInventoryAmount,
     } = this.props.inventory;
     const { current, size, total } = pagination;
     return (
@@ -138,7 +149,10 @@ class Inventory extends React.Component {
                   />
                   <Button
                     style={{ position: "relative", left: "-3px", top: "1px" }}
-                    onClick={this.getTableList}
+                    onClick={() => {
+                      this.getTableList();
+                      this.getStockStatistic();
+                    }}
                     icon={<SearchOutlined />}
                   />
                 </div>
@@ -150,7 +164,10 @@ class Inventory extends React.Component {
                   onChange={(value) =>
                     this.onChangeFilter(value, "validPeriod")
                   }
-                  onPressEnter={this.getTableList}
+                  onPressEnter={() => {
+                    this.getTableList();
+                    this.getStockStatistic();
+                  }}
                 />
                 <Select
                   optionFilterProp="label"
@@ -175,6 +192,16 @@ class Inventory extends React.Component {
                 />
               </>
             }
+            linkList={[
+              {
+                key: "inventoryNumber",
+                label: `库存数量：${inventoryNumber}`,
+              },
+              {
+                key: "prettyInventoryAmount",
+                label: `金额：${prettyInventoryAmount}`,
+              },
+            ]}
             total={total}
           />
           <Table

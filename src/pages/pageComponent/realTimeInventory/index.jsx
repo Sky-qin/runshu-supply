@@ -22,6 +22,7 @@ class RealTimeInventory extends React.Component {
     dispatch({ type: "realInventoryModel/storageList" });
     dispatch({ type: "realInventoryModel/queryProductCategory" });
 
+    this.getStockStatistic();
     this.getTableList();
   }
 
@@ -30,6 +31,12 @@ class RealTimeInventory extends React.Component {
     dispatch({
       type: "realInventoryModel/getTableList",
     });
+  };
+
+  getStockStatistic = () => {
+    const { dispatch } = this.props;
+
+    dispatch({ type: "realInventoryModel/stockStatistic" });
   };
 
   changePagination = (current, size) => {
@@ -46,6 +53,7 @@ class RealTimeInventory extends React.Component {
       },
     });
     this.getTableList();
+    this.getStockStatistic();
   };
 
   onChangeFilter = (value, key) => {
@@ -63,6 +71,7 @@ class RealTimeInventory extends React.Component {
     });
     if (key === "validPeriod" || key === "keyword") return;
     this.getTableList();
+    this.getStockStatistic();
   };
 
   handleShowDetail = (msg) => {
@@ -95,6 +104,8 @@ class RealTimeInventory extends React.Component {
       validPeriod,
       productCategory,
       keyword,
+      inventoryNumber,
+      prettyInventoryAmount,
     } = this.props.realInventoryModel;
     const { current, size, total } = pagination;
     return (
@@ -116,7 +127,10 @@ class RealTimeInventory extends React.Component {
                   />
                   <Button
                     style={{ position: "relative", left: "-3px", top: "1px" }}
-                    onClick={this.getTableList}
+                    onClick={() => {
+                      this.getTableList();
+                      this.getStockStatistic();
+                    }}
                     icon={<SearchOutlined />}
                   />
                 </div>
@@ -128,7 +142,10 @@ class RealTimeInventory extends React.Component {
                   onChange={(value) =>
                     this.onChangeFilter(value, "validPeriod")
                   }
-                  onPressEnter={this.getTableList}
+                  onPressEnter={() => {
+                    this.getTableList();
+                    this.getStockStatistic();
+                  }}
                 />
                 <Select
                   showSearch
@@ -143,6 +160,16 @@ class RealTimeInventory extends React.Component {
                 />
               </>
             }
+            linkList={[
+              {
+                key: "inventoryNumber",
+                label: `库存数量：${inventoryNumber}`,
+              },
+              {
+                key: "prettyInventoryAmount",
+                label: `金额：${prettyInventoryAmount}`,
+              },
+            ]}
             total={total}
           />
           <Table

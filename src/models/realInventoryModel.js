@@ -15,6 +15,8 @@ export default {
       total: 0,
     },
     productInventoryList: [],
+    inventoryNumber: 0,
+    prettyInventoryAmount: 0,
   },
 
   effects: {
@@ -83,6 +85,29 @@ export default {
         });
       } else {
         message.error(data.message || "获取产品类别枚举失败");
+      }
+    },
+    *stockStatistic({ payload }, { call, put, select }) {
+      const { keyword, productCategory, validPeriod } = yield select(
+        (state) => state.realInventoryModel
+      );
+      let params = {
+        keyword,
+        productCategory,
+        validPeriod,
+      };
+      const { data } = yield call(API.stockStatistic, params);
+      if (data && data.success) {
+        yield put({
+          type: "save",
+          payload: {
+            inventoryNumber: (data.data && data.data.inventoryNumber) || 0,
+            prettyInventoryAmount:
+              (data.data && data.data.prettyInventoryAmount) || 0,
+          },
+        });
+      } else {
+        message.error(data.message || "获取库存汇总信息失败！");
       }
     },
   },
