@@ -301,7 +301,7 @@ class InventoryProfit extends React.Component {
             <Column title="单号" dataIndex="orderNumber" width={120} />
             <Column title="仓库" dataIndex="stockName" width={180} />
             <Column
-              title="出库数量"
+              title="入库数量"
               dataIndex="productTotalNumber"
               width={120}
             />
