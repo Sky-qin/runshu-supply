@@ -104,18 +104,26 @@ export default {
               title: item.label,
               dataIndex: item.value,
               key: item.label,
-              render: (text) => (
-                <WrapSpecifications>
-                  <Popover
-                    placement="left"
-                    title="规格"
-                    content={<div style={{ width: "300px" }}>{text}</div>}
-                    trigger="click"
-                  >
-                    {text}
-                  </Popover>
-                </WrapSpecifications>
-              ),
+              render: (text) => {
+                let formatText = text
+                  .replace(/,/g, ", ")
+                  .replace(/;/g, "; ")
+                  .replace(/\//g, "/ ");
+                return (
+                  <WrapSpecifications>
+                    <Popover
+                      placement="left"
+                      title="规格"
+                      content={
+                        <div style={{ width: "300px" }}>{formatText}</div>
+                      }
+                      trigger="click"
+                    >
+                      {text}
+                    </Popover>
+                  </WrapSpecifications>
+                );
+              },
             });
             return;
           }
@@ -125,12 +133,18 @@ export default {
               dataIndex: item.value,
               key: item.label,
               render: (text) => {
+                let formatText = text
+                  .replace(/,/g, ", ")
+                  .replace(/;/g, "; ")
+                  .replace(/\//g, "/ ");
                 return (
                   <WrapDivModel>
                     <Popover
                       placement="left"
                       title="型号"
-                      content={<div style={{ width: "300px" }}>{text}</div>}
+                      content={
+                        <div style={{ width: "300px" }}>{formatText}</div>
+                      }
                       trigger="click"
                     >
                       {text}
