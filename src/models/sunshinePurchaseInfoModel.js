@@ -1,5 +1,33 @@
-import { message } from "antd";
+import { message, Popover } from "antd";
+import styled from "styled-components";
 import API from "../services/api";
+
+const WrapSpecifications = styled.div`
+  width: 200px;
+  > span {
+    display: -webkit-box;
+    width: 200px;
+    text-overflow: -o-ellipsis-lastline;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    -webkit-box-orient: vertical;
+  }
+`;
+const WrapDivModel = styled.div`
+  width: 200px;
+  > span {
+    display: -webkit-box;
+    width: 200px;
+    text-overflow: -o-ellipsis-lastline;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    -webkit-box-orient: vertical;
+  }
+`;
 
 export default {
   namespace: "sunshinePurchaseInfoModel",
@@ -71,6 +99,48 @@ export default {
       if (data && data.success) {
         let tableTitle = [];
         (data.data || []).map((item) => {
+          if (item.value === "specifications") {
+            tableTitle.push({
+              title: item.label,
+              dataIndex: item.value,
+              key: item.label,
+              render: (text) => (
+                <WrapSpecifications>
+                  <Popover
+                    placement="left"
+                    title="规格"
+                    content={<div style={{ width: "300px" }}>{text}</div>}
+                    trigger="click"
+                  >
+                    {text}
+                  </Popover>
+                </WrapSpecifications>
+              ),
+            });
+            return;
+          }
+          if (item.value === "model") {
+            tableTitle.push({
+              title: item.label,
+              dataIndex: item.value,
+              key: item.label,
+              render: (text) => {
+                return (
+                  <WrapDivModel>
+                    <Popover
+                      placement="left"
+                      title="型号"
+                      content={<div style={{ width: "300px" }}>{text}</div>}
+                      trigger="click"
+                    >
+                      {text}
+                    </Popover>
+                  </WrapDivModel>
+                );
+              },
+            });
+            return;
+          }
           tableTitle.push({
             title: item.label,
             dataIndex: item.value,
