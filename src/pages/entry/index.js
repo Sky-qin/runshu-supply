@@ -29,6 +29,7 @@ import InventoryManage from "../pageComponent/inventoryManage";
 import SupplierManage from "../pageComponent/supplierManage";
 import ManufacturerManage from "../pageComponent/manufacturerManage";
 import SunshinePurchaseInfo from "../pageComponent/sunshinePurchaseInfo";
+import SunshinePurchasePriceInfo from "../pageComponent/sunshinePurchaseInfo";
 import StockList from "../pageComponent/stockList";
 import MessagePushManage from "../pageComponent/messagePushManage";
 import StockReturnWarehouse from "../pageComponent/stockReturnWarehouse";
@@ -36,6 +37,8 @@ import MakeInventory from "../pageComponent/makeInventory";
 import HospitalSaleGoods from "../pageComponent/hospitalSaleGoods";
 import InventoryProfit from "../pageComponent/inventoryProfit";
 import InventoryLoss from "../pageComponent/inventoryLoss";
+import CustomerManage from "../pageComponent/customerManage";
+import AllocateTransfer from "../pageComponent/allocateTransfer";
 
 import "./index.scss";
 
@@ -129,6 +132,10 @@ class Entry extends React.Component {
                 path="/entry/sunshinePurchaseInfo"
                 component={SunshinePurchaseInfo}
               />
+              <Route
+                path="/entry/sunshinePurchasePriceInfo"
+                component={SunshinePurchasePriceInfo}
+              />
               <Route path="/entry/stockList" component={StockList} />
               <Route
                 path="/entry/messagePushManage"
@@ -148,6 +155,11 @@ class Entry extends React.Component {
                 component={InventoryProfit}
               />
               <Route path="/entry/inventoryLoss" component={InventoryLoss} />
+              <Route path="/entry/customerManage" component={CustomerManage} />
+              <Route
+                path="/entry/allocateTransfer"
+                component={AllocateTransfer}
+              />
             </Switch>
           </div>
         </div>

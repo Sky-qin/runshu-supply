@@ -5,7 +5,7 @@ import {
   Button,
   Table,
   Form,
-  // Select,
+  Select,
   Col,
   Row,
   Input,
@@ -43,13 +43,13 @@ const FooterBar = styled.div`
   right: 0px;
   height: 56px;
   line-height: 56px;
-  width: 1000px;
+  width: 1100px;
   border-top: 1px solid #ddd;
 `;
 
 const layout = {
-  labelCol: { span: 6 },
-  wrapperCol: { span: 18 },
+  labelCol: { span: 7 },
+  wrapperCol: { span: 17 },
 };
 
 let enterTime = null;
@@ -69,11 +69,11 @@ class StockSendGoods extends React.Component {
 
   onFormChange = (key, value) => {
     const { onChange, data = {} } = this.props;
-    const { addInfo = {} } = data;
-    let tmp = { ...addInfo, [key]: value };
+    const { basicInfo = {} } = data;
+    let tmp = { ...basicInfo, [key]: value };
     onChange &&
       typeof onChange === "function" &&
-      onChange({ addInfo: { ...tmp } }, key);
+      onChange({ basicInfo: { ...tmp } }, key);
   };
 
   changeCode = (value) => {
@@ -124,9 +124,9 @@ class StockSendGoods extends React.Component {
   render() {
     const { data = {} } = this.props;
     const {
-      addInfo = {},
+      basicInfo = {},
       scanCode,
-      replenishOrderList,
+      productList,
       scanCodeProductList,
       drawerLoading,
     } = data;
@@ -148,43 +148,39 @@ class StockSendGoods extends React.Component {
           >
             <Row>
               <Col span={8}>
-                <Form.Item label="单号:">XXXXXXXXX</Form.Item>
+                <Form.Item label="单号:">{basicInfo.orderNumber}</Form.Item>
               </Col>
 
               <Col span={8}>
-                <Form.Item label="申请人:">XXXXXXXXX</Form.Item>
+                <Form.Item label="申请人:">{basicInfo.userName}</Form.Item>
               </Col>
               <Col span={8}>
-                <Form.Item label="申请日期:">XXXXXXXXXXXXXXXXXX</Form.Item>
+                <Form.Item label="申请日期:">{basicInfo.createTime}</Form.Item>
               </Col>
             </Row>
             <Row>
               <Col span={8}>
-                <Form.Item label="备货截止日期:">XXXXXXXXXXXXXXXXXX</Form.Item>
-              </Col>
-
-              <Col span={8}>
-                <Form.Item label="调出仓库:">XXXXXXXXXXXXXXXXXX</Form.Item>
+                <Form.Item label="调出仓库:">{basicInfo.outStock}</Form.Item>
               </Col>
               <Col span={8}>
-                <Form.Item label="调入仓库:">XXXXXXXXXXXXXXXXXX</Form.Item>
+                <Form.Item label="调入仓库:">{basicInfo.inStock}</Form.Item>
+              </Col>
+              <Col span={8}>
+                <Form.Item label="客户:">{basicInfo.hospitalName}</Form.Item>
               </Col>
             </Row>
             <Row>
               <Col span={8}>
-                <Form.Item label="调拨类型:">XXXXXXXXXXXXXXXXXX</Form.Item>
-              </Col>
-
-              <Col span={8}>
-                <Form.Item label="客户:">XXXXXXXXXXXXXXXXXX</Form.Item>
+                <Form.Item label="调拨类型:">{basicInfo.typeName}</Form.Item>
               </Col>
               <Col span={8}>
-                <Form.Item label="备注:" name="desc">
-                  <TextArea
-                    rows={3}
-                    placeholder="请输入备注"
-                    onChange={(e) => this.onFormChange("desc", e.target.value)}
-                  />
+                <Form.Item label="备货截止日期:">
+                  {basicInfo.expectCompleteDate}
+                </Form.Item>
+              </Col>
+              <Col span={8}>
+                <Form.Item label="备注:" name="remarks">
+                  {basicInfo.remarks}
                 </Form.Item>
               </Col>
             </Row>
@@ -198,36 +194,35 @@ class StockSendGoods extends React.Component {
               bordered
               scroll={{ y: 500 }}
               rowKey={(record, index) => index}
-              dataSource={replenishOrderList}
+              dataSource={productList}
               rowKey="productCode"
               pagination={false}
             >
-              <Column
-                title="补货单编码"
-                dataIndex="replenishNumber"
-                width={145}
-              />
               <Column title="产品编码" dataIndex="productCode" width={120} />
               <Column title="产品名称" dataIndex="productName" width={150} />
-              <Column title="规格" dataIndex="model" width={100} />
-              <Column title="型号" dataIndex="regModel" width={80} />
-              <Column title="单位" dataIndex="unit" width={70} />
-              <Column title="生产厂家" dataIndex="productVendor" width={100} />
+              <Column title="规格" dataIndex="regularModel" width={100} />
+              <Column title="型号" dataIndex="model" width={80} />
+              <Column title="单位" dataIndex="unitName" width={70} />
+              <Column
+                title="生产厂家"
+                dataIndex="productVendorName"
+                width={100}
+              />
               <Column
                 title="备货数量"
-                dataIndex="replenishNum"
+                dataIndex="prepareNumber"
                 width={90}
                 fixed="right"
               />
               <Column
                 title="已备数量"
-                dataIndex="deliverNum"
+                dataIndex="prepareCompleteNumber"
                 width={90}
                 fixed="right"
               />
               <Column
                 title="未备数量"
-                dataIndex="waitNum"
+                dataIndex="unPrepareNumber"
                 width={90}
                 fixed="right"
               />
@@ -267,13 +262,13 @@ class StockSendGoods extends React.Component {
                 render={(value, record, index) => index + 1}
                 width={80}
               />
-              <Column title="流水号" dataIndex="serialNo" width={110} />
-              <Column title="产品编码" dataIndex="productCode" width={125} />
+              <Column title="流水号" dataIndex="serialNo" width={100} />
+              <Column title="产品编码" dataIndex="productCode" width={130} />
               <Column title="产品名称" dataIndex="productName" width={180} />
-              <Column title="规格" dataIndex="model" width={100} />
-              <Column title="型号" dataIndex="regModel" width={80} />
-              <Column title="单位" dataIndex="unit" width={80} />
-              <Column title="单价" dataIndex="unit" width={80} />
+              <Column title="规格" dataIndex="regularModel" width={100} />
+              <Column title="型号" dataIndex="model" width={80} />
+              <Column title="单位" dataIndex="unitName" width={80} />
+              <Column title="单价" dataIndex="productPrice" width={80} />
               <Column title="生产厂家" dataIndex="productVendor" width={150} />
               <Column
                 title="操作"

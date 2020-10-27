@@ -24,6 +24,18 @@ const transferList = (data, value, label) => {
   return list;
 };
 
+const transferSimpleList = (data, value, label) => {
+  let list = [];
+  if (!Array.isArray(data)) {
+    return list;
+  }
+  list = data.map((item) => {
+    return { value: item[value], label: item[label] };
+  });
+
+  return list;
+};
+
 const getUrlParam = (name) => {
   let reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
   let r = decodeURIComponent(window.location.search.substr(1)).match(reg);
@@ -31,4 +43,4 @@ const getUrlParam = (name) => {
   return null;
 };
 
-export { transferTree, transferList, getUrlParam };
+export { transferTree, transferList, transferSimpleList, getUrlParam };

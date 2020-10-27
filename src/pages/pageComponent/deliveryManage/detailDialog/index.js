@@ -1,7 +1,8 @@
 import React from "react";
 import { connect } from "dva";
 import styled from "styled-components";
-import { Modal, Table, Space } from "antd";
+import { Modal, Table, Space, Button } from "antd";
+import * as dd from "dingtalk-jsapi";
 
 const { Column } = Table;
 
@@ -46,6 +47,36 @@ class EditDialog extends React.Component {
     onChange && typeof onChange === "function" && onChange(record);
   };
 
+  handleDownload = () => {
+    dd.biz.util.downloadFile({
+      url: "http://218.24.35.107/mhk/test.xlsx", //要下载的文件的url
+      name: "test02.xlsx", //定义下载文件名字
+      onProgress: function (msg) {
+        // 文件下载进度回调
+        console.log("下载中", msg);
+      },
+      onSuccess: function (result) {
+        /*
+            true
+          */
+        dd.biz.util.openLocalFile({
+          url: "http://218.24.35.107/mhk/test.xlsx", //本地文件的url，指的是调用DingTalkPC.biz.util.downloadFile接口下载时填入的url，配合DingTalkPC.biz.util.downloadFile使用
+          onSuccess: function (result) {
+            /*
+                true
+              */
+          },
+          onFail: function () {
+            alert("打开失败了!");
+          },
+        });
+      },
+      onFail: function () {
+        console.log("下载失败");
+      },
+    });
+  };
+
   render() {
     const { title, data } = this.props;
     const { productList, basicInfo } = data;
@@ -69,6 +100,7 @@ class EditDialog extends React.Component {
           <div>手机号：{basicInfo.sendOrderPhone || ""}</div>
           <div>摘要：{basicInfo.orderDesc || ""}</div>
         </BasicDiv>
+        {/* <Button onClick={this.handleDownload}>下载打印</Button> */}
         <Table
           bordered
           scroll={{ x: 1000, y: 500 }}
