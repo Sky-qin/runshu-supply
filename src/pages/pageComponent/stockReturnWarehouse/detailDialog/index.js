@@ -55,8 +55,8 @@ class DetailDialog extends React.Component {
   };
 
   render() {
-    const { data, replenishOrderList, groupTitle } = this.props;
-    const { currentMsg } = data;
+    const { data, groupTitle } = this.props;
+    console.log("data", data);
     return (
       <Modal
         title="补货单详情"
@@ -67,13 +67,12 @@ class DetailDialog extends React.Component {
         footer={false}
       >
         <BasicDiv>
-          <div>单号：XXXXXXXXXXXXXXXX</div>
-          <div>日期：XXXXXXXXXXXXXXXX</div>
-          <div>调出仓库：XXXXXXXXXXXXXXXX</div>
-          <div>调入仓库：XXXXXXXXXXXXXXXX</div>
-          <div>调拨类型：XXXXXXXXXXXXXXXX</div>
-          <div>客户：XXXXXXXXXXXXXXXX</div>
-          <div>描述：XXXXXXXXXXXXXXXX</div>
+          <div>单号：{data.orderNumber || ""}</div>
+          <div>日期：{data.createTime || ""}</div>
+          <div>调出仓库：{data.outStock || ""}</div>
+          <div>调入仓库：{data.inStock || ""}</div>
+          <div>调拨类型：{data.typeName || ""}</div>
+          <div>描述：{data.remarks || ""}</div>
         </BasicDiv>
         <WrapTitle>
           <span className="berfore-bar" />
@@ -82,7 +81,7 @@ class DetailDialog extends React.Component {
         <Table
           bordered
           scroll={{ y: 400 }}
-          dataSource={replenishOrderList}
+          dataSource={(data && data.productList) || []}
           rowKey="productCode"
           pagination={false}
         >
@@ -99,7 +98,6 @@ class DetailDialog extends React.Component {
           <Column title="单位" dataIndex="unit" width={80} />
           <Column title="单价" dataIndex="" width={100} />
           <Column title="生产厂家" dataIndex="" width={100} />
-          <Column title="源单编号" dataIndex="deliverNum" width={100} />
         </Table>
       </Modal>
     );

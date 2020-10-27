@@ -239,6 +239,7 @@ class StockList extends React.Component {
       productList,
       companyStockList,
       serialnoList,
+      backStockList,
     } = this.props.stockListModel;
     const { current, size, total } = pagination;
     return (
@@ -392,7 +393,13 @@ class StockList extends React.Component {
           {showDetailDialog && (
             <DetailDialog
               title="备货单详情"
-              data={{ productList, serialnoList, currentMsg, deliverInfoList }}
+              data={{
+                productList,
+                serialnoList,
+                currentMsg,
+                deliverInfoList,
+                backStockList,
+              }}
               onGetTableList={this.getDetailList}
               onClosed={() => {
                 dispatch({

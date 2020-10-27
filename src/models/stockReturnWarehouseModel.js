@@ -1,4 +1,5 @@
 import { message } from "antd";
+import { transferSimpleList } from "../utils/tools";
 import API from "../services/api";
 
 export default {
@@ -14,26 +15,22 @@ export default {
       size: 10,
       total: 0,
     },
-    inventoryList: [],
-    inventoryPagination: {
-      current: 1,
-      size: 50,
-      total: 0,
-    },
-    hospitalList: [],
-    replenishStatusList: [],
     searchParams: {
-      hospitalId: null,
-      orderStatus: null,
-      replenishNumber: null,
+      orderNumber: null,
+      outStockId: null,
+      creator: null,
     },
-    addInfo: {},
+    addInfo: {
+      typeName: "调拨",
+    },
     replenishOrderList: [],
     scanCodeProductList: [],
     scanCode: "",
-    deliverInfoList: [],
     // new
     personalStockList: [],
+    companyStockList: [],
+    productList: [],
+    basicInfo: {},
   },
 
   effects: {
@@ -50,7 +47,7 @@ export default {
         },
       };
       yield put({ type: "save", payload: { loading: true } });
-      const { data } = yield call(API.replenishList, params);
+      const { data } = yield call(API.backStoreList, params);
       yield put({ type: "save", payload: { loading: false } });
 
       if (data && data.success) {
@@ -69,106 +66,44 @@ export default {
       }
     },
 
-    *getHospital({ payload }, { call, put, select }) {
-      const { data } = yield call(API.replenishHospitals);
-      if (data && data.success) {
-        yield put({
-          type: "save",
-          payload: {
-            hospitalList: data.data || [],
-          },
-        });
-      } else {
-        message.error(data.message || "获取医院枚举失败！");
-      }
-    },
-
-    *replenishSure({ payload }, { call, put }) {
-      const { data } = yield call(API.replenishSure, payload);
-      if (data && data.success) {
-        message.success("确认成功！");
-        yield put({ type: "getTableList" });
-      } else {
-        message.error(data.message || "确认失败，请重试！");
-      }
-    },
-    *replenishRollBack({ payload }, { call, put }) {
-      const { data } = yield call(API.replenishRollBack, payload);
-      if (data && data.success) {
-        message.success("撤销成功！");
-        yield put({ type: "getTableList" });
-      } else {
-        message.error(data.message || "撤销失败，请重试！");
-      }
-    },
-    *getAddInfo({ payload }, { call, put, select }) {
-      const { id } = payload;
-      const params = { replenishOrderId: id };
-      yield put({ type: "save", payload: { loading: true } });
-      const { data } = yield call(API.getSendBsicInfo, params);
-      yield put({ type: "save", payload: { loading: false } });
-      if (data && data.success) {
-        const { data: info } = data;
-        const { replenishOrderList, ...others } = info;
-        yield put({
-          type: "save",
-          payload: {
-            addInfo: {
-              ...others,
-            },
-            replenishOrderList,
-          },
-        });
-      } else {
-        message.error(data.message || "获取发货信息失败！");
-      }
-    },
     *addGoods({ payload }, { call, put, select }) {
-      const {
-        currentMsg,
-        replenishOrderList,
-        scanCode,
-        scanCodeProductList,
-      } = yield select((state) => state.stockReturnWarehouseModel);
+      const { addInfo, scanCode, productList } = yield select(
+        (state) => state.stockReturnWarehouseModel
+      );
       const params = {
-        replenishOrderId: currentMsg.id,
         serialNo: scanCode,
-        replenishOrderList,
+        stockId: addInfo.outStockId,
       };
-      const list = scanCode.split(".");
-      const addCode = list[list.length - 1];
-      let canAdd = true;
-      (scanCodeProductList || []).map((item) => {
-        if (item.serialNo == addCode) {
-          canAdd = false;
-        }
-      });
-      if (!canAdd) {
-        message.warning("该商品已经被添加，请添加其他商品！");
-        yield put({
-          type: "save",
-          payload: {
-            scanCode: "",
-          },
-        });
-        return;
-      }
-
       yield put({ type: "save", payload: { drawerLoading: true } });
-      const { data } = yield call(API.addGoods, params);
+      const { data } = yield call(API.backStoreScan, params);
       yield put({ type: "save", payload: { drawerLoading: false } });
 
       if (data && data.success) {
+        const { data: addProduct } = data;
+        const { serialNo } = addProduct;
+        let canAdd = true;
+        (productList || []).map((item) => {
+          if (item.serialNo === serialNo) {
+            canAdd = false;
+          }
+        });
+        productList.push(addProduct);
+        if (!canAdd) {
+          message.warning("该商品已经在调拨单里,请添加其他商品!");
+          yield put({
+            type: "save",
+            payload: {
+              scanCode: "",
+            },
+          });
+          return;
+        }
         message.success("添加成功！");
-        const { replenishOrderList, scanCodeProduct } = data.data;
-        let list = [...scanCodeProductList];
-        list.push(scanCodeProduct);
         yield put({
           type: "save",
           payload: {
-            replenishOrderList,
-            scanCodeProductList: list || [],
             scanCode: "",
+            productList: [...productList],
           },
         });
       } else {
@@ -207,7 +142,7 @@ export default {
       }
     },
 
-    *getSendPersonList({ payload }, { call, put, select }) {
+    *getSendPersonList({ payload }, { call, put }) {
       const { data } = yield call(API.findUserList, { type: 3 });
       if (data && data.success) {
         yield put({
@@ -220,77 +155,34 @@ export default {
         message.error(data.message || "添加失败，请重试！");
       }
     },
-    *getMobileById({ payload }, { call, put, select }) {
-      const { data } = yield call(API.getMobileById, {
-        id: payload.addInfo.person,
-      });
-      if (data && data.success) {
-        yield put({
-          type: "save",
-          payload: {
-            addInfo: { ...payload.addInfo, mobile: data.data.consignorPhone },
-          },
-        });
-      } else {
-        message.error(data.message || "添加失败，请重试！");
-      }
-    },
+
     *sendOrderSubmit({ payload }, { call, put, select }) {
-      const {
-        addInfo,
-        replenishOrderList,
-        scanCodeProductList,
-        currentMsg,
-      } = yield select((state) => state.stockReturnWarehouseModel);
-      const serialNoList = (scanCodeProductList || []).map(
-        (item) => item.serialNo
+      const { addInfo, productList } = yield select(
+        (state) => state.stockReturnWarehouseModel
       );
       const params = {
         ...addInfo,
-        replenishOrderId: currentMsg.id,
-        replenishOrderList,
-        serialNoList,
+        productList,
       };
       yield put({ type: "save", payload: { drawerLoading: true } });
-      const { data } = yield call(API.sendOrderSubmit, params);
+      const { data } = yield call(API.addAllocationOrder, params);
       yield put({ type: "save", payload: { drawerLoading: false } });
       if (data && data.success) {
         yield put({ type: "getTableList" });
         yield put({
           type: "save",
           payload: {
-            addDialog: false,
             addproductDialog: false,
             addInfo: {},
             scanCode: "",
-            replenishOrderList: [],
-            scanCodeProductList: [],
+            productList: [],
           },
         });
       } else {
         message.error(data.message || "提交失败，请重试！");
       }
     },
-    *getSendOrderInfo({ payload }, { call, put, select }) {
-      const { currentMsg } = yield select(
-        (state) => state.stockReturnWarehouseModel
-      );
-      const params = {
-        replenishOrderId: currentMsg.id,
-      };
-      const { data } = yield call(API.getSendOrderInfo, params);
-      if (data && data.success) {
-        yield put({
-          type: "save",
-          payload: {
-            deliverInfoList: data.data || [],
-          },
-        });
-      } else {
-        message.error(data.message || "获取发货信息失败！");
-      }
-    },
-    // new
+
     *personalStock({ payload }, { call, put }) {
       const { data } = yield call(API.personalStock);
       if (data && data.success) {
@@ -301,7 +193,53 @@ export default {
           },
         });
       } else {
-        message.error(data.message || "获取个人仓库枚举失败！");
+        message.error(data.message || "获取所有仓库枚举失败！");
+      }
+    },
+    *companyStock({ payload }, { call, put }) {
+      const { data } = yield call(API.companyStock);
+      if (data && data.success) {
+        yield put({
+          type: "save",
+          payload: {
+            companyStockList: data.data || [],
+          },
+        });
+      } else {
+        message.error(data.message || "获取公司仓库枚举失败！");
+      }
+    },
+    *getDetailInfo({ payload }, { call, put }) {
+      const { id } = payload;
+      const { data } = yield call(API.findAllocationById, { id });
+      if (data && data.success) {
+        yield put({
+          type: "save",
+          payload: {
+            basicInfo: data.data || {},
+          },
+        });
+      } else {
+        message.error(data.message || "获取所有仓库枚举失败！");
+      }
+    },
+    *initAddRepareBack({ payload }, { call, put }) {
+      const { data } = yield call(API.initAddRepareBack);
+      if (data && data.success) {
+        yield put({
+          type: "save",
+          payload: {
+            addproductDialog: true,
+            addInfo: {
+              orderNumber: (data.data && data.data.orderNumber) || null,
+              inStockId: (data.data && data.data.inStockId) || null,
+              inStock: "<<公司库>>",
+              typeName: "备货返库",
+            },
+          },
+        });
+      } else {
+        message.error(data.message || "获取所有仓库枚举失败！");
       }
     },
   },

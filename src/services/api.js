@@ -749,6 +749,31 @@ const API = {
   },
 
   /**
+   * 备货返库
+   */
+  backStoreList(params) {
+    return request({
+      url: `${Prefix}/ChoiceBackStore/query`,
+      params,
+      method: "post",
+    });
+  },
+  initAddRepareBack(params) {
+    return request({
+      url: `${Prefix}/ChoiceBackStore/initAddRepareBack`,
+      params,
+    });
+  },
+
+  // 扫码添加
+  backStoreScan(params) {
+    return request({
+      url: `${Prefix}/ChoiceBackStore/scan`,
+      params,
+    });
+  },
+
+  /**
    * 调拨管理
    */
   // 调拨列表

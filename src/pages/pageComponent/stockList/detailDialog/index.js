@@ -123,13 +123,13 @@ class EditDialog extends React.Component {
 
   renderRetrunList = () => {
     const { data } = this.props;
-    const { deliverInfoList } = data;
+    const { backStockList } = data;
     return (
       <Table
         bordered
         rowKey={(record, index) => index}
         scroll={{ y: 400 }}
-        dataSource={deliverInfoList}
+        dataSource={backStockList || []}
         rowKey="orderNo"
         pagination={false}
       >
@@ -155,8 +155,7 @@ class EditDialog extends React.Component {
         style={{
           minWidth: "1000px",
           maxWidth: "1100px",
-          height: "750px",
-          overflowY: "scroll",
+          maxHeight: "750px",
         }}
         onCancel={this.handleCancel}
         maskClosable={false}

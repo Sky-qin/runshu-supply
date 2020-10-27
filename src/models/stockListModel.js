@@ -39,6 +39,7 @@ export default {
     companyStockList: [],
     customerList: [],
     serialnoList: [],
+    backStockList: [],
   },
 
   effects: {
@@ -101,7 +102,12 @@ export default {
       yield put({ type: "save", payload: { loading: false } });
       if (data && data.success) {
         const { data: info } = data;
-        const { prepareProductList, prepareOrder, serialnoList } = info;
+        const {
+          prepareProductList,
+          prepareOrder,
+          serialnoList,
+          backStockList,
+        } = info;
 
         yield put({
           type: "save",
@@ -109,6 +115,7 @@ export default {
             basicInfo: prepareOrder,
             productList: prepareProductList,
             serialnoList,
+            backStockList,
           },
         });
       } else {
