@@ -82,7 +82,7 @@ class SendGoods extends React.Component {
       tmp = {
         ...addInfo,
         outStockId: (obj && obj.value) || null,
-        outStockName: (obj && obj.label) || null,
+        outStock: (obj && obj.label) || null,
       };
       onChange &&
         typeof onChange === "function" &&
@@ -92,7 +92,7 @@ class SendGoods extends React.Component {
       tmp = {
         ...addInfo,
         inStockId: (obj && obj.value) || null,
-        inStockName: (obj && obj.label) || null,
+        inStock: (obj && obj.label) || null,
       };
     }
     if (key === "remarks") {

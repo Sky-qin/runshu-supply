@@ -90,14 +90,14 @@ class DetailDialog extends React.Component {
             render={(value, record, index) => index + 1}
             width={80}
           />
-          <Column title="流水号" dataIndex="流水号" width={100} />
+          <Column title="流水号" dataIndex="serialNo" width={100} />
           <Column title="产品编号" dataIndex="productCode" width={130} />
           <Column title="产品名称" dataIndex="productName" width={180} />
           <Column title="规格" dataIndex="model" width={120} />
           <Column title="型号" dataIndex="regModel" width={100} />
-          <Column title="单位" dataIndex="unit" width={80} />
-          <Column title="单价" dataIndex="" width={100} />
-          <Column title="生产厂家" dataIndex="" width={100} />
+          <Column title="单位" dataIndex="unitName" width={80} />
+          <Column title="单价" dataIndex="productPrice" width={100} />
+          <Column title="生产厂家" dataIndex="productVendor" width={100} />
         </Table>
       </Modal>
     );

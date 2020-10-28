@@ -127,10 +127,14 @@ class StockReturnWarehouse extends React.Component {
   };
 
   handleDeleteGoods = (record, index) => {
-    const { dispatch } = this.props;
+    const { dispatch, stockReturnWarehouseModel } = this.props;
+    const { productList } = stockReturnWarehouseModel;
+    productList.splice(index, 1);
     dispatch({
-      type: "stockReturnWarehouseModel/deleteGoods",
-      payload: { msg: record, index },
+      type: "stockReturnWarehouseModel/save",
+      payload: {
+        productList: [...productList],
+      },
     });
   };
 
@@ -172,14 +176,11 @@ class StockReturnWarehouse extends React.Component {
     const { dispatch } = this.props;
     const {
       showDetailDialog,
-      currentMsg,
       pagination,
       data,
       loading,
       addproductDialog,
       addInfo,
-      replenishOrderList,
-      scanCodeProductList,
       scanCode,
       drawerLoading,
       // new
@@ -285,11 +286,7 @@ class StockReturnWarehouse extends React.Component {
             <Column title="单号" dataIndex="orderNumber" width={135} />
             <Column title="调出仓库" dataIndex="outStock" width={160} />
             <Column title="调入仓库" dataIndex="inStock" width={160} />
-            <Column
-              title="调拨数量"
-              dataIndex="productTotalNumber"
-              width={120}
-            />
+            <Column title="返库数量" dataIndex="returnStockNum" width={120} />
             <Column title="创建日期" dataIndex="createTime" width={120} />
             <Column title="创建人" dataIndex="creator" width={120} />
             <Column

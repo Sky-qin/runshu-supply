@@ -753,14 +753,14 @@ const API = {
    */
   backStoreList(params) {
     return request({
-      url: `${Prefix}/ChoiceBackStore/query`,
+      url: `${Prefix}/choiceBackStore/query`,
       params,
       method: "post",
     });
   },
   initAddRepareBack(params) {
     return request({
-      url: `${Prefix}/ChoiceBackStore/initAddRepareBack`,
+      url: `${Prefix}/choiceBackStore/initAddRepareBack`,
       params,
     });
   },
@@ -768,7 +768,22 @@ const API = {
   // 扫码添加
   backStoreScan(params) {
     return request({
-      url: `${Prefix}/ChoiceBackStore/scan`,
+      url: `${Prefix}/choiceBackStore/scan`,
+      params,
+    });
+  },
+  // 添加返库单
+  addBackOrder(params) {
+    return request({
+      url: `${Prefix}/choiceBackStore/save`,
+      params,
+      method: "post",
+    });
+  },
+  // 备货返库详情查询
+  queryBackDetailInfo(params) {
+    return request({
+      url: `${Prefix}/choiceBackStore/queryBackInfo`,
       params,
     });
   },

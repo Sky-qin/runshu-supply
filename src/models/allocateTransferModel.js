@@ -116,37 +116,6 @@ export default {
         message.error(data.message || "添加失败，请重试！");
       }
     },
-    *deleteGoods({ payload }, { call, put, select }) {
-      const {
-        currentMsg,
-        replenishOrderList,
-        scanCodeProductList,
-      } = yield select((state) => state.allocateTransferModel);
-      const params = {
-        replenishOrderId: currentMsg.id,
-        serialNo: payload.msg.serialNo,
-        replenishOrderList,
-      };
-      yield put({ type: "save", payload: { drawerLoading: true } });
-      const { data } = yield call(API.deleteGoods, params);
-      yield put({ type: "save", payload: { drawerLoading: false } });
-
-      if (data && data.success) {
-        message.success("删除成功！");
-        const { replenishOrderList } = data.data;
-        let list = [...scanCodeProductList];
-        list.splice(payload.index, 1);
-        yield put({
-          type: "save",
-          payload: {
-            replenishOrderList,
-            scanCodeProductList: list,
-          },
-        });
-      } else {
-        message.error(data.message || "删除失败，请重试！");
-      }
-    },
 
     *getSendPersonList({ payload }, { call, put }) {
       const { data } = yield call(API.findUserList, { type: 4 });

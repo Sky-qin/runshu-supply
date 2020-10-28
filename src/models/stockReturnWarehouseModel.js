@@ -110,37 +110,6 @@ export default {
         message.error(data.message || "添加失败，请重试！");
       }
     },
-    *deleteGoods({ payload }, { call, put, select }) {
-      const {
-        currentMsg,
-        replenishOrderList,
-        scanCodeProductList,
-      } = yield select((state) => state.stockReturnWarehouseModel);
-      const params = {
-        replenishOrderId: currentMsg.id,
-        serialNo: payload.msg.serialNo,
-        replenishOrderList,
-      };
-      yield put({ type: "save", payload: { drawerLoading: true } });
-      const { data } = yield call(API.deleteGoods, params);
-      yield put({ type: "save", payload: { drawerLoading: false } });
-
-      if (data && data.success) {
-        message.success("删除成功！");
-        const { replenishOrderList } = data.data;
-        let list = [...scanCodeProductList];
-        list.splice(payload.index, 1);
-        yield put({
-          type: "save",
-          payload: {
-            replenishOrderList,
-            scanCodeProductList: list,
-          },
-        });
-      } else {
-        message.error(data.message || "删除失败，请重试！");
-      }
-    },
 
     *getSendPersonList({ payload }, { call, put }) {
       const { data } = yield call(API.findUserList, { type: 3 });
@@ -165,7 +134,7 @@ export default {
         productList,
       };
       yield put({ type: "save", payload: { drawerLoading: true } });
-      const { data } = yield call(API.addAllocationOrder, params);
+      const { data } = yield call(API.addBackOrder, params);
       yield put({ type: "save", payload: { drawerLoading: false } });
       if (data && data.success) {
         yield put({ type: "getTableList" });
@@ -211,7 +180,7 @@ export default {
     },
     *getDetailInfo({ payload }, { call, put }) {
       const { id } = payload;
-      const { data } = yield call(API.findAllocationById, { id });
+      const { data } = yield call(API.queryBackDetailInfo, { id });
       if (data && data.success) {
         yield put({
           type: "save",
@@ -220,7 +189,7 @@ export default {
           },
         });
       } else {
-        message.error(data.message || "获取所有仓库枚举失败！");
+        message.error(data.message || "获取详情信息失败！");
       }
     },
     *initAddRepareBack({ payload }, { call, put }) {
