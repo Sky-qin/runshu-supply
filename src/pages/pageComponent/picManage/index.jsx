@@ -166,9 +166,9 @@ class PicManage extends React.Component {
           productCategory: value,
         },
       });
-      tmp = { ...tmp, productCode: null, productVendor: null };
+      tmp = { ...tmp, productName: null, productVendor: null };
       callBack({ productVendor: null });
-      callBack({ productCode: null });
+      callBack({ productName: null });
     }
     if (key === "productVendor") {
       dispatch({
@@ -178,8 +178,8 @@ class PicManage extends React.Component {
           productVendor: value,
         },
       });
-      tmp = { ...tmp, productCode: null };
-      callBack({ productCode: null });
+      tmp = { ...tmp, productName: null };
+      callBack({ productName: null });
     }
 
     dispatch({
@@ -201,11 +201,11 @@ class PicManage extends React.Component {
         searchParams: {
           ...tmpParams.searchParams,
           productVendor: null,
-          productCode: null,
+          productName: null,
         },
       };
       searchForm.setFieldsValue({ productVendor: null });
-      searchForm.setFieldsValue({ productCode: null });
+      searchForm.setFieldsValue({ productName: null });
 
       if (value) {
         dispatch({
@@ -234,10 +234,10 @@ class PicManage extends React.Component {
       tmpParams = {
         searchParams: {
           ...tmpParams.searchParams,
-          productCode: null,
+          productName: null,
         },
       };
-      searchForm.setFieldsValue({ productCode: null });
+      searchForm.setFieldsValue({ productName: null });
     }
 
     dispatch({
@@ -325,7 +325,7 @@ class PicManage extends React.Component {
                 </Form.Item>
               </Col>
               <Col span={6}>
-                <Form.Item label="产品名称" name="productCode">
+                <Form.Item label="产品名称" name="productName">
                   <Select
                     placeholder="请选择"
                     options={productNameList}
@@ -334,7 +334,7 @@ class PicManage extends React.Component {
                     optionFilterProp="label"
                     disabled={!searchParams.productVendor}
                     onChange={(value) =>
-                      this.onSearchChange("productCode", value)
+                      this.onSearchChange("productName", value)
                     }
                     allowClear
                   />

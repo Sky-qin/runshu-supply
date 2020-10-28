@@ -60,7 +60,7 @@ export default {
         id: currentMsg.id,
         imageUrl: currentMsg.imageUrl,
         productCategory: currentMsg.productCategory,
-        productCode: currentMsg.productCode,
+        productName: currentMsg.productName,
         productVendor: currentMsg.productVendor,
       };
       yield put({ type: "save", payload: { dialogBtnLoading: true } });
@@ -123,13 +123,10 @@ export default {
     *productNameList({ payload }, { call, put }) {
       const { data } = yield call(API.productNameList, payload);
       if (data && data.success) {
-        let list = (data.data || []).map((item) => {
-          return { value: item.value, label: `${item.value}-${item.label}` };
-        });
         yield put({
           type: "save",
           payload: {
-            productNameList: list || [],
+            productNameList: data.data || [],
           },
         });
       } else {
