@@ -98,7 +98,7 @@ class EditDialog extends React.Component {
           initialValues={{
             productCategory: data.productCategory || null,
             productVendor: (data.productVendor || "").toString(),
-            productCode: data.productCode || null,
+            productName: data.productName || null,
             imageUrl: data.imageUrl,
           }}
         >
@@ -137,7 +137,7 @@ class EditDialog extends React.Component {
             />
           </Form.Item>
           <Form.Item
-            name="productCode"
+            name="productName"
             label="产品名称"
             rules={[{ required: true }]}
           >
@@ -147,7 +147,7 @@ class EditDialog extends React.Component {
               optionFilterProp="label"
               options={productNameList}
               placeholder="请选择"
-              onChange={(value) => this.handleChangeForm(value, "productCode")}
+              onChange={(value) => this.handleChangeForm(value, "productName")}
               disabled={
                 !!data.id || !data.productCategory || !data.productVendor
               }
