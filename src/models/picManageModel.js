@@ -62,6 +62,7 @@ export default {
         productCategory: currentMsg.productCategory,
         productName: currentMsg.productName,
         productVendor: currentMsg.productVendor,
+        isDefault: currentMsg.isDefault,
       };
       yield put({ type: "save", payload: { dialogBtnLoading: true } });
       const { data } = yield call(API.saveImage, params);
@@ -95,7 +96,7 @@ export default {
       }
     },
     *queryProductCategory({ payload }, { call, put }) {
-      const { data } = yield call(API.queryProductCategory);
+      const { data } = yield call(API.queryProductCategoryCommon);
       if (data && data.success) {
         yield put({
           type: "save",

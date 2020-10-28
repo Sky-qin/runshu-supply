@@ -77,7 +77,9 @@ class PicManage extends React.Component {
         type: "picManageModel/save",
         payload: {
           showEditDialog: true,
-          currentMsg: {},
+          currentMsg: {
+            isDefault: true,
+          },
           dialogTitle: "新增",
         },
       });
@@ -86,19 +88,22 @@ class PicManage extends React.Component {
 
   handleEdit = (msg) => {
     const { dispatch } = this.props;
-    dispatch({
-      type: "picManageModel/productVendorListbyCategory",
-      payload: {
-        productCategory: msg.productCategory,
-      },
-    });
-    dispatch({
-      type: "picManageModel/productNameList",
-      payload: {
-        productCategory: msg.productCategory,
-        productVendor: msg.productVendor,
-      },
-    });
+    if (msg.isDefault === false) {
+      dispatch({
+        type: "picManageModel/productVendorListbyCategory",
+        payload: {
+          productCategory: msg.productCategory,
+        },
+      });
+      dispatch({
+        type: "picManageModel/productNameList",
+        payload: {
+          productCategory: msg.productCategory,
+          productVendor: msg.productVendor,
+        },
+      });
+    }
+
     dispatch({
       type: "picManageModel/save",
       payload: {
@@ -340,6 +345,24 @@ class PicManage extends React.Component {
                   />
                 </Form.Item>
               </Col>
+              <Col span={6}>
+                <Form.Item label="默认图片" name="isDefault">
+                  <Select
+                    placeholder="请选择"
+                    options={[
+                      { value: true, label: "是" },
+                      { value: false, label: "否" },
+                    ]}
+                    dropdownMatchSelectWidth={false}
+                    showSearch
+                    optionFilterProp="label"
+                    onChange={(value) =>
+                      this.onSearchChange("isDefault", value)
+                    }
+                    allowClear
+                  />
+                </Form.Item>
+              </Col>
             </Row>
             <Row>
               <Col
@@ -388,6 +411,19 @@ class PicManage extends React.Component {
               render={(value, record, index) => index + 1}
             />
             <Column
+              title="产品类别"
+              dataIndex="productCategoryName"
+              width={120}
+            />
+            <Column
+              title="默认分类图片"
+              dataIndex="isDefault"
+              width={120}
+              render={(value) => {
+                return value ? "是" : "否";
+              }}
+            />
+            <Column
               title="封面图"
               dataIndex="imageUrl"
               width={120}
@@ -401,11 +437,7 @@ class PicManage extends React.Component {
               }}
             />
             <Column title="产品名称" dataIndex="productName" />
-            <Column
-              title="产品类别"
-              dataIndex="productCategoryName"
-              width={120}
-            />
+
             <Column title="生产厂家" dataIndex="productVendorName" />
             <Column
               title="操作"

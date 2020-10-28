@@ -1089,6 +1089,13 @@ const API = {
       params,
     });
   },
+  // 产品类别
+  queryProductCategoryCommon(params) {
+    return request({
+      url: `${Prefix}/dic/category/common`,
+      params,
+    });
+  },
   // 补货单状态枚举
   replenishStatus(params) {
     return request({

@@ -1,5 +1,5 @@
 import React from "react";
-import { Modal, Form, Button, Select, Upload, message } from "antd";
+import { Modal, Form, Button, Select, Radio } from "antd";
 import Avatar from "../uploadPic";
 
 const layout = {
@@ -51,13 +51,11 @@ class EditDialog extends React.Component {
   };
 
   handleChangeImg = (info) => {
-    console.log("info", info);
     if (info.file.status === "uploading") {
       this.setState({ loading: true });
       return;
     }
     if (info.file.status === "done") {
-      // Get this url from response in real world.
       this.getBase64(info.file.originFileObj, (imageUrl) =>
         this.setState({
           imageUrl,
@@ -70,7 +68,6 @@ class EditDialog extends React.Component {
   render() {
     const { title, data, loading, sourceList } = this.props;
     const { categoryList, productVendorList, productNameList } = sourceList;
-
     return (
       <Modal
         title={title || "编辑"}
@@ -97,9 +94,10 @@ class EditDialog extends React.Component {
           layout="horizontal"
           initialValues={{
             productCategory: data.productCategory || null,
-            productVendor: (data.productVendor || "").toString(),
+            productVendor: (data.productVendor || "").toString() || null,
             productName: data.productName || null,
             imageUrl: data.imageUrl,
+            isDefault: data.isDefault,
           }}
         >
           <Form.Item
@@ -120,39 +118,61 @@ class EditDialog extends React.Component {
             />
           </Form.Item>
           <Form.Item
-            name="productVendor"
-            label="生产厂家"
+            name="isDefault"
+            label="默认图片"
             rules={[{ required: true }]}
           >
-            <Select
-              options={productVendorList}
-              dropdownMatchSelectWidth={false}
-              showSearch
-              optionFilterProp="label"
-              placeholder="请选择"
-              onChange={(value) =>
-                this.handleChangeForm(value, "productVendor")
+            <Radio.Group
+              onChange={(e) =>
+                this.handleChangeForm(e.target.value, "isDefault")
               }
-              disabled={!!data.id || !data.productCategory}
-            />
+              disabled={!!data.id}
+            >
+              <Radio value={true}>是</Radio>
+              <Radio value={false}>否</Radio>
+            </Radio.Group>
           </Form.Item>
-          <Form.Item
-            name="productName"
-            label="产品名称"
-            rules={[{ required: true }]}
-          >
-            <Select
-              dropdownMatchSelectWidth={false}
-              showSearch
-              optionFilterProp="label"
-              options={productNameList}
-              placeholder="请选择"
-              onChange={(value) => this.handleChangeForm(value, "productName")}
-              disabled={
-                !!data.id || !data.productCategory || !data.productVendor
-              }
-            />
-          </Form.Item>
+
+          {data.isDefault === false && (
+            <>
+              <Form.Item
+                name="productVendor"
+                label="生产厂家"
+                rules={[{ required: true }]}
+              >
+                <Select
+                  options={productVendorList}
+                  dropdownMatchSelectWidth={false}
+                  showSearch
+                  optionFilterProp="label"
+                  placeholder="请选择"
+                  onChange={(value) =>
+                    this.handleChangeForm(value, "productVendor")
+                  }
+                  disabled={!!data.id || !data.productCategory}
+                />
+              </Form.Item>
+              <Form.Item
+                name="productName"
+                label="产品名称"
+                rules={[{ required: true }]}
+              >
+                <Select
+                  dropdownMatchSelectWidth={false}
+                  showSearch
+                  optionFilterProp="label"
+                  options={productNameList}
+                  placeholder="请选择"
+                  onChange={(value) =>
+                    this.handleChangeForm(value, "productName")
+                  }
+                  disabled={
+                    !!data.id || !data.productCategory || !data.productVendor
+                  }
+                />
+              </Form.Item>
+            </>
+          )}
           <Form.Item
             name="imageUrl"
             label="封面图"
