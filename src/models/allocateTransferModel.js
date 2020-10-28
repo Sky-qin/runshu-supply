@@ -3,7 +3,7 @@ import { transferSimpleList } from "../utils/tools";
 import API from "../services/api";
 
 export default {
-  namespace: "stockReturnWarehouseModel",
+  namespace: "allocateTransferModel",
   state: {
     showDetailDialog: false,
     currentMsg: {},
@@ -15,10 +15,17 @@ export default {
       size: 10,
       total: 0,
     },
+    inventoryList: [],
+    inventoryPagination: {
+      current: 1,
+      size: 50,
+      total: 0,
+    },
+    replenishStatusList: [],
     searchParams: {
       orderNumber: null,
-      outStockId: null,
-      creator: null,
+      stockId: null,
+      userId: null,
     },
     addInfo: {
       typeName: "调拨",
@@ -27,8 +34,7 @@ export default {
     scanCodeProductList: [],
     scanCode: "",
     // new
-    personalStockList: [],
-    companyStockList: [],
+    allStockList: [],
     productList: [],
     basicInfo: {},
   },
@@ -36,7 +42,7 @@ export default {
   effects: {
     *getTableList({ payload }, { call, put, select }) {
       const { pagination, searchParams } = yield select(
-        (state) => state.stockReturnWarehouseModel
+        (state) => state.allocateTransferModel
       );
       const { current, size } = pagination;
       let params = {
@@ -47,7 +53,7 @@ export default {
         },
       };
       yield put({ type: "save", payload: { loading: true } });
-      const { data } = yield call(API.backStoreList, params);
+      const { data } = yield call(API.findAllocationList, params);
       yield put({ type: "save", payload: { loading: false } });
 
       if (data && data.success) {
@@ -68,14 +74,14 @@ export default {
 
     *addGoods({ payload }, { call, put, select }) {
       const { addInfo, scanCode, productList } = yield select(
-        (state) => state.stockReturnWarehouseModel
+        (state) => state.allocateTransferModel
       );
       const params = {
         serialNo: scanCode,
         stockId: addInfo.outStockId,
       };
       yield put({ type: "save", payload: { drawerLoading: true } });
-      const { data } = yield call(API.backStoreScan, params);
+      const { data } = yield call(API.allocationScan, params);
       yield put({ type: "save", payload: { drawerLoading: false } });
 
       if (data && data.success) {
@@ -112,7 +118,7 @@ export default {
     },
 
     *getSendPersonList({ payload }, { call, put }) {
-      const { data } = yield call(API.findUserList, { type: 3 });
+      const { data } = yield call(API.findUserList, { type: 4 });
       if (data && data.success) {
         yield put({
           type: "save",
@@ -124,17 +130,31 @@ export default {
         message.error(data.message || "添加失败，请重试！");
       }
     },
-
+    *getMobileById({ payload }, { call, put, select }) {
+      const { data } = yield call(API.getMobileById, {
+        id: payload.addInfo.person,
+      });
+      if (data && data.success) {
+        yield put({
+          type: "save",
+          payload: {
+            addInfo: { ...payload.addInfo, mobile: data.data.consignorPhone },
+          },
+        });
+      } else {
+        message.error(data.message || "添加失败，请重试！");
+      }
+    },
     *sendOrderSubmit({ payload }, { call, put, select }) {
       const { addInfo, productList } = yield select(
-        (state) => state.stockReturnWarehouseModel
+        (state) => state.allocateTransferModel
       );
       const params = {
         ...addInfo,
         productList,
       };
       yield put({ type: "save", payload: { drawerLoading: true } });
-      const { data } = yield call(API.addBackOrder, params);
+      const { data } = yield call(API.addAllocationOrder, params);
       yield put({ type: "save", payload: { drawerLoading: false } });
       if (data && data.success) {
         yield put({ type: "getTableList" });
@@ -152,59 +172,28 @@ export default {
       }
     },
 
-    *personalStock({ payload }, { call, put }) {
-      const { data } = yield call(API.personalStock);
+    *getFindAllStock({ payload }, { call, put }) {
+      const { keyword } = payload;
+      const { data } = yield call(API.findAllStock, { keyword });
       if (data && data.success) {
         yield put({
           type: "save",
           payload: {
-            personalStockList: data.data || [],
+            allStockList: transferSimpleList(data.data || [], "code", "name"),
           },
         });
       } else {
         message.error(data.message || "获取所有仓库枚举失败！");
       }
     },
-    *companyStock({ payload }, { call, put }) {
-      const { data } = yield call(API.companyStock);
-      if (data && data.success) {
-        yield put({
-          type: "save",
-          payload: {
-            companyStockList: data.data || [],
-          },
-        });
-      } else {
-        message.error(data.message || "获取公司仓库枚举失败！");
-      }
-    },
     *getDetailInfo({ payload }, { call, put }) {
       const { id } = payload;
-      const { data } = yield call(API.queryBackDetailInfo, { id });
+      const { data } = yield call(API.findAllocationById, { id });
       if (data && data.success) {
         yield put({
           type: "save",
           payload: {
             basicInfo: data.data || {},
-          },
-        });
-      } else {
-        message.error(data.message || "获取详情信息失败！");
-      }
-    },
-    *initAddRepareBack({ payload }, { call, put }) {
-      const { data } = yield call(API.initAddRepareBack);
-      if (data && data.success) {
-        yield put({
-          type: "save",
-          payload: {
-            addproductDialog: true,
-            addInfo: {
-              orderNumber: (data.data && data.data.orderNumber) || null,
-              inStockId: (data.data && data.data.inStockId) || null,
-              inStock: "<<公司库>>",
-              typeName: "备货返库",
-            },
           },
         });
       } else {

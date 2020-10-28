@@ -67,10 +67,38 @@ class SendGoods extends React.Component {
     onClosed && typeof onClosed === "function" && onClosed();
   };
 
-  onFormChange = (key, value) => {
+  handleGetStock = (value) => {
+    const { onGetStockList } = this.props;
+    onGetStockList &&
+      typeof onGetStockList === "function" &&
+      onGetStockList(value);
+  };
+
+  onFormChange = (key, value, obj) => {
     const { onChange, data = {} } = this.props;
     const { addInfo = {} } = data;
-    let tmp = { ...addInfo, [key]: value };
+    let tmp = {};
+    if (key === "outStockId") {
+      tmp = {
+        ...addInfo,
+        outStockId: (obj && obj.value) || null,
+        outStock: (obj && obj.label) || null,
+      };
+      onChange &&
+        typeof onChange === "function" &&
+        onChange({ productList: [] });
+    }
+    if (key === "inStockId") {
+      tmp = {
+        ...addInfo,
+        inStockId: (obj && obj.value) || null,
+        inStock: (obj && obj.label) || null,
+      };
+    }
+    if (key === "remarks") {
+      tmp = { ...addInfo, [key]: value };
+    }
+
     onChange &&
       typeof onChange === "function" &&
       onChange({ addInfo: { ...tmp } }, key);
@@ -126,8 +154,8 @@ class SendGoods extends React.Component {
     const {
       addInfo = {},
       scanCode,
-      replenishOrderList,
-      scanCodeProductList,
+      allStockList,
+      productList,
       drawerLoading,
     } = data;
     return (
@@ -154,10 +182,16 @@ class SendGoods extends React.Component {
                   rules={[{ required: true, message: "请选择调出仓库" }]}
                 >
                   <Select
+                    showSearch
                     placeholder="请选择"
-                    options={[]}
-                    onChange={(value) => this.onFormChange("person", value)}
-                    allowClear
+                    options={allStockList}
+                    onChange={(value, obj) =>
+                      this.onFormChange("outStockId", value, obj)
+                    }
+                    onSearch={this.handleGetStock}
+                    filterOption={false}
+                    showArrow={false}
+                    dropdownMatchSelectWidth={false}
                   />
                 </Form.Item>
               </Col>
@@ -165,42 +199,36 @@ class SendGoods extends React.Component {
               <Col span={8}>
                 <Form.Item
                   label="调入仓库:"
-                  name="person"
+                  name="inStockId"
                   rules={[{ required: true, message: "请选择调入仓库" }]}
                 >
                   <Select
+                    showSearch
                     placeholder="请选择"
-                    options={[]}
-                    onChange={(value) => this.onFormChange("person", value)}
-                    allowClear
+                    options={allStockList}
+                    onChange={(value, obj) =>
+                      this.onFormChange("inStockId", value, obj)
+                    }
+                    onSearch={this.handleGetStock}
+                    filterOption={false}
+                    showArrow={false}
+                    dropdownMatchSelectWidth={false}
                   />
                 </Form.Item>
               </Col>
               <Col span={8}>
-                <Form.Item label="调拨类型:">XXXXXXXXXXXXXXXXXX</Form.Item>
+                <Form.Item label="调拨类型:">{addInfo.typeName}</Form.Item>
               </Col>
             </Row>
             <Row>
               <Col span={8}>
-                <Form.Item
-                  label="客户:"
-                  name="person"
-                  rules={[{ required: true, message: "请选择客户" }]}
-                >
-                  <Select
-                    placeholder="请选择"
-                    options={[]}
-                    onChange={(value) => this.onFormChange("person", value)}
-                    allowClear
-                  />
-                </Form.Item>
-              </Col>
-              <Col span={8}>
-                <Form.Item label="备注:" name="desc">
+                <Form.Item label="备注:" name="remarks">
                   <TextArea
                     rows={3}
                     placeholder="请输入备注"
-                    onChange={(e) => this.onFormChange("desc", e.target.value)}
+                    onChange={(e) =>
+                      this.onFormChange("remarks", e.target.value)
+                    }
                   />
                 </Form.Item>
               </Col>
@@ -232,7 +260,7 @@ class SendGoods extends React.Component {
             <Table
               bordered
               scroll={{ y: 400 }}
-              dataSource={scanCodeProductList}
+              dataSource={productList}
               rowKey="serialNo"
               pagination={false}
             >

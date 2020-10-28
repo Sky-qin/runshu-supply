@@ -109,8 +109,8 @@ export default {
         message.error(data.message || "添加失败，请重试！");
       }
     },
-    *findTabulatorList({ payload }, { call, put, select }) {
-      const { data } = yield call(API.findTabulatorList, { type: 1 });
+    *findUserList({ payload }, { call, put, select }) {
+      const { data } = yield call(API.findUserList, { type: 5 });
       if (data && data.success) {
         yield put({
           type: "save",
