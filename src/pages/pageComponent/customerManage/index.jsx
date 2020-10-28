@@ -55,7 +55,12 @@ class CustomerManage extends React.Component {
   };
 
   render() {
-    const { pagination, data, loading, name } = this.props.customerManageModel;
+    const {
+      pagination,
+      data,
+      loading,
+      supplierName,
+    } = this.props.customerManageModel;
     const { current, size, total } = pagination;
     return (
       <ContentWrap loading={loading}>
@@ -66,8 +71,10 @@ class CustomerManage extends React.Component {
                 <Input
                   style={{ width: 225 }}
                   placeholder="输入供货公司名称"
-                  value={name}
-                  onChange={(e) => this.onChangeFilter(e.target.value, "name")}
+                  value={supplierName}
+                  onChange={(e) =>
+                    this.onChangeFilter(e.target.value, "supplierName")
+                  }
                   onPressEnter={this.getTableList}
                   allowClear
                 />
@@ -99,7 +106,9 @@ class CustomerManage extends React.Component {
             width={80}
             render={(value, record, index) => index + 1}
           />
-          <Column title="供货公司名称" dataIndex="name" />
+          <Column title="客户编码" dataIndex="code" />
+          <Column title="客户户关系" dataIndex="name" />
+          <Column title="供货公司" dataIndex="supplierName" />
           <Column title="代理公司" dataIndex="agencyCompany" />
           <Column title="客户 " dataIndex="hospitalName" />
         </Table>

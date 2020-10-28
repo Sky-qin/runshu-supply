@@ -37,6 +37,7 @@ import MakeInventory from "../pageComponent/makeInventory";
 import HospitalSaleGoods from "../pageComponent/hospitalSaleGoods";
 import InventoryProfit from "../pageComponent/inventoryProfit";
 import InventoryLoss from "../pageComponent/inventoryLoss";
+import PicManage from "../pageComponent/picManage";
 import CustomerManage from "../pageComponent/customerManage";
 import AllocateTransfer from "../pageComponent/allocateTransfer";
 
@@ -155,6 +156,7 @@ class Entry extends React.Component {
                 component={InventoryProfit}
               />
               <Route path="/entry/inventoryLoss" component={InventoryLoss} />
+              <Route path="/entry/picManage" component={PicManage} />
               <Route path="/entry/customerManage" component={CustomerManage} />
               <Route
                 path="/entry/allocateTransfer"

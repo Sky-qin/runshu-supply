@@ -288,7 +288,7 @@ class StockReturnWarehouse extends React.Component {
             <Column title="调入仓库" dataIndex="inStock" width={160} />
             <Column title="返库数量" dataIndex="returnStockNum" width={120} />
             <Column title="创建日期" dataIndex="createTime" width={120} />
-            <Column title="创建人" dataIndex="creator" width={120} />
+            <Column title="创建人" dataIndex="creatorName" width={120} />
             <Column
               title="操作"
               width={120}

@@ -1,3 +1,4 @@
+import saveImage$ from "dingtalk-jsapi/api/biz/util/saveImage";
 import { Prefix } from "../utils/config";
 import request from "./request";
 
@@ -943,9 +944,38 @@ const API = {
   },
 
   /**
+   * 商品图片管理
+   */
+  // 图片列表
+  imageList(params) {
+    return request({
+      url: `${Prefix}/product/image/list`,
+      method: "post",
+      params,
+    });
+  },
+
+  // 图片管理保存
+  saveImage(params) {
+    return request({
+      url: `${Prefix}/product/image/save`,
+      method: "post",
+      params,
+    });
+  },
+
+  // 商品图片删除
+  deleteImage(params) {
+    return request({
+      url: `${Prefix}/product/image/delete`,
+      params,
+    });
+  },
+
+  /**
    * 客户管理
    */
-  customerList(params) {
+  customerTableList(params) {
     return request({
       url: `${Prefix}/supply/customer/selectList`,
       method: "post",
@@ -1139,13 +1169,7 @@ const API = {
       params,
     });
   },
-  // 盘盈/亏库创建人下拉枚举
-  // findTabulatorList(params) {
-  //   return request({
-  //     url: `${Prefix}/allotProductOrder/management/findTabulator`,
-  //     params,
-  //   });
-  // },
+
   // 盘点库位下拉枚举
   queryStockList(params) {
     return request({
@@ -1194,6 +1218,22 @@ const API = {
     return request({
       url: `${Prefix}/allocation/findAllStock`,
       params,
+    });
+  },
+  // 根据产品分类查询生产厂家
+  productVendorListbyCategory(params) {
+    return request({
+      url: `${Prefix}/product/image/productVendor/list`,
+      params,
+      method: "post",
+    });
+  },
+  // 根据产品分类\厂家查询商品
+  productNameList(params) {
+    return request({
+      url: `${Prefix}/product/image/productName/list`,
+      params,
+      method: "post",
     });
   },
 };
