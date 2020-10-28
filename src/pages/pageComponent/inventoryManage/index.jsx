@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "dva";
 import { Table, Input, Button } from "antd";
-import { SearchOutlined } from "@ant-design/icons";
+import { SearchOutlined, ExportOutlined } from "@ant-design/icons";
 import ContentWrap from "../../../components/contentWrap";
 import OpreationBar from "../../../components/OpreationBar";
 
@@ -87,6 +87,15 @@ class InventoryManage extends React.Component {
               </div>
             </>
           }
+          linkList={[
+            {
+              key: "export",
+              label: "导出",
+              icon: <ExportOutlined />,
+              params: { keyword },
+              url: "/supply/stock/export",
+            },
+          ]}
           total={total}
         />
         <Table
