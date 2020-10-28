@@ -116,7 +116,7 @@ class CustomerManage extends React.Component {
             render={(value, record, index) => index + 1}
           />
           <Column title="客户编码" dataIndex="code" />
-          <Column title="客户户关系" dataIndex="name" />
+          <Column title="客户关系" dataIndex="name" />
           <Column title="供货公司" dataIndex="supplierName" />
           <Column title="代理公司" dataIndex="agencyCompany" />
           <Column title="客户 " dataIndex="hospitalName" />
