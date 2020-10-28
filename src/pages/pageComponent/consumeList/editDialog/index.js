@@ -113,7 +113,7 @@ class EditDialog extends React.Component {
               minHeight: "500px",
               overflowX: "scroll",
             }}
-            dataSource={detailMsg.productList || []}
+            dataSource={detailMsg.pcproductList || []}
             pagination={false}
           >
             <Column title="产品分类" dataIndex="productCategory" width={110} />

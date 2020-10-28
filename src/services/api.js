@@ -141,7 +141,7 @@ const API = {
   // 获取详情
   getConsumeDetail(params) {
     return request({
-      url: `${Prefix}/consumeOrder/selectConsumeOrderInfo`,
+      url: `${Prefix}/consumeOrder/selectPCConsumeOrderInfo`,
       params,
     });
   },
