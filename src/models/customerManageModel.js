@@ -11,12 +11,12 @@ export default {
       size: 10,
       total: 0,
     },
-    name: "",
+    supplierName: "",
   },
 
   effects: {
     *getTableList({ payload }, { call, put, select }) {
-      const { pagination, name } = yield select(
+      const { pagination, supplierName } = yield select(
         (state) => state.customerManageModel
       );
       const { current, size } = pagination;
@@ -24,11 +24,11 @@ export default {
         current,
         size,
         params: {
-          name,
+          supplierName,
         },
       };
       yield put({ type: "save", payload: { loading: true } });
-      const { data } = yield call(API.customerList, params);
+      const { data } = yield call(API.customerTableList, params);
       yield put({ type: "save", payload: { loading: false } });
 
       if (data && data.success) {

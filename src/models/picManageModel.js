@@ -15,16 +15,15 @@ export default {
       total: 0,
     },
     dialogBtnLoading: false,
-    productList: [],
-    type: "2",
     categoryList: [],
     productVendorList: [],
     productNameList: [],
+    searchParams: {},
   },
 
   effects: {
     *getTableList({ payload }, { call, put, select }) {
-      const { pagination, type, keyWord } = yield select(
+      const { pagination, searchParams } = yield select(
         (state) => state.picManageModel
       );
       const { current, size } = pagination;
@@ -32,8 +31,7 @@ export default {
         current,
         size,
         params: {
-          keyWord,
-          type,
+          ...searchParams,
         },
       };
       yield put({ type: "save", payload: { loading: true } });
@@ -56,50 +54,36 @@ export default {
       }
     },
 
-    *setWarning({ payload }, { call, put, select }) {
-      const { type } = yield select((state) => state.picManageModel);
-      let params = { ...payload, type };
-      yield put({ type: "save", payload: { dialogBtnLoading: true } });
-      const { data } = yield call(API.setWarning, params);
-      yield put({ type: "save", payload: { dialogBtnLoading: false } });
-
-      if (data && data.success) {
-        yield put({ type: "save", payload: { showEditDialog: false } });
-        message.success("新增科室成功");
-        yield put({ type: "getTableList" });
-      } else {
-        message.error(data.message || "保存失败！");
-      }
-    },
-    *updateConsignor({ payload }, { call, put, select }) {
+    *saveImage({ payload }, { call, put, select }) {
       const { currentMsg } = yield select((state) => state.picManageModel);
       let params = {
-        ...payload,
-        id: (currentMsg && currentMsg.id) || null,
+        id: currentMsg.id,
+        imageUrl: currentMsg.imageUrl,
+        productCategory: currentMsg.productCategory,
+        productCode: currentMsg.productCode,
+        productVendor: currentMsg.productVendor,
       };
       yield put({ type: "save", payload: { dialogBtnLoading: true } });
-      const { data } = yield call(API.updateConsignor, params);
+      const { data } = yield call(API.saveImage, params);
       yield put({ type: "save", payload: { dialogBtnLoading: false } });
 
       if (data && data.success) {
         yield put({ type: "save", payload: { showEditDialog: false } });
-        message.success("修改科室成功");
+        message.success("商品配置图片成功!");
         yield put({ type: "getTableList" });
       } else {
-        message.error(data.message || "修改失败！");
+        message.error(data.message || "商品配置图片失败!");
       }
     },
-    *deleteWarning({ payload }, { call, put, select }) {
-      const { currentMsg, type } = yield select(
-        (state) => state.picManageModel
-      );
+
+    *deleteImage({ payload }, { call, put, select }) {
+      const { currentMsg } = yield select((state) => state.picManageModel);
       let params = {
         id: currentMsg.id,
-        type,
       };
 
       yield put({ type: "save", payload: { dialogBtnLoading: true } });
-      const { data } = yield call(API.deleteWarning, params);
+      const { data } = yield call(API.deleteImage, params);
       yield put({ type: "save", payload: { dialogBtnLoading: false } });
 
       if (data && data.success) {

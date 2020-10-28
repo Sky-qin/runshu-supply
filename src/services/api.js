@@ -1,3 +1,4 @@
+import saveImage$ from "dingtalk-jsapi/api/biz/util/saveImage";
 import { Prefix } from "../utils/config";
 import request from "./request";
 
@@ -954,10 +955,27 @@ const API = {
     });
   },
 
+  // 图片管理保存
+  saveImage(params) {
+    return request({
+      url: `${Prefix}/product/image/save`,
+      method: "post",
+      params,
+    });
+  },
+
+  // 商品图片删除
+  deleteImage(params) {
+    return request({
+      url: `${Prefix}/product/image/delete`,
+      params,
+    });
+  },
+
   /**
    * 客户管理
    */
-  customerList(params) {
+  customerTableList(params) {
     return request({
       url: `${Prefix}/supply/customer/selectList`,
       method: "post",
@@ -1151,13 +1169,7 @@ const API = {
       params,
     });
   },
-  // 盘盈/亏库创建人下拉枚举
-  // findTabulatorList(params) {
-  //   return request({
-  //     url: `${Prefix}/allotProductOrder/management/findTabulator`,
-  //     params,
-  //   });
-  // },
+
   // 盘点库位下拉枚举
   queryStockList(params) {
     return request({

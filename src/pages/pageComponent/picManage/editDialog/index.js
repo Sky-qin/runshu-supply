@@ -1,6 +1,6 @@
 import React from "react";
-import { Modal, Form, Button, Select, Upload } from "antd";
-import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
+import { Modal, Form, Button, Select, Upload, message } from "antd";
+import Avatar from "../uploadPic";
 
 const layout = {
   labelCol: { span: 6 },
@@ -67,21 +67,10 @@ class EditDialog extends React.Component {
     }
   };
 
-  getBase64 = (img, callback) => {
-    const reader = new FileReader();
-    reader.addEventListener("load", () => callback(reader.result));
-    reader.readAsDataURL(img);
-  };
-
   render() {
     const { title, data, loading, sourceList } = this.props;
     const { categoryList, productVendorList, productNameList } = sourceList;
-    const uploadButton = (
-      <div>
-        {loading ? <LoadingOutlined /> : <PlusOutlined />}
-        <div style={{ marginTop: 8 }}>Upload</div>
-      </div>
-    );
+
     return (
       <Modal
         title={title || "编辑"}
@@ -107,8 +96,10 @@ class EditDialog extends React.Component {
           ref={this.departmentRef}
           layout="horizontal"
           initialValues={{
-            productCategory: data.productCategory,
-            value: data.periodValue,
+            productCategory: data.productCategory || null,
+            productVendor: (data.productVendor || "").toString(),
+            productCode: data.productCode || null,
+            imageUrl: data.imageUrl,
           }}
         >
           <Form.Item
@@ -142,7 +133,7 @@ class EditDialog extends React.Component {
               onChange={(value) =>
                 this.handleChangeForm(value, "productVendor")
               }
-              disabled={!!data.id}
+              disabled={!!data.id || !data.productCategory}
             />
           </Form.Item>
           <Form.Item
@@ -157,34 +148,21 @@ class EditDialog extends React.Component {
               options={productNameList}
               placeholder="请选择"
               onChange={(value) => this.handleChangeForm(value, "productCode")}
-              disabled={!!data.id}
+              disabled={
+                !!data.id || !data.productCategory || !data.productVendor
+              }
             />
           </Form.Item>
-          {/* <Form.Item
-            name="productCode"
-            label="产品名称"
+          <Form.Item
+            name="imageUrl"
+            label="封面图"
             rules={[{ required: true }]}
           >
-            <Upload
-              name="avatar"
-              listType="picture-card"
-              className="avatar-uploader"
-              showUploadList={false}
-              action="https://order.runshutech.com/file/upload"
-              // beforeUpload={beforeUpload}
-              onChange={this.handleChangeImg}
-            >
-              {data.imageUrl ? (
-                <img
-                  src={`https://filesystem.runshutech.com/group1/${data.imageUrl}`}
-                  alt="avatar"
-                  style={{ width: "100%" }}
-                />
-              ) : (
-                uploadButton
-              )}
-            </Upload>
-          </Form.Item> */}
+            <Avatar
+              imageUrl={data.imageUrl}
+              onChange={(value) => this.handleChangeForm(value, "imageUrl")}
+            />
+          </Form.Item>
         </Form>
       </Modal>
     );
