@@ -31,7 +31,7 @@ class InventoryProfit extends React.Component {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({ type: "inventoryProfitModel/storageList" });
-    dispatch({ type: "inventoryProfitModel/findTabulatorList" });
+    dispatch({ type: "inventoryProfitModel/findUserList" });
 
     this.getTableList();
   }

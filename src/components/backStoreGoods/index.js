@@ -17,6 +17,8 @@ import {
 const { Column } = Table;
 const { TextArea } = Input;
 
+let enterTime = null;
+
 const BasicDiv = styled.div`
   padding-top: 20px;
   margin-bottom: 50px;
@@ -43,18 +45,16 @@ const FooterBar = styled.div`
   right: 0px;
   height: 56px;
   line-height: 56px;
-  width: 1100px;
+  width: 1000px;
   border-top: 1px solid #ddd;
 `;
 
 const layout = {
-  labelCol: { span: 7 },
-  wrapperCol: { span: 17 },
+  labelCol: { span: 6 },
+  wrapperCol: { span: 18 },
 };
 
-let enterTime = null;
-
-class StockSendGoods extends React.Component {
+class SendGoods extends React.Component {
   formRef = React.createRef();
 
   constructor(props) {
@@ -67,13 +67,41 @@ class StockSendGoods extends React.Component {
     onClosed && typeof onClosed === "function" && onClosed();
   };
 
-  onFormChange = (key, value) => {
+  handleGetStock = (value) => {
+    const { onGetStockList } = this.props;
+    onGetStockList &&
+      typeof onGetStockList === "function" &&
+      onGetStockList(value);
+  };
+
+  onFormChange = (key, value, obj) => {
     const { onChange, data = {} } = this.props;
-    const { basicInfo = {} } = data;
-    let tmp = { ...basicInfo, [key]: value };
+    const { addInfo = {} } = data;
+    let tmp = {};
+    if (key === "outStockId") {
+      tmp = {
+        ...addInfo,
+        outStockId: (obj && obj.value) || null,
+        outStock: (obj && obj.label) || null,
+      };
+      onChange &&
+        typeof onChange === "function" &&
+        onChange({ productList: [] });
+    }
+    if (key === "inStockId") {
+      tmp = {
+        ...addInfo,
+        inStockId: (obj && obj.value) || null,
+        inStock: (obj && obj.label) || null,
+      };
+    }
+    if (key === "remarks") {
+      tmp = { ...addInfo, [key]: value };
+    }
+
     onChange &&
       typeof onChange === "function" &&
-      onChange({ basicInfo: { ...tmp } }, key);
+      onChange({ addInfo: { ...tmp } }, key);
   };
 
   changeCode = (value) => {
@@ -122,17 +150,18 @@ class StockSendGoods extends React.Component {
   };
 
   render() {
-    const { data = {} } = this.props;
+    const { data = {}, title, groupTitle } = this.props;
     const {
-      basicInfo = {},
+      addInfo = {},
       scanCode,
+      personalStockList,
+      companyStockList,
       productList,
-      scanCodeProductList,
       drawerLoading,
     } = data;
     return (
       <Drawer
-        title="备货单"
+        title={title || "详情"}
         visible
         width={1100}
         className="drawer-box"
@@ -145,93 +174,77 @@ class StockSendGoods extends React.Component {
             ref={this.formRef}
             onFinish={this.onFinish}
             style={{ marginTop: "24px" }}
+            initialValues={{
+              inStockId: addInfo.inStockId,
+            }}
           >
             <Row>
               <Col span={8}>
-                <Form.Item label="单号:">{basicInfo.orderNumber}</Form.Item>
+                <Form.Item
+                  label="调出仓库:"
+                  name="outStockId"
+                  rules={[{ required: true, message: "请选择调出仓库" }]}
+                >
+                  <Select
+                    showSearch
+                    placeholder="请选择"
+                    options={personalStockList}
+                    value={addInfo.outStockId}
+                    onChange={(value, obj) =>
+                      this.onFormChange("outStockId", value, obj)
+                    }
+                    onSearch={this.handleGetStock}
+                    filterOption={false}
+                    showArrow={false}
+                    dropdownMatchSelectWidth={false}
+                  />
+                </Form.Item>
               </Col>
 
               <Col span={8}>
-                <Form.Item label="申请人:">{basicInfo.userName}</Form.Item>
-              </Col>
-              <Col span={8}>
-                <Form.Item label="申请日期:">{basicInfo.createTime}</Form.Item>
-              </Col>
-            </Row>
-            <Row>
-              <Col span={8}>
-                <Form.Item label="调出仓库:">{basicInfo.outStock}</Form.Item>
-              </Col>
-              <Col span={8}>
-                <Form.Item label="调入仓库:">{basicInfo.inStock}</Form.Item>
-              </Col>
-              <Col span={8}>
-                <Form.Item label="客户:">{basicInfo.hospitalName}</Form.Item>
-              </Col>
-            </Row>
-            <Row>
-              <Col span={8}>
-                <Form.Item label="调拨类型:">{basicInfo.typeName}</Form.Item>
-              </Col>
-              <Col span={8}>
-                <Form.Item label="备货截止日期:">
-                  {basicInfo.expectCompleteDate}
+                <Form.Item
+                  label="调入仓库:"
+                  name="inStockId"
+                  rules={[{ required: true, message: "请选择调入仓库" }]}
+                >
+                  <Select
+                    showSearch
+                    placeholder="请选择"
+                    value={addInfo.inStockId}
+                    options={companyStockList}
+                    onChange={(value, obj) =>
+                      this.onFormChange("inStockId", value, obj)
+                    }
+                    onSearch={this.handleGetStock}
+                    filterOption={false}
+                    showArrow={false}
+                    dropdownMatchSelectWidth={false}
+                  />
                 </Form.Item>
               </Col>
               <Col span={8}>
+                <Form.Item label="调拨类型:">{addInfo.typeName}</Form.Item>
+              </Col>
+            </Row>
+            <Row>
+              <Col span={8}>
                 <Form.Item label="备注:" name="remarks">
-                  {basicInfo.remarks}
+                  <TextArea
+                    rows={3}
+                    placeholder="请输入备注"
+                    onChange={(e) =>
+                      this.onFormChange("remarks", e.target.value)
+                    }
+                  />
                 </Form.Item>
               </Col>
             </Row>
           </Form>
-          <div>
-            <WrapTitle>
-              <span className="berfore-bar" />
-              <span className="group-title">备货单</span>
-            </WrapTitle>
-            <Table
-              bordered
-              scroll={{ y: 500 }}
-              rowKey={(record, index) => index}
-              dataSource={productList}
-              rowKey="productCode"
-              pagination={false}
-            >
-              <Column title="产品编码" dataIndex="productCode" width={120} />
-              <Column title="产品名称" dataIndex="productName" width={150} />
-              <Column title="规格" dataIndex="regularModel" width={100} />
-              <Column title="型号" dataIndex="model" width={80} />
-              <Column title="单位" dataIndex="unitName" width={70} />
-              <Column
-                title="生产厂家"
-                dataIndex="productVendorName"
-                width={100}
-              />
-              <Column
-                title="备货数量"
-                dataIndex="prepareNumber"
-                width={90}
-                fixed="right"
-              />
-              <Column
-                title="已备数量"
-                dataIndex="prepareCompleteNumber"
-                width={90}
-                fixed="right"
-              />
-              <Column
-                title="未备数量"
-                dataIndex="unPrepareNumber"
-                width={90}
-                fixed="right"
-              />
-            </Table>
-          </div>
+
           <BasicDiv>
             <WrapTitle>
               <span className="berfore-bar" />
-              <span className="group-title">备货清单</span>
+              <span className="group-title">{groupTitle || "清单"}</span>
             </WrapTitle>
             <div style={{ padding: "8px" }}>
               流水号:
@@ -253,7 +266,7 @@ class StockSendGoods extends React.Component {
             <Table
               bordered
               scroll={{ y: 400 }}
-              dataSource={scanCodeProductList}
+              dataSource={productList}
               rowKey="serialNo"
               pagination={false}
             >
@@ -262,13 +275,13 @@ class StockSendGoods extends React.Component {
                 render={(value, record, index) => index + 1}
                 width={80}
               />
-              <Column title="流水号" dataIndex="serialNo" width={100} />
-              <Column title="产品编码" dataIndex="productCode" width={130} />
+              <Column title="流水号" dataIndex="serialNo" width={110} />
+              <Column title="产品编码" dataIndex="productCode" width={125} />
               <Column title="产品名称" dataIndex="productName" width={180} />
-              <Column title="规格" dataIndex="regularModel" width={100} />
-              <Column title="型号" dataIndex="model" width={80} />
-              <Column title="单位" dataIndex="unitName" width={80} />
-              <Column title="单价" dataIndex="productPrice" width={80} />
+              <Column title="规格" dataIndex="model" width={100} />
+              <Column title="型号" dataIndex="regModel" width={80} />
+              <Column title="单位" dataIndex="unit" width={80} />
+              <Column title="单价" dataIndex="unit" width={80} />
               <Column title="生产厂家" dataIndex="productVendor" width={150} />
               <Column
                 title="操作"
@@ -297,4 +310,4 @@ class StockSendGoods extends React.Component {
   }
 }
 
-export default StockSendGoods;
+export default SendGoods;

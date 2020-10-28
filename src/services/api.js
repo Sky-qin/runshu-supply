@@ -141,7 +141,7 @@ const API = {
   // 获取详情
   getConsumeDetail(params) {
     return request({
-      url: `${Prefix}/consumeOrder/selectConsumeOrderInfo`,
+      url: `${Prefix}/consumeOrder/selectPCConsumeOrderInfo`,
       params,
     });
   },
@@ -697,22 +697,133 @@ const API = {
    * 备货单
    */
   // 备货单列表
+  prepareList(params) {
+    return request({
+      url: `${Prefix}/supply/prepare/list`,
+      method: "post",
+      params,
+    });
+  },
 
-  // 调入仓库查询
-
-  // 客户（医院）
-
-  // 申请人
-
-  // 去备货-继续备货基本信息
+  // 去备货-继续备货基本信息 备货单列表
+  preparePreNew(params) {
+    return request({
+      url: `${Prefix}/supply/prepare/preNew`,
+      params,
+    });
+  },
 
   // 添加商品
+  prepareScan(params) {
+    return request({
+      url: `${Prefix}/supply/prepare/scan`,
+      method: "post",
+      params,
+    });
+  },
 
   // 删除商品
-
+  prepareDelete(params) {
+    return request({
+      url: `${Prefix}/supply/prepare/delete`,
+      method: "post",
+      params,
+    });
+  },
   // 详情查看
+
   // 备货清单
-  // 备货返库清单
+  prepareDetail(params) {
+    return request({
+      url: `${Prefix}/supply/prepare/detail`,
+      params,
+    });
+  },
+  // 备货单提交
+  prepareSubmit(params) {
+    return request({
+      url: `${Prefix}/supply/prepare/submit`,
+      params,
+      method: "post",
+    });
+  },
+
+  /**
+   * 备货返库
+   */
+  backStoreList(params) {
+    return request({
+      url: `${Prefix}/choiceBackStore/query`,
+      params,
+      method: "post",
+    });
+  },
+  initAddRepareBack(params) {
+    return request({
+      url: `${Prefix}/choiceBackStore/initAddRepareBack`,
+      params,
+    });
+  },
+
+  // 扫码添加
+  backStoreScan(params) {
+    return request({
+      url: `${Prefix}/choiceBackStore/scan`,
+      params,
+    });
+  },
+  // 添加返库单
+  addBackOrder(params) {
+    return request({
+      url: `${Prefix}/choiceBackStore/save`,
+      params,
+      method: "post",
+    });
+  },
+  // 备货返库详情查询
+  queryBackDetailInfo(params) {
+    return request({
+      url: `${Prefix}/choiceBackStore/queryBackInfo`,
+      params,
+    });
+  },
+
+  /**
+   * 调拨管理
+   */
+  // 调拨列表
+  findAllocationList(params) {
+    return request({
+      url: `${Prefix}/allocation/findAllocationList`,
+      params,
+      method: "post",
+    });
+  },
+
+  // 扫码添加
+  allocationScan(params) {
+    return request({
+      url: `${Prefix}/allocation/allocationScan`,
+      params,
+    });
+  },
+
+  // 添加调拨单
+  addAllocationOrder(params) {
+    return request({
+      url: `${Prefix}/allocation/addAllocationOrder`,
+      params,
+      method: "post",
+    });
+  },
+
+  // 调拨单详情
+  findAllocationById(params) {
+    return request({
+      url: `${Prefix}/allocation/findAllocationById`,
+      params,
+    });
+  },
 
   /**
    * 盘点管理
@@ -838,6 +949,17 @@ const API = {
   imageList(params) {
     return request({
       url: `${Prefix}/product/image/list`,
+      method: "post",
+      params,
+    });
+  },
+
+  /**
+   * 客户管理
+   */
+  customerList(params) {
+    return request({
+      url: `${Prefix}/supply/customer/selectList`,
       method: "post",
       params,
     });
@@ -1030,12 +1152,12 @@ const API = {
     });
   },
   // 盘盈/亏库创建人下拉枚举
-  findTabulatorList(params) {
-    return request({
-      url: `${Prefix}/allotProductOrder/management/findTabulator`,
-      params,
-    });
-  },
+  // findTabulatorList(params) {
+  //   return request({
+  //     url: `${Prefix}/allotProductOrder/management/findTabulator`,
+  //     params,
+  //   });
+  // },
   // 盘点库位下拉枚举
   queryStockList(params) {
     return request({
@@ -1048,6 +1170,41 @@ const API = {
   hospitalList(params) {
     return request({
       url: `${Prefix}/product/hospitalOnsale/hospital/list`,
+      params,
+    });
+  },
+  // 创建人|申请人 枚举查询 type  2:备货单3:备货返库单4:调拨单5:盘盈入库:6盘亏出库
+  findUserList(params) {
+    return request({
+      url: `${Prefix}/allocation/findUserList`,
+      params,
+    });
+  },
+  // 个人仓库枚举
+  personalStock(params) {
+    return request({
+      url: `${Prefix}/supply/stock/personal`,
+      params,
+    });
+  },
+  // 公司主仓库枚举
+  companyStock(params) {
+    return request({
+      url: `${Prefix}/supply/stock/company`,
+      params,
+    });
+  },
+  // 客户枚举
+  customerList(params) {
+    return request({
+      url: `${Prefix}/supply/customer/list`,
+      params,
+    });
+  },
+  // all库位查询
+  findAllStock(params) {
+    return request({
+      url: `${Prefix}/allocation/findAllStock`,
       params,
     });
   },

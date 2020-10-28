@@ -1,8 +1,9 @@
 import React from "react";
 import { connect } from "dva";
 import { Space, Table, Input, Form, Row, Col, Select, Button } from "antd";
+import { PlusOutlined } from "@ant-design/icons";
 import DetailDialog from "./detailDialog";
-import SubmitSendGoods from "../../../components/stockSendGoods";
+import SendGoods from "../../../components/sendGoods";
 import ContentWrap from "../../../components/contentWrap";
 import OpreationBar from "../../../components/OpreationBar";
 import "./index.scss";
@@ -20,7 +21,7 @@ const tailLayout = {
   },
 };
 
-class StockList extends React.Component {
+class AllocateTransfer extends React.Component {
   searchRef = React.createRef();
 
   constructor(props) {
@@ -30,10 +31,11 @@ class StockList extends React.Component {
 
   componentDidMount() {
     const { dispatch } = this.props;
-    dispatch({ type: "stockListModel/getPersonList" });
-    dispatch({ type: "stockListModel/personalStock" });
-    dispatch({ type: "stockListModel/companyStock" });
-    dispatch({ type: "stockListModel/customerList" });
+    dispatch({
+      type: "allocateTransferModel/getFindAllStock",
+      payload: { keyword: "" },
+    });
+    dispatch({ type: "allocateTransferModel/getSendPersonList" });
 
     this.getTableList();
   }
@@ -41,15 +43,15 @@ class StockList extends React.Component {
   getTableList = () => {
     const { dispatch } = this.props;
     dispatch({
-      type: "stockListModel/getTableList",
+      type: "allocateTransferModel/getTableList",
     });
   };
 
   changePagination = (current, size) => {
     const { dispatch } = this.props;
-    const { pagination } = this.props.stockListModel;
+    const { pagination } = this.props.allocateTransferModel;
     dispatch({
-      type: "stockListModel/save",
+      type: "allocateTransferModel/save",
       payload: {
         pagination: {
           ...pagination,
@@ -63,11 +65,10 @@ class StockList extends React.Component {
 
   onSearchChange = (key, value) => {
     const { dispatch } = this.props;
-    const { searchParams, pagination } = this.props.stockListModel;
+    const { searchParams, pagination } = this.props.allocateTransferModel;
     let tmpParams = { searchParams: { ...searchParams, [key]: value } };
-
     dispatch({
-      type: "stockListModel/save",
+      type: "allocateTransferModel/save",
       payload: {
         ...tmpParams,
         pagination: {
@@ -85,70 +86,30 @@ class StockList extends React.Component {
   onReset = () => {
     let { current: searchForm } = this.searchRef;
     const { dispatch } = this.props;
+    searchForm.resetFields();
     dispatch({
-      type: "stockListModel/save",
+      type: "allocateTransferModel/save",
       payload: {
         searchParams: {},
-        pagination: {
-          current: 1,
-          size: 10,
-          total: 0,
-        },
+        departmentList: [],
       },
     });
-    setTimeout(() => {
-      searchForm.resetFields();
-    }, 0);
     this.getTableList();
   };
 
   handleShowDetail = (msg) => {
     const { dispatch } = this.props;
     dispatch({
-      type: "stockListModel/save",
+      type: "allocateTransferModel/save",
       payload: {
         currentMsg: { ...msg },
         showDetailDialog: true,
       },
     });
     dispatch({
-      type: "stockListModel/getDetail",
+      type: "allocateTransferModel/getDetailInfo",
       payload: {
         ...msg,
-      },
-    });
-  };
-
-  changeListData = (current, size) => {
-    const { dispatch } = this.props;
-    const { inventoryPagination } = this.props.stockListModel;
-    dispatch({
-      type: "stockListModel/save",
-      payload: {
-        inventoryPagination: {
-          ...inventoryPagination,
-          current,
-          size,
-        },
-      },
-    });
-
-    dispatch({ type: "stockListModel/queryInventoryProduct" });
-  };
-
-  handleGetAddInfo = (record) => {
-    const { dispatch } = this.props;
-    dispatch({
-      type: "stockListModel/save",
-      payload: {
-        addproductDialog: true,
-        currentMsg: { ...record },
-      },
-    });
-    dispatch({
-      type: "stockListModel/getAddInfo",
-      payload: {
-        ...record,
       },
     });
   };
@@ -156,7 +117,7 @@ class StockList extends React.Component {
   changeAddInfo = (msg, type) => {
     const { dispatch } = this.props;
     dispatch({
-      type: "stockListModel/save",
+      type: "allocateTransferModel/save",
       payload: {
         ...msg,
       },
@@ -165,21 +126,25 @@ class StockList extends React.Component {
 
   handleAddGoods = () => {
     const { dispatch } = this.props;
-    dispatch({ type: "stockListModel/addGoods" });
+    dispatch({ type: "allocateTransferModel/addGoods" });
   };
 
   handleDeleteGoods = (record, index) => {
-    const { dispatch } = this.props;
+    const { dispatch, stockReturnWarehouseModel } = this.props;
+    const { productList } = stockReturnWarehouseModel;
+    productList.splice(index, 1);
     dispatch({
-      type: "stockListModel/deleteGoods",
-      payload: { msg: record, index },
+      type: "stockReturnWarehouseModel/save",
+      payload: {
+        productList: [...productList],
+      },
     });
   };
 
   setCode = (code) => {
     const { dispatch } = this.props;
     dispatch({
-      type: "stockListModel/save",
+      type: "allocateTransferModel/save",
       payload: {
         scanCode: code,
       },
@@ -188,59 +153,48 @@ class StockList extends React.Component {
 
   handleSubmit = () => {
     const { dispatch } = this.props;
-    dispatch({ type: "stockListModel/sendOrderSubmit" });
-  };
-
-  getDetailList = (type) => {
-    const { dispatch } = this.props;
-    const { currentMsg } = this.props.stockListModel;
-    if (type === "replenishList") {
-      dispatch({
-        type: "stockListModel/getAddInfo",
-        payload: {
-          ...currentMsg,
-        },
-      });
-    }
-    if (type === "deliveryList") {
-      dispatch({ type: "stockListModel/getSendOrderInfo" });
-    }
+    dispatch({ type: "allocateTransferModel/sendOrderSubmit" });
   };
 
   componentWillUnmount() {
     const { dispatch } = this.props;
     dispatch({
-      type: "stockListModel/save",
+      type: "allocateTransferModel/save",
       payload: {
         searchParams: {},
       },
     });
   }
 
+  handleClickOpreation = (key) => {
+    const { dispatch } = this.props;
+    if (key) {
+      dispatch({
+        type: "allocateTransferModel/save",
+        payload: {
+          addproductDialog: true,
+        },
+      });
+    }
+  };
+
   render() {
     const { dispatch } = this.props;
     const {
       showDetailDialog,
-      currentMsg,
       pagination,
       data,
       loading,
-      customerList,
       addproductDialog,
-      basicInfo,
-      scanCodeProductList,
-      personList,
+      addInfo,
       scanCode,
       drawerLoading,
-      deliverInfoList,
-      stockDetailList,
       // new
-      personalStockList,
+      allStockList,
       productList,
-      companyStockList,
-      serialnoList,
-      backStockList,
-    } = this.props.stockListModel;
+      personList,
+      basicInfo,
+    } = this.props.allocateTransferModel;
     const { current, size, total } = pagination;
     return (
       <>
@@ -253,41 +207,32 @@ class StockList extends React.Component {
           >
             <Row>
               <Col span={6}>
-                <Form.Item label="调入仓库" name="inStockId">
+                <Form.Item label="调入仓库" name="stockId">
                   <Select
-                    onChange={(value) =>
-                      this.onSearchChange("inStockId", value)
-                    }
-                    options={personalStockList}
                     showSearch
-                    optionFilterProp="label"
+                    onChange={(value) => this.onSearchChange("stockId", value)}
+                    onSearch={(value) => {
+                      dispatch({
+                        type: "allocateTransferModel/getFindAllStock",
+                        payload: {
+                          keyword: value,
+                        },
+                      });
+                    }}
+                    options={allStockList}
+                    filterOption={false}
+                    showArrow={false}
                     dropdownMatchSelectWidth={false}
                     placeholder="请选择"
-                    allowClear
                   />
                 </Form.Item>
               </Col>
               <Col span={6}>
-                <Form.Item label="客户" name="hospitalId">
+                <Form.Item label="创建人" name="userId">
                   <Select
-                    onChange={(value) =>
-                      this.onSearchChange("hospitalId", value)
-                    }
-                    options={customerList}
-                    showSearch
-                    optionFilterProp="label"
-                    dropdownMatchSelectWidth={false}
-                    placeholder="请选择"
-                    allowClear
-                  />
-                </Form.Item>
-              </Col>
-              <Col span={6}>
-                <Form.Item label="创建人" name="creator">
-                  <Select
-                    placeholder="请选择"
+                    placeholder="请选择状态"
                     options={personList}
-                    onChange={(value) => this.onSearchChange("creator", value)}
+                    onChange={(value) => this.onSearchChange("userId", value)}
                     allowClear
                   />
                 </Form.Item>
@@ -325,7 +270,11 @@ class StockList extends React.Component {
           </Form>
         </ContentWrap>
         <ContentWrap loading={loading}>
-          <OpreationBar total={total} />
+          <OpreationBar
+            buttonList={[{ key: "add", label: "新增", icon: <PlusOutlined /> }]}
+            total={total}
+            onClick={this.handleClickOpreation}
+          />
           <Table
             bordered
             scroll={{ x: 1300 }}
@@ -345,99 +294,79 @@ class StockList extends React.Component {
               render={(value, record, index) => index + 1}
               width={80}
             />
-            <Column title="单号" dataIndex="orderNumber" width={140} />
+
+            <Column title="单号" dataIndex="orderNumber" width={135} />
             <Column title="调出仓库" dataIndex="outStock" width={160} />
-            <Column title="调入仓库" dataIndex="inStock" width={120} />
-            <Column title="客户" dataIndex="hospitalName" width={160} />
-            <Column title="申请日期" dataIndex="createTime" width={115} />
+            <Column title="调入仓库" dataIndex="inStock" width={160} />
             <Column
-              title="备货截止日期"
-              dataIndex="expectCompleteDate"
-              width={130}
-            />
-            <Column title="创建人" dataIndex="userName" width={100} />
-            <Column
-              title="备货数量"
+              title="调拨数量"
               dataIndex="productTotalNumber"
               width={120}
             />
-            <Column title="状态" dataIndex="orderStatusStr" width={120} />
+            <Column title="创建日期" dataIndex="createTime" width={120} />
+            <Column title="创建人" dataIndex="creator" width={120} />
             <Column
               title="操作"
-              width={170}
+              width={120}
               fixed="right"
-              render={(value, record, index) => {
-                const { enable, orderStatus } = record;
-                return (
-                  <Space size="middle">
-                    {enable && orderStatus === 11 && (
-                      <a onClick={() => this.handleGetAddInfo(record)}>
-                        去备货
-                      </a>
-                    )}
-                    {enable && orderStatus === 12 && (
-                      <a onClick={() => this.handleGetAddInfo(record)}>
-                        继续备货
-                      </a>
-                    )}
-                    <a onClick={() => this.handleShowDetail(record)}>
-                      查看详情
-                    </a>
-                  </Space>
-                );
-              }}
+              render={(value, record, index) => (
+                <Space size="middle">
+                  <a onClick={() => this.handleShowDetail(record)}>查看详情</a>
+                </Space>
+              )}
             />
           </Table>
 
-          {/* 编辑弹窗 */}
+          {/* 详情弹窗 */}
           {showDetailDialog && (
             <DetailDialog
-              title="备货单详情"
-              data={{
-                productList,
-                serialnoList,
-                currentMsg,
-                deliverInfoList,
-                backStockList,
-              }}
-              onGetTableList={this.getDetailList}
+              title="调拨单详情"
+              groupTitle="调拨清单"
+              data={basicInfo}
               onClosed={() => {
                 dispatch({
-                  type: "stockListModel/save",
+                  type: "allocateTransferModel/save",
                   payload: {
                     showDetailDialog: false,
+                    basicInfo: {},
                   },
                 });
               }}
-              onChange={this.changeListData}
             />
           )}
           {/* 发货单 */}
           {addproductDialog && (
-            <SubmitSendGoods
+            <SendGoods
+              title="调拨单"
+              groupTitle="调拨清单"
               onChange={this.changeAddInfo}
               onAddGoods={this.handleAddGoods}
+              onGetStockList={(value) => {
+                dispatch({
+                  type: "allocateTransferModel/getFindAllStock",
+                  payload: {
+                    keyword: value,
+                  },
+                });
+              }}
               onDelete={this.handleDeleteGoods}
               onCodeChange={this.setCode}
               onSubmit={this.handleSubmit}
               data={{
-                basicInfo,
+                addInfo,
                 scanCode,
-                companyStockList,
-                personalStockList,
                 productList,
-                scanCodeProductList,
+                allStockList,
                 drawerLoading,
               }}
               onClosed={() => {
                 dispatch({
-                  type: "stockListModel/save",
+                  type: "allocateTransferModel/save",
                   payload: {
                     addproductDialog: false,
-                    basicInfo: {},
+                    addInfo: {},
                     scanCode: "",
                     productList: [],
-                    scanCodeProductList: [],
                   },
                 });
               }}
@@ -449,6 +378,6 @@ class StockList extends React.Component {
   }
 }
 
-export default connect(({ stockListModel }) => ({
-  stockListModel,
-}))(StockList);
+export default connect(({ allocateTransferModel }) => ({
+  allocateTransferModel,
+}))(AllocateTransfer);

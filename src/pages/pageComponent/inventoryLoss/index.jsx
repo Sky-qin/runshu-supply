@@ -31,7 +31,7 @@ class InventoryLoss extends React.Component {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({ type: "inventoryLossModel/storageList" });
-    dispatch({ type: "inventoryLossModel/findTabulatorList" });
+    dispatch({ type: "inventoryLossModel/findUserList" });
 
     this.getTableList();
   }

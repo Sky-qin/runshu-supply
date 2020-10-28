@@ -1,12 +1,11 @@
 import React from "react";
 import { connect } from "dva";
 import { Space, Table, Input, Form, Row, Col, Select, Button } from "antd";
-import styled from "styled-components";
+import { PlusOutlined } from "@ant-design/icons";
 import DetailDialog from "./detailDialog";
-import SendGoods from "../../../components/sendGoods";
+import SendGoods from "../../../components/backStoreGoods";
 import ContentWrap from "../../../components/contentWrap";
 import OpreationBar from "../../../components/OpreationBar";
-import "./index.scss";
 
 const { Column } = Table;
 
@@ -21,19 +20,6 @@ const tailLayout = {
   },
 };
 
-const SpanBox = styled.span`
-  color: red;
-`;
-
-const colorList = {
-  1: "#f60",
-  2: "#f60",
-  3: "red",
-  4: "#f60",
-  5: "#f60",
-  6: "#52c41a",
-};
-
 class StockReturnWarehouse extends React.Component {
   searchRef = React.createRef();
 
@@ -44,9 +30,10 @@ class StockReturnWarehouse extends React.Component {
 
   componentDidMount() {
     const { dispatch } = this.props;
-    dispatch({ type: "stockReturnWarehouseModel/getHospital" });
-    dispatch({ type: "stockReturnWarehouseModel/replenishStatus" });
+    dispatch({ type: "stockReturnWarehouseModel/personalStock" });
+    dispatch({ type: "stockReturnWarehouseModel/companyStock" });
     dispatch({ type: "stockReturnWarehouseModel/getSendPersonList" });
+
     this.getTableList();
   }
 
@@ -75,31 +62,8 @@ class StockReturnWarehouse extends React.Component {
 
   onSearchChange = (key, value) => {
     const { dispatch } = this.props;
-    let { current: searchForm } = this.searchRef;
     const { searchParams, pagination } = this.props.stockReturnWarehouseModel;
     let tmpParams = { searchParams: { ...searchParams, [key]: value } };
-    // 获取科室
-    if (key === "hospitalId") {
-      tmpParams = {
-        searchParams: { ...tmpParams.searchParams, departmentId: null },
-      };
-      searchForm.setFieldsValue({
-        departmentId: null,
-      });
-      if (value) {
-        dispatch({
-          type: "stockReturnWarehouseModel/getDePartmentByHsp",
-          payload: {
-            id: value,
-          },
-        });
-      } else {
-        tmpParams = {
-          ...tmpParams,
-          departmentList: [],
-        };
-      }
-    }
     dispatch({
       type: "stockReturnWarehouseModel/save",
       payload: {
@@ -140,77 +104,15 @@ class StockReturnWarehouse extends React.Component {
       },
     });
     dispatch({
-      type: "stockReturnWarehouseModel/getAddInfo",
+      type: "stockReturnWarehouseModel/getDetailInfo",
       payload: {
         ...msg,
       },
     });
   };
 
-  changeListData = (current, size) => {
-    const { dispatch } = this.props;
-    const { inventoryPagination } = this.props.stockReturnWarehouseModel;
-    dispatch({
-      type: "stockReturnWarehouseModel/save",
-      payload: {
-        inventoryPagination: {
-          ...inventoryPagination,
-          current,
-          size,
-        },
-      },
-    });
-
-    dispatch({ type: "stockReturnWarehouseModel/queryInventoryProduct" });
-  };
-
-  handleCheck = (msg) => {
-    const { dispatch } = this.props;
-    dispatch({
-      type: "stockReturnWarehouseModel/replenishSure",
-      payload: {
-        id: msg.id,
-      },
-    });
-  };
-  handleBack = (record) => {
-    const { dispatch } = this.props;
-    dispatch({
-      type: "stockReturnWarehouseModel/replenishRollBack",
-      payload: {
-        id: record.id,
-      },
-    });
-  };
-
-  handleGetAddInfo = (record) => {
-    const { dispatch } = this.props;
-    dispatch({
-      type: "stockReturnWarehouseModel/save",
-      payload: {
-        addproductDialog: true,
-        currentMsg: { ...record },
-      },
-    });
-    dispatch({
-      type: "stockReturnWarehouseModel/getAddInfo",
-      payload: {
-        ...record,
-      },
-    });
-  };
-
   changeAddInfo = (msg, type) => {
     const { dispatch } = this.props;
-    if (type === "person") {
-      dispatch({
-        type: "stockReturnWarehouseModel/getMobileById",
-        payload: {
-          ...msg,
-        },
-      });
-      return;
-    }
     dispatch({
       type: "stockReturnWarehouseModel/save",
       payload: {
@@ -225,10 +127,14 @@ class StockReturnWarehouse extends React.Component {
   };
 
   handleDeleteGoods = (record, index) => {
-    const { dispatch } = this.props;
+    const { dispatch, stockReturnWarehouseModel } = this.props;
+    const { productList } = stockReturnWarehouseModel;
+    productList.splice(index, 1);
     dispatch({
-      type: "stockReturnWarehouseModel/deleteGoods",
-      payload: { msg: record, index },
+      type: "stockReturnWarehouseModel/save",
+      payload: {
+        productList: [...productList],
+      },
     });
   };
 
@@ -247,51 +153,42 @@ class StockReturnWarehouse extends React.Component {
     dispatch({ type: "stockReturnWarehouseModel/sendOrderSubmit" });
   };
 
-  getDetailList = (type) => {
-    const { dispatch } = this.props;
-    const { currentMsg } = this.props.stockReturnWarehouseModel;
-    if (type === "replenishList") {
-      dispatch({
-        type: "stockReturnWarehouseModel/getAddInfo",
-        payload: {
-          ...currentMsg,
-        },
-      });
-    }
-    if (type === "deliveryList") {
-      dispatch({ type: "stockReturnWarehouseModel/getSendOrderInfo" });
-    }
-  };
-
   componentWillUnmount() {
     const { dispatch } = this.props;
     dispatch({
-      type: "stockListModel/save",
+      type: "stockReturnWarehouseModel/save",
       payload: {
         searchParams: {},
       },
     });
   }
 
+  handleClickOpreation = (key) => {
+    const { dispatch } = this.props;
+    if (key) {
+      dispatch({
+        type: "stockReturnWarehouseModel/initAddRepareBack",
+      });
+    }
+  };
+
   render() {
     const { dispatch } = this.props;
     const {
       showDetailDialog,
-      currentMsg,
       pagination,
       data,
       loading,
-      hospitalList,
-      replenishStatusList,
       addproductDialog,
       addInfo,
-      replenishOrderList,
-      scanCodeProductList,
-      personList,
       scanCode,
       drawerLoading,
-      deliverInfoList,
-      searchParams,
+      // new
+      productList,
+      personList,
+      basicInfo,
+      personalStockList,
+      companyStockList,
     } = this.props.stockReturnWarehouseModel;
     const { current, size, total } = pagination;
     return (
@@ -305,53 +202,35 @@ class StockReturnWarehouse extends React.Component {
           >
             <Row>
               <Col span={6}>
-                <Form.Item label="调出仓库" name="hospitalId">
+                <Form.Item label="调出仓库" name="outStockId">
                   <Select
                     onChange={(value) =>
-                      this.onSearchChange("hospitalId", value)
+                      this.onSearchChange("outStockId", value)
                     }
-                    options={hospitalList}
-                    showSearch
-                    optionFilterProp="label"
+                    options={personalStockList}
+                    filterOption={false}
+                    showArrow={false}
                     dropdownMatchSelectWidth={false}
-                    placeholder="请选择医院"
-                    allowClear
+                    placeholder="请选择"
                   />
                 </Form.Item>
               </Col>
               <Col span={6}>
-                <Form.Item label="客户" name="hospitalId">
-                  <Select
-                    onChange={(value) =>
-                      this.onSearchChange("hospitalId", value)
-                    }
-                    options={hospitalList}
-                    showSearch
-                    optionFilterProp="label"
-                    dropdownMatchSelectWidth={false}
-                    placeholder="请选择医院"
-                    allowClear
-                  />
-                </Form.Item>
-              </Col>
-              <Col span={6}>
-                <Form.Item label="申请人" name="orderStatus">
+                <Form.Item label="创建人" name="userId">
                   <Select
                     placeholder="请选择状态"
-                    options={[]}
-                    onChange={(value) =>
-                      this.onSearchChange("orderStatus", value)
-                    }
+                    options={personList}
+                    onChange={(value) => this.onSearchChange("userId", value)}
                     allowClear
                   />
                 </Form.Item>
               </Col>
               <Col span={6}>
-                <Form.Item label="单号" name="replenishNumber">
+                <Form.Item label="单号" name="orderNumber">
                   <Input
                     placeholder="请输入单号"
                     onChange={(e) =>
-                      this.onSearchChange("replenishNumber", e.target.value)
+                      this.onSearchChange("orderNumber", e.target.value)
                     }
                   />
                 </Form.Item>
@@ -379,10 +258,14 @@ class StockReturnWarehouse extends React.Component {
           </Form>
         </ContentWrap>
         <ContentWrap loading={loading}>
-          <OpreationBar total={total} />
+          <OpreationBar
+            buttonList={[{ key: "add", label: "新增", icon: <PlusOutlined /> }]}
+            total={total}
+            onClick={this.handleClickOpreation}
+          />
           <Table
             bordered
-            scroll={{ x: 1500 }}
+            scroll={{ x: 1300 }}
             rowKey={(record, index) => index}
             dataSource={data}
             pagination={{
@@ -400,42 +283,18 @@ class StockReturnWarehouse extends React.Component {
               width={80}
             />
 
-            <Column title="单号" dataIndex="code1" width={135} />
-            <Column title="调出仓库" dataIndex="code2" width={150} />
-            <Column title="调入仓库" dataIndex="code3" width={120} />
-            <Column title="申请日期" dataIndex="code4" width={120} />
-            <Column title="备货截止日期" dataIndex="code5" width={130} />
-            <Column
-              title="状态"
-              dataIndex="code6"
-              width={260}
-              render={(value, record) => {
-                const { orderStatus, delivery } = record;
-                return (
-                  <Space>
-                    <span style={{ color: colorList[orderStatus] }}>
-                      {value}
-                    </span>
-                  </Space>
-                );
-              }}
-            />
+            <Column title="单号" dataIndex="orderNumber" width={135} />
+            <Column title="调出仓库" dataIndex="outStock" width={160} />
+            <Column title="调入仓库" dataIndex="inStock" width={160} />
+            <Column title="返库数量" dataIndex="returnStockNum" width={120} />
+            <Column title="创建日期" dataIndex="createTime" width={120} />
+            <Column title="创建人" dataIndex="creator" width={120} />
             <Column
               title="操作"
-              width={280}
+              width={120}
               fixed="right"
               render={(value, record, index) => (
                 <Space size="middle">
-                  {record.orderStatus && record.orderStatus === 2 && (
-                    <a onClick={() => this.handleGetAddInfo(record)}>去发货</a>
-                  )}
-
-                  {record.orderStatus && record.orderStatus === 4 && (
-                    <a onClick={() => this.handleGetAddInfo(record)}>
-                      继续发货
-                    </a>
-                  )}
-
                   <a onClick={() => this.handleShowDetail(record)}>查看详情</a>
                 </Space>
               )}
@@ -445,37 +304,44 @@ class StockReturnWarehouse extends React.Component {
           {/* 详情弹窗 */}
           {showDetailDialog && (
             <DetailDialog
-              title="备货返库单详情"
-              groupTitle="备货返库清单"
-              data={{ replenishOrderList, currentMsg, deliverInfoList }}
-              onGetTableList={this.getDetailList}
+              title="调拨单详情"
+              groupTitle="调拨清单"
+              data={basicInfo}
               onClosed={() => {
                 dispatch({
                   type: "stockReturnWarehouseModel/save",
                   payload: {
                     showDetailDialog: false,
+                    basicInfo: {},
                   },
                 });
               }}
-              onChange={this.changeListData}
             />
           )}
           {/* 发货单 */}
           {addproductDialog && (
             <SendGoods
-              title="备货返库单"
-              groupTitle="备货返库清单"
+              title="调拨单"
+              groupTitle="调拨清单"
               onChange={this.changeAddInfo}
               onAddGoods={this.handleAddGoods}
+              onGetStockList={(value) => {
+                dispatch({
+                  type: "stockReturnWarehouseModel/getFindAllStock",
+                  payload: {
+                    keyword: value,
+                  },
+                });
+              }}
               onDelete={this.handleDeleteGoods}
               onCodeChange={this.setCode}
               onSubmit={this.handleSubmit}
               data={{
                 addInfo,
                 scanCode,
-                replenishOrderList,
-                scanCodeProductList,
-                personList,
+                productList,
+                personalStockList,
+                companyStockList,
                 drawerLoading,
               }}
               onClosed={() => {
@@ -485,8 +351,7 @@ class StockReturnWarehouse extends React.Component {
                     addproductDialog: false,
                     addInfo: {},
                     scanCode: "",
-                    replenishOrderList: [],
-                    scanCodeProductList: [],
+                    productList: [],
                   },
                 });
               }}
