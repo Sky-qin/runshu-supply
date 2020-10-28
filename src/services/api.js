@@ -832,6 +832,18 @@ const API = {
   },
 
   /**
+   * 商品图片管理
+   */
+  // 图片列表
+  imageList(params) {
+    return request({
+      url: `${Prefix}/product/image/list`,
+      method: "post",
+      params,
+    });
+  },
+
+  /**
    * 枚举类即接口
    */
   // 获取当前用户 医院枚举
@@ -1037,6 +1049,22 @@ const API = {
     return request({
       url: `${Prefix}/product/hospitalOnsale/hospital/list`,
       params,
+    });
+  },
+  // 根据产品分类查询生产厂家
+  productVendorListbyCategory(params) {
+    return request({
+      url: `${Prefix}/product/image/productVendor/list`,
+      params,
+      method: "post",
+    });
+  },
+  // 根据产品分类\厂家查询商品
+  productNameList(params) {
+    return request({
+      url: `${Prefix}/product/image/productName/list`,
+      params,
+      method: "post",
     });
   },
 };

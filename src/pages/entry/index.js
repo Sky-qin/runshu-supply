@@ -36,7 +36,7 @@ import MakeInventory from "../pageComponent/makeInventory";
 import HospitalSaleGoods from "../pageComponent/hospitalSaleGoods";
 import InventoryProfit from "../pageComponent/inventoryProfit";
 import InventoryLoss from "../pageComponent/inventoryLoss";
-
+import PicManage from "../pageComponent/picManage";
 import "./index.scss";
 
 class Entry extends React.Component {
@@ -148,6 +148,7 @@ class Entry extends React.Component {
                 component={InventoryProfit}
               />
               <Route path="/entry/inventoryLoss" component={InventoryLoss} />
+              <Route path="/entry/picManage" component={PicManage} />
             </Switch>
           </div>
         </div>

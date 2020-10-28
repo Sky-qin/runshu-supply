@@ -44,6 +44,7 @@ app.model(require("./models/makeInventoryModel").default);
 app.model(require("./models/hospitalSaleGoodsModel").default);
 app.model(require("./models/inventoryProfitModel").default);
 app.model(require("./models/inventoryLossModel").default);
+app.model(require("./models/picManageModel").default);
 
 // 4. Router
 app.router(require("./router").default);
