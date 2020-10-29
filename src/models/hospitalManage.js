@@ -135,16 +135,9 @@ export default {
     *departmentList({ payload }, { call, put }) {
       const { data } = yield call(API.departmentList);
       if (data && data.success) {
-        let departmentList = (data.data || []).map((item) => {
-          const { children } = item;
-          if (children && children.length > 0) {
-            return { ...item, selectable: false };
-          }
-          return item;
-        });
         yield put({
           type: "save",
-          payload: { departmentList },
+          payload: { departmentList: data.data || [] },
         });
       }
     },

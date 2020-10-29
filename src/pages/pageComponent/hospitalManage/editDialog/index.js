@@ -101,6 +101,7 @@ class EditDialog extends React.Component {
           >
             <TreeSelect
               filterTreeNode
+              treeCheckable
               treeNodeFilterProp="label"
               placeholder="请选择科室"
               multiple
@@ -121,20 +122,13 @@ class EditDialog extends React.Component {
           >
             <Input />
           </Form.Item>
-          <Form.Item
-            name="person"
-            label="联系人"
-            rules={[{ required: true, message: "请输入联系人" }]}
-          >
+          <Form.Item name="person" label="联系人">
             <Input />
           </Form.Item>
           <Form.Item
             name="phone"
             label="联系电话"
-            rules={[
-              { required: true, message: "请输入电话" },
-              { pattern: /^1\d{10}$/, message: "手机号格式不对" },
-            ]}
+            rules={[{ pattern: /^1\d{10}$/, message: "请输入完整的手机号码" }]}
           >
             <Input />
           </Form.Item>
