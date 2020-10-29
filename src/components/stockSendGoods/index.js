@@ -5,7 +5,6 @@ import {
   Button,
   Table,
   Form,
-  Select,
   Col,
   Row,
   Input,
@@ -15,7 +14,6 @@ import {
 } from "antd";
 
 const { Column } = Table;
-const { TextArea } = Input;
 
 const BasicDiv = styled.div`
   padding-top: 20px;

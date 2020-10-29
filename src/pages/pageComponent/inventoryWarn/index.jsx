@@ -208,7 +208,8 @@ class InventoryWarn extends React.Component {
           <Column title="库位" dataIndex="stockName" width={150} />
           <Column title="规格" dataIndex="model" width={120} />
           <Column title="生产厂家" dataIndex="productVerdor" width={200} />
-          <Column title="库存预警值" dataIndex="stockValue" width={140} />
+          <Column title="低存预警值" dataIndex="stockValue" width={140} />
+          <Column title="高存预警值" dataIndex="maxStockValue" width={140} />
           <Column
             title="操作"
             dataIndex="name"
