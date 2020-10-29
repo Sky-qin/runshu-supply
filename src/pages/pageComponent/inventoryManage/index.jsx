@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "dva";
-import { Table, Input, Button } from "antd";
+import { Table, Input, Button, Select } from "antd";
 import { SearchOutlined, ExportOutlined } from "@ant-design/icons";
 import ContentWrap from "../../../components/contentWrap";
 import OpreationBar from "../../../components/OpreationBar";
@@ -61,7 +61,9 @@ class InventoryManage extends React.Component {
       pagination,
       data,
       loading,
+      inventoryTypeList,
       keyword,
+      type,
     } = this.props.inventoryManafeModel;
     const { current, size, total } = pagination;
     return (
@@ -85,6 +87,14 @@ class InventoryManage extends React.Component {
                   icon={<SearchOutlined />}
                 />
               </div>
+              <Select
+                placeholder="请选择库位类别"
+                value={type}
+                options={inventoryTypeList}
+                allowClear
+                style={{ width: 260, marginLeft: 15 }}
+                onChange={(value) => this.onChangeFilter(value, "type")}
+              />
             </>
           }
           linkList={[
@@ -118,6 +128,7 @@ class InventoryManage extends React.Component {
           />
           <Column title="库位编码" dataIndex="stockNo" />
           <Column title="库位名称" dataIndex="name" />
+          <Column title="库位类别" dataIndex="" />
           <Column title="地址" dataIndex="address" />
           <Column title="电话" dataIndex="phone" />
         </Table>

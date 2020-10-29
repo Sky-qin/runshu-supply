@@ -1,8 +1,9 @@
 import React from "react";
 import styled from "styled-components";
-import { Modal, Table } from "antd";
-
+import { Modal, Table, Tabs, Popover } from "antd";
+import { AimOutlined } from "@ant-design/icons";
 const { Column } = Table;
+const { TabPane } = Tabs;
 
 const BasicDiv = styled.div`
   padding-left: 20px;
@@ -14,6 +15,26 @@ const BasicDiv = styled.div`
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+  }
+`;
+
+const NumBerDiv = styled.div`
+  display: flex;
+  text-align: center;
+  font-size: 16px;
+  margin-left: 10px;
+  margin-bottom: 10px;
+  > div {
+    .num-div {
+      font-weight: 600;
+    }
+    padding-right: 50px;
+  }
+  .blue-color {
+    color: #1890ff;
+  }
+  .wran-color {
+    color: red;
   }
 `;
 
@@ -30,9 +51,112 @@ class DetailDialog extends React.Component {
     onClosed && typeof onClosed === "function" && onClosed();
   };
 
+  renderInventoryList = (list) => {
+    return (
+      <Table
+        bordered
+        scroll={{ y: 400 }}
+        dataSource={list}
+        rowKey="productCode"
+        pagination={false}
+      >
+        <Column
+          title="序号"
+          render={(value, record, index) => index + 1}
+          width={65}
+        />
+        <Column title="产品编号" dataIndex="productCode" width={130} />
+        <Column title="产品名称" dataIndex="productName" width={180} />
+        <Column title="规格" dataIndex="model" width={120} />
+        <Column title="型号" dataIndex="regModel" width={100} />
+        <Column title="单位" dataIndex="unitName" width={65} />
+        <Column title="库存数量" dataIndex="inventoryNumber" width={100} />
+        <Column title="盘点数量" dataIndex="checkNumber" width={100} />
+        <Column title="盘点状态" dataIndex="checkStatusLabel" width={100} />
+      </Table>
+    );
+  };
+  renderInventoryDetails = (list) => {
+    return (
+      <Table
+        bordered
+        scroll={{ y: 400 }}
+        dataSource={list || []}
+        rowKey="productCode"
+        pagination={false}
+      >
+        <Column
+          title="序号"
+          render={(value, record, index) => index + 1}
+          width={65}
+        />
+        <Column title="流水号" dataIndex="serialNo" width={100} />
+        <Column title="产品编号" dataIndex="productCode" width={130} />
+        <Column title="产品名称" dataIndex="productName" width={180} />
+        <Column title="规格" dataIndex="model" width={120} />
+        <Column title="型号" dataIndex="regModel" width={100} />
+        <Column title="单位" dataIndex="unitName" width={65} />
+        <Column
+          fixed="right"
+          title="盘点方式"
+          dataIndex="isScanProduct"
+          width={90}
+          render={(value) => (value ? "扫码输入" : "手动输入")}
+        />
+        <Column
+          fixed="right"
+          title="附件照片"
+          dataIndex="imageUrl"
+          aa
+          width={100}
+          render={(value) => {
+            return value ? (
+              <Popover
+                content={
+                  <img src={`https://filesystem.runshutech.com/${value}`} />
+                }
+                title="图片"
+                trigger="click"
+              >
+                <a href="javascript:;">查看照片</a>
+              </Popover>
+            ) : (
+              "无"
+            );
+          }}
+        />
+      </Table>
+    );
+  };
+  renderStatus = (basicInfo) => {
+    const { checkStatus, surplusNumber, lossNumber } = basicInfo;
+    if (checkStatus === 0) {
+      return <div className="blue-color">无盈亏</div>;
+    }
+    if (checkStatus === 3) {
+      return <div className="wran-color">无异常</div>;
+    }
+    if (checkStatus === 1) {
+      return (
+        <div className="wran-color">
+          <div className="num-div">{surplusNumber || 0}</div>
+          <div>盘盈</div>
+        </div>
+      );
+    }
+    if (checkStatus === 2) {
+      return (
+        <div className="wran-color">
+          <div className="num-div">{lossNumber || 0}</div>
+          <div>盈亏</div>
+        </div>
+      );
+    }
+  };
+
   render() {
     const { data } = this.props;
-    const { basicInfo, detailList } = data;
+    const { basicInfo, detailList, detailProductList } = data;
     return (
       <Modal
         title="盘点单详情"
@@ -50,29 +174,30 @@ class DetailDialog extends React.Component {
           <div>库存数量：{basicInfo.inventoryNumber}</div>
           <div>盘点数量：{basicInfo.checkNumber}</div>
           <div>盘点状态：{basicInfo.checkStatusName}</div>
+          <div>
+            <AimOutlined />
+            {basicInfo.position}
+          </div>
         </BasicDiv>
-        <Table
-          bordered
-          scroll={{ y: 400 }}
-          dataSource={detailList}
-          rowKey="productCode"
-          pagination={false}
-        >
-          <Column
-            title="序号"
-            render={(value, record, index) => index + 1}
-            width={65}
-          />
-          <Column title="产品编号" dataIndex="productCode" width={130} />
-          <Column title="产品名称" dataIndex="productName" width={180} />
-          <Column title="规格" dataIndex="model" width={120} />
-          <Column title="型号" dataIndex="regModel" width={100} />
-          <Column title="单位" dataIndex="unitName" width={65} />
-          <Column title="单价" dataIndex="productPrice" width={100} />
-          <Column title="库存数量" dataIndex="inventoryNumber" width={100} />
-          <Column title="盘点数量" dataIndex="checkNumber" width={100} />
-          <Column title="盘点状态" dataIndex="checkStatusLabel" width={100} />
-        </Table>
+        <NumBerDiv>
+          <div>
+            <div className="num-div blue-color">{basicInfo.checkNumber}</div>
+            <div>盘点数量</div>
+          </div>
+          <div>
+            <div className="num-div">{basicInfo.inventoryNumber}</div>
+            <div>库存数量</div>
+          </div>
+          {this.renderStatus(basicInfo)}
+        </NumBerDiv>
+        <Tabs defaultActiveKey="replenishList" onChange={this.changeTab}>
+          <TabPane tab="盘点清单" key="replenishList">
+            {this.renderInventoryList(detailList)}
+          </TabPane>
+          <TabPane tab="盘点明细" key="deliveryList">
+            {this.renderInventoryDetails(detailProductList)}
+          </TabPane>
+        </Tabs>
       </Modal>
     );
   }

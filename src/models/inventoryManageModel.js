@@ -12,6 +12,8 @@ export default {
       total: 0,
     },
     keyword: "",
+    type: null,
+    inventoryTypeList: [],
   },
 
   effects: {
