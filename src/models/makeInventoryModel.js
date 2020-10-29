@@ -31,6 +31,7 @@ export default {
     checkStatusList: [],
     basicInfo: {},
     detailList: [],
+    detailProductList: [],
     lockDialog: false,
     unLockDialog: false,
     unlockStockList: [],
@@ -241,6 +242,7 @@ export default {
           payload: {
             basicInfo: (data.data && data.data.check) || {},
             detailList: (data.data && data.data.statisticList) || [],
+            detailProductList: (data.data && data.data.productList) || [],
           },
         });
       } else {

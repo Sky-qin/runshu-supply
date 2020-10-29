@@ -250,6 +250,7 @@ class MakeInventory extends React.Component {
       checkStatusList,
       basicInfo,
       detailList,
+      detailProductList,
       lockDialog,
       unLockDialog,
       unlockStockList,
@@ -399,6 +400,7 @@ class MakeInventory extends React.Component {
             <Column title="盘点数量" dataIndex="checkNumber" width={120} />
             <Column title="盘点状态" dataIndex="checkStatusName" width={130} />
             <Column title="盘点人" dataIndex="creatorName" width={130} />
+            <Column title="盘点地点" dataIndex=" " width={130} />
             <Column title="盘点时间" dataIndex="createTime" width={130} />
             <Column
               title="操作"
@@ -415,7 +417,7 @@ class MakeInventory extends React.Component {
           {showDetailDialog && (
             <DetailDialog
               title="盘点单详情"
-              data={{ detailList, basicInfo }}
+              data={{ detailList, basicInfo, detailProductList }}
               onClosed={() => {
                 dispatch({
                   type: "makeInventoryModel/save",
