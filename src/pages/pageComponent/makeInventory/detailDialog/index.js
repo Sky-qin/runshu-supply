@@ -148,7 +148,7 @@ class DetailDialog extends React.Component {
       return (
         <div className="wran-color">
           <div className="num-div">{lossNumber || 0}</div>
-          <div>盈亏</div>
+          <div>盘亏</div>
         </div>
       );
     }
