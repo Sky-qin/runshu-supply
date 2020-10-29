@@ -140,21 +140,6 @@ class EditDialog extends React.Component {
             />
           </Form.Item>
           <Form.Item
-            name="maxStockValue"
-            label="高库存预警值"
-            rules={[{ required: true }]}
-          >
-            <InputNumber
-              min={minStockValue > 0 ? minStockValue + 1 : 1}
-              style={{ width: "100%" }}
-              onChange={(value) => {
-                this.setState({
-                  maxStockValue: value,
-                });
-              }}
-            />
-          </Form.Item>
-          <Form.Item
             name="value"
             label="低库存预警值"
             rules={[{ required: true }]}
@@ -166,6 +151,21 @@ class EditDialog extends React.Component {
               onChange={(value) => {
                 this.setState({
                   minStockValue: value,
+                });
+              }}
+            />
+          </Form.Item>
+          <Form.Item
+            name="maxStockValue"
+            label="高库存预警值"
+            rules={[{ required: true }]}
+          >
+            <InputNumber
+              min={minStockValue > 0 ? minStockValue + 1 : 1}
+              style={{ width: "100%" }}
+              onChange={(value) => {
+                this.setState({
+                  maxStockValue: value,
                 });
               }}
             />
