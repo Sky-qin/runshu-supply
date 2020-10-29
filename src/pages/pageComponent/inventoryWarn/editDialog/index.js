@@ -19,6 +19,10 @@ class EditDialog extends React.Component {
   showModal = () => {
     this.setState({
       visible: true,
+      maxStockValue:
+        (this.props.data && this.props.data.maxStockValue) ||
+        Number.MAX_SAFE_INTEGER,
+      minStockValue: (this.props.data && this.props.data.value) || 0,
     });
   };
 
@@ -71,6 +75,7 @@ class EditDialog extends React.Component {
   render() {
     const { title, data, loading, sourceList } = this.props;
     const { productList, stockList } = sourceList;
+    const { maxStockValue, minStockValue } = this.state;
     return (
       <Modal
         title={title || "编辑"}
@@ -99,6 +104,7 @@ class EditDialog extends React.Component {
             productCode: data.productCode,
             value: data.stockValue,
             stockId: data.stockId,
+            maxStockValue: data.maxStockValue,
           }}
         >
           <Form.Item
@@ -134,11 +140,35 @@ class EditDialog extends React.Component {
             />
           </Form.Item>
           <Form.Item
-            name="value"
-            label="临界值设置"
+            name="maxStockValue"
+            label="高库存预警值"
             rules={[{ required: true }]}
           >
-            <InputNumber style={{ width: "100%" }} />
+            <InputNumber
+              min={minStockValue > 0 ? minStockValue + 1 : 1}
+              style={{ width: "100%" }}
+              onChange={(value) => {
+                this.setState({
+                  maxStockValue: value,
+                });
+              }}
+            />
+          </Form.Item>
+          <Form.Item
+            name="value"
+            label="低库存预警值"
+            rules={[{ required: true }]}
+          >
+            <InputNumber
+              max={maxStockValue - 1}
+              min={0}
+              style={{ width: "100%" }}
+              onChange={(value) => {
+                this.setState({
+                  minStockValue: value,
+                });
+              }}
+            />
           </Form.Item>
         </Form>
       </Modal>

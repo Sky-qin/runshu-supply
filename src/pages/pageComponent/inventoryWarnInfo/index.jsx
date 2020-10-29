@@ -119,11 +119,20 @@ class InventoryWarnInfo extends React.Component {
           <Column title="库位" dataIndex="stockName" />
           <Column title="规格" dataIndex="model" />
           <Column title="生产厂家" dataIndex="vendorName" />
-          <Column title="预警值" dataIndex="stockValue" />
           <Column
             title="库存数量"
-            width={120}
+            width={110}
             dataIndex="stock"
+            render={(value) => {
+              return <WrapSpan>{value}</WrapSpan>;
+            }}
+          />
+          <Column title="低库存警值" dataIndex="stockValue" />
+          <Column title="高库存警值" dataIndex="maxStockNumber" />
+          <Column
+            title="存警值"
+            width={110}
+            dataIndex="surplusNumber"
             render={(value) => {
               return <WrapSpan>{value}</WrapSpan>;
             }}
