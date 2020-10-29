@@ -27,7 +27,7 @@ export default {
 
   effects: {
     *getTableList({ payload }, { call, put, select }) {
-      const { pagination, type, keyWord } = yield select(
+      const { pagination, type, keyword } = yield select(
         (state) => state.recentWarnModel
       );
       const { current, size } = pagination;
@@ -35,7 +35,7 @@ export default {
         current,
         size,
         params: {
-          keyWord,
+          keyword,
           type,
         },
       };
