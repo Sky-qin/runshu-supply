@@ -13,21 +13,26 @@ class InventoryManage extends React.Component {
   }
 
   componentDidMount() {
+    const { dispatch } = this.props;
+
+    dispatch({
+      type: "inventoryManageModel/getStockTypeList",
+    });
     this.getTableList();
   }
 
   getTableList = () => {
     const { dispatch } = this.props;
     dispatch({
-      type: "inventoryManafeModel/getTableList",
+      type: "inventoryManageModel/getTableList",
     });
   };
 
   changePagination = (current, size) => {
     const { dispatch } = this.props;
-    const { pagination } = this.props.inventoryManafeModel;
+    const { pagination } = this.props.inventoryManageModel;
     dispatch({
-      type: "inventoryManafeModel/save",
+      type: "inventoryManageModel/save",
       payload: {
         pagination: {
           ...pagination,
@@ -41,9 +46,9 @@ class InventoryManage extends React.Component {
 
   onChangeFilter = (value, key) => {
     const { dispatch } = this.props;
-    const { pagination } = this.props.inventoryManafeModel;
+    const { pagination } = this.props.inventoryManageModel;
     dispatch({
-      type: "inventoryManafeModel/save",
+      type: "inventoryManageModel/save",
       payload: {
         [key]: value,
         pagination: {
@@ -61,10 +66,10 @@ class InventoryManage extends React.Component {
       pagination,
       data,
       loading,
-      inventoryTypeList,
+      stockTypeList,
       keyword,
       type,
-    } = this.props.inventoryManafeModel;
+    } = this.props.inventoryManageModel;
     const { current, size, total } = pagination;
     return (
       <ContentWrap loading={loading}>
@@ -90,7 +95,7 @@ class InventoryManage extends React.Component {
               <Select
                 placeholder="请选择库位类别"
                 value={type}
-                options={inventoryTypeList}
+                options={stockTypeList}
                 allowClear
                 style={{ width: 260, marginLeft: 15 }}
                 onChange={(value) => this.onChangeFilter(value, "type")}
@@ -128,7 +133,7 @@ class InventoryManage extends React.Component {
           />
           <Column title="库位编码" dataIndex="stockNo" />
           <Column title="库位名称" dataIndex="name" />
-          <Column title="库位类别" dataIndex="" />
+          <Column title="库位类别" dataIndex="typeName" />
           <Column title="地址" dataIndex="address" />
           <Column title="电话" dataIndex="phone" />
         </Table>
@@ -137,6 +142,6 @@ class InventoryManage extends React.Component {
   }
 }
 
-export default connect(({ inventoryManafeModel }) => ({
-  inventoryManafeModel,
+export default connect(({ inventoryManageModel }) => ({
+  inventoryManageModel,
 }))(InventoryManage);

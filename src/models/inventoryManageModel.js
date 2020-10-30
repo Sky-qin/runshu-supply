@@ -2,7 +2,7 @@ import { message } from "antd";
 import API from "../services/api";
 
 export default {
-  namespace: "inventoryManafeModel",
+  namespace: "inventoryManageModel",
   state: {
     data: [],
     loading: false,
@@ -13,13 +13,13 @@ export default {
     },
     keyword: "",
     type: null,
-    inventoryTypeList: [],
+    stockTypeList: [],
   },
 
   effects: {
     *getTableList({ payload }, { call, put, select }) {
-      const { pagination, keyword } = yield select(
-        (state) => state.inventoryManafeModel
+      const { pagination, keyword, type } = yield select(
+        (state) => state.inventoryManageModel
       );
       const { current, size } = pagination;
       let params = {
@@ -27,6 +27,7 @@ export default {
         size,
         params: {
           keyword,
+          type,
         },
       };
       yield put({ type: "save", payload: { loading: true } });
@@ -46,6 +47,19 @@ export default {
         });
       } else {
         message.error(data.message || "查询库位失败");
+      }
+    },
+    *getStockTypeList({ payload }, { call, put }) {
+      const { data } = yield call(API.stockType);
+      if (data && data.success) {
+        yield put({
+          type: "save",
+          payload: {
+            stockTypeList: data.data || [],
+          },
+        });
+      } else {
+        message.error(data.message || "查询库位类别失败");
       }
     },
   },

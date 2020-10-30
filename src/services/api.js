@@ -1243,6 +1243,13 @@ const API = {
       method: "post",
     });
   },
+  // 库位类别枚举
+  stockType(params) {
+    return request({
+      url: `${Prefix}/dic/stockType`,
+      params,
+    });
+  },
 };
 
 export default API;
