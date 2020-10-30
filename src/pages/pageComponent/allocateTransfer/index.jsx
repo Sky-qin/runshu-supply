@@ -130,11 +130,11 @@ class AllocateTransfer extends React.Component {
   };
 
   handleDeleteGoods = (record, index) => {
-    const { dispatch, stockReturnWarehouseModel } = this.props;
-    const { productList } = stockReturnWarehouseModel;
+    const { dispatch, allocateTransferModel } = this.props;
+    const { productList } = allocateTransferModel;
     productList.splice(index, 1);
     dispatch({
-      type: "stockReturnWarehouseModel/save",
+      type: "allocateTransferModel/save",
       payload: {
         productList: [...productList],
       },

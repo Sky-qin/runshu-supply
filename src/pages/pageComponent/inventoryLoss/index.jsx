@@ -110,9 +110,9 @@ class InventoryLoss extends React.Component {
     });
   };
 
-  handleAddGoods = () => {
+  handleAddGoods = (audio) => {
     const { dispatch } = this.props;
-    dispatch({ type: "inventoryLossModel/addGoods" });
+    dispatch({ type: "inventoryLossModel/addGoods", payload: { audio } });
   };
 
   setCode = (code) => {
