@@ -394,7 +394,7 @@ class Replenishment extends React.Component {
               fixed="right"
               render={(value, record, index) => (
                 <Space size="middle">
-                  {record.orderStatus && record.orderStatus === 1 && (
+                  {record.orderStatus === 1 && (
                     <Popconfirm
                       title="您是要确定该补货单吗？"
                       onConfirm={() => this.handleCheck(record)}
@@ -404,10 +404,10 @@ class Replenishment extends React.Component {
                       <a href="#">确定</a>
                     </Popconfirm>
                   )}
-                  {record.orderStatus && record.orderStatus === 2 && (
+                  {record.orderStatus === 2 && (
                     <a onClick={() => this.handleGetAddInfo(record)}>去发货</a>
                   )}
-                  {record.orderStatus && record.orderStatus === 2 && (
+                  {record.orderStatus === 2 && (
                     <Popconfirm
                       title="您是要撤销这个补货单吗？"
                       onConfirm={() => this.handleBack(record)}
@@ -418,7 +418,7 @@ class Replenishment extends React.Component {
                     </Popconfirm>
                   )}
 
-                  {record.orderStatus && record.orderStatus === 4 && (
+                  {record.orderStatus === 4 && (
                     <a onClick={() => this.handleGetAddInfo(record)}>
                       继续发货
                     </a>

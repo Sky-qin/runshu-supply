@@ -123,8 +123,8 @@ class SupplierManage extends React.Component {
           />
           <Column title="供应商编码" dataIndex="code" />
           <Column title="供应商名称" dataIndex="name" />
-          <Column title="简码" dataIndex="shortCode" />
-          <Column title="助记码" dataIndex="helpCode" />
+          {/* <Column title="简码" dataIndex="shortCode" /> */}
+          {/* <Column title="助记码" dataIndex="helpCode" /> */}
           <Column title="联系人" dataIndex="contact" />
           <Column title="电话" dataIndex="phone" />
           <Column title="地址" dataIndex="address" />
