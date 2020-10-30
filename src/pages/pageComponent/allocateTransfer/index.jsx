@@ -124,9 +124,9 @@ class AllocateTransfer extends React.Component {
     });
   };
 
-  handleAddGoods = () => {
+  handleAddGoods = (audio) => {
     const { dispatch } = this.props;
-    dispatch({ type: "allocateTransferModel/addGoods" });
+    dispatch({ type: "allocateTransferModel/addGoods", payload: { audio } });
   };
 
   handleDeleteGoods = (record, index) => {

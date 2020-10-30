@@ -138,6 +138,7 @@ export default {
 
       if (data && data.success) {
         message.success("添加成功！");
+        payload.audio && payload.audio.play();
         const { scanList, preparePruductList } = data.data;
         yield put({
           type: "save",

@@ -105,6 +105,7 @@ export default {
           return;
         }
         message.success("添加成功！");
+        payload.audio && payload.audio.play();
         yield put({
           type: "save",
           payload: {

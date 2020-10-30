@@ -13,6 +13,7 @@ import {
   Space,
   Spin,
 } from "antd";
+import scanSuccess from "../../assets/scanSuccess.mp3";
 
 const { Column } = Table;
 const { TextArea } = Input;
@@ -111,11 +112,13 @@ class SendGoods extends React.Component {
 
   handleAddGoods = (scanCode) => {
     const { onAddGoods } = this.props;
+    let audio = document.getElementsByClassName("audio")[0];
+
     if (!scanCode) {
       message.warning("请先扫码加流水码或手动添加！");
       return;
     }
-    onAddGoods && typeof onAddGoods === "function" && onAddGoods();
+    onAddGoods && typeof onAddGoods === "function" && onAddGoods(audio);
   };
 
   handleDeleteGoods = (record, index) => {
@@ -168,6 +171,11 @@ class SendGoods extends React.Component {
         maskClosable={false}
       >
         <Spin spinning={drawerLoading}>
+          <audio
+            style={{ display: "none" }}
+            className="audio"
+            src={scanSuccess}
+          />
           <Form
             {...layout}
             ref={this.formRef}

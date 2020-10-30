@@ -68,8 +68,9 @@ class DetailDialog extends React.Component {
         <Column title="产品编号" dataIndex="productCode" width={130} />
         <Column title="产品名称" dataIndex="productName" width={180} />
         <Column title="规格" dataIndex="model" width={120} />
-        <Column title="型号" dataIndex="regModel" width={100} />
-        <Column title="单位" dataIndex="unitName" width={65} />
+        <Column title="生产厂家" dataIndex="" width={120} />
+        {/* <Column title="型号" dataIndex="regModel" width={100} /> */}
+        {/* <Column title="单位" dataIndex="unitName" width={65} /> */}
         <Column title="库存数量" dataIndex="inventoryNumber" width={100} />
         <Column title="盘点数量" dataIndex="checkNumber" width={100} />
         <Column title="盘点状态" dataIndex="checkStatusLabel" width={100} />
@@ -91,11 +92,11 @@ class DetailDialog extends React.Component {
           width={65}
         />
         <Column title="流水号" dataIndex="serialNo" width={100} />
-        <Column title="产品编号" dataIndex="productCode" width={130} />
         <Column title="产品名称" dataIndex="productName" width={180} />
         <Column title="规格" dataIndex="model" width={120} />
-        <Column title="型号" dataIndex="regModel" width={100} />
-        <Column title="单位" dataIndex="unitName" width={65} />
+        <Column title="生产厂家" dataIndex="vendorName" width={120} />
+        <Column title="生产批号" dataIndex="batchNo" width={120} />
+        <Column title="有效期" dataIndex="validPeriodDate" width={120} />
         <Column
           fixed="right"
           title="盘点方式"
@@ -174,10 +175,15 @@ class DetailDialog extends React.Component {
           <div>库存数量：{basicInfo.inventoryNumber}</div>
           <div>盘点数量：{basicInfo.checkNumber}</div>
           <div>盘点状态：{basicInfo.checkStatusName}</div>
-          <div>
-            <AimOutlined />
-            {basicInfo.position}
-          </div>
+          {basicInfo.position && (
+            <div>
+              <i
+                className={`iconfont iconlocation`}
+                style={{ color: "#1890ff", marginRight: "5px" }}
+              />
+              {basicInfo.position}
+            </div>
+          )}
         </BasicDiv>
         <NumBerDiv>
           <div>

@@ -124,9 +124,9 @@ class MakeInventory extends React.Component {
     });
   };
 
-  handleAddGoods = () => {
+  handleAddGoods = (audio) => {
     const { dispatch } = this.props;
-    dispatch({ type: "makeInventoryModel/addGoods" });
+    dispatch({ type: "makeInventoryModel/addGoods", payload: { audio } });
   };
 
   setCode = (code) => {

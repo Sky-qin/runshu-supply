@@ -11,6 +11,7 @@ import {
   message,
   Spin,
 } from "antd";
+import scanSuccess from "../../assets/scanSuccess.mp3";
 
 const { Column } = Table;
 
@@ -71,11 +72,13 @@ class AddCheckNum extends React.Component {
 
   handleAddGoods = (scanCode) => {
     const { onAddGoods } = this.props;
+    let audio = document.getElementsByClassName("audio")[0];
+
     if (!scanCode) {
       message.warning("请先扫码加流水码或手动添加！");
       return;
     }
-    onAddGoods && typeof onAddGoods === "function" && onAddGoods();
+    onAddGoods && typeof onAddGoods === "function" && onAddGoods(audio);
   };
 
   handleSubmit = () => {
@@ -124,6 +127,12 @@ class AddCheckNum extends React.Component {
         maskClosable={false}
       >
         <Spin spinning={drawerLoading}>
+          <audio
+            style={{ display: "none" }}
+            className="audio"
+            src={scanSuccess}
+          />
+
           <Form {...layout} ref={this.formRef} onFinish={this.onFinish}>
             <Row>
               <Col span={6}>

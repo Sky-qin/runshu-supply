@@ -95,6 +95,7 @@ export default {
         });
         if (canAdd) {
           message.success("添加成功！");
+          payload.audio && payload.audio.play();
           productList.push(data.data);
           yield put({
             type: "save",

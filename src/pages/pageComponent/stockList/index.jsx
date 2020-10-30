@@ -163,9 +163,9 @@ class StockList extends React.Component {
     });
   };
 
-  handleAddGoods = () => {
+  handleAddGoods = (audio) => {
     const { dispatch } = this.props;
-    dispatch({ type: "stockListModel/addGoods" });
+    dispatch({ type: "stockListModel/addGoods", payload: { audio } });
   };
 
   handleDeleteGoods = (record, index) => {
