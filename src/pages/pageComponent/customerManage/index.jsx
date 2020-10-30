@@ -67,7 +67,9 @@ class CustomerManage extends React.Component {
         <OpreationBar
           custom={
             <>
-              <div style={{ width: 260, display: "inline-block" }}>
+              <div
+                style={{ width: 260, display: "inline-block", marginRight: 15 }}
+              >
                 <Input
                   style={{ width: 225 }}
                   placeholder="输入供货公司名称"

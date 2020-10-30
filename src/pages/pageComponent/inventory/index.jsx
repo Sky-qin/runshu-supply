@@ -137,7 +137,13 @@ class Inventory extends React.Component {
           <OpreationBar
             custom={
               <>
-                <div style={{ width: 260, display: "inline-block" }}>
+                <div
+                  style={{
+                    width: 260,
+                    display: "inline-block",
+                    marginRight: 15,
+                  }}
+                >
                   <Input
                     style={{ width: 225 }}
                     placeholder="输入产品名称/编码"
@@ -160,7 +166,7 @@ class Inventory extends React.Component {
                 <InputNumber
                   placeholder="请输入有效期"
                   value={validPeriod}
-                  style={{ width: 260, marginLeft: 15 }}
+                  style={{ width: 260, marginRight: 15 }}
                   onChange={(value) =>
                     this.onChangeFilter(value, "validPeriod")
                   }
@@ -175,7 +181,7 @@ class Inventory extends React.Component {
                   allowClear={true}
                   value={stockId || null}
                   onChange={(value) => this.onChangeFilter(value, "stockId")}
-                  style={{ width: 260, marginLeft: 15 }}
+                  style={{ width: 260, marginRight: 15 }}
                   options={storageList}
                   placeholder="请选择库位"
                 />
@@ -186,7 +192,7 @@ class Inventory extends React.Component {
                   onChange={(value) =>
                     this.onChangeFilter(value, "productCategory")
                   }
-                  style={{ width: 260, marginLeft: 15 }}
+                  style={{ width: 260, marginRight: 15 }}
                   options={productCategoryList}
                   placeholder="请选择产品类型"
                 />

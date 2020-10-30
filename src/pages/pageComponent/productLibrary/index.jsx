@@ -78,7 +78,9 @@ class ProductLibrary extends React.Component {
         <OpreationBar
           custom={
             <>
-              <div style={{ width: 260, display: "inline-block" }}>
+              <div
+                style={{ width: 260, display: "inline-block", marginRight: 15 }}
+              >
                 <Input
                   style={{ width: 225 }}
                   placeholder="输入产品名称/编码"
@@ -99,7 +101,7 @@ class ProductLibrary extends React.Component {
                 optionFilterProp="label"
                 options={productCategoryList}
                 allowClear
-                style={{ width: 260, marginLeft: 15 }}
+                style={{ width: 260, marginRight: 15 }}
                 onChange={(value) =>
                   this.filterChange(value, "productCategory")
                 }
@@ -111,7 +113,7 @@ class ProductLibrary extends React.Component {
                 optionFilterProp="label"
                 options={productVendorList}
                 allowClear
-                style={{ width: 260, marginLeft: 15 }}
+                style={{ width: 260, marginRight: 15 }}
                 onChange={(value) => this.filterChange(value, "productVendor")}
               />
             </>

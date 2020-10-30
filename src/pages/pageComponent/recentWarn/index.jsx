@@ -152,7 +152,9 @@ class RecentWarn extends React.Component {
           total={false}
           custom={
             <>
-              <div style={{ width: 260, display: "inline-block" }}>
+              <div
+                style={{ width: 260, display: "inline-block", marginRight: 15 }}
+              >
                 <Input
                   style={{ width: 225 }}
                   placeholder="输入产品名称/编码"

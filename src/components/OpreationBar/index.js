@@ -5,7 +5,6 @@ import styled from "styled-components";
 
 const OpreationDiv = styled.div`
   .opreation-bar-inner {
-    height: 56px;
     line-height: 56px;
   }
   .opreation-bar-left {

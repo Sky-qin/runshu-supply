@@ -76,7 +76,9 @@ class InventoryManage extends React.Component {
         <OpreationBar
           custom={
             <>
-              <div style={{ width: 260, display: "inline-block" }}>
+              <div
+                style={{ width: 260, display: "inline-block", marginRight: 15 }}
+              >
                 <Input
                   style={{ width: 225 }}
                   placeholder="输入库位名称"
@@ -97,7 +99,7 @@ class InventoryManage extends React.Component {
                 value={type}
                 options={stockTypeList}
                 allowClear
-                style={{ width: 260, marginLeft: 15 }}
+                style={{ width: 260, marginRight: 15 }}
                 onChange={(value) => this.onChangeFilter(value, "type")}
               />
             </>
