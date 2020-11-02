@@ -1,14 +1,18 @@
 import React from "react";
 import { connect } from "dva";
-import { Table, Button, Space, Modal } from "antd";
-import { PlusOutlined } from "@ant-design/icons";
+import { Table, Button, Space, Modal, Input } from "antd";
+import {
+  PlusOutlined,
+  SearchOutlined,
+  ExportOutlined,
+} from "@ant-design/icons";
 import EditDialog from "./editDialog";
 import ContentBox from "../../../components/contentWrap";
 import OpreationBar from "../../../components/OpreationBar";
 import "./index.scss";
 const { Column } = Table;
 
-class PowerManage extends React.Component {
+class SupplyCompanyManage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -19,7 +23,13 @@ class PowerManage extends React.Component {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
-      type: "powerManage/queryResource",
+      type: "supplyCompanyManageModel/getAddress",
+    });
+    dispatch({
+      type: "supplyCompanyManageModel/storageList",
+    });
+    dispatch({
+      type: "supplyCompanyManageModel/departmentList",
     });
     this.getTableList();
   }
@@ -27,16 +37,16 @@ class PowerManage extends React.Component {
   getTableList = () => {
     const { dispatch } = this.props;
     dispatch({
-      type: "powerManage/queryRole",
+      type: "supplyCompanyManageModel/getTableList",
     });
   };
 
   changePagination = (current, size) => {
     const { dispatch } = this.props;
-    const { pagination } = this.props.powerManage;
+    const { pagination } = this.props.supplyCompanyManageModel;
     dispatch({
-      type: "powerManage/save",
-      paylaod: {
+      type: "supplyCompanyManageModel/save",
+      payload: {
         pagination: {
           ...pagination,
           current,
@@ -44,13 +54,15 @@ class PowerManage extends React.Component {
         },
       },
     });
+    this.getTableList();
   };
 
   handleClick = (key) => {
     const { dispatch } = this.props;
+    console.log("SDBPB20201028004", key);
     if (key === "add") {
       dispatch({
-        type: "powerManage/save",
+        type: "supplyCompanyManageModel/save",
         payload: {
           showEditDialog: true,
           currentMsg: {},
@@ -60,22 +72,10 @@ class PowerManage extends React.Component {
     }
   };
 
-  handleChangeStatus = (msg, type) => {
-    const { dispatch } = this.props;
-    dispatch({
-      type: "powerManage/save",
-      payload: {
-        deleteDialog: true,
-        currentMsg: { ...msg },
-        roleType: type,
-      },
-    });
-  };
-
   handleEdit = (msg) => {
     const { dispatch } = this.props;
     dispatch({
-      type: "powerManage/save",
+      type: "supplyCompanyManageModel/save",
       payload: {
         showEditDialog: true,
         currentMsg: { ...msg },
@@ -84,10 +84,21 @@ class PowerManage extends React.Component {
     });
   };
 
+  handleDelete = (msg) => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: "supplyCompanyManageModel/save",
+      payload: {
+        deleteDialog: true,
+        currentMsg: { ...msg },
+      },
+    });
+  };
+
   handleCloseDeleteDialog = () => {
     const { dispatch } = this.props;
     dispatch({
-      type: "powerManage/save",
+      type: "supplyCompanyManageModel/save",
       payload: {
         deleteDialog: false,
         dialogBtnLoading: false,
@@ -97,18 +108,28 @@ class PowerManage extends React.Component {
 
   handleSave = (values) => {
     const { dispatch } = this.props;
-    const { dialogTitle } = this.props.powerManage;
+    const { dialogTitle } = this.props.supplyCompanyManageModel;
     if (dialogTitle === "编辑") {
       dispatch({
-        type: "powerManage/updateRole",
+        type: "supplyCompanyManageModel/updateHospital",
         payload: { ...values },
       });
     } else {
       dispatch({
-        type: "powerManage/saveRole",
+        type: "supplyCompanyManageModel/saveHospital",
         payload: { ...values },
       });
     }
+  };
+
+  filterChange = (value, key) => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: "supplyCompanyManageModel/save",
+      payload: {
+        [key]: value,
+      },
+    });
   };
 
   render() {
@@ -118,17 +139,43 @@ class PowerManage extends React.Component {
       pagination,
       dialogTitle,
       currentMsg,
-      resourceList,
+      adressList,
+      storageList,
+      departmentList,
       loading,
       data,
       deleteDialog,
-      roleType,
       dialogBtnLoading,
-    } = this.props.powerManage;
+      condition,
+    } = this.props.supplyCompanyManageModel;
     const { current, size, total } = pagination;
-    console.log("resourceList", resourceList);
     return (
       <ContentBox loading={loading}>
+        <OpreationBar
+          total={false}
+          custom={
+            <>
+              <div
+                style={{ width: 260, display: "inline-block", marginRight: 15 }}
+              >
+                <Input
+                  style={{ width: 225 }}
+                  placeholder="输入供货公司"
+                  value={condition}
+                  onChange={(e) =>
+                    this.filterChange(e.target.value, "condition")
+                  }
+                  allowClear
+                />
+                <Button
+                  style={{ position: "relative", left: "-3px", top: "1px" }}
+                  onClick={this.getTableList}
+                  icon={<SearchOutlined />}
+                />
+              </div>
+            </>
+          }
+        />
         <OpreationBar
           buttonList={[{ key: "add", label: "新增", icon: <PlusOutlined /> }]}
           total={total}
@@ -137,11 +184,12 @@ class PowerManage extends React.Component {
         <Table
           bordered
           rowKey={(record, index) => index}
+          scroll={{ x: 1500 }}
           dataSource={data}
           pagination={{
             position: ["bottomCenter"],
-            current,
-            total,
+            current: current,
+            total: total,
             pageSize: size,
             onChange: this.changePagination,
             onShowSizeChange: this.changePagination,
@@ -152,22 +200,18 @@ class PowerManage extends React.Component {
             render={(value, record, index) => index + 1}
             width={65}
           />
-          <Column title="角色名称" dataIndex="roleName" />
-          <Column title="角色备注" dataIndex="roleRemark" />
-          <Column title="更新时间" dataIndex="updateTime" />
+          <Column title="供货公司ID" dataIndex="" width={260} />
+          <Column title="供货公司" dataIndex="" width={100} />
+          <Column title="创建时间" dataIndex="" width={180} />
           <Column
             title="操作"
             dataIndex="name"
-            width={160}
+            fixed="right"
+            width={110}
             render={(value, record, index) => (
               <Space size="middle">
                 <a onClick={() => this.handleEdit(record)}>编辑</a>
-                <a onClick={() => this.handleChangeStatus(record, "status")}>
-                  {record.isDeleted ? "启用" : "停用"}
-                </a>
-                <a onClick={() => this.handleChangeStatus(record, "delete")}>
-                  删除
-                </a>
+                <a onClick={() => this.handleDelete(record)}>删除</a>
               </Space>
             )}
           />
@@ -187,16 +231,9 @@ class PowerManage extends React.Component {
               type="primary"
               loading={dialogBtnLoading}
               onClick={() => {
-                if (roleType === "delete") {
-                  dispatch({
-                    type: "powerManage/deleteRole",
-                  });
-                }
-                if (roleType === "status") {
-                  dispatch({
-                    type: "powerManage/changeRoleStatus",
-                  });
-                }
+                dispatch({
+                  type: "supplyCompanyManageModel/deleteHospital",
+                });
               }}
             >
               确定
@@ -204,24 +241,18 @@ class PowerManage extends React.Component {
           ]}
           maskClosable={false}
         >
-          你确定要
-          {roleType === "delete"
-            ? "删除"
-            : currentMsg.isDelete
-            ? "启用"
-            : "停用"}{" "}
-          {currentMsg.name} 这个角色吗？
+          你确定要删除 {currentMsg.name} 这个医院吗？
         </Modal>
 
         {showEditDialog && (
           <EditDialog
             title={dialogTitle}
             data={currentMsg}
-            sourceList={{ resourceList }}
             loading={dialogBtnLoading}
+            sourceList={{ adressList, storageList, departmentList }}
             onClosed={() => {
               dispatch({
-                type: "powerManage/save",
+                type: "supplyCompanyManageModel/save",
                 payload: {
                   showEditDialog: false,
                   dialogBtnLoading: false,
@@ -236,6 +267,6 @@ class PowerManage extends React.Component {
   }
 }
 
-export default connect(({ powerManage }) => ({
-  powerManage,
-}))(PowerManage);
+export default connect(({ supplyCompanyManageModel }) => ({
+  supplyCompanyManageModel,
+}))(SupplyCompanyManage);

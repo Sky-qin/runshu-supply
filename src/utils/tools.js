@@ -12,6 +12,22 @@ const transferTree = (data) => {
   return data;
 };
 
+const transferTreeList = (data, parentValue) => {
+  if (!Array.isArray(data)) {
+    return [];
+  }
+  for (let i = 0; i < data.length; i++) {
+    data[i].title = data[i].categoryName;
+    data[i].key = parentValue
+      ? `${parentValue}-${data[i].categoryCode}-${data[i].categoryName}`
+      : data[i].categoryCode;
+    if (data[i].children) {
+      transferTreeList(data[i].children, data[i].categoryCode);
+    }
+  }
+  return data;
+};
+
 const transferList = (data, value, label) => {
   let list = [];
   if (!Array.isArray(data)) {
@@ -36,11 +52,17 @@ const transferSimpleList = (data, value, label) => {
   return list;
 };
 
-const getUrlParam = (name) => {
-  let reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
-  let r = decodeURIComponent(window.location.search.substr(1)).match(reg);
-  if (r != null) return unescape(r[2]);
-  return null;
-};
+// const getUrlParam = (name) => {
+//   let reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+//   let r = decodeURIComponent(window.location.search.substr(1)).match(reg);
+//   if (r != null) return unescape(r[2]);
+//   return null;
+// };
 
-export { transferTree, transferList, transferSimpleList, getUrlParam };
+export {
+  transferTree,
+  transferTreeList,
+  transferList,
+  transferSimpleList,
+  // getUrlParam,
+};

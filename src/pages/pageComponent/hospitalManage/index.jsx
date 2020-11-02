@@ -59,6 +59,7 @@ class HospitalManage extends React.Component {
 
   handleClick = (key) => {
     const { dispatch } = this.props;
+    console.log("SDBPB20201028004", key);
     if (key === "add") {
       dispatch({
         type: "hospitalManage/save",
@@ -214,6 +215,7 @@ class HospitalManage extends React.Component {
           <Column title="地址" dataIndex="address" width={160} />
           <Column title="联系人" dataIndex="person" width={100} />
           <Column title="联系电话" dataIndex="phone" width={120} />
+          <Column title="业务员" dataIndex="" width={120} />
           <Column
             title="操作"
             dataIndex="name"

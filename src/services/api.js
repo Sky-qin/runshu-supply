@@ -982,6 +982,69 @@ const API = {
       params,
     });
   },
+  /**
+   * 供货价格管理
+   */
+  // 列表
+  productPriceList(params) {
+    return request({
+      url: `${Prefix}/product/price/list`,
+      method: "post",
+      params,
+    });
+  },
+  // 未设置供货关系枚举
+  unSetPriceBizRelationList(params) {
+    return request({
+      url: `${Prefix}/product/price/listUnSetPriceBizRelation`,
+      params,
+    });
+  },
+  // 参考方案枚举
+  setPricePlanList(params) {
+    return request({
+      url: `${Prefix}/product/price/listSetPricePlan`,
+      params,
+    });
+  },
+  // 新建供货价格管理
+  initProductPrice(params) {
+    return request({
+      url: `${Prefix}/product/price/initNew`,
+      params,
+      method: "post",
+    });
+  },
+  // 产品信息目录
+  listCategoryDirectory(params) {
+    return request({
+      url: `${Prefix}/product/price/listCategoryDirectory`,
+      params,
+    });
+  },
+  // 详情列表
+  productPriceDetailList(params) {
+    return request({
+      url: `${Prefix}/product/price/detail`,
+      params,
+      method: "post",
+    });
+  },
+  // 价格修改保存
+  productPriceSave(params) {
+    return request({
+      url: `${Prefix}/product/price/save`,
+      params,
+      method: "post",
+    });
+  },
+  // 供货价格删除
+  productPriceDelete(params) {
+    return request({
+      url: `${Prefix}/product/price/delete`,
+      params,
+    });
+  },
 
   /**
    * 枚举类即接口

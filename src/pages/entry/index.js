@@ -40,6 +40,12 @@ import InventoryLoss from "../pageComponent/inventoryLoss";
 import PicManage from "../pageComponent/picManage";
 import CustomerManage from "../pageComponent/customerManage";
 import AllocateTransfer from "../pageComponent/allocateTransfer";
+import SupplyPriceManage from "../pageComponent/supplyPriceManage";
+import SupplyCompanyManage from "../pageComponent/supplyCompanyManage";
+import AgentManage from "../pageComponent/agentManage";
+import SalesmanManage from "../pageComponent/salesmanManage";
+import WarehouseManage from "../pageComponent/warehouseManage";
+import SupplyRelation from "../pageComponent/supplyRelation";
 
 import "./index.scss";
 
@@ -162,6 +168,21 @@ class Entry extends React.Component {
                 path="/entry/allocateTransfer"
                 component={AllocateTransfer}
               />
+              <Route
+                path="/entry/supplyPriceManage"
+                component={SupplyPriceManage}
+              />
+              <Route
+                path="/entry/supplyCompanyManage"
+                component={SupplyCompanyManage}
+              />
+              <Route path="/entry/agentManage" component={AgentManage} />
+              <Route path="/entry/salesmanManage" component={SalesmanManage} />
+              <Route
+                path="/entry/warehouseManage"
+                component={WarehouseManage}
+              />
+              <Route path="/entry/supplyRelation" component={SupplyRelation} />
             </Switch>
           </div>
         </div>

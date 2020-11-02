@@ -82,55 +82,16 @@ class EditDialog extends React.Component {
         >
           <Form.Item
             name="name"
-            label="医院名称"
-            rules={[{ required: true, message: "请输入医院名称" }]}
+            label="业务员名称"
+            // rules={[{ required: true, message: "请选择供货公司" }]}
           >
-            <Input />
+            {/* <Select options={[]} placeholder="请选择" allowClear /> */}
+            {/* <Input placeholder="请输入" /> */}
+            XXXXXXX
           </Form.Item>
-          {/* <Form.Item
-            name="stockIds"
-            label="库位"
-            rules={[{ required: true, message: "请选择医院库位" }]}
-          >
-            <Select mode="multiple" showArrow options={storageList} />
-          </Form.Item> */}
-          <Form.Item
-            name="departmentIds"
-            label="科室"
-            rules={[{ required: true, message: "请选择科室" }]}
-          >
-            <TreeSelect
-              filterTreeNode
-              treeCheckable
-              treeNodeFilterProp="label"
-              placeholder="请选择科室"
-              multiple
-              treeData={departmentList}
-            />
-          </Form.Item>
-          <Form.Item
-            name="city"
-            label="城市"
-            rules={[{ required: true, message: "请现在城市" }]}
-          >
-            <Cascader placeholder="请选择" options={adressList} />
-          </Form.Item>
-          <Form.Item
-            name="address"
-            label="地址"
-            // rules={[{ required: true, message: "请输入详细地址" }]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item name="person" label="联系人">
-            <Input />
-          </Form.Item>
-          <Form.Item
-            name="phone"
-            label="联系电话"
-            rules={[{ pattern: /^1\d{10}$/, message: "请输入完整的手机号码" }]}
-          >
-            <Input />
+
+          <Form.Item name="name" label="关联客户">
+            <Select options={[]} placeholder="请选择" allowClear />
           </Form.Item>
         </Form>
       </Modal>

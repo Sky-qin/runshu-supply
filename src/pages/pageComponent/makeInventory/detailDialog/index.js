@@ -65,10 +65,10 @@ class DetailDialog extends React.Component {
           render={(value, record, index) => index + 1}
           width={65}
         />
-        <Column title="产品编号" dataIndex="productCode" width={130} />
+        {/* <Column title="产品编号" dataIndex="productCode" width={130} /> */}
         <Column title="产品名称" dataIndex="productName" width={180} />
         <Column title="规格" dataIndex="model" width={120} />
-        <Column title="生产厂家" dataIndex="" width={120} />
+        <Column title="生产厂家" dataIndex="vendorName" width={120} />
         {/* <Column title="型号" dataIndex="regModel" width={100} /> */}
         {/* <Column title="单位" dataIndex="unitName" width={65} /> */}
         <Column title="库存数量" dataIndex="inventoryNumber" width={100} />

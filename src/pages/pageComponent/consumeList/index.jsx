@@ -388,7 +388,7 @@ class ConsumeList extends React.Component {
             }}
           >
             <Column title="消耗单号" dataIndex="consumeNumber" width={120} />
-            <Column title="医院" dataIndex="hispitalName" width={130} />
+            <Column title="医院" dataIndex="hospitalName" width={130} />
             <Column title="科室" dataIndex="departmentName" width={80} />
             <Column title="申请人" dataIndex="userName" width={100} />
             <Column title="申请时间" dataIndex="createTime" width={120} />

@@ -1,12 +1,13 @@
 import { message } from "antd";
 import API from "../services/api";
-import { getUrlParam } from "../utils/tools";
+// import { getUrlParam } from "../utils/tools";
+import { getUrlParam } from "tools-func";
 
 export default {
   namespace: "entryModel",
   state: {
     menuList: [],
-    activeKey: getUrlParam("pageType") || "realTimeInventory", // home
+    activeKey: getUrlParam("pageType") || "home", // home
   },
 
   effects: {
