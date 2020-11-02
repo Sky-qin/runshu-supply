@@ -52,17 +52,17 @@ const transferSimpleList = (data, value, label) => {
   return list;
 };
 
-// const getUrlParam = (name) => {
-//   let reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
-//   let r = decodeURIComponent(window.location.search.substr(1)).match(reg);
-//   if (r != null) return unescape(r[2]);
-//   return null;
-// };
+const getUrlParam = (name) => {
+  let reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+  let r = decodeURIComponent(window.location.search.substr(1)).match(reg);
+  if (r != null) return unescape(r[2]);
+  return null;
+};
 
 export {
   transferTree,
   transferTreeList,
   transferList,
   transferSimpleList,
-  // getUrlParam,
+  getUrlParam,
 };

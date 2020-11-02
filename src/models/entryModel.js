@@ -1,7 +1,7 @@
 import { message } from "antd";
 import API from "../services/api";
-// import { getUrlParam } from "../utils/tools";
-import { getUrlParam } from "tools-func";
+import { getUrlParam } from "../utils/tools";
+// import { getUrlParam } from "tools-func";
 
 export default {
   namespace: "entryModel",
