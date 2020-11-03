@@ -59,7 +59,6 @@ class HospitalManage extends React.Component {
 
   handleClick = (key) => {
     const { dispatch } = this.props;
-    console.log("SDBPB20201028004", key);
     if (key === "add") {
       dispatch({
         type: "hospitalManage/save",

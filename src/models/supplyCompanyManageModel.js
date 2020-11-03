@@ -59,7 +59,7 @@ export default {
 
       if (data && data.success) {
         yield put({ type: "save", payload: { showEditDialog: false } });
-        message.success("医院添加成功");
+        message.success("保存成功！");
         yield put({
           type: "getTableList",
         });

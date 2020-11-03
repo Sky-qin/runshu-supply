@@ -1119,6 +1119,35 @@ const API = {
   },
 
   /**
+   * 代理公司管理
+   */
+
+  // 列表查询
+  agencyCompanyList(params) {
+    return request({
+      url: `${Prefix}/agency/company/list`,
+      params,
+      method: "post",
+    });
+  },
+  // 新增/保存
+  agencyCompanySave(params) {
+    return request({
+      url: `${Prefix}/agency/company/save`,
+      params,
+      method: "post",
+    });
+  },
+  // 供货公司停用启用
+  agencyCompanySetEnable(params) {
+    return request({
+      url: `${Prefix}/agency/company/setEnable`,
+      params,
+      method: "post",
+    });
+  },
+
+  /**
    * 枚举类即接口
    */
   // 获取当前用户 医院枚举

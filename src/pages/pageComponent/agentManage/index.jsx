@@ -21,16 +21,6 @@ class AgentManage extends React.Component {
   }
 
   componentDidMount() {
-    const { dispatch } = this.props;
-    dispatch({
-      type: "agentManageModel/getAddress",
-    });
-    dispatch({
-      type: "agentManageModel/storageList",
-    });
-    dispatch({
-      type: "agentManageModel/departmentList",
-    });
     this.getTableList();
   }
 
@@ -83,23 +73,23 @@ class AgentManage extends React.Component {
     });
   };
 
-  handleDelete = (msg) => {
+  handleSwitch = (msg) => {
     const { dispatch } = this.props;
     dispatch({
       type: "agentManageModel/save",
       payload: {
-        deleteDialog: true,
+        switchDialog: true,
         currentMsg: { ...msg },
       },
     });
   };
 
-  handleCloseDeleteDialog = () => {
+  handleCloseSwitchDialog = () => {
     const { dispatch } = this.props;
     dispatch({
       type: "agentManageModel/save",
       payload: {
-        deleteDialog: false,
+        switchDialog: false,
         dialogBtnLoading: false,
       },
     });
@@ -107,15 +97,15 @@ class AgentManage extends React.Component {
 
   handleSave = (values) => {
     const { dispatch } = this.props;
-    const { dialogTitle } = this.props.agentManageModel;
+    const { dialogTitle, currentMsg } = this.props.agentManageModel;
     if (dialogTitle === "编辑") {
       dispatch({
-        type: "agentManageModel/updateHospital",
-        payload: { ...values },
+        type: "agentManageModel/agentCompanySave",
+        payload: { ...values, id: currentMsg.id },
       });
     } else {
       dispatch({
-        type: "agentManageModel/saveHospital",
+        type: "agentManageModel/agentCompanySave",
         payload: { ...values },
       });
     }
@@ -138,14 +128,11 @@ class AgentManage extends React.Component {
       pagination,
       dialogTitle,
       currentMsg,
-      adressList,
-      storageList,
-      departmentList,
       loading,
       data,
-      deleteDialog,
+      switchDialog,
       dialogBtnLoading,
-      condition,
+      keyword,
     } = this.props.agentManageModel;
     const { current, size, total } = pagination;
     return (
@@ -159,11 +146,9 @@ class AgentManage extends React.Component {
               >
                 <Input
                   style={{ width: 225 }}
-                  placeholder="输入代理商名称"
-                  value={condition}
-                  onChange={(e) =>
-                    this.filterChange(e.target.value, "condition")
-                  }
+                  placeholder="输入供货公司"
+                  value={keyword}
+                  onChange={(e) => this.filterChange(e.target.value, "keyword")}
                   allowClear
                 />
                 <Button
@@ -199,30 +184,32 @@ class AgentManage extends React.Component {
             render={(value, record, index) => index + 1}
             width={65}
           />
-          <Column title="代理商ID " dataIndex="" width={260} />
-          <Column title="代理商" dataIndex="" width={100} />
-          <Column title=" " dataIndex="" width={180} />
+          <Column title="代理公司" dataIndex="companyName" width={100} />
+          <Column title="创建时间" dataIndex="createTime" width={180} />
+          <Column title="创建时间" dataIndex="updateTime" width={180} />
           <Column
             title="操作"
-            dataIndex="name"
+            dataIndex="isEnable"
             fixed="right"
             width={110}
             render={(value, record, index) => (
               <Space size="middle">
                 <a onClick={() => this.handleEdit(record)}>编辑</a>
-                <a onClick={() => this.handleDelete(record)}>启用</a>
+                <a onClick={() => this.handleSwitch(record)}>
+                  {value ? "停用" : "启用"}
+                </a>
               </Space>
             )}
           />
         </Table>
 
-        {/* 启用\禁用弹窗 */}
+        {/* 删除弹窗 */}
         <Modal
           title="提示"
-          visible={deleteDialog}
-          onCancel={this.handleCloseDeleteDialog}
+          visible={switchDialog}
+          onCancel={this.handleCloseSwitchDialog}
           footer={[
-            <Button key="cancel" onClick={this.handleCloseDeleteDialog}>
+            <Button key="cancel" onClick={this.handleCloseSwitchDialog}>
               取消
             </Button>,
             <Button
@@ -231,7 +218,7 @@ class AgentManage extends React.Component {
               loading={dialogBtnLoading}
               onClick={() => {
                 dispatch({
-                  type: "agentManageModel/deleteHospital",
+                  type: "agentManageModel/agentCompanySetEnable",
                 });
               }}
             >
@@ -240,7 +227,7 @@ class AgentManage extends React.Component {
           ]}
           maskClosable={false}
         >
-          你确定要XXXXX {currentMsg.name}?
+          你确定要{currentMsg.isEnable ? "停用" : "启用"}嘛?
         </Modal>
 
         {showEditDialog && (
@@ -248,7 +235,6 @@ class AgentManage extends React.Component {
             title={dialogTitle}
             data={currentMsg}
             loading={dialogBtnLoading}
-            sourceList={{ adressList, storageList, departmentList }}
             onClosed={() => {
               dispatch({
                 type: "agentManageModel/save",
