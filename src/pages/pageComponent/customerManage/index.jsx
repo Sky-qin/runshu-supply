@@ -18,6 +18,9 @@ class CustomerManage extends React.Component {
   }
 
   componentDidMount() {
+    const { dispatch } = this.props;
+    dispatch({ type: "customerManageModel/getHospital" });
+
     this.getTableList();
   }
 
@@ -99,6 +102,7 @@ class CustomerManage extends React.Component {
       supplyList,
       customerList,
       agencyList,
+      hospitalList,
     } = this.props.customerManageModel;
     const { current, size, total } = pagination;
     return (
@@ -161,10 +165,11 @@ class CustomerManage extends React.Component {
             width={80}
             render={(value, record, index) => index + 1}
           />
-          <Column title="客户名称" dataIndex="" />
-          <Column title="客户类型" dataIndex="" />
-          <Column title="关联医院" dataIndex="" />
-          <Column title="创建日期" width={120} dataIndex="" />
+          <Column title="客户名称" dataIndex="name" />
+          <Column title="客户类型" dataIndex="typeDesc" />
+          <Column title="关联医院" dataIndex="hospitalName" />
+          <Column title="科室" dataIndex="departmentName" />
+          <Column title="创建日期" width={120} dataIndex="createTime" />
           <Column
             title="操作"
             dataIndex="isEnable"
@@ -186,7 +191,7 @@ class CustomerManage extends React.Component {
             title={dialogTitle}
             data={currentMsg}
             loading={dialogBtnLoading}
-            sourceList={{ supplyList, customerList, agencyList }}
+            sourceList={{ supplyList, customerList, agencyList, hospitalList }}
             onClosed={() => {
               dispatch({
                 type: "customerManageModel/save",

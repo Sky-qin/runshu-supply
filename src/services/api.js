@@ -1089,6 +1089,35 @@ const API = {
       method: "post",
     });
   },
+
+  /**
+   * 供货公司管理
+   */
+  // 列表查询
+  supplyCompanyList(params) {
+    return request({
+      url: `${Prefix}/supply/company/list`,
+      params,
+      method: "post",
+    });
+  },
+  // 新增/保存
+  supplyCompanySave(params) {
+    return request({
+      url: `${Prefix}/supply/company/save`,
+      params,
+      method: "post",
+    });
+  },
+  // 供货公司停用启用
+  supplyCompanySetEnable(params) {
+    return request({
+      url: `${Prefix}/supply/company/setEnable`,
+      params,
+      method: "post",
+    });
+  },
+
   /**
    * 枚举类即接口
    */

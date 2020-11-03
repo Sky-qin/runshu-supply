@@ -5,26 +5,23 @@ export default {
   namespace: "supplyCompanyManageModel",
   state: {
     showEditDialog: false,
-    deleteDialog: false,
+    switchDialog: false,
     currentMsg: {},
     dialogTitle: "编辑",
     dialogBtnLoading: false,
-    adressList: [],
     loading: false,
-    storageList: [],
-    departmentList: [],
     data: [],
     pagination: {
       current: 1,
       size: 10,
       total: 0,
     },
-    condition: null,
+    keyword: null,
   },
 
   effects: {
     *getTableList({ payload }, { call, put, select }) {
-      const { pagination, condition } = yield select(
+      const { pagination, keyword } = yield select(
         (state) => state.supplyCompanyManageModel
       );
       const { current, size } = pagination;
@@ -32,11 +29,11 @@ export default {
         current,
         size,
         params: {
-          condition,
+          keyword,
         },
       };
       yield put({ type: "save", payload: { loading: true } });
-      const { data } = yield call(API.queryHospital, params);
+      const { data } = yield call(API.supplyCompanyList, params);
       yield put({ type: "save", payload: { loading: false } });
 
       if (data && data.success) {
@@ -55,18 +52,9 @@ export default {
       }
     },
 
-    // TODO
-    *saveHospital({ payload }, { call, put, select }) {
-      let params = { ...payload };
-      const { currentMsg } = yield select(
-        (state) => state.supplyCompanyManageModel
-      );
-      if (currentMsg.id) {
-        params = { ...params, pid: currentMsg.id };
-      }
-
+    *supplyCompanySave({ payload }, { call, put, select }) {
       yield put({ type: "save", payload: { dialogBtnLoading: true } });
-      const { data } = yield call(API.saveHospital, params);
+      const { data } = yield call(API.supplyCompanySave, payload);
       yield put({ type: "save", payload: { dialogBtnLoading: false } });
 
       if (data && data.success) {
@@ -79,72 +67,24 @@ export default {
         message.error(data.message || "保存失败！");
       }
     },
-    *updateHospital({ payload }, { call, put, select }) {
-      const { currentMsg } = yield select(
-        (state) => state.supplyCompanyManageModel
-      );
-      let params = {
-        ...payload,
-        id: (currentMsg && currentMsg.id) || null,
-      };
-      yield put({ type: "save", payload: { dialogBtnLoading: true } });
-      const { data } = yield call(API.updateHospital, params);
-      yield put({ type: "save", payload: { dialogBtnLoading: false } });
 
-      if (data && data.success) {
-        yield put({
-          type: "save",
-          payload: { showEditDialog: false },
-        });
-        message.success("修改医院成功");
-        yield put({
-          type: "getTableList",
-        });
-      } else {
-        message.error(data.message || "修改失败！");
-      }
-    },
-    *deleteHospital({ payload }, { call, put, select }) {
+    *supplyCompanySetEnable({ payload }, { call, put, select }) {
       const { currentMsg } = yield select(
         (state) => state.supplyCompanyManageModel
       );
       let params = {
-        ids: [currentMsg && currentMsg.id] || null,
+        id: currentMsg.id,
+        isEnable: !currentMsg.isEnable,
       };
       yield put({ type: "save", payload: { dialogBtnLoading: true } });
-      const { data } = yield call(API.deleteHospital, params);
+      const { data } = yield call(API.supplyCompanySetEnable, params);
       yield put({ type: "save", payload: { dialogBtnLoading: false } });
       if (data && data.success) {
-        yield put({ type: "save", payload: { deleteDialog: false } });
-        message.success("成功删除科室");
+        yield put({ type: "save", payload: { switchDialog: false } });
+        message.success("状态修改成功！");
         yield put({ type: "getTableList" });
       } else {
-        message.error(data.message || "删除失败！");
-      }
-    },
-
-    // new
-    *getAddress({ payload }, { call, put }) {
-      const { data } = yield call(API.getAddress);
-      if (data && data.success) {
-        yield put({ type: "save", payload: { adressList: data.data || [] } });
-      } else {
-        message.error(data.message || "获取城市枚举失败");
-      }
-    },
-    *storageList({ payload }, { call, put }) {
-      const { data } = yield call(API.storageList);
-      if (data && data.success) {
-        yield put({ type: "save", payload: { storageList: data.data || [] } });
-      }
-    },
-    *departmentList({ payload }, { call, put }) {
-      const { data } = yield call(API.departmentList);
-      if (data && data.success) {
-        yield put({
-          type: "save",
-          payload: { departmentList: data.data || [] },
-        });
+        message.error(data.message || "状态修改失败！");
       }
     },
   },

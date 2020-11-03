@@ -21,16 +21,6 @@ class SupplyCompanyManage extends React.Component {
   }
 
   componentDidMount() {
-    const { dispatch } = this.props;
-    dispatch({
-      type: "supplyCompanyManageModel/getAddress",
-    });
-    dispatch({
-      type: "supplyCompanyManageModel/storageList",
-    });
-    dispatch({
-      type: "supplyCompanyManageModel/departmentList",
-    });
     this.getTableList();
   }
 
@@ -84,23 +74,23 @@ class SupplyCompanyManage extends React.Component {
     });
   };
 
-  handleDelete = (msg) => {
+  handleSwitch = (msg) => {
     const { dispatch } = this.props;
     dispatch({
       type: "supplyCompanyManageModel/save",
       payload: {
-        deleteDialog: true,
+        switchDialog: true,
         currentMsg: { ...msg },
       },
     });
   };
 
-  handleCloseDeleteDialog = () => {
+  handleCloseSwitchDialog = () => {
     const { dispatch } = this.props;
     dispatch({
       type: "supplyCompanyManageModel/save",
       payload: {
-        deleteDialog: false,
+        switchDialog: false,
         dialogBtnLoading: false,
       },
     });
@@ -108,15 +98,15 @@ class SupplyCompanyManage extends React.Component {
 
   handleSave = (values) => {
     const { dispatch } = this.props;
-    const { dialogTitle } = this.props.supplyCompanyManageModel;
+    const { dialogTitle, currentMsg } = this.props.supplyCompanyManageModel;
     if (dialogTitle === "编辑") {
       dispatch({
-        type: "supplyCompanyManageModel/updateHospital",
-        payload: { ...values },
+        type: "supplyCompanyManageModel/supplyCompanySave",
+        payload: { ...values, id: currentMsg.id },
       });
     } else {
       dispatch({
-        type: "supplyCompanyManageModel/saveHospital",
+        type: "supplyCompanyManageModel/supplyCompanySave",
         payload: { ...values },
       });
     }
@@ -139,14 +129,11 @@ class SupplyCompanyManage extends React.Component {
       pagination,
       dialogTitle,
       currentMsg,
-      adressList,
-      storageList,
-      departmentList,
       loading,
       data,
-      deleteDialog,
+      switchDialog,
       dialogBtnLoading,
-      condition,
+      keyword,
     } = this.props.supplyCompanyManageModel;
     const { current, size, total } = pagination;
     return (
@@ -161,10 +148,8 @@ class SupplyCompanyManage extends React.Component {
                 <Input
                   style={{ width: 225 }}
                   placeholder="输入供货公司"
-                  value={condition}
-                  onChange={(e) =>
-                    this.filterChange(e.target.value, "condition")
-                  }
+                  value={keyword}
+                  onChange={(e) => this.filterChange(e.target.value, "keyword")}
                   allowClear
                 />
                 <Button
@@ -200,18 +185,20 @@ class SupplyCompanyManage extends React.Component {
             render={(value, record, index) => index + 1}
             width={65}
           />
-          <Column title="供货公司ID" dataIndex="" width={260} />
-          <Column title="供货公司" dataIndex="" width={100} />
-          <Column title="创建时间" dataIndex="" width={180} />
+          <Column title="供货公司" dataIndex="companyName" width={100} />
+          <Column title="创建时间" dataIndex="createTime" width={180} />
+          <Column title="创建时间" dataIndex="updateTime" width={180} />
           <Column
             title="操作"
-            dataIndex="name"
+            dataIndex="isEnable"
             fixed="right"
             width={110}
             render={(value, record, index) => (
               <Space size="middle">
                 <a onClick={() => this.handleEdit(record)}>编辑</a>
-                <a onClick={() => this.handleDelete(record)}>删除</a>
+                <a onClick={() => this.handleSwitch(record)}>
+                  {value ? "停用" : "启用"}
+                </a>
               </Space>
             )}
           />
@@ -220,10 +207,10 @@ class SupplyCompanyManage extends React.Component {
         {/* 删除弹窗 */}
         <Modal
           title="提示"
-          visible={deleteDialog}
-          onCancel={this.handleCloseDeleteDialog}
+          visible={switchDialog}
+          onCancel={this.handleCloseSwitchDialog}
           footer={[
-            <Button key="cancel" onClick={this.handleCloseDeleteDialog}>
+            <Button key="cancel" onClick={this.handleCloseSwitchDialog}>
               取消
             </Button>,
             <Button
@@ -232,7 +219,7 @@ class SupplyCompanyManage extends React.Component {
               loading={dialogBtnLoading}
               onClick={() => {
                 dispatch({
-                  type: "supplyCompanyManageModel/deleteHospital",
+                  type: "supplyCompanyManageModel/supplyCompanySetEnable",
                 });
               }}
             >
@@ -241,7 +228,7 @@ class SupplyCompanyManage extends React.Component {
           ]}
           maskClosable={false}
         >
-          你确定要删除 {currentMsg.name} 这个医院吗？
+          你确定要{currentMsg.isEnable ? "停用" : "启用"}嘛?
         </Modal>
 
         {showEditDialog && (
@@ -249,7 +236,6 @@ class SupplyCompanyManage extends React.Component {
             title={dialogTitle}
             data={currentMsg}
             loading={dialogBtnLoading}
-            sourceList={{ adressList, storageList, departmentList }}
             onClosed={() => {
               dispatch({
                 type: "supplyCompanyManageModel/save",

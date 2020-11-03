@@ -12,6 +12,7 @@ export default {
       total: 0,
     },
     supplierName: "",
+    hospitalList: [],
   },
 
   effects: {
@@ -44,6 +45,28 @@ export default {
         });
       } else {
         message.error(data.message || "查询客户列表失败");
+      }
+    },
+    *getHospital({ payload }, { call, put }) {
+      const { data } = yield call(API.getHospital);
+      if (data && data.success) {
+        yield put({
+          type: "save",
+          payload: { hospitalList: data.data || [] },
+        });
+      } else {
+        message.error(data.message || "查询医院枚举失败！");
+      }
+    },
+    *getDePartmentByHsp({ payload }, { call, put }) {
+      const { data } = yield call(API.getDePartmentByHsp, payload);
+      if (data && data.success) {
+        yield put({
+          type: "save",
+          payload: { departmentList: data.data || [] },
+        });
+      } else {
+        message.error(data.message || "查询医院枚举失败！");
       }
     },
   },

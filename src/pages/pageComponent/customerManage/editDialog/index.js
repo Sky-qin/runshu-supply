@@ -37,7 +37,7 @@ class EditDialog extends React.Component {
 
   render() {
     const { title, data, sourceList, loading } = this.props;
-    const { supplyList, customerList, agencyList } = sourceList;
+    const { supplyList, customerList, agencyList, hospitalList } = sourceList;
 
     return (
       <Modal
@@ -85,8 +85,8 @@ class EditDialog extends React.Component {
           >
             <Select options={customerList} placeholder="请选择" allowClear />
           </Form.Item>
-          <Form.Item name="agencyCompanyId" label="关联医院">
-            <Select options={agencyList} placeholder="请选择" allowClear />
+          <Form.Item name="hospitalId" label="关联医院">
+            <Select options={hospitalList} placeholder="请选择" allowClear />
           </Form.Item>
           <Form.Item name="agencyCompanyId" label="医院下科室">
             <Select options={agencyList} placeholder="请选择" allowClear />

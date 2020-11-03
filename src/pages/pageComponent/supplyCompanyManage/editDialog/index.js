@@ -36,15 +36,13 @@ class EditDialog extends React.Component {
       });
   };
 
-  handleCancel = (e) => {
+  handleCancel = () => {
     const { onClosed } = this.props;
     onClosed && typeof onClosed === "function" && onClosed();
   };
 
   render() {
-    const { title, data, sourceList, loading } = this.props;
-    const { adressList, storageList, departmentList } = sourceList;
-
+    const { title, data, loading } = this.props;
     return (
       <Modal
         title={title || "编辑"}
@@ -71,30 +69,24 @@ class EditDialog extends React.Component {
           layout="horizontal"
           name="userForm"
           initialValues={{
-            name: data.name,
-            // stockIds: data.stockIds,
-            departmentIds: data.departmentIds,
-            city: data.city,
-            address: data.address,
-            person: data.person,
-            phone: data.phone,
+            companyName: data.companyName,
           }}
         >
           <Form.Item
-            name="name"
+            name="companyName"
             label="供货公司"
-            rules={[{ required: true, message: "请选择供货公司" }]}
+            rules={[{ required: true }]}
           >
-            <Select options={[]} placeholder="请选择" allowClear />
+            <Input placeholder="请选择" allowClear />
           </Form.Item>
 
-          <Form.Item
+          {/* <Form.Item
             name="name"
             label="客户类型"
             rules={[{ required: true, message: "请选择客户类型   " }]}
           >
             <Select options={[]} placeholder="请选择" allowClear />
-          </Form.Item>
+          </Form.Item> */}
         </Form>
       </Modal>
     );
