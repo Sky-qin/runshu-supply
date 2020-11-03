@@ -84,23 +84,23 @@ class HospitalManage extends React.Component {
     });
   };
 
-  handleDelete = (msg) => {
+  handleSwitch = (msg) => {
     const { dispatch } = this.props;
     dispatch({
       type: "hospitalManage/save",
       payload: {
-        deleteDialog: true,
+        switchDialog: true,
         currentMsg: { ...msg },
       },
     });
   };
 
-  handleCloseDeleteDialog = () => {
+  handleCloseSwitchDialog = () => {
     const { dispatch } = this.props;
     dispatch({
       type: "hospitalManage/save",
       payload: {
-        deleteDialog: false,
+        switchDialog: false,
         dialogBtnLoading: false,
       },
     });
@@ -144,7 +144,7 @@ class HospitalManage extends React.Component {
       departmentList,
       loading,
       data,
-      deleteDialog,
+      switchDialog,
       dialogBtnLoading,
       condition,
     } = this.props.hospitalManage;
@@ -210,21 +210,29 @@ class HospitalManage extends React.Component {
             width={65}
           />
           <Column title="医院名称" dataIndex="name" width={260} />
+          <Column
+            title="是否在合作"
+            dataIndex="isCooperation"
+            width={120}
+            render={(value) => (value ? "是" : "否")}
+          />
           <Column title="科室" dataIndex="departmentName" width={100} />
           <Column title="城市" dataIndex="cityName" width={180} />
           <Column title="地址" dataIndex="address" width={160} />
           <Column title="联系人" dataIndex="person" width={100} />
           <Column title="联系电话" dataIndex="phone" width={120} />
-          <Column title="业务员" dataIndex="" width={120} />
+          <Column title="业务员" dataIndex="salerNames" width={120} />
           <Column
             title="操作"
-            dataIndex="name"
+            dataIndex="isEnable"
             fixed="right"
             width={110}
             render={(value, record, index) => (
               <Space size="middle">
                 <a onClick={() => this.handleEdit(record)}>编辑</a>
-                <a onClick={() => this.handleDelete(record)}>删除</a>
+                <a onClick={() => this.handleSwitch(record)}>
+                  {value ? "停用" : "启用"}
+                </a>
               </Space>
             )}
           />
@@ -233,10 +241,10 @@ class HospitalManage extends React.Component {
         {/* 删除弹窗 */}
         <Modal
           title="提示"
-          visible={deleteDialog}
-          onCancel={this.handleCloseDeleteDialog}
+          visible={switchDialog}
+          onCancel={this.handleCloseSwitchDialog}
           footer={[
-            <Button key="cancel" onClick={this.handleCloseDeleteDialog}>
+            <Button key="cancel" onClick={this.handleCloseSwitchDialog}>
               取消
             </Button>,
             <Button
@@ -245,7 +253,7 @@ class HospitalManage extends React.Component {
               loading={dialogBtnLoading}
               onClick={() => {
                 dispatch({
-                  type: "hospitalManage/deleteHospital",
+                  type: "hospitalManage/hospitalUpdateState",
                 });
               }}
             >

@@ -7,7 +7,7 @@ export default {
   namespace: "entryModel",
   state: {
     menuList: [],
-    activeKey: getUrlParam("pageType") || "home", // home
+    activeKey: getUrlParam("pageType") || "customerManage", // home
   },
 
   effects: {

@@ -5,7 +5,7 @@ export default {
   namespace: "hospitalManage",
   state: {
     showEditDialog: false,
-    deleteDialog: false,
+    switchDialog: false,
     currentMsg: {},
     dialogTitle: "编辑",
     dialogBtnLoading: false,
@@ -55,7 +55,6 @@ export default {
       }
     },
 
-    // TODO
     *saveHospital({ payload }, { call, put, select }) {
       let params = { ...payload };
       const { currentMsg } = yield select((state) => state.hospitalManage);
@@ -100,20 +99,21 @@ export default {
         message.error(data.message || "修改失败！");
       }
     },
-    *deleteHospital({ payload }, { call, put, select }) {
+    *hospitalUpdateState({ payload }, { call, put, select }) {
       const { currentMsg } = yield select((state) => state.hospitalManage);
+      const { id, isEnable } = currentMsg;
       let params = {
-        ids: [currentMsg && currentMsg.id] || null,
+        id: currentMsg.id,
       };
       yield put({ type: "save", payload: { dialogBtnLoading: true } });
-      const { data } = yield call(API.deleteHospital, params);
+      const { data } = yield call(API.hospitalUpdateState, params);
       yield put({ type: "save", payload: { dialogBtnLoading: false } });
       if (data && data.success) {
-        yield put({ type: "save", payload: { deleteDialog: false } });
-        message.success("成功删除科室");
+        yield put({ type: "save", payload: { switchDialog: false } });
+        message.success(`${isEnable ? "停用" : "启用"}成功！`);
         yield put({ type: "getTableList" });
       } else {
-        message.error(data.message || "删除失败！");
+        message.error(data.message || `${isEnable ? "停用" : "启用"}失败！`);
       }
     },
 

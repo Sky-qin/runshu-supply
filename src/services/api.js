@@ -109,9 +109,17 @@ const API = {
   },
 
   // 删除医院
-  deleteHospital(params) {
+  // deleteHospital(params) {
+  //   return request({
+  //     url: `${Prefix}/hospital/delete`,
+  //     method: "post",
+  //     params,
+  //   });
+  // },
+  // 启用停用切换
+  hospitalUpdateState(params) {
     return request({
-      url: `${Prefix}/hospital/delete`,
+      url: `${Prefix}/hospital/updateState`,
       method: "post",
       params,
     });

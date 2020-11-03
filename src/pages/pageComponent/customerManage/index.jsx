@@ -1,7 +1,12 @@
 import React from "react";
 import { connect } from "dva";
-import { Table, Input, Button } from "antd";
-import { SearchOutlined, ExportOutlined } from "@ant-design/icons";
+import { Table, Input, Button, Space } from "antd";
+import {
+  SearchOutlined,
+  ExportOutlined,
+  PlusOutlined,
+} from "@ant-design/icons";
+import EditDialog from "./editDialog";
 import ContentWrap from "../../../components/contentWrap";
 import OpreationBar from "../../../components/OpreationBar";
 
@@ -20,6 +25,32 @@ class CustomerManage extends React.Component {
     const { dispatch } = this.props;
     dispatch({
       type: "customerManageModel/getTableList",
+    });
+  };
+
+  handleClick = (key) => {
+    const { dispatch } = this.props;
+    if (key === "add") {
+      dispatch({
+        type: "customerManageModel/save",
+        payload: {
+          showEditDialog: true,
+          currentMsg: {},
+          dialogTitle: "新增客户",
+        },
+      });
+    }
+  };
+
+  handleEdit = (msg) => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: "customerManageModel/save",
+      payload: {
+        currentMsg: { ...msg },
+        showEditDialog: true,
+        dialogTitle: "编辑客户",
+      },
     });
   };
 
@@ -55,11 +86,19 @@ class CustomerManage extends React.Component {
   };
 
   render() {
+    const { dispatch } = this.props;
     const {
       pagination,
       data,
       loading,
       supplierName,
+      showEditDialog,
+      dialogTitle,
+      currentMsg,
+      dialogBtnLoading,
+      supplyList,
+      customerList,
+      agencyList,
     } = this.props.customerManageModel;
     const { current, size, total } = pagination;
     return (
@@ -72,7 +111,7 @@ class CustomerManage extends React.Component {
               >
                 <Input
                   style={{ width: 225 }}
-                  placeholder="输入供货公司名称"
+                  placeholder="输入客户名称"
                   value={supplierName}
                   onChange={(e) =>
                     this.onChangeFilter(e.target.value, "supplierName")
@@ -88,6 +127,10 @@ class CustomerManage extends React.Component {
               </div>
             </>
           }
+          total={false}
+        />
+        <OpreationBar
+          buttonList={[{ key: "add", label: "新增", icon: <PlusOutlined /> }]}
           linkList={[
             {
               key: "export",
@@ -98,6 +141,7 @@ class CustomerManage extends React.Component {
             },
           ]}
           total={total}
+          onClick={this.handleClick}
         />
         <Table
           bordered
@@ -117,12 +161,44 @@ class CustomerManage extends React.Component {
             width={80}
             render={(value, record, index) => index + 1}
           />
-          <Column title="客户编码" dataIndex="code" />
-          <Column title="客户关系" dataIndex="name" />
-          <Column title="供货公司" dataIndex="supplierName" />
-          <Column title="代理公司" dataIndex="agencyCompany" />
-          <Column title="客户 " dataIndex="hospitalName" />
+          <Column title="客户名称" dataIndex="" />
+          <Column title="客户类型" dataIndex="" />
+          <Column title="关联医院" dataIndex="" />
+          <Column title="创建日期" width={120} dataIndex="" />
+          <Column
+            title="操作"
+            dataIndex="isEnable"
+            width={120}
+            render={(value, record, index) => {
+              return (
+                <Space size="middle">
+                  <a onClick={() => this.handleEdit(record)}>编辑</a>
+                  <a onClick={() => this.handleSwitch(record)}>
+                    {value ? "停用" : "启用"}
+                  </a>
+                </Space>
+              );
+            }}
+          />
         </Table>
+        {showEditDialog && (
+          <EditDialog
+            title={dialogTitle}
+            data={currentMsg}
+            loading={dialogBtnLoading}
+            sourceList={{ supplyList, customerList, agencyList }}
+            onClosed={() => {
+              dispatch({
+                type: "customerManageModel/save",
+                payload: {
+                  showEditDialog: false,
+                  dialogBtnLoading: false,
+                },
+              });
+            }}
+            onOk={this.handleSave}
+          />
+        )}
       </ContentWrap>
     );
   }
