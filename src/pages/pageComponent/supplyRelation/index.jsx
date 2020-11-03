@@ -212,11 +212,7 @@ class SupplyRelation extends React.Component {
             dataIndex="planRefId"
             width={180}
             render={(value) => (
-              <Space size="middle">
-                {value && (
-                  <a onClick={() => this.handleSwitch(value)}>查看价格</a>
-                )}
-              </Space>
+              <Space size="middle">{value && <a>查看价格</a>}</Space>
             )}
           />
           <Column title="创建时间" dataIndex="createTime" width={180} />
