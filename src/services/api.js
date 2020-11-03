@@ -1047,6 +1047,41 @@ const API = {
   },
 
   /**
+   * 供应关系
+   */
+  // 列表
+  supplyRelationList(params) {
+    return request({
+      url: `${Prefix}/supply/relation/list`,
+      params,
+      method: "post",
+    });
+  },
+
+  // 详情
+  supplyRelationDetail(params) {
+    return request({
+      url: `${Prefix}/supply/relation/detail`,
+      params,
+    });
+  },
+  // 新增/编辑保存
+  supplyRelationSave(params) {
+    return request({
+      url: `${Prefix}/supply/relation/save`,
+      params,
+      method: "post",
+    });
+  },
+  // 停用/启用
+  supplyRelationSetEnable(params) {
+    return request({
+      url: `${Prefix}/supply/relation/setEnable`,
+      params,
+      method: "post",
+    });
+  },
+  /**
    * 枚举类即接口
    */
   // 获取当前用户 医院枚举
@@ -1310,6 +1345,20 @@ const API = {
   stockType(params) {
     return request({
       url: `${Prefix}/dic/stockType`,
+      params,
+    });
+  },
+  // 供货公司枚举
+  relationSupplyList(params) {
+    return request({
+      url: `${Prefix}/supply/relation/supply/list`,
+      params,
+    });
+  },
+  // 代理公司枚举
+  relationAgencyList(params) {
+    return request({
+      url: `${Prefix}/supply/relation/agency/list`,
       params,
     });
   },

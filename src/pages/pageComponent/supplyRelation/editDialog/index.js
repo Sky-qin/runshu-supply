@@ -1,5 +1,5 @@
 import React from "react";
-import { Modal, Form, Input, Button, Cascader, Select, TreeSelect } from "antd";
+import { Modal, Form, Button, Select } from "antd";
 
 const layout = {
   labelCol: { span: 6 },
@@ -16,12 +16,6 @@ class EditDialog extends React.Component {
     };
   }
 
-  showModal = () => {
-    this.setState({
-      visible: true,
-    });
-  };
-
   handleOk = (e) => {
     const { onOk } = this.props;
     let formObj = this.hospitalRef;
@@ -36,14 +30,14 @@ class EditDialog extends React.Component {
       });
   };
 
-  handleCancel = (e) => {
+  handleCancel = () => {
     const { onClosed } = this.props;
     onClosed && typeof onClosed === "function" && onClosed();
   };
 
   render() {
     const { title, data, sourceList, loading } = this.props;
-    const { adressList, storageList, departmentList } = sourceList;
+    const { supplyList, customerList, agencyList } = sourceList;
 
     return (
       <Modal
@@ -71,24 +65,28 @@ class EditDialog extends React.Component {
           layout="horizontal"
           name="userForm"
           initialValues={{
-            name: data.name,
-            // stockIds: data.stockIds,
-            departmentIds: data.departmentIds,
-            city: data.city,
-            address: data.address,
-            person: data.person,
-            phone: data.phone,
+            supplyCompanyId: data.supplyCompanyId || null,
+            customerId: data.customerId || null,
+            agencyCompanyId: data.agencyCompanyId || null,
           }}
         >
-          <Form.Item name="name" label="供货公司" rules={[{ required: true }]}>
-            <Select options={[]} placeholder="请选择" allowClear />
+          <Form.Item
+            name="supplyCompanyId"
+            label="供货公司"
+            rules={[{ required: true }]}
+          >
+            <Select options={supplyList} placeholder="请选择" allowClear />
           </Form.Item>
 
-          <Form.Item name="name" label="客户" rules={[{ required: true }]}>
-            <Select options={[]} placeholder="请选择" allowClear />
+          <Form.Item
+            name="customerId"
+            label="客户"
+            rules={[{ required: true }]}
+          >
+            <Select options={customerList} placeholder="请选择" allowClear />
           </Form.Item>
-          <Form.Item name="name" label="代理公司">
-            <Select options={[]} placeholder="请选择" allowClear />
+          <Form.Item name="agencyCompanyId" label="代理公司">
+            <Select options={agencyList} placeholder="请选择" allowClear />
           </Form.Item>
         </Form>
       </Modal>

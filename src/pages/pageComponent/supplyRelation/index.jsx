@@ -1,11 +1,7 @@
 import React from "react";
 import { connect } from "dva";
 import { Table, Button, Space, Modal, Input } from "antd";
-import {
-  PlusOutlined,
-  SearchOutlined,
-  ExportOutlined,
-} from "@ant-design/icons";
+import { PlusOutlined, SearchOutlined } from "@ant-design/icons";
 import EditDialog from "./editDialog";
 import ContentBox from "../../../components/contentWrap";
 import OpreationBar from "../../../components/OpreationBar";
@@ -23,14 +19,15 @@ class SupplyRelation extends React.Component {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
-      type: "supplyRelationModel/getAddress",
+      type: "supplyRelationModel/supplyList",
     });
     dispatch({
-      type: "supplyRelationModel/storageList",
+      type: "supplyRelationModel/customerList",
     });
     dispatch({
-      type: "supplyRelationModel/departmentList",
+      type: "supplyRelationModel/relationAgencyList",
     });
+
     this.getTableList();
   }
 
@@ -82,32 +79,28 @@ class SupplyRelation extends React.Component {
   handleEdit = (msg) => {
     const { dispatch } = this.props;
     dispatch({
-      type: "supplyRelationModel/save",
-      payload: {
-        showEditDialog: true,
-        currentMsg: { ...msg },
-        dialogTitle: "编辑",
-      },
+      type: "supplyRelationModel/supplyRelationDetail",
+      payload: { id: msg.id },
     });
   };
 
-  handleDelete = (msg) => {
+  handleSwitch = (msg) => {
     const { dispatch } = this.props;
     dispatch({
       type: "supplyRelationModel/save",
       payload: {
-        deleteDialog: true,
+        switchDialog: true,
         currentMsg: { ...msg },
       },
     });
   };
 
-  handleCloseDeleteDialog = () => {
+  handleCloseSwitchDialog = () => {
     const { dispatch } = this.props;
     dispatch({
       type: "supplyRelationModel/save",
       payload: {
-        deleteDialog: false,
+        switchDialog: false,
         dialogBtnLoading: false,
       },
     });
@@ -115,15 +108,15 @@ class SupplyRelation extends React.Component {
 
   handleSave = (values) => {
     const { dispatch } = this.props;
-    const { dialogTitle } = this.props.supplyRelationModel;
+    const { dialogTitle, currentMsg } = this.props.supplyRelationModel;
     if (dialogTitle === "编辑") {
       dispatch({
-        type: "supplyRelationModel/updateHospital",
-        payload: { ...values },
+        type: "supplyRelationModel/supplyRelationSave",
+        payload: { ...values, id: currentMsg.id },
       });
     } else {
       dispatch({
-        type: "supplyRelationModel/saveHospital",
+        type: "supplyRelationModel/supplyRelationSave",
         payload: { ...values },
       });
     }
@@ -146,14 +139,14 @@ class SupplyRelation extends React.Component {
       pagination,
       dialogTitle,
       currentMsg,
-      adressList,
-      storageList,
-      departmentList,
+      supplyList,
       loading,
       data,
-      deleteDialog,
+      switchDialog,
       dialogBtnLoading,
-      condition,
+      keyword,
+      customerList,
+      agencyList,
     } = this.props.supplyRelationModel;
     const { current, size, total } = pagination;
     return (
@@ -168,10 +161,8 @@ class SupplyRelation extends React.Component {
                 <Input
                   style={{ width: 225 }}
                   placeholder="输入供货公司名称"
-                  value={condition}
-                  onChange={(e) =>
-                    this.filterChange(e.target.value, "condition")
-                  }
+                  value={keyword}
+                  onChange={(e) => this.filterChange(e.target.value, "keyword")}
                   allowClear
                 />
                 <Button
@@ -212,34 +203,46 @@ class SupplyRelation extends React.Component {
             render={(value, record, index) => index + 1}
             width={65}
           />
-          <Column title="供货关系ID" dataIndex="" width={260} />
-          <Column title="供货关系" dataIndex="" width={100} />
-          <Column title="供货公司" dataIndex="" width={180} />
-          <Column title="代理商" dataIndex="" width={180} />
-          <Column title="客户名称" dataIndex="" width={180} />
-          <Column title="供货价格方案" dataIndex="" width={180} />
-          <Column title="创建时间           " dataIndex="" width={180} />
+          <Column title="供货关系" dataIndex="supportProductRef" width={260} />
+          <Column title="供货公司" dataIndex="supplyCompany" width={180} />
+          <Column title="代理公司" dataIndex="agencyCompany" width={180} />
+          <Column title="客户名称" dataIndex="customer" width={180} />
+          <Column
+            title="供货价格方案"
+            dataIndex="planRefId"
+            width={180}
+            render={(value) => (
+              <Space size="middle">
+                {value && (
+                  <a onClick={() => this.handleSwitch(value)}>查看价格</a>
+                )}
+              </Space>
+            )}
+          />
+          <Column title="创建时间" dataIndex="createTime" width={180} />
           <Column
             title="操作"
-            dataIndex="name"
+            dataIndex="isEnable"
             fixed="right"
             width={110}
             render={(value, record, index) => (
               <Space size="middle">
                 <a onClick={() => this.handleEdit(record)}>编辑</a>
-                <a onClick={() => this.handleDelete(record)}>启用</a>
+                <a onClick={() => this.handleSwitch(record)}>
+                  {value ? "停用" : "启用"}
+                </a>
               </Space>
             )}
           />
         </Table>
 
-        {/* 启用\禁用弹窗 */}
+        {/* 启用\停用弹窗 */}
         <Modal
           title="提示"
-          visible={deleteDialog}
-          onCancel={this.handleCloseDeleteDialog}
+          visible={switchDialog}
+          onCancel={this.handleCloseSwitchDialog}
           footer={[
-            <Button key="cancel" onClick={this.handleCloseDeleteDialog}>
+            <Button key="cancel" onClick={this.handleCloseSwitchDialog}>
               取消
             </Button>,
             <Button
@@ -248,7 +251,7 @@ class SupplyRelation extends React.Component {
               loading={dialogBtnLoading}
               onClick={() => {
                 dispatch({
-                  type: "supplyRelationModel/deleteHospital",
+                  type: "supplyRelationModel/supplyRelationSetEnable",
                 });
               }}
             >
@@ -257,7 +260,7 @@ class SupplyRelation extends React.Component {
           ]}
           maskClosable={false}
         >
-          你确定要XXXXX {currentMsg.name}?
+          你确定要{currentMsg.isEnable ? "停用" : "启用"}嘛?
         </Modal>
 
         {showEditDialog && (
@@ -265,7 +268,7 @@ class SupplyRelation extends React.Component {
             title={dialogTitle}
             data={currentMsg}
             loading={dialogBtnLoading}
-            sourceList={{ adressList, storageList, departmentList }}
+            sourceList={{ supplyList, customerList, agencyList }}
             onClosed={() => {
               dispatch({
                 type: "supplyRelationModel/save",
