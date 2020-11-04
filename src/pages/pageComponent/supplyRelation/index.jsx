@@ -3,6 +3,7 @@ import { connect } from "dva";
 import { Table, Button, Space, Modal, Input } from "antd";
 import { PlusOutlined, SearchOutlined } from "@ant-design/icons";
 import EditDialog from "./editDialog";
+import DetailDialog from "./detailDialog";
 import ContentBox from "../../../components/contentWrap";
 import OpreationBar from "../../../components/OpreationBar";
 import "./index.scss";
@@ -18,15 +19,10 @@ class SupplyRelation extends React.Component {
 
   componentDidMount() {
     const { dispatch } = this.props;
-    dispatch({
-      type: "supplyRelationModel/supplyList",
-    });
-    dispatch({
-      type: "supplyRelationModel/customerList",
-    });
-    dispatch({
-      type: "supplyRelationModel/relationAgencyList",
-    });
+    dispatch({ type: "supplyRelationModel/supplyList" });
+    dispatch({ type: "supplyRelationModel/customerList" });
+    dispatch({ type: "supplyRelationModel/relationAgencyList" });
+    dispatch({ type: "supplyRelationModel/listCategoryDirectory" });
 
     this.getTableList();
   }
@@ -82,6 +78,45 @@ class SupplyRelation extends React.Component {
       type: "supplyRelationModel/supplyRelationDetail",
       payload: { id: msg.id },
     });
+  };
+
+  handleShowPrice = (msg) => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: "supplyRelationModel/save",
+      payload: {
+        showDetailDialog: true,
+        currentMsg: { ...msg },
+        refId: msg.planRefId,
+        relationName: msg.supportProductRef,
+      },
+    });
+  };
+
+  getDetailList = (node, keyword) => {
+    const { parentNode, key } = node;
+    const { dispatch, supplyRelationModel } = this.props;
+
+    if (parentNode) {
+      dispatch({
+        type: "supplyRelationModel/save",
+        payload: {
+          detailList: [],
+        },
+      });
+    } else {
+      const values = key.split("-");
+      const { refId } = supplyRelationModel;
+      dispatch({
+        type: "supplyRelationModel/productPriceDetailList",
+        payload: {
+          refId,
+          parentCategoryCode: values[0],
+          productCategory: values[2],
+          keyword,
+        },
+      });
+    }
   };
 
   handleSwitch = (msg) => {
@@ -147,6 +182,11 @@ class SupplyRelation extends React.Component {
       keyword,
       customerList,
       agencyList,
+      showDetailDialog,
+      detailList,
+      categoryTree,
+      relationName,
+      drawerLoading,
     } = this.props.supplyRelationModel;
     const { current, size, total } = pagination;
     return (
@@ -211,8 +251,12 @@ class SupplyRelation extends React.Component {
             title="供货价格方案"
             dataIndex="planRefId"
             width={180}
-            render={(value) => (
-              <Space size="middle">{value && <a>查看价格</a>}</Space>
+            render={(value, record, index) => (
+              <Space size="middle">
+                {value && (
+                  <a onClick={() => this.handleShowPrice(record)}>查看价格</a>
+                )}
+              </Space>
             )}
           />
           <Column title="创建时间" dataIndex="createTime" width={180} />
@@ -275,6 +319,30 @@ class SupplyRelation extends React.Component {
               });
             }}
             onOk={this.handleSave}
+          />
+        )}
+
+        {showDetailDialog && (
+          <DetailDialog
+            onChangeList={this.changePrice}
+            changeCategory={this.getDetailList}
+            onSubmit={this.handleSubmit}
+            data={{
+              detailList,
+              categoryTree,
+              relationName,
+              drawerLoading,
+            }}
+            onClosed={() => {
+              dispatch({
+                type: "supplyRelationModel/save",
+                payload: {
+                  showDetailDialog: false,
+                  detailList: [],
+                },
+              });
+              this.getTableList();
+            }}
           />
         )}
       </ContentBox>

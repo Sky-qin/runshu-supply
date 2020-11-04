@@ -1,5 +1,6 @@
 import { message } from "antd";
 import API from "../services/api";
+import { transferTreeList } from "../utils/tools";
 
 export default {
   namespace: "supplyRelationModel",
@@ -20,6 +21,11 @@ export default {
       total: 0,
     },
     keyword: null,
+    showDetailDialog: false,
+    detailList: [],
+    categoryTree: [],
+    relationName: "",
+    drawerLoading: false,
   },
 
   effects: {
@@ -126,6 +132,40 @@ export default {
       const { data } = yield call(API.relationAgencyList);
       if (data && data.success) {
         yield put({ type: "save", payload: { agencyList: data.data || [] } });
+      }
+    },
+    *listCategoryDirectory({ payload }, { call, put }) {
+      const { data } = yield call(API.listCategoryDirectory);
+      if (data && data.success) {
+        let list = transferTreeList(
+          (data.data && data.data.categoryList) || []
+        );
+        let newList = [];
+
+        list.map((item) => {
+          return newList.push({ ...item, parentNode: true });
+        });
+
+        yield put({
+          type: "save",
+          payload: { categoryTree: newList || [] },
+        });
+      } else {
+        message.error(data.message || "获取类目失败！");
+      }
+    },
+    *productPriceDetailList({ payload }, { call, put }) {
+      yield put({ type: "save", payload: { drawerLoading: true } });
+      const { data } = yield call(API.productPriceDetailList, payload);
+      yield put({ type: "save", payload: { drawerLoading: false } });
+
+      if (data && data.success) {
+        yield put({
+          type: "save",
+          payload: { detailList: data.data || [] },
+        });
+      } else {
+        message.error(data.message || "获取价格列表失败！");
       }
     },
   },
