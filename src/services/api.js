@@ -631,6 +631,22 @@ const API = {
       params,
     });
   },
+  // 新增、编辑保存
+  supplyStockSave(params) {
+    return request({
+      url: `${Prefix}/supply/stock/save`,
+      method: "post",
+      params,
+    });
+  },
+  // 库位停用/启用
+  supplyStockSetEnable(params) {
+    return request({
+      url: `${Prefix}/supply/stock/setEnable`,
+      method: "post",
+      params,
+    });
+  },
   /**
    * 供应商管理
    */

@@ -14,6 +14,9 @@ export default {
     keyword: "",
     type: null,
     stockTypeList: [],
+    customerList: [],
+    showEditDialog: false,
+    switchDialog: false,
   },
 
   effects: {
@@ -49,6 +52,20 @@ export default {
         message.error(data.message || "查询库位失败");
       }
     },
+
+    *customerList({ payload }, { call, put }) {
+      const { data } = yield call(API.customerList);
+      if (data && data.success) {
+        yield put({
+          type: "save",
+          payload: {
+            customerList: data.data || [],
+          },
+        });
+      } else {
+        message.error(data.message || "客户枚举查询失败！");
+      }
+    },
     *getStockTypeList({ payload }, { call, put }) {
       const { data } = yield call(API.stockType);
       if (data && data.success) {
@@ -60,6 +77,49 @@ export default {
         });
       } else {
         message.error(data.message || "查询库位类别失败");
+      }
+    },
+    *supplyStockSave({ payload }, { call, put }) {
+      yield put({ type: "save", payload: { dialogBtnLoading: true } });
+      const { data } = yield call(API.supplyStockSave, payload);
+      yield put({ type: "save", payload: { dialogBtnLoading: false } });
+
+      if (data && data.success) {
+        message.success("保存成功！");
+        yield put({
+          type: "save",
+          payload: {
+            showEditDialog: false,
+          },
+        });
+      } else {
+        message.error(data.message || "保存失败！");
+      }
+    },
+
+    *supplyStockSetEnable({ payload }, { call, put, select }) {
+      const { currentMsg } = yield select(
+        (state) => state.inventoryManageModel
+      );
+      let params = {
+        id: currentMsg.id,
+        isEnable: !currentMsg.isEnable,
+      };
+      yield put({ type: "save", payload: { dialogBtnLoading: true } });
+      const { data } = yield call(API.supplyStockSetEnable, params);
+      yield put({ type: "save", payload: { dialogBtnLoading: false } });
+
+      if (data && data.success) {
+        message.success("状态修改成功！");
+        yield put({
+          type: "save",
+          payload: {
+            switchDialog: false,
+          },
+        });
+        yield put({ type: "getTableList" });
+      } else {
+        message.error(data.message || "状态修改失败！");
       }
     },
   },

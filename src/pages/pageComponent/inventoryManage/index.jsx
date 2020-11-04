@@ -1,7 +1,12 @@
 import React from "react";
 import { connect } from "dva";
-import { Table, Input, Button, Select } from "antd";
-import { SearchOutlined, ExportOutlined } from "@ant-design/icons";
+import { Table, Input, Button, Select, Space, Modal } from "antd";
+import {
+  SearchOutlined,
+  ExportOutlined,
+  PlusOutlined,
+} from "@ant-design/icons";
+import EditDialog from "./editDialog";
 import ContentWrap from "../../../components/contentWrap";
 import OpreationBar from "../../../components/OpreationBar";
 
@@ -15,9 +20,9 @@ class InventoryManage extends React.Component {
   componentDidMount() {
     const { dispatch } = this.props;
 
-    dispatch({
-      type: "inventoryManageModel/getStockTypeList",
-    });
+    dispatch({ type: "inventoryManageModel/getStockTypeList" });
+    dispatch({ type: "inventoryManageModel/customerList" });
+
     this.getTableList();
   }
 
@@ -44,6 +49,20 @@ class InventoryManage extends React.Component {
     this.getTableList();
   };
 
+  handleClick = (key) => {
+    const { dispatch } = this.props;
+    if (key === "add") {
+      dispatch({
+        type: "inventoryManageModel/save",
+        payload: {
+          showEditDialog: true,
+          currentMsg: {},
+          dialogTitle: "新增",
+        },
+      });
+    }
+  };
+
   onChangeFilter = (value, key) => {
     const { dispatch } = this.props;
     const { pagination } = this.props.inventoryManageModel;
@@ -61,7 +80,58 @@ class InventoryManage extends React.Component {
     this.getTableList();
   };
 
+  handleSave = (values) => {
+    const { dispatch } = this.props;
+    const { currentMsg, dialogTitle } = this.props.inventoryManageModel;
+    if (dialogTitle === "编辑") {
+      dispatch({
+        type: "inventoryManageModel/supplyStockSave",
+        payload: { id: currentMsg.id, ...values },
+      });
+    } else {
+      dispatch({
+        type: "inventoryManageModel/supplyStockSave",
+        payload: { ...values },
+      });
+    }
+  };
+
+  handleEdit = (msg) => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: "inventoryManageModel/save",
+      payload: {
+        currentMsg: msg,
+        showEditDialog: true,
+        dialogTitle: "编辑",
+      },
+    });
+  };
+
+  handleSwitch = (msg) => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: "inventoryManageModel/save",
+      payload: {
+        switchDialog: true,
+        currentMsg: { ...msg },
+      },
+    });
+  };
+
+  handleCloseSwitchDialog = () => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: "inventoryManageModel/save",
+      payload: {
+        switchDialog: false,
+        dialogBtnLoading: false,
+      },
+    });
+  };
+
   render() {
+    const { dispatch } = this.props;
     const {
       pagination,
       data,
@@ -69,6 +139,12 @@ class InventoryManage extends React.Component {
       stockTypeList,
       keyword,
       type,
+      showEditDialog,
+      dialogTitle,
+      currentMsg,
+      dialogBtnLoading,
+      customerList,
+      switchDialog,
     } = this.props.inventoryManageModel;
     const { current, size, total } = pagination;
     return (
@@ -104,6 +180,10 @@ class InventoryManage extends React.Component {
               />
             </>
           }
+          total={false}
+        />
+        <OpreationBar
+          buttonList={[{ key: "add", label: "新增", icon: <PlusOutlined /> }]}
           linkList={[
             {
               key: "export",
@@ -114,6 +194,7 @@ class InventoryManage extends React.Component {
             },
           ]}
           total={total}
+          onClick={this.handleClick}
         />
         <Table
           bordered
@@ -133,12 +214,77 @@ class InventoryManage extends React.Component {
             width={80}
             render={(value, record, index) => index + 1}
           />
-          <Column title="库位编码" dataIndex="stockNo" />
+          {/* <Column title="库位编码" dataIndex="stockNo" /> */}
           <Column title="库位名称" dataIndex="name" />
           <Column title="库位类别" dataIndex="typeName" />
-          <Column title="地址" dataIndex="address" />
-          <Column title="电话" dataIndex="phone" />
+          <Column
+            title="关联客户"
+            dataIndex="customerList"
+            render={(value) => {
+              return (value || []).join("、");
+            }}
+          />
+          {/* <Column title="地址" dataIndex="address" /> */}
+          {/* <Column title="电话" dataIndex="phone" /> */}
+          <Column
+            title="操作"
+            dataIndex="isEnable"
+            fixed="right"
+            width={110}
+            render={(value, record, index) => (
+              <Space size="middle">
+                <a onClick={() => this.handleEdit(record)}>编辑</a>
+                <a onClick={() => this.handleSwitch(record)}>
+                  {value ? "停用" : "启用"}
+                </a>
+              </Space>
+            )}
+          />
         </Table>
+        {/* 启用\停用弹窗 */}
+        <Modal
+          title="提示"
+          visible={switchDialog}
+          onCancel={this.handleCloseSwitchDialog}
+          footer={[
+            <Button key="cancel" onClick={this.handleCloseSwitchDialog}>
+              取消
+            </Button>,
+            <Button
+              key="ok"
+              type="primary"
+              loading={dialogBtnLoading}
+              onClick={() => {
+                dispatch({
+                  type: "inventoryManageModel/supplyStockSetEnable",
+                });
+              }}
+            >
+              确定
+            </Button>,
+          ]}
+          maskClosable={false}
+        >
+          你确定要{currentMsg && currentMsg.isEnable ? "停用" : "启用"}嘛?
+        </Modal>
+        {showEditDialog && (
+          <EditDialog
+            title={dialogTitle}
+            data={currentMsg}
+            loading={dialogBtnLoading}
+            sourceList={{ stockTypeList, customerList }}
+            onClosed={() => {
+              dispatch({
+                type: "inventoryManageModel/save",
+                payload: {
+                  showEditDialog: false,
+                  dialogBtnLoading: false,
+                },
+              });
+            }}
+            onOk={this.handleSave}
+          />
+        )}
       </ContentWrap>
     );
   }

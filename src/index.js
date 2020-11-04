@@ -51,7 +51,6 @@ app.model(require("./models/supplyPriceManageModel").default);
 app.model(require("./models/supplyCompanyManageModel").default);
 app.model(require("./models/agentManageModel").default);
 app.model(require("./models/salesmanManageModel").default);
-app.model(require("./models/warehouseManageModel").default);
 app.model(require("./models/supplyRelationModel").default);
 
 // 4. Router
