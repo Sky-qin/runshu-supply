@@ -11,13 +11,15 @@ export default {
       size: 10,
       total: 0,
     },
-    supplierName: "",
+    name: "",
     hospitalList: [],
+    customerTypeList: [],
+    switchDialog: false,
   },
 
   effects: {
     *getTableList({ payload }, { call, put, select }) {
-      const { pagination, supplierName } = yield select(
+      const { pagination, name } = yield select(
         (state) => state.customerManageModel
       );
       const { current, size } = pagination;
@@ -25,7 +27,7 @@ export default {
         current,
         size,
         params: {
-          supplierName,
+          name,
         },
       };
       yield put({ type: "save", payload: { loading: true } });
@@ -61,12 +63,51 @@ export default {
     *getDePartmentByHsp({ payload }, { call, put }) {
       const { data } = yield call(API.getDePartmentByHsp, payload);
       if (data && data.success) {
+        let list = (data.data || []).map((item) => ({
+          ...item,
+          disabled: true,
+        }));
         yield put({
           type: "save",
-          payload: { departmentList: data.data || [] },
+          payload: { departmentList: list || [] },
         });
       } else {
         message.error(data.message || "查询医院枚举失败！");
+      }
+    },
+
+    *getCustomerType({ payload }, { call, put }) {
+      const { data } = yield call(API.getCustomerType);
+      if (data && data.success) {
+        yield put({
+          type: "save",
+          payload: { customerTypeList: data.data || [] },
+        });
+      } else {
+        message.error(data.message || "获取客户类型失败！");
+      }
+    },
+    *addCustomer({ payload }, { call, put }) {
+      const { data } = yield call(API.addCustomer, payload);
+      if (data && data.success) {
+        message.success("新增客户成功！");
+        yield put({ type: "getTableList" });
+        yield put({ type: "save", payload: { showEditDialog: false } });
+      } else {
+        message.error(data.message || "新增客户失败！");
+      }
+    },
+    *updateCustomer({ payload }, { call, put }) {
+      const { data } = yield call(API.updateCustomer, payload);
+      if (data && data.success) {
+        message.success("修改成功！");
+        yield put({ type: "getTableList" });
+        yield put({
+          type: "save",
+          payload: { showEditDialog: false, switchDialog: false },
+        });
+      } else {
+        message.error(data.message || "修改失败！");
       }
     },
   },

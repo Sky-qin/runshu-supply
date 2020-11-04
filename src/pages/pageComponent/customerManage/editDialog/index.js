@@ -1,5 +1,5 @@
 import React from "react";
-import { Modal, Form, Button, Select } from "antd";
+import { Modal, Form, Button, Select, Input, TreeSelect } from "antd";
 
 const layout = {
   labelCol: { span: 6 },
@@ -7,7 +7,7 @@ const layout = {
 };
 
 class EditDialog extends React.Component {
-  hospitalRef = React.createRef();
+  customerRef = React.createRef();
 
   constructor(props) {
     super(props);
@@ -16,9 +16,17 @@ class EditDialog extends React.Component {
     };
   }
 
+  handleChangeForm = (value, key) => {
+    let { current: searchForm } = this.customerRef;
+    const { onFormChange } = this.props;
+    onFormChange &&
+      typeof onFormChange === "function" &&
+      onFormChange(value, key, searchForm.setFieldsValue);
+  };
+
   handleOk = (e) => {
     const { onOk } = this.props;
-    let formObj = this.hospitalRef;
+    let formObj = this.customerRef;
     formObj.current
       .validateFields()
       .then((values) => {
@@ -37,8 +45,7 @@ class EditDialog extends React.Component {
 
   render() {
     const { title, data, sourceList, loading } = this.props;
-    const { supplyList, customerList, agencyList, hospitalList } = sourceList;
-
+    const { customerTypeList, departmentList, hospitalList } = sourceList;
     return (
       <Modal
         title={title || "编辑"}
@@ -61,36 +68,58 @@ class EditDialog extends React.Component {
       >
         <Form
           {...layout}
-          ref={this.hospitalRef}
+          ref={this.customerRef}
           layout="horizontal"
           name="userForm"
           initialValues={{
-            supplyCompanyId: data.supplyCompanyId || null,
-            customerId: data.customerId || null,
-            agencyCompanyId: data.agencyCompanyId || null,
+            name: data.name || null,
+            type: data.type || null,
+            hospitalId: data.hospitalId || null,
+            departmentId: data.departmentId,
           }}
         >
-          <Form.Item
-            name="supplyCompanyId"
-            label="客户名称"
-            rules={[{ required: true }]}
-          >
-            <Select options={supplyList} placeholder="请选择" allowClear />
+          <Form.Item name="name" label="客户名称" rules={[{ required: true }]}>
+            <Input
+              placeholder="请输入"
+              allowClear
+              onChange={(e) => this.handleChangeForm(e.target.value, "name")}
+            />
           </Form.Item>
 
-          <Form.Item
-            name="customerId"
-            label="客户类型"
-            rules={[{ required: true }]}
-          >
-            <Select options={customerList} placeholder="请选择" allowClear />
+          <Form.Item name="type" label="客户类型" rules={[{ required: true }]}>
+            <Select
+              options={customerTypeList}
+              placeholder="请选择"
+              allowClear
+              onChange={(value) => this.handleChangeForm(value, "type")}
+            />
           </Form.Item>
-          <Form.Item name="hospitalId" label="关联医院">
-            <Select options={hospitalList} placeholder="请选择" allowClear />
-          </Form.Item>
-          <Form.Item name="agencyCompanyId" label="医院下科室">
-            <Select options={agencyList} placeholder="请选择" allowClear />
-          </Form.Item>
+
+          {data.type === "3" && (
+            <>
+              <Form.Item name="hospitalId" label="关联医院">
+                <Select
+                  options={hospitalList}
+                  placeholder="请选择"
+                  onChange={(value) =>
+                    this.handleChangeForm(value, "hospitalId")
+                  }
+                  allowClear
+                />
+              </Form.Item>
+              <Form.Item name="departmentId" label="医院下科室">
+                <TreeSelect
+                  filterTreeNode
+                  treeNodeFilterProp="label"
+                  placeholder="请选择科室"
+                  treeData={departmentList}
+                  onChange={(value) =>
+                    this.handleChangeForm(value, "departmentId")
+                  }
+                />
+              </Form.Item>
+            </>
+          )}
         </Form>
       </Modal>
     );

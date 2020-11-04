@@ -20,11 +20,12 @@ export default {
       total: 0,
     },
     condition: null,
+    salesmanList: [],
   },
 
   effects: {
     *getTableList({ payload }, { call, put, select }) {
-      const { pagination, condition } = yield select(
+      const { pagination, condition, userId } = yield select(
         (state) => state.hospitalManage
       );
       const { current, size } = pagination;
@@ -33,6 +34,7 @@ export default {
         size,
         params: {
           condition,
+          userId,
         },
       };
       yield put({ type: "save", payload: { loading: true } });
@@ -117,7 +119,6 @@ export default {
       }
     },
 
-    // new
     *getAddress({ payload }, { call, put }) {
       const { data } = yield call(API.getAddress);
       if (data && data.success) {
@@ -138,6 +139,15 @@ export default {
         yield put({
           type: "save",
           payload: { departmentList: data.data || [] },
+        });
+      }
+    },
+    *findSalesmanList({ payload }, { call, put }) {
+      const { data } = yield call(API.findSalesmanList);
+      if (data && data.success) {
+        yield put({
+          type: "save",
+          payload: { salesmanList: data.data || [] },
         });
       }
     },

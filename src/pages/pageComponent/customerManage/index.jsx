@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "dva";
-import { Table, Input, Button, Space } from "antd";
+import { Table, Input, Button, Space, Modal } from "antd";
 import {
   SearchOutlined,
   ExportOutlined,
@@ -20,6 +20,7 @@ class CustomerManage extends React.Component {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({ type: "customerManageModel/getHospital" });
+    dispatch({ type: "customerManageModel/getCustomerType" });
 
     this.getTableList();
   }
@@ -55,6 +56,14 @@ class CustomerManage extends React.Component {
         dialogTitle: "编辑客户",
       },
     });
+    if (msg.type === "3") {
+      dispatch({
+        type: "customerManageModel/getDePartmentByHsp",
+        payload: {
+          id: msg.hospitalId,
+        },
+      });
+    }
   };
 
   changePagination = (current, size) => {
@@ -88,21 +97,87 @@ class CustomerManage extends React.Component {
     });
   };
 
+  onFormChange = (value, key, callBack) => {
+    const { dispatch, customerManageModel } = this.props;
+    const { currentMsg } = customerManageModel;
+    let tmp = { [key]: value };
+    if (key === "type") {
+      tmp = { ...tmp, hospitalId: null, departmentId: null };
+      callBack({ hospitalId: null });
+      callBack({ departmentId: null });
+    }
+    if (key === "hospitalId") {
+      dispatch({
+        type: "customerManageModel/getDePartmentByHsp",
+        payload: {
+          id: value,
+        },
+      });
+      tmp = { ...tmp, departmentId: null };
+      callBack({ departmentId: null });
+    }
+
+    dispatch({
+      type: "customerManageModel/save",
+      payload: {
+        currentMsg: { ...currentMsg, ...tmp },
+      },
+    });
+  };
+
+  handleSave = (values) => {
+    const { dispatch, customerManageModel } = this.props;
+    const { currentMsg } = customerManageModel;
+    if (currentMsg.id) {
+      dispatch({
+        type: "customerManageModel/updateCustomer",
+        payload: { ...values, id: currentMsg.id },
+      });
+    } else {
+      dispatch({
+        type: "customerManageModel/addCustomer",
+        payload: { ...values },
+      });
+    }
+  };
+
+  handleCloseSwitchDialog = () => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: "customerManageModel/save",
+      payload: {
+        switchDialog: false,
+        dialogBtnLoading: false,
+      },
+    });
+  };
+
+  handleSwitch = (msg) => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: "customerManageModel/save",
+      payload: {
+        switchDialog: true,
+        currentMsg: { ...msg },
+      },
+    });
+  };
+
   render() {
     const { dispatch } = this.props;
     const {
       pagination,
       data,
       loading,
-      supplierName,
+      name,
       showEditDialog,
       dialogTitle,
       currentMsg,
       dialogBtnLoading,
-      supplyList,
-      customerList,
-      agencyList,
       hospitalList,
+      customerTypeList,
+      departmentList,
+      switchDialog,
     } = this.props.customerManageModel;
     const { current, size, total } = pagination;
     return (
@@ -116,10 +191,8 @@ class CustomerManage extends React.Component {
                 <Input
                   style={{ width: 225 }}
                   placeholder="输入客户名称"
-                  value={supplierName}
-                  onChange={(e) =>
-                    this.onChangeFilter(e.target.value, "supplierName")
-                  }
+                  value={name}
+                  onChange={(e) => this.onChangeFilter(e.target.value, "name")}
                   onPressEnter={this.getTableList}
                   allowClear
                 />
@@ -140,7 +213,7 @@ class CustomerManage extends React.Component {
               key: "export",
               label: "导出",
               icon: <ExportOutlined />,
-              params: { supplierName },
+              params: { name },
               url: "/supply/customer/export",
             },
           ]}
@@ -191,7 +264,12 @@ class CustomerManage extends React.Component {
             title={dialogTitle}
             data={currentMsg}
             loading={dialogBtnLoading}
-            sourceList={{ supplyList, customerList, agencyList, hospitalList }}
+            sourceList={{
+              departmentList,
+              hospitalList,
+              customerTypeList,
+            }}
+            onFormChange={this.onFormChange}
             onClosed={() => {
               dispatch({
                 type: "customerManageModel/save",
@@ -204,6 +282,39 @@ class CustomerManage extends React.Component {
             onOk={this.handleSave}
           />
         )}
+
+        {/* 启用\停用弹窗 */}
+        <Modal
+          title="提示"
+          visible={switchDialog}
+          onCancel={this.handleCloseSwitchDialog}
+          footer={[
+            <Button key="cancel" onClick={this.handleCloseSwitchDialog}>
+              取消
+            </Button>,
+            <Button
+              key="ok"
+              type="primary"
+              loading={dialogBtnLoading}
+              onClick={() => {
+                const { id, isEnable } = currentMsg;
+                dispatch({
+                  type: "customerManageModel/updateCustomer",
+                  payload: {
+                    id,
+                    isEnable: isEnable === 1 ? 0 : 1,
+                  },
+                });
+              }}
+            >
+              确定
+            </Button>,
+          ]}
+          maskClosable={false}
+        >
+          你确定要
+          {currentMsg && currentMsg.isEnable === 1 ? "停用" : "启用"}嘛?
+        </Modal>
       </ContentWrap>
     );
   }

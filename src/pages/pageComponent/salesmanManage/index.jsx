@@ -22,15 +22,9 @@ class SalesmanManage extends React.Component {
 
   componentDidMount() {
     const { dispatch } = this.props;
-    dispatch({
-      type: "salesmanManageModel/getAddress",
-    });
-    dispatch({
-      type: "salesmanManageModel/storageList",
-    });
-    dispatch({
-      type: "salesmanManageModel/departmentList",
-    });
+    dispatch({ type: "salesmanManageModel/userSalersNewList" });
+    dispatch({ type: "salesmanManageModel/customerList" });
+
     this.getTableList();
   }
 
@@ -57,49 +51,47 @@ class SalesmanManage extends React.Component {
     this.getTableList();
   };
 
-  // handleClick = (key) => {
-  //   const { dispatch } = this.props;
-  //   if (key === "add") {
-  //     dispatch({
-  //       type: "salesmanManageModel/save",
-  //       payload: {
-  //         showEditDialog: true,
-  //         currentMsg: {},
-  //         dialogTitle: "新增",
-  //       },
-  //     });
-  //   }
-  // };
+  handleClick = (key) => {
+    const { dispatch } = this.props;
+    if (key === "add") {
+      dispatch({
+        type: "salesmanManageModel/save",
+        payload: {
+          showEditDialog: true,
+          currentMsg: {},
+          dialogTitle: "新增",
+        },
+      });
+    }
+  };
 
   handleEdit = (msg) => {
     const { dispatch } = this.props;
     dispatch({
-      type: "salesmanManageModel/save",
+      type: "salesmanManageModel/customerSalerDetail",
       payload: {
-        showEditDialog: true,
-        currentMsg: { ...msg },
-        dialogTitle: "编辑",
+        userId: msg.userId,
       },
     });
   };
 
-  handleDelete = (msg) => {
+  handleSwitch = (msg) => {
     const { dispatch } = this.props;
     dispatch({
       type: "salesmanManageModel/save",
       payload: {
-        deleteDialog: true,
+        switchDialog: true,
         currentMsg: { ...msg },
       },
     });
   };
 
-  handleCloseDeleteDialog = () => {
+  handleCloseSwitchDialog = () => {
     const { dispatch } = this.props;
     dispatch({
       type: "salesmanManageModel/save",
       payload: {
-        deleteDialog: false,
+        switchDialog: false,
         dialogBtnLoading: false,
       },
     });
@@ -107,18 +99,10 @@ class SalesmanManage extends React.Component {
 
   handleSave = (values) => {
     const { dispatch } = this.props;
-    const { dialogTitle } = this.props.salesmanManageModel;
-    if (dialogTitle === "编辑") {
-      dispatch({
-        type: "salesmanManageModel/updateHospital",
-        payload: { ...values },
-      });
-    } else {
-      dispatch({
-        type: "salesmanManageModel/saveHospital",
-        payload: { ...values },
-      });
-    }
+    dispatch({
+      type: "salesmanManageModel/customerSalerSave",
+      payload: { ...values },
+    });
   };
 
   filterChange = (value, key) => {
@@ -138,14 +122,13 @@ class SalesmanManage extends React.Component {
       pagination,
       dialogTitle,
       currentMsg,
-      adressList,
-      storageList,
-      departmentList,
       loading,
       data,
-      deleteDialog,
+      switchDialog,
       dialogBtnLoading,
-      condition,
+      keyword,
+      userList,
+      customerList,
     } = this.props.salesmanManageModel;
     const { current, size, total } = pagination;
     return (
@@ -160,10 +143,8 @@ class SalesmanManage extends React.Component {
                 <Input
                   style={{ width: 225 }}
                   placeholder="业务员姓名"
-                  value={condition}
-                  onChange={(e) =>
-                    this.filterChange(e.target.value, "condition")
-                  }
+                  value={keyword}
+                  onChange={(e) => this.filterChange(e.target.value, "keyword")}
                   allowClear
                 />
                 <Button
@@ -176,9 +157,9 @@ class SalesmanManage extends React.Component {
           }
         />
         <OpreationBar
-          // buttonList={[{ key: "add", label: "新增", icon: <PlusOutlined /> }]}
+          buttonList={[{ key: "add", label: "新增", icon: <PlusOutlined /> }]}
           total={total}
-          // onClick={this.handleClick}
+          onClick={this.handleClick}
         />
         <Table
           bordered
@@ -199,18 +180,19 @@ class SalesmanManage extends React.Component {
             render={(value, record, index) => index + 1}
             width={65}
           />
-          <Column title="业务员ID" dataIndex="" width={260} />
-          <Column title="业务员" dataIndex="" width={100} />
-          <Column title="关联客户" dataIndex="" width={180} />
+          <Column title="业务员" dataIndex="userName" width={120} />
+          <Column title="关联客户" dataIndex="customerName" />
           <Column
             title="操作"
-            dataIndex="name"
+            dataIndex="isEnable"
             fixed="right"
             width={110}
             render={(value, record, index) => (
               <Space size="middle">
                 <a onClick={() => this.handleEdit(record)}>编辑</a>
-                <a onClick={() => this.handleDelete(record)}>启用</a>
+                <a onClick={() => this.handleSwitch(record)}>
+                  {value ? "停用" : "启用"}
+                </a>
               </Space>
             )}
           />
@@ -219,10 +201,10 @@ class SalesmanManage extends React.Component {
         {/* 启用\禁用弹窗 */}
         <Modal
           title="提示"
-          visible={deleteDialog}
-          onCancel={this.handleCloseDeleteDialog}
+          visible={switchDialog}
+          onCancel={this.handleCloseSwitchDialog}
           footer={[
-            <Button key="cancel" onClick={this.handleCloseDeleteDialog}>
+            <Button key="cancel" onClick={this.handleCloseSwitchDialog}>
               取消
             </Button>,
             <Button
@@ -231,7 +213,7 @@ class SalesmanManage extends React.Component {
               loading={dialogBtnLoading}
               onClick={() => {
                 dispatch({
-                  type: "salesmanManageModel/deleteHospital",
+                  type: "salesmanManageModel/customerSalerSetEnable",
                 });
               }}
             >
@@ -240,7 +222,7 @@ class SalesmanManage extends React.Component {
           ]}
           maskClosable={false}
         >
-          你确定要XXXXX {currentMsg.name}?
+          你确定要{currentMsg && currentMsg.isEnable ? "停用" : "启用"}嘛?
         </Modal>
 
         {showEditDialog && (
@@ -248,7 +230,7 @@ class SalesmanManage extends React.Component {
             title={dialogTitle}
             data={currentMsg}
             loading={dialogBtnLoading}
-            sourceList={{ adressList, storageList, departmentList }}
+            sourceList={{ userList, customerList }}
             onClosed={() => {
               dispatch({
                 type: "salesmanManageModel/save",

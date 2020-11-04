@@ -256,7 +256,7 @@ class SupplyRelation extends React.Component {
           ]}
           maskClosable={false}
         >
-          你确定要{currentMsg.isEnable ? "停用" : "启用"}嘛?
+          你确定要{currentMsg && currentMsg.isEnable ? "停用" : "启用"}嘛?
         </Modal>
 
         {showEditDialog && (

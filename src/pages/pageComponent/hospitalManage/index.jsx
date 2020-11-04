@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "dva";
-import { Table, Button, Space, Modal, Input } from "antd";
+import { Table, Button, Space, Modal, Input, Select } from "antd";
 import {
   PlusOutlined,
   SearchOutlined,
@@ -22,15 +22,11 @@ class HospitalManage extends React.Component {
 
   componentDidMount() {
     const { dispatch } = this.props;
-    dispatch({
-      type: "hospitalManage/getAddress",
-    });
-    dispatch({
-      type: "hospitalManage/storageList",
-    });
-    dispatch({
-      type: "hospitalManage/departmentList",
-    });
+    dispatch({ type: "hospitalManage/getAddress" });
+    dispatch({ type: "hospitalManage/storageList" });
+    dispatch({ type: "hospitalManage/departmentList" });
+    dispatch({ type: "hospitalManage/findSalesmanList" });
+
     this.getTableList();
   }
 
@@ -123,12 +119,19 @@ class HospitalManage extends React.Component {
 
   filterChange = (value, key) => {
     const { dispatch } = this.props;
+    const { pagination } = this.props.hospitalManage;
     dispatch({
       type: "hospitalManage/save",
       payload: {
         [key]: value,
+        pagination: {
+          ...pagination,
+          current: 1,
+        },
       },
     });
+    if (key === "condition") return;
+    this.getTableList();
   };
 
   render() {
@@ -146,6 +149,8 @@ class HospitalManage extends React.Component {
       switchDialog,
       dialogBtnLoading,
       condition,
+      salesmanList,
+      userId,
     } = this.props.hospitalManage;
     const { current, size, total } = pagination;
     return (
@@ -172,6 +177,14 @@ class HospitalManage extends React.Component {
                   icon={<SearchOutlined />}
                 />
               </div>
+              <Select
+                placeholder="请选择"
+                value={userId}
+                options={salesmanList}
+                allowClear
+                style={{ width: 260, marginRight: 15 }}
+                onChange={(value) => this.filterChange(value, "userId")}
+              />
             </>
           }
         />
@@ -209,12 +222,6 @@ class HospitalManage extends React.Component {
             width={65}
           />
           <Column title="医院名称" dataIndex="name" width={260} />
-          <Column
-            title="是否在合作"
-            dataIndex="isCooperation"
-            width={120}
-            render={(value) => (value ? "是" : "否")}
-          />
           <Column title="科室" dataIndex="departmentName" width={100} />
           <Column title="城市" dataIndex="cityName" width={180} />
           <Column title="地址" dataIndex="address" width={160} />
@@ -261,7 +268,7 @@ class HospitalManage extends React.Component {
           ]}
           maskClosable={false}
         >
-          你确定要删除 {currentMsg.name} 这个医院吗？
+          你确定要{currentMsg && currentMsg.isEnable ? "停用" : "启用"}嘛?
         </Modal>
 
         {showEditDialog && (

@@ -983,9 +983,26 @@ const API = {
   /**
    * 客户管理
    */
+  //列表
   customerTableList(params) {
     return request({
       url: `${Prefix}/supply/customer/selectList`,
+      method: "post",
+      params,
+    });
+  },
+  // 新增客户
+  addCustomer(params) {
+    return request({
+      url: `${Prefix}/supply/customer/insertCustomer`,
+      method: "post",
+      params,
+    });
+  },
+  // 编辑客户
+  updateCustomer(params) {
+    return request({
+      url: `${Prefix}/supply/customer/updateCustomer`,
       method: "post",
       params,
     });
@@ -1144,6 +1161,50 @@ const API = {
       url: `${Prefix}/agency/company/setEnable`,
       params,
       method: "post",
+    });
+  },
+
+  /**
+   * 业务员管理
+   */
+  // 列表
+  customerSalerList(params) {
+    return request({
+      url: `${Prefix}/customer/saler/list`,
+      params,
+      method: "post",
+    });
+  },
+  // 启用/停用
+  customerSalerSetEnable(params) {
+    return request({
+      url: `${Prefix}/customer/saler/setEnable`,
+      params,
+      method: "post",
+    });
+  },
+  // 保存
+  customerSalerSave(params) {
+    return request({
+      url: `${Prefix}/customer/saler/save`,
+      params,
+      method: "post",
+    });
+  },
+
+  // 没有关联客户的业务员枚举
+  userSalersNewList(params) {
+    return request({
+      url: `${Prefix}/user/salers/new/list`,
+      params,
+    });
+  },
+
+  // 详情
+  customerSalerDetail(params) {
+    return request({
+      url: `${Prefix}/customer/saler/detail`,
+      params,
     });
   },
 
@@ -1425,6 +1486,20 @@ const API = {
   relationAgencyList(params) {
     return request({
       url: `${Prefix}/supply/relation/agency/list`,
+      params,
+    });
+  },
+  // 客户类型
+  getCustomerType(params) {
+    return request({
+      url: `${Prefix}/supply/customer/getCustomerType`,
+      params,
+    });
+  },
+  // 业务员枚举查询
+  findSalesmanList(params) {
+    return request({
+      url: `${Prefix}/hospital/findSalesmanList`,
       params,
     });
   },
