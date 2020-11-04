@@ -104,7 +104,7 @@ class OneProductCode extends React.Component {
         />
         <Table
           bordered
-          scroll={{ x: 1900 }}
+          scroll={{ x: 2000 }}
           rowKey={(record, index) => index}
           dataSource={data}
           pagination={{
@@ -116,14 +116,13 @@ class OneProductCode extends React.Component {
             onShowSizeChange: this.changePagination,
           }}
         >
-          <Column
+          {/* <Column
             title="序号"
             render={(value, record, index) => index + 1}
             width={80}
-          />
+          /> */}
           <Column title="流水号" dataIndex="serialNo" width={120} />
           <Column title="产品名称" dataIndex="productName" width={150} />
-          <Column title="产品简称" dataIndex="productShortName" width={120} />
           <Column title="产品编码" dataIndex="productCode" width={120} />
           <Column
             title="消耗状态"
@@ -134,12 +133,15 @@ class OneProductCode extends React.Component {
             }}
           />
           <Column title="消耗日期" dataIndex="consumeDate" width={130} />
+          <Column title="生产日期" dataIndex="productDate" width={130} />
+          <Column title="有效期" dataIndex="validPeriodDate" width={130} />
           <Column title="JDE编码" dataIndex="jdeCode" width={120} />
           <Column title="辽宁阳光采购编码" dataIndex="" width={150} />
           <Column title="吉林阳光采购编码" dataIndex="" width={150} />
-          <Column title="规格" dataIndex="model" width={120} />
-          <Column title="型号" dataIndex="regularModel" width={120} />
+          <Column title="型号" dataIndex="model" width={120} />
+          <Column title="规格" dataIndex="regularModel" width={120} />
           <Column title="单位" dataIndex="unitName" width={80} />
+          <Column title="生产批号" dataIndex="batchNo" width={130} />
           <Column title="生产厂家" dataIndex="vendorName" width={130} />
           <Column title="注册证号" dataIndex="registrationNo" width={120} />
           <Column

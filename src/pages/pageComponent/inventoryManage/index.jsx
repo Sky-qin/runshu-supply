@@ -216,7 +216,7 @@ class InventoryManage extends React.Component {
           />
           {/* <Column title="库位编码" dataIndex="stockNo" /> */}
           <Column title="库位名称" dataIndex="name" />
-          <Column title="库位类别" dataIndex="typeName" />
+          <Column title="库位类别" dataIndex="typeName" width={120} />
           <Column
             title="关联客户"
             dataIndex="customerList"

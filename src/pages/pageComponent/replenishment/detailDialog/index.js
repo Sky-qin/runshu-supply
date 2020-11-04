@@ -108,8 +108,8 @@ class EditDialog extends React.Component {
         />
         <Column title="产品编号" dataIndex="productCode" width={130} />
         <Column title="产品名称" dataIndex="productName" width={180} />
-        <Column title="规格" dataIndex="model" width={120} />
-        <Column title="型号" dataIndex="regModel" width={100} />
+        <Column title="型号" dataIndex="model" width={120} />
+        <Column title="规格" dataIndex="regModel" width={100} />
         <Column title="单位" dataIndex="unit" width={80} />
         <Column title="补货数量" dataIndex="replenishNum" width={100} />
         <Column title="已补数量" dataIndex="deliverNum" width={100} />
@@ -158,8 +158,8 @@ class EditDialog extends React.Component {
         <Column title="物流单号" dataIndex="orderNo" width={130} />
         <Column title="流水号" dataIndex="serialNo" width={100} />
         <Column title="产品名称" dataIndex="productName" width={180} />
-        <Column title="规格" dataIndex="model" width={120} />
-        <Column title="型号" dataIndex="regModel" width={100} />
+        <Column title="型号" dataIndex="model" width={120} />
+        <Column title="规格" dataIndex="regModel" width={100} />
         <Column title="单位" dataIndex="unit" width={80} />
         <Column
           title="物流详情"

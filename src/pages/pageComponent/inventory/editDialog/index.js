@@ -97,8 +97,8 @@ class EditDialog extends React.Component {
         <BasicName>产品名称：{currentMsg.productName || ""}</BasicName>
         <BasicDiv>
           <div>产品编号：{currentMsg.productCode || ""}</div>
-          <div>规格：{currentMsg.model || ""}</div>
-          <div>型号：{currentMsg.regularModel || ""}</div>
+          <div>规格：{currentMsg.regularModel || ""}</div>
+          <div>型号：{currentMsg.model || ""}</div>
           <div>单位：{currentMsg.unitName || ""}</div>
           <div>产品批号：{currentMsg.batchNo || ""}</div>
         </BasicDiv>

@@ -34,8 +34,8 @@ class SubmitSendGoods extends React.Component {
           <Column title="补货单编码" dataIndex="replenishNumber" width={145} />
           <Column title="产品编码" dataIndex="productCode" width={120} />
           <Column title="产品名称" dataIndex="productName" width={150} />
-          <Column title="规格" dataIndex="model" width={100} />
-          <Column title="型号" dataIndex="regModel" width={80} />
+          <Column title="型号" dataIndex="model" width={100} />
+          <Column title="规格" dataIndex="regModel" width={80} />
           <Column title="单位" dataIndex="unit" width={70} />
           <Column
             title="补货数量"

@@ -229,7 +229,6 @@ class HospitalSaleGoods extends React.Component {
             <Column title="规格" dataIndex="regularModel" width={100} />
             <Column title="型号" dataIndex="model" width={100} />
             <Column title="单位" dataIndex="unitName" width={80} />
-            <Column title="产品属性" dataIndex="productProperty" width={120} />
             <Column title="产品类别" dataIndex="productCategory" width={120} />
             <Column title="单价" dataIndex="productPrice" width={100} />
             <Column
