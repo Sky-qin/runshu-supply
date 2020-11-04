@@ -126,7 +126,6 @@ class PowerManage extends React.Component {
       dialogBtnLoading,
     } = this.props.powerManage;
     const { current, size, total } = pagination;
-    console.log("resourceList", resourceList);
     return (
       <ContentBox loading={loading}>
         <OpreationBar

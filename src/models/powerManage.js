@@ -110,7 +110,7 @@ export default {
     },
 
     *queryRole({ payload }, { call, put, select }) {
-      const { pagination } = yield select((state) => state.personnelManage);
+      const { pagination } = yield select((state) => state.powerManage);
       const { current, size } = pagination;
       let params = {
         current,
