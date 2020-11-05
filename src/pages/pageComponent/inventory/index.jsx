@@ -176,16 +176,19 @@ class Inventory extends React.Component {
                   }}
                 />
                 <Select
-                  optionFilterProp="label"
+                  placeholder="请选择库位"
                   showSearch
+                  optionFilterProp="label"
+                  dropdownMatchSelectWidth={false}
                   allowClear={true}
                   value={stockId || null}
                   onChange={(value) => this.onChangeFilter(value, "stockId")}
                   style={{ width: 260, marginRight: 15 }}
                   options={storageList}
-                  placeholder="请选择库位"
                 />
                 <Select
+                  placeholder="请选择产品类型"
+                  optionFilterProp="label"
                   showSearch
                   allowClear={true}
                   value={productCategory || null}
@@ -194,7 +197,6 @@ class Inventory extends React.Component {
                   }
                   style={{ width: 260, marginRight: 15 }}
                   options={productCategoryList}
-                  placeholder="请选择产品类型"
                 />
               </>
             }
@@ -205,7 +207,7 @@ class Inventory extends React.Component {
               },
               {
                 key: "prettyInventoryAmount",
-                label: `金额：${prettyInventoryAmount}`,
+                label: `金额：${prettyInventoryAmount || 0}（万）`,
               },
             ]}
             total={total}

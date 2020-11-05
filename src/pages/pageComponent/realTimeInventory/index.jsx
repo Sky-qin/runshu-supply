@@ -173,7 +173,7 @@ class RealTimeInventory extends React.Component {
               },
               {
                 key: "prettyInventoryAmount",
-                label: `金额：${prettyInventoryAmount}`,
+                label: `金额：${prettyInventoryAmount || 0}（万）`,
               },
             ]}
             total={total}
