@@ -150,7 +150,7 @@ class ProductLibrary extends React.Component {
             width={80}
           />
           <Column title="产品名称" dataIndex="productName" width={160} />
-          <Column title="产品简称" dataIndex="productShortName" width={130} />
+          {/* <Column title="产品简称" dataIndex="productShortName" width={130} /> */}
           <Column title="产品编码" dataIndex="productCode" width={130} />
           <Column title="型号" dataIndex="model" width={125} />
           <Column title="规格" dataIndex="regularModel" width={125} />

@@ -223,7 +223,7 @@ class HospitalSaleGoods extends React.Component {
               }}
             />
             <Column title="产品名称" dataIndex="productName" width={160} />
-            <Column title="产品简称" dataIndex="productShortName" width={120} />
+            {/* <Column title="产品简称" dataIndex="productShortName" width={120} /> */}
             <Column title="产品编码" dataIndex="productCode" width={100} />
 
             <Column title="规格" dataIndex="regularModel" width={100} />
