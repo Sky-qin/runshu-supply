@@ -4,6 +4,7 @@ const pxtorem2 = _interopRequireDefault(pxtorem).default;
 function _interopRequireDefault(obj) {
   return obj && obj.__esModule ? obj : { default: obj };
 }
+
 export default {
   entry: "./src/index.js",
   env: {
@@ -32,6 +33,11 @@ export default {
       extraPostCSSPlugins: [
         pxtorem2({ rootValue: baseSize, propWhiteList: [] }),
       ],
+    },
+  },
+  define: {
+    "process.env": {
+      API_EVN: process.env.API_EVN,
     },
   },
 };

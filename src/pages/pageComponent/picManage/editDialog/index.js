@@ -1,5 +1,6 @@
 import React from "react";
 import { Modal, Form, Button, Select, Radio } from "antd";
+import { Prefix } from "../../../../utils/config";
 import Avatar from "../uploadPic";
 
 const layout = {
@@ -179,6 +180,7 @@ class EditDialog extends React.Component {
             rules={[{ required: true }]}
           >
             <Avatar
+              path={Prefix}
               imageUrl={data.imageUrl}
               onChange={(value) => this.handleChangeForm(value, "imageUrl")}
             />

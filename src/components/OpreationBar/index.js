@@ -2,6 +2,7 @@ import React from "react";
 import { Button } from "antd";
 import T from "prop-types";
 import styled from "styled-components";
+import { Prefix } from "../../utils/config";
 
 const OpreationDiv = styled.div`
   .opreation-bar-inner {
@@ -78,9 +79,7 @@ class OpreationBar extends React.Component {
               if (key === "export") {
                 aParams = {
                   component: "a",
-                  href: `https://order.runshutech.com${url}?${Object.entries(
-                    params
-                  )
+                  href: `${Prefix}${url}?${Object.entries(params)
                     .map((item) => item.join("="))
                     .join("&")}`,
                 };
