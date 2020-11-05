@@ -37,7 +37,7 @@ class Avatar extends React.Component {
 
   render() {
     const { loading } = this.state;
-    const { imageUrl } = this.props;
+    const { imageUrl, path } = this.props;
     const uploadButton = (
       <div>
         {loading ? <LoadingOutlined /> : <PlusOutlined />}
@@ -49,7 +49,7 @@ class Avatar extends React.Component {
         name="file"
         listType="picture-card"
         showUploadList={false}
-        action="https://order.runshutech.com/file/upload"
+        action={`${path}/file/upload`}
         beforeUpload={beforeUpload}
         onChange={this.handleChange}
       >
