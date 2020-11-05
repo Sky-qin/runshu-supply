@@ -113,9 +113,7 @@ class DetailDialog extends React.Component {
           render={(value) => {
             return value ? (
               <Popover
-                content={
-                  <img src={`https://filesystem.runshutech.com/${value}`} />
-                }
+                content={<img src={value} />}
                 title="图片"
                 trigger="click"
               >

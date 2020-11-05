@@ -11,8 +11,9 @@ import {
   Row,
   Select,
 } from "antd";
-import { PlusOutlined, SearchOutlined } from "@ant-design/icons";
+import { PlusOutlined } from "@ant-design/icons";
 import EditDialog from "./editDialog";
+import { PicPrefix } from "../../../utils/config";
 import ContentWrap from "../../../components/contentWrap";
 import OpreationBar from "../../../components/OpreationBar";
 import "./index.scss";
@@ -428,12 +429,7 @@ class PicManage extends React.Component {
               dataIndex="imageUrl"
               width={120}
               render={(value) => {
-                return (
-                  <img
-                    width={80}
-                    src={`https://filesystem.runshutech.com/${value}`}
-                  />
-                );
+                return <img width={80} src={`${PicPrefix}${value}`} />;
               }}
             />
             <Column title="产品名称" dataIndex="productName" />

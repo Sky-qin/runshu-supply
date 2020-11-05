@@ -7,9 +7,10 @@ const corpId = "dingcda3f8b5a069ac58bc961a6cb783455b";
 
 const localdev = "https://order.runshutech.com";
 const dev = "https://order.runshutech.com";
-const prod = "https://supply.runshutech.com/";
+const prod = "https://supply.runshutech.com";
 const API_EVN = process.env.API_EVN;
 const Prefix = getApiHost(API_EVN);
+const PicPrefix = getPicHost(API_EVN);
 
 function getApiHost(value) {
   if (value === "localdev") {
@@ -21,4 +22,14 @@ function getApiHost(value) {
   }
 }
 
-export { Prefix, corpId };
+function getPicHost(value) {
+  if (value === "localdev") {
+    return "https://filesystem.runshutech.com/";
+  } else if (value === "dev") {
+    return "https://filesystem.runshutech.com/";
+  } else if (value === "prod") {
+    return "https://fdfs.runshutech.com/";
+  }
+}
+
+export { Prefix, corpId, PicPrefix };

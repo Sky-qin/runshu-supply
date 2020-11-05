@@ -37,7 +37,7 @@ class Avatar extends React.Component {
 
   render() {
     const { loading } = this.state;
-    const { imageUrl, path } = this.props;
+    const { imageUrl, path, picpath } = this.props;
     const uploadButton = (
       <div>
         {loading ? <LoadingOutlined /> : <PlusOutlined />}
@@ -55,7 +55,7 @@ class Avatar extends React.Component {
       >
         {imageUrl ? (
           <img
-            src={`https://filesystem.runshutech.com/${imageUrl}`}
+            src={`${picpath}${imageUrl}`}
             alt="avatar"
             style={{ width: "100%" }}
           />

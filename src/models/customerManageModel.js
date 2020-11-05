@@ -63,10 +63,12 @@ export default {
     *getDePartmentByHsp({ payload }, { call, put }) {
       const { data } = yield call(API.getDePartmentByHsp, payload);
       if (data && data.success) {
-        let list = (data.data || []).map((item) => ({
-          ...item,
-          disabled: true,
-        }));
+        let list = (data.data || []).map((item) => {
+          if (item.children && item.children.length === 0) {
+            return { ...item };
+          }
+          return { ...item, disabled: true };
+        });
         yield put({
           type: "save",
           payload: { departmentList: list || [] },
