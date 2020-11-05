@@ -19,9 +19,6 @@ class SystemPersonnelManage extends React.Component {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
-      type: "personnelManage/getAllHospital",
-    });
-    dispatch({
       type: "personnelManage/queryUserRole",
     });
     this.getTableList();
@@ -123,7 +120,6 @@ class SystemPersonnelManage extends React.Component {
       currentMsg,
       loading,
       data,
-      hospitalList,
       userRoleList,
     } = this.props.personnelManage;
     const { current, size, total } = pagination;
@@ -215,7 +211,7 @@ class SystemPersonnelManage extends React.Component {
           <EditDialog
             title={dialogTitle}
             data={currentMsg}
-            sourceList={{ hospitalList, userRoleList }}
+            sourceList={{ userRoleList }}
             onClosed={() => {
               dispatch({
                 type: "personnelManage/save",

@@ -50,7 +50,7 @@ class EditDialog extends React.Component {
 
   render() {
     const { title, data, sourceList } = this.props;
-    const { hospitalList, userRoleList } = sourceList;
+    const { userRoleList } = sourceList;
     return (
       <Modal
         title={title || "编辑"}
@@ -74,7 +74,6 @@ class EditDialog extends React.Component {
             userName: data.userName || "",
             userPhone: data.userPhone || "",
             roleId: data.roleId || [],
-            hospitalIds: data.hospitalIds || [],
           }}
         >
           <Form.Item
@@ -101,14 +100,6 @@ class EditDialog extends React.Component {
             rules={[{ required: true, message: "请选择角色" }]}
           >
             <Select showArrow optionFilterProp="label" options={userRoleList} />
-          </Form.Item>
-
-          <Form.Item name="hospitalIds" label="医院">
-            <Select
-              mode="multiple"
-              optionFilterProp="label"
-              options={hospitalList}
-            />
           </Form.Item>
         </Form>
       </Modal>

@@ -6,7 +6,6 @@ export default {
   state: {
     showEditDialog: false,
     currentMsg: {},
-    hospitalList: [],
     userRoleList: [],
     data: [],
     loading: false,
@@ -46,19 +45,6 @@ export default {
         });
       } else {
         message.error(data.message || "查询用户表格数据失败！");
-      }
-    },
-    *getAllHospital({ payload }, { call, put, select }) {
-      const { data } = yield call(API.getAllHospital);
-      if (data && data.success) {
-        yield put({
-          type: "save",
-          payload: {
-            hospitalList: data.data || [],
-          },
-        });
-      } else {
-        message.error(data.message || "获取医院枚举失败！");
       }
     },
     *queryUserRole({ payload }, { call, put, select }) {
