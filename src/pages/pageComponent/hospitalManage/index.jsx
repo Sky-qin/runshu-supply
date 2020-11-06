@@ -151,6 +151,7 @@ class HospitalManage extends React.Component {
       condition,
       salesmanList,
       userId,
+      isEnable,
     } = this.props.hospitalManage;
     const { current, size, total } = pagination;
     return (
@@ -178,12 +179,23 @@ class HospitalManage extends React.Component {
                 />
               </div>
               <Select
-                placeholder="请选择"
+                placeholder="请选择业务员"
                 value={userId}
                 options={salesmanList}
                 allowClear
                 style={{ width: 260, marginRight: 15 }}
                 onChange={(value) => this.filterChange(value, "userId")}
+              />
+              <Select
+                placeholder="请选择合作状态"
+                allowClear={true}
+                value={isEnable}
+                onChange={(value) => this.filterChange(value, "isEnable")}
+                style={{ width: 260, marginRight: 15 }}
+                options={[
+                  { value: true, label: "是" },
+                  { value: false, label: "否" },
+                ]}
               />
             </>
           }
@@ -222,6 +234,15 @@ class HospitalManage extends React.Component {
             width={65}
           />
           <Column title="医院名称" dataIndex="name" width={260} />
+          <Column
+            title="是否合作"
+            dataIndex="isEnable"
+            width={100}
+            render={(value) => {
+              if (value === true) return "是";
+              if (value === false) return "否";
+            }}
+          />
           <Column title="科室" dataIndex="departmentName" width={100} />
           <Column title="城市" dataIndex="cityName" width={180} />
           <Column title="地址" dataIndex="address" width={160} />

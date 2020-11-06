@@ -25,7 +25,7 @@ export default {
 
   effects: {
     *getTableList({ payload }, { call, put, select }) {
-      const { pagination, condition, userId } = yield select(
+      const { pagination, condition, userId, isEnable } = yield select(
         (state) => state.hospitalManage
       );
       const { current, size } = pagination;
@@ -35,6 +35,7 @@ export default {
         params: {
           condition,
           userId,
+          isEnable,
         },
       };
       yield put({ type: "save", payload: { loading: true } });

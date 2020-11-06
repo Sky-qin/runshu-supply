@@ -12,6 +12,7 @@ export default {
       total: 0,
     },
     name: "",
+    isEnable: null,
     hospitalList: [],
     customerTypeList: [],
     switchDialog: false,
@@ -19,7 +20,7 @@ export default {
 
   effects: {
     *getTableList({ payload }, { call, put, select }) {
-      const { pagination, name } = yield select(
+      const { pagination, name, isEnable } = yield select(
         (state) => state.customerManageModel
       );
       const { current, size } = pagination;
@@ -28,6 +29,7 @@ export default {
         size,
         params: {
           name,
+          isEnable,
         },
       };
       yield put({ type: "save", payload: { loading: true } });

@@ -74,11 +74,13 @@ class RealTimeInventory extends React.Component {
 
   handleShowDetail = (msg) => {
     const { dispatch } = this.props;
+    const { validPeriod } = this.props.realInventoryModel;
     dispatch({
       type: "realInventoryModel/productStock",
       payload: {
         productItemId: msg.productItemId,
         batchNo: msg.batchNo,
+        validPeriod,
       },
     });
   };

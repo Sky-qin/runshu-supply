@@ -82,7 +82,7 @@ export default {
       }
     },
     *queryInventoryProduct({ payload }, { call, put, select }) {
-      const { currentMsg, inventoryPagination } = yield select(
+      const { currentMsg, inventoryPagination, validPeriod } = yield select(
         (state) => state.inventory
       );
       const params = {
@@ -91,6 +91,7 @@ export default {
         params: {
           productCode: currentMsg.productCode,
           stockId: currentMsg.stockId,
+          validPeriod,
         },
       };
       const { data } = yield call(API.queryInventoryProduct, params);

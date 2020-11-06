@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "dva";
-import { Table, Input, Button, Space, Modal } from "antd";
+import { Table, Input, Button, Space, Modal, Select } from "antd";
 import {
   SearchOutlined,
   ExportOutlined,
@@ -95,6 +95,9 @@ class CustomerManage extends React.Component {
         },
       },
     });
+
+    if (key === "keyword") return;
+    this.getTableList();
   };
 
   onFormChange = (value, key, callBack) => {
@@ -178,6 +181,7 @@ class CustomerManage extends React.Component {
       customerTypeList,
       departmentList,
       switchDialog,
+      isEnable,
     } = this.props.customerManageModel;
     const { current, size, total } = pagination;
     return (
@@ -202,6 +206,17 @@ class CustomerManage extends React.Component {
                   icon={<SearchOutlined />}
                 />
               </div>
+              <Select
+                placeholder="请选择启用、停用状态"
+                allowClear={true}
+                value={isEnable}
+                onChange={(value) => this.onChangeFilter(value, "isEnable")}
+                style={{ width: 260, marginRight: 15 }}
+                options={[
+                  { value: 0, label: "停用" },
+                  { value: 1, label: "启用" },
+                ]}
+              />
             </>
           }
           total={false}
