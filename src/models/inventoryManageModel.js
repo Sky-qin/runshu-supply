@@ -21,7 +21,7 @@ export default {
 
   effects: {
     *getTableList({ payload }, { call, put, select }) {
-      const { pagination, keyword, type } = yield select(
+      const { pagination, keyword, type, isEnable } = yield select(
         (state) => state.inventoryManageModel
       );
       const { current, size } = pagination;
@@ -31,6 +31,7 @@ export default {
         params: {
           keyword,
           type,
+          isEnable,
         },
       };
       yield put({ type: "save", payload: { loading: true } });

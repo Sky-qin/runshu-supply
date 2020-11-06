@@ -145,6 +145,7 @@ class InventoryManage extends React.Component {
       dialogBtnLoading,
       customerList,
       switchDialog,
+      isEnable,
     } = this.props.inventoryManageModel;
     const { current, size, total } = pagination;
     return (
@@ -177,6 +178,17 @@ class InventoryManage extends React.Component {
                 allowClear
                 style={{ width: 260, marginRight: 15 }}
                 onChange={(value) => this.onChangeFilter(value, "type")}
+              />
+              <Select
+                placeholder="请选择启用、停用状态"
+                allowClear={true}
+                value={isEnable}
+                onChange={(value) => this.onChangeFilter(value, "isEnable")}
+                style={{ width: 260, marginRight: 15 }}
+                options={[
+                  { value: false, label: "停用" },
+                  { value: true, label: "启用" },
+                ]}
               />
             </>
           }

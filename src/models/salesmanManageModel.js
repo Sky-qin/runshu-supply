@@ -20,11 +20,12 @@ export default {
     keyword: null,
     userList: [],
     customerList: [],
+    isEnable: null,
   },
 
   effects: {
     *getTableList({ payload }, { call, put, select }) {
-      const { pagination, keyword } = yield select(
+      const { pagination, keyword, isEnable } = yield select(
         (state) => state.salesmanManageModel
       );
       const { current, size } = pagination;
@@ -33,6 +34,7 @@ export default {
         size,
         params: {
           keyword,
+          isEnable,
         },
       };
       yield put({ type: "save", payload: { loading: true } });

@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "dva";
-import { Table, Button, Space, Modal, Input } from "antd";
+import { Table, Button, Space, Modal, Input, Select } from "antd";
 import { PlusOutlined, SearchOutlined } from "@ant-design/icons";
 import EditDialog from "./editDialog";
 import ContentBox from "../../../components/contentWrap";
@@ -109,6 +109,8 @@ class SalesmanManage extends React.Component {
         [key]: value,
       },
     });
+    if (key === "keyword") return;
+    this.getTableList();
   };
 
   render() {
@@ -125,6 +127,7 @@ class SalesmanManage extends React.Component {
       keyword,
       userList,
       customerList,
+      isEnable,
     } = this.props.salesmanManageModel;
     const { current, size, total } = pagination;
     return (
@@ -149,6 +152,17 @@ class SalesmanManage extends React.Component {
                   icon={<SearchOutlined />}
                 />
               </div>
+              <Select
+                placeholder="请选择启用、停用状态"
+                allowClear={true}
+                value={isEnable}
+                onChange={(value) => this.filterChange(value, "isEnable")}
+                style={{ width: 260, marginRight: 15 }}
+                options={[
+                  { value: false, label: "停用" },
+                  { value: true, label: "启用" },
+                ]}
+              />
             </>
           }
         />
