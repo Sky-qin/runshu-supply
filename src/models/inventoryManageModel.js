@@ -92,6 +92,7 @@ export default {
             showEditDialog: false,
           },
         });
+        yield put({ type: "getTableList" });
       } else {
         message.error(data.message || "保存失败！");
       }
