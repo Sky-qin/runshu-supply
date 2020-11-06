@@ -22,19 +22,6 @@ const BasicDiv = styled.div`
   margin-bottom: 50px;
 `;
 
-const WrapTitle = styled.div`
-  font-size: 18px;
-  line-height: 30px;
-  display: flex;
-  padding: 5px 0px;
-  .berfore-bar {
-    height: 30px;
-    width: 4px;
-    background: #1890ff;
-    margin-right: 4px;
-  }
-`;
-
 const FooterBar = styled.div`
   text-align: center;
   background: #fff;

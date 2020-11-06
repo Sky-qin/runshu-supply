@@ -24,6 +24,7 @@ export default {
               activeKey = getUrlParam("pageType") || item.value;
             }
           }
+          return null;
         });
         yield put({
           type: "save",

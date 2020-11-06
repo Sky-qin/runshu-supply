@@ -1,7 +1,6 @@
 import React from "react";
 import styled from "styled-components";
 import { Modal, Table, Tabs, Popover } from "antd";
-import { AimOutlined } from "@ant-design/icons";
 const { Column } = Table;
 const { TabPane } = Tabs;
 
@@ -113,11 +112,11 @@ class DetailDialog extends React.Component {
           render={(value) => {
             return value ? (
               <Popover
-                content={<img src={value} />}
+                content={<img alt="图片" src={value} />}
                 title="图片"
                 trigger="click"
               >
-                <a href="javascript:;">查看照片</a>
+                <a>查看照片</a>
               </Popover>
             ) : (
               "无"

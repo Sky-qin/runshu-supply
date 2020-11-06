@@ -1,10 +1,5 @@
 import React from "react";
-import { Modal, Button, Table } from "antd";
-
-const layout = {
-  labelCol: { span: 6 },
-  wrapperCol: { span: 18 },
-};
+import { Modal, Table } from "antd";
 
 const Column = Table.Column;
 

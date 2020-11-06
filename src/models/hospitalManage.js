@@ -103,7 +103,7 @@ export default {
     },
     *hospitalUpdateState({ payload }, { call, put, select }) {
       const { currentMsg } = yield select((state) => state.hospitalManage);
-      const { id, isEnable } = currentMsg;
+      const { isEnable } = currentMsg;
       let params = {
         id: currentMsg.id,
       };

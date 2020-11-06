@@ -308,7 +308,6 @@ class DeliveryManage extends React.Component {
       deliveryInfo,
       showEditDeliveryDialog,
       dialogBtnLoading,
-      searchParams,
       hospitalTodoList,
     } = this.props.deliveryManageModel;
     const { current, size, total } = pagination;

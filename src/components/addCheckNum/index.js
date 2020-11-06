@@ -174,7 +174,6 @@ class AddCheckNum extends React.Component {
               scroll={{ y: 500 }}
               rowKey={(record, index) => index}
               dataSource={statisticList}
-              rowKey="productCode"
               pagination={false}
             >
               <Column

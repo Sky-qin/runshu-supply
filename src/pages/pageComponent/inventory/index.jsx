@@ -9,7 +9,6 @@ import OpreationBar from "../../../components/OpreationBar";
 import "./index.scss";
 
 const { Column } = Table;
-const { Search } = Input;
 
 class Inventory extends React.Component {
   constructor(props) {

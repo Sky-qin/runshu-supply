@@ -121,7 +121,7 @@ export default {
       }
     },
     *queryInventoryProduct({ payload }, { call, put, select }) {
-      const { currentMsg, inventoryPagination, hospitalId } = yield select(
+      const { inventoryPagination, hospitalId } = yield select(
         (state) => state.deliveryManageModel
       );
       const params = {
@@ -237,9 +237,10 @@ export default {
       const addCode = list[list.length - 1];
       let canAdd = true;
       (scanCodeProductList || []).map((item) => {
-        if (item.serialNo == addCode) {
+        if (item.serialNo === addCode) {
           canAdd = false;
         }
+        return null;
       });
       if (!canAdd) {
         message.warning("该商品已经被添加，请添加其他商品！");

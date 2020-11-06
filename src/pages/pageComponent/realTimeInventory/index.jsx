@@ -9,7 +9,6 @@ import TotalBoard from "../../../components/TotalBoard";
 import "./index.scss";
 
 const { Column } = Table;
-const { Search } = Input;
 
 class RealTimeInventory extends React.Component {
   constructor(props) {

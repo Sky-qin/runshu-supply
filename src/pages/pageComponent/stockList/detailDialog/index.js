@@ -127,10 +127,9 @@ class EditDialog extends React.Component {
     return (
       <Table
         bordered
-        rowKey={(record, index) => index}
         scroll={{ y: 400 }}
         dataSource={backStockList || []}
-        rowKey="orderNo"
+        rowKey="serialNo"
         pagination={false}
       >
         <Column title="序号" render={(value, record, index) => index + 1} />

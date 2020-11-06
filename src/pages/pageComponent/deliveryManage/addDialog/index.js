@@ -120,7 +120,6 @@ class AddDialog extends React.Component {
         <Table
           bordered
           scroll={{ y: 400 }}
-          rowKey={(record, index) => index}
           dataSource={replenishTodoList}
           rowKey="id"
           rowSelection={{

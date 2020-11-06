@@ -148,7 +148,6 @@ class TotalBoard extends React.Component {
       prettyProductAmount,
       loading,
     } = this.state;
-    const {} = this.props;
     return (
       <ContentWrap loading={loading}>
         <BoardWrap>
@@ -157,6 +156,7 @@ class TotalBoard extends React.Component {
             onClick={() => this.cliclkToList("inventoryWarnInfo")}
           >
             <img
+              alt="图片"
               src={warning}
               style={{ width: 33, height: 33, margin: "28px 0 10px" }}
             />
@@ -170,6 +170,7 @@ class TotalBoard extends React.Component {
             onClick={() => this.cliclkToList("recentWarnInfo")}
           >
             <img
+              alt="图片"
               src={lightning}
               style={{ width: 33, height: 33, margin: "28px 0 10px" }}
             />
@@ -180,7 +181,7 @@ class TotalBoard extends React.Component {
           </SmallBoardWrap>
           <div className="item-board">
             <div className="item-board-left light-blue">
-              <img src={blueCircular} />
+              <img alt="图片" src={blueCircular} />
               <div className="item-board-left-info">
                 <div className="item-board-left-info-num">
                   {inventoryProductNo}
@@ -192,6 +193,7 @@ class TotalBoard extends React.Component {
             </div>
             <div className="item-board-right deep-blue">
               <img
+                alt="图片"
                 src={combination}
                 style={{ width: 33, height: 33, margin: "28px 0 10px" }}
               />
@@ -203,7 +205,7 @@ class TotalBoard extends React.Component {
           </div>
           <div className="item-board">
             <div className="item-board-left light-orange">
-              <img src={orangeCircular} />
+              <img alt="图片" src={orangeCircular} />
               <div className="item-board-left-info">
                 <div className="item-board-left-info-num">{rec7DConsumeNo}</div>
                 <div className="item-board-left-info-text orange-text-color">
@@ -214,6 +216,7 @@ class TotalBoard extends React.Component {
             <div className="item-board-right deep-orange">
               <img
                 src={amount}
+                alt="图片"
                 style={{ width: 33, height: 33, margin: "28px 0 10px" }}
               />
               <div>近7天消耗商品总金额（万）</div>

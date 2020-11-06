@@ -246,7 +246,6 @@ class MessagePushManage extends React.Component {
             title="提示"
             loading={dialogBtnLoading}
             data={currentMsg}
-            dataSource={personList}
             onClosed={() => {
               dispatch({
                 type: "messagePushModel/save",

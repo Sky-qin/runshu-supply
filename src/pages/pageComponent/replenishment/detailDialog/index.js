@@ -16,10 +16,6 @@ const BasicDiv = styled.div`
   }
 `;
 
-const BasicName = styled.div`
-  padding-left: 20px;
-`;
-
 class EditDialog extends React.Component {
   departmentRef = React.createRef();
 
@@ -149,7 +145,6 @@ class EditDialog extends React.Component {
     return (
       <Table
         bordered
-        rowKey={(record, index) => index}
         scroll={{ y: 400 }}
         dataSource={deliverInfoList}
         rowKey="orderNo"

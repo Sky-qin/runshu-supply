@@ -91,6 +91,7 @@ export default {
           if (item.serialNo === serialNo) {
             canAdd = false;
           }
+          return null;
         });
         if (canAdd) {
           message.success("添加成功！");

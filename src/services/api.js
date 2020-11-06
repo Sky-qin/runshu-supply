@@ -1,9 +1,6 @@
-import saveImage$ from "dingtalk-jsapi/api/biz/util/saveImage";
 import { Prefix } from "../utils/config";
 import request from "./request";
 
-// const Prefix = "//192.168.1.127:8081";
-// const Prefix = "//218.24.35.107:8081";
 const API = {
   /**
    * 获取菜单列表

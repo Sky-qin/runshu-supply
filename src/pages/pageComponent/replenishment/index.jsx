@@ -401,7 +401,7 @@ class Replenishment extends React.Component {
                       okText="确定"
                       cancelText="取消"
                     >
-                      <a href="#">确定</a>
+                      <a>确定</a>
                     </Popconfirm>
                   )}
                   {record.orderStatus === 2 && (
@@ -414,7 +414,7 @@ class Replenishment extends React.Component {
                       okText="确定"
                       cancelText="取消"
                     >
-                      <a href="#">撤销确定</a>
+                      <a>撤销确定</a>
                     </Popconfirm>
                   )}
 

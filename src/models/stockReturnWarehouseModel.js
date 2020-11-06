@@ -1,5 +1,4 @@
 import { message } from "antd";
-import { transferSimpleList } from "../utils/tools";
 import API from "../services/api";
 
 export default {
@@ -86,6 +85,7 @@ export default {
           if (item.serialNo === serialNo) {
             canAdd = false;
           }
+          return null;
         });
         productList.push(addProduct);
         if (!canAdd) {
