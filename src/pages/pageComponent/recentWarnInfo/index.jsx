@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "dva";
-import { Table, Input, Select, Tabs } from "antd";
+import { Table, Select, Tabs } from "antd";
 import { ExportOutlined } from "@ant-design/icons";
 import styled from "styled-components";
 

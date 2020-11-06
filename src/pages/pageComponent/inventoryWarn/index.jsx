@@ -8,7 +8,6 @@ import OpreationBar from "../../../components/OpreationBar";
 import "./index.scss";
 
 const { Column } = Table;
-const { Search } = Input;
 
 class InventoryWarn extends React.Component {
   constructor(props) {

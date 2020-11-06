@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "dva";
 import styled from "styled-components";
-import { Modal, Table, Space, Button } from "antd";
+import { Modal, Table, Space } from "antd";
 import * as dd from "dingtalk-jsapi";
 
 const { Column } = Table;

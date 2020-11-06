@@ -2,7 +2,6 @@ import React from "react";
 import { connect } from "dva";
 import styled from "styled-components";
 import { Radio, Tabs } from "antd";
-// import { Chart, LineAdvance } from "bizcharts";
 import echarts from "echarts";
 import "echarts/lib/chart/line";
 import "echarts/lib/component/tooltip";
@@ -88,7 +87,6 @@ class Home extends React.Component {
     this.getCartsData();
     this.getTopTenData();
 
-
     var myChart = echarts.init(document.getElementById("echarts"));
     window.addEventListener("resize", function () {
       myChart.resize();
@@ -171,7 +169,10 @@ class Home extends React.Component {
 
   getCartsData = () => {
     const { dispatch } = this.props;
-    dispatch({ type: "homeModel/getStatistics", payload: { callBack: this.renderChart } });
+    dispatch({
+      type: "homeModel/getStatistics",
+      payload: { callBack: this.renderChart },
+    });
   };
 
   getTopTenData = () => {
@@ -183,7 +184,7 @@ class Home extends React.Component {
     const { topPic } = this.props.homeModel;
     let sort = index + 1;
     if (sort < 4) {
-      return <img width={19} height={19} src={topPic[index]} />;
+      return <img alt="图片" width={19} height={19} src={topPic[index]} />;
     }
     if (4 <= sort && sort < 10) {
       return `0${sort}`;
@@ -366,7 +367,7 @@ class Home extends React.Component {
             <div className="top-ten-item">
               <div className="top-ten-item-top-bar">
                 <div className="top-ten-item-top-bar-left">
-                  <img src={Sort} height={25} />
+                  <img alt="图片" src={Sort} height={25} />
                   消耗TOP10 耗材
                 </div>
                 <Radio.Group
@@ -388,7 +389,10 @@ class Home extends React.Component {
                   return (
                     <div key={index} className="top-ten-item-table-col">
                       <div className="sort-row">{this.renderSort(index)}</div>
-                      <div className="value-row">{item.label}<div className="value-row-tip">{`型号：${item.model}`}</div></div>
+                      <div className="value-row">
+                        {item.label}
+                        <div className="value-row-tip">{`型号：${item.model}`}</div>
+                      </div>
                       <div className="num-row">{item.value}</div>
                     </div>
                   );
@@ -398,7 +402,7 @@ class Home extends React.Component {
             <div className="top-ten-item top-ten-center">
               <div className="top-ten-item-top-bar">
                 <div className="top-ten-item-top-bar-left">
-                  <img src={Sort} height={25} />
+                  <img alt="图片" src={Sort} height={25} />
                   消耗TOP10 医院
                 </div>
                 <Radio.Group
@@ -433,7 +437,7 @@ class Home extends React.Component {
             <div className="top-ten-item">
               <div className="top-ten-item-top-bar">
                 <div className="top-ten-item-top-bar-left">
-                  <img src={Sort} height={25} />
+                  <img alt="图片" src={Sort} height={25} />
                   下订单TOP10 医院
                 </div>
                 <Radio.Group

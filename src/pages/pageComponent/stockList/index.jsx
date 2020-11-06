@@ -233,7 +233,6 @@ class StockList extends React.Component {
       scanCode,
       drawerLoading,
       deliverInfoList,
-      stockDetailList,
       // new
       personalStockList,
       productList,

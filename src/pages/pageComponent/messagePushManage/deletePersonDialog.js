@@ -1,10 +1,5 @@
 import React from "react";
-import { Modal, Form, Select, Button } from "antd";
-
-const layout = {
-  labelCol: { span: 6 },
-  wrapperCol: { span: 18 },
-};
+import { Modal, Button } from "antd";
 
 class DeletePersonDialog extends React.Component {
   // constructor(props) {
@@ -20,7 +15,6 @@ class DeletePersonDialog extends React.Component {
 
   handleOk = (e) => {
     const { onOk } = this.props;
-    console.log("ssssss");
     onOk && typeof onOk === "function" && onOk();
   };
 
@@ -37,7 +31,7 @@ class DeletePersonDialog extends React.Component {
   };
 
   render() {
-    const { title, loading, data, dataSource: personList } = this.props;
+    const { title, loading, data } = this.props;
     return (
       <Modal
         title={title || "编辑"}

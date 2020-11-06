@@ -1,16 +1,6 @@
 import React from "react";
 import { connect } from "dva";
-import {
-  Button,
-  Space,
-  Table,
-  Modal,
-  Input,
-  Form,
-  Col,
-  Row,
-  Select,
-} from "antd";
+import { Button, Space, Table, Modal, Form, Col, Row, Select } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import EditDialog from "./editDialog";
 import { PicPrefix } from "../../../utils/config";
@@ -19,7 +9,6 @@ import OpreationBar from "../../../components/OpreationBar";
 import "./index.scss";
 
 const { Column } = Table;
-const { Search } = Input;
 const layout = {
   labelCol: { span: 8 },
   wrapperCol: { span: 14 },
@@ -429,7 +418,9 @@ class PicManage extends React.Component {
               dataIndex="imageUrl"
               width={120}
               render={(value) => {
-                return <img width={80} src={`${PicPrefix}${value}`} />;
+                return (
+                  <img width={80} alt="图片" src={`${PicPrefix}${value}`} />
+                );
               }}
             />
             <Column title="产品名称" dataIndex="productName" />

@@ -234,7 +234,6 @@ class SubmitSendGoods extends React.Component {
               scroll={{ y: 500 }}
               rowKey={(record, index) => index}
               dataSource={replenishOrderList}
-              rowKey="productCode"
               pagination={false}
             >
               <Column

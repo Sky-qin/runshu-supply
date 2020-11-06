@@ -1,5 +1,5 @@
 import React from "react";
-import { Modal, Form, Input, Button, Cascader, Select, TreeSelect } from "antd";
+import { Modal, Form, Input, Button, Cascader, TreeSelect } from "antd";
 
 const layout = {
   labelCol: { span: 6 },
@@ -43,7 +43,7 @@ class EditDialog extends React.Component {
 
   render() {
     const { title, data, sourceList, loading } = this.props;
-    const { adressList, storageList, departmentList } = sourceList;
+    const { adressList, departmentList } = sourceList;
 
     return (
       <Modal

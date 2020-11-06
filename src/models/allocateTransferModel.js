@@ -92,6 +92,7 @@ export default {
           if (item.serialNo === serialNo) {
             canAdd = false;
           }
+          return null;
         });
         productList.push(addProduct);
         if (!canAdd) {

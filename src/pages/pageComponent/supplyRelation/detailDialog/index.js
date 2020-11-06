@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { Drawer, Table, Input, Button, Spin, Tree, Tooltip } from "antd";
+import { Drawer, Table, Input, Button, Spin, Tree } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 
 const { Column } = Table;

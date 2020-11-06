@@ -71,7 +71,7 @@ export default {
       if (data && data.success) {
         let chartsDataY = [];
         let chartsDataX = [];
-        let list = (data.data || []).map((item) => {
+        (data.data || []).map((item) => {
           chartsDataY.push(Number(item.count || 0));
           chartsDataX.push(item.date);
           return { ...item, count: Number(item.count || 0) };

@@ -1,11 +1,7 @@
 import React from "react";
 import { connect } from "dva";
 import { Table, Button, Space, Modal, Input } from "antd";
-import {
-  PlusOutlined,
-  SearchOutlined,
-  ExportOutlined,
-} from "@ant-design/icons";
+import { PlusOutlined, SearchOutlined } from "@ant-design/icons";
 import EditDialog from "./editDialog";
 import ContentBox from "../../../components/contentWrap";
 import OpreationBar from "../../../components/OpreationBar";

@@ -35,6 +35,7 @@ export default {
             if (item.id === expandedRowKeys[0]) {
               currentExpand = item;
             }
+            return null;
           });
         }
         yield put({

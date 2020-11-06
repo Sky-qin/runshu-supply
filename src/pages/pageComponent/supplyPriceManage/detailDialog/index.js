@@ -19,18 +19,6 @@ const BasicDiv = styled.div`
   }
 `;
 
-const FooterBar = styled.div`
-  text-align: center;
-  background: #fff;
-  position: fixed;
-  bottom: 0px;
-  right: 0px;
-  height: 56px;
-  line-height: 56px;
-  width: 85%;
-  border-top: 1px solid #ddd;
-`;
-
 class DetailDialog extends React.Component {
   constructor(props) {
     super(props);

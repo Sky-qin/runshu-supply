@@ -18,7 +18,7 @@ class EditDialog extends React.Component {
 
   handleOk = (e) => {
     const { onOk } = this.props;
-    const { stockId, stockMsg } = this.state;
+    const { stockMsg } = this.state;
     let formObj = this.departmentRef;
     formObj.current
       .validateFields()

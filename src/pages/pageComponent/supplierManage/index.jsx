@@ -7,7 +7,6 @@ import ContentWrap from "../../../components/contentWrap";
 import OpreationBar from "../../../components/OpreationBar";
 
 const { Column } = Table;
-const { Search } = Input;
 class SupplierManage extends React.Component {
   constructor(props) {
     super(props);

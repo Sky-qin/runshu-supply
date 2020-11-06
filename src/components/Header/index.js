@@ -19,10 +19,19 @@ class Header extends React.Component {
     return (
       <div className="header-bar">
         <div className="header-bar-left">
-          <img style={{ height: "44px" }} className="logo-pic" src={Logo} />
+          <img
+            alt="图片"
+            style={{ height: "44px" }}
+            className="logo-pic"
+            src={Logo}
+          />
         </div>
         <div className="header-bar-right">
-          <img className="user-pic" src={userInfo.avatar || UserPic} />
+          <img
+            className="user-pic"
+            alt="图片"
+            src={userInfo.avatar || UserPic}
+          />
           <div className="user-info">
             <div className="user-name">{userInfo.name || ""}</div>
             <div className="user-postion" title={userInfo.position || ""}>

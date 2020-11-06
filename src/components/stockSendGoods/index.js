@@ -201,7 +201,6 @@ class StockSendGoods extends React.Component {
               scroll={{ y: 500 }}
               rowKey={(record, index) => index}
               dataSource={productList}
-              rowKey="productCode"
               pagination={false}
             >
               <Column title="产品编码" dataIndex="productCode" width={120} />
