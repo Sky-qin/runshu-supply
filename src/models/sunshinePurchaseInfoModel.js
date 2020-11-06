@@ -125,7 +125,7 @@ export default {
                 );
               },
             });
-            return;
+            return null;
           }
           if (item.value === "model") {
             tableTitle.push({
@@ -153,13 +153,14 @@ export default {
                 );
               },
             });
-            return;
+            return null;
           }
           tableTitle.push({
             title: item.label,
             dataIndex: item.value,
             key: item.label,
           });
+          return null;
         });
         yield put({
           type: "save",

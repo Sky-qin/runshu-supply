@@ -238,10 +238,20 @@ class CustomerManage extends React.Component {
             width={80}
             render={(value, record, index) => index + 1}
           />
-          <Column title="客户名称" dataIndex="name" />
-          <Column title="客户类型" dataIndex="typeDesc" />
-          <Column title="关联医院" dataIndex="hospitalName" />
-          <Column title="科室" dataIndex="departmentName" />
+          <Column title="客户名称" dataIndex="name" width={180} />
+          <Column title="客户类型" dataIndex="typeDesc" width={120} />
+          <Column title="关联医院" dataIndex="hospitalName" width={260} />
+          <Column title="关联库位" dataIndex="stockName" width={180} />
+          <Column title="科室" dataIndex="departmentName" width={120} />
+          <Column
+            title="业务员"
+            dataIndex="salesList"
+            width={150}
+            render={(value) => {
+              const sales = (value || []).map((item) => item.userName);
+              return (sales || []).toString();
+            }}
+          />
           <Column title="创建日期" width={120} dataIndex="createTime" />
           <Column
             title="操作"
