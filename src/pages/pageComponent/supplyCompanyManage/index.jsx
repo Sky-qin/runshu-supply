@@ -196,7 +196,7 @@ class SupplyCompanyManage extends React.Component {
           />
           <Column title="供货公司" dataIndex="companyName" width={100} />
           <Column title="创建时间" dataIndex="createTime" width={180} />
-          <Column title="创建时间" dataIndex="updateTime" width={180} />
+          <Column title="更新时间" dataIndex="updateTime" width={180} />
           <Column
             title="操作"
             dataIndex="isEnable"
