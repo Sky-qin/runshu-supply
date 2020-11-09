@@ -252,6 +252,10 @@ class SupplyPriceManage extends React.Component {
             title="已设置价格数量"
             dataIndex="priceProductNumber"
             width={120}
+            render={(value, record) => {
+              const { priceProductNumber, onsaleNumber } = record;
+              return `${priceProductNumber}/${onsaleNumber}`;
+            }}
           />
           <Column title="创建人" dataIndex="creatorName" width={160} />
           <Column title="创建时间" dataIndex="createTime" width={100} />
