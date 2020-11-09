@@ -54,7 +54,7 @@ export default {
       }
     },
     *getUserStock({ payload }, { call, put, select }) {
-      const { data } = yield call(API.getUserStock);
+      const { data } = yield call(API.getAllStock, { keyword: "" });
       if (data && data.success) {
         yield put({
           type: "save",
@@ -80,7 +80,7 @@ export default {
         let list = [];
         list = ((data.data && data.data.records) || []).map((item) => {
           return {
-            value: item.productCode,
+            value: item.itemId,
             label: `${item.productName}-${item.productCode}`,
           };
         });

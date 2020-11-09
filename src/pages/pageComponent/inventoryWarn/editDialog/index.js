@@ -64,7 +64,7 @@ class EditDialog extends React.Component {
         onSearch({ keyword: "", stockId: value }, "product");
     } else {
       searchForm.setFieldsValue({
-        productCode: null,
+        itemId: null,
       });
       onSearch &&
         typeof onSearch === "function" &&
@@ -101,7 +101,7 @@ class EditDialog extends React.Component {
           ref={this.departmentRef}
           layout="horizontal"
           initialValues={{
-            productCode: data.productCode,
+            itemId: data.itemId,
             value: data.stockValue,
             stockId: data.stockId,
             maxStockValue: data.maxStockValue,
@@ -124,7 +124,7 @@ class EditDialog extends React.Component {
             />
           </Form.Item>
           <Form.Item
-            name="productCode"
+            name="itemId"
             label="选择产品"
             rules={[{ required: true }]}
           >

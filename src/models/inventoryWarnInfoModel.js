@@ -50,7 +50,7 @@ export default {
       }
     },
     *getUserStock({ payload }, { call, put, select }) {
-      const { data } = yield call(API.getUserStock);
+      const { data } = yield call(API.getAllStock, { keyword: "" });
       if (data && data.success) {
         yield put({
           type: "save",

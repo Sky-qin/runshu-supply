@@ -16,6 +16,9 @@ class RecentWarn extends React.Component {
   }
 
   componentDidMount() {
+    const { dispatch } = this.props;
+
+    dispatch({ type: "recentWarnModel/getUserStock" });
     this.getTableList();
   }
 
@@ -51,10 +54,11 @@ class RecentWarn extends React.Component {
         currentMsg: { ...msg },
         productList: [
           {
-            value: msg.productCode,
+            value: msg.itemId,
             label: `${msg.productName}-${msg.productCode}`,
           },
         ],
+        stockList: [{ value: msg.stockId, label: msg.stockName }],
       },
     });
   };
@@ -105,13 +109,19 @@ class RecentWarn extends React.Component {
     });
   };
 
-  onSearchList = (keyword, key) => {
+  onSearchList = (obj, key) => {
     const { dispatch } = this.props;
     if (key === "product") {
       dispatch({
         type: "recentWarnModel/findProductByWarning",
+        payload: { ...obj },
+      });
+    }
+    if (key === "empty") {
+      dispatch({
+        type: "recentWarnModel/save",
         payload: {
-          keyWord: keyword,
+          productList: [],
         },
       });
     }
@@ -143,6 +153,7 @@ class RecentWarn extends React.Component {
       criticalType,
       productList,
       keyword,
+      stockList,
     } = this.props.recentWarnModel;
     const { current, size, total } = pagination;
     return (
@@ -244,7 +255,7 @@ class RecentWarn extends React.Component {
           <EditDialog
             title={dialogTitle}
             data={currentMsg}
-            sourceList={{ criticalType, productList }}
+            sourceList={{ criticalType, productList, stockList }}
             loading={dialogBtnLoading}
             onSearch={this.onSearchList}
             onClosed={() => {

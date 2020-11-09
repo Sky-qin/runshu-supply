@@ -53,7 +53,7 @@ class InventoryWarn extends React.Component {
         currentMsg: { ...msg },
         productList: [
           {
-            value: msg.productCode,
+            value: msg.itemId,
             label: `${msg.productName}-${msg.productCode}`,
           },
         ],
