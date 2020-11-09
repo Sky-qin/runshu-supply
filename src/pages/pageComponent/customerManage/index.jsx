@@ -57,6 +57,7 @@ class CustomerManage extends React.Component {
       },
     });
     if (msg.type === "3") {
+      if (!msg.hospitalId) return;
       dispatch({
         type: "customerManageModel/getDePartmentByHsp",
         payload: {
