@@ -111,12 +111,15 @@ class CustomerManage extends React.Component {
       callBack({ departmentId: null });
     }
     if (key === "hospitalId") {
-      dispatch({
-        type: "customerManageModel/getDePartmentByHsp",
-        payload: {
-          id: value,
-        },
-      });
+      if (value) {
+        dispatch({
+          type: "customerManageModel/getDePartmentByHsp",
+          payload: {
+            id: value,
+          },
+        });
+      }
+
       tmp = { ...tmp, departmentId: null };
       callBack({ departmentId: null });
     }
