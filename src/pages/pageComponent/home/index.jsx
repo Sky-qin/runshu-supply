@@ -2,9 +2,7 @@ import React from "react";
 import { connect } from "dva";
 import styled from "styled-components";
 import { Radio, Tabs } from "antd";
-import echarts from "echarts";
-import "echarts/lib/chart/line";
-import "echarts/lib/component/tooltip";
+import ChartWrap from "./charsWrap";
 import ContentWrap from "../../../components/contentWrap";
 import Sort from "../../../assets/sort.png";
 
@@ -86,93 +84,11 @@ class Home extends React.Component {
     dispatch({ type: "homeModel/getTodayIndex" });
     this.getCartsData();
     this.getTopTenData();
-
-    var myChart = echarts.init(document.getElementById("echarts"));
-    window.addEventListener("resize", function () {
-      myChart.resize();
-    });
-    this.renderChart();
   }
-
-  renderChart = () => {
-    const { chartsDataX, chartsDataY } = this.props.homeModel;
-    var myChart = echarts.init(document.getElementById("echarts"));
-
-    // 绘制图表
-    myChart.setOption({
-      tooltip: {
-        trigger: "axis",
-      },
-      xAxis: {
-        type: "category",
-        boundaryGap: false,
-        axisLine: {
-          show: true,
-          lineStyle: {
-            color: "#ccc",
-          },
-        },
-        splitLine: {
-          show: true,
-          lineStyle: {
-            color: "#e4e4e4",
-            width: 1,
-            type: "none",
-          },
-        },
-        axisTick: {
-          show: false,
-        },
-        axisLabel: {
-          color: "#888",
-        },
-        data: chartsDataX,
-      },
-      yAxis: {
-        type: "value",
-        axisLine: {
-          show: true,
-          lineStyle: {
-            color: "#ccc",
-          },
-        },
-        axisLabel: {
-          color: "#888",
-        },
-        splitLine: {
-          show: true,
-          lineStyle: {
-            color: "#e4e4e4",
-            width: 1,
-            type: "none",
-          },
-        },
-      },
-      series: [
-        {
-          name: "数量",
-          type: "line",
-          data: chartsDataY,
-          areaStyle: {
-            color: "#eaf5fd",
-          },
-          lineStyle: {
-            normal: {
-              color: "#0089ff",
-              width: 2,
-            },
-          },
-        },
-      ],
-    });
-  };
 
   getCartsData = () => {
     const { dispatch } = this.props;
-    dispatch({
-      type: "homeModel/getStatistics",
-      payload: { callBack: this.renderChart },
-    });
+    dispatch({ type: "homeModel/getStatistics" });
   };
 
   getTopTenData = () => {
@@ -228,15 +144,6 @@ class Home extends React.Component {
     this.getCartsData();
   };
 
-  // renderCarts = () => {
-  //   const { chartsData } = this.props.homeModel
-  //   return (
-  //     <Chart padding={[10, 40, 50, 40]} autoFit height={350} data={chartsData}>
-  //       <LineAdvance shape="smooth" point area position="date*count" />
-  //     </Chart>
-  //   );
-  // };
-
   render() {
     const {
       dateList,
@@ -253,12 +160,11 @@ class Home extends React.Component {
       inventoryStatistics,
       consumeStatistics,
       replenishStatistics,
-      // chartsData,
-      // chartsDataY,
-      // chartsDataX,
+      unCharsKey,
       totalLoading,
       chartsLoading,
       topTenLoading,
+      chartData,
     } = this.props.homeModel;
     return (
       <>
@@ -341,13 +247,7 @@ class Home extends React.Component {
             <div>
               <Tabs defaultActiveKey={type} onChange={this.changeCartsTab}>
                 {(chartsTabList || []).map((item, index) => {
-                  return (
-                    <TabPane tab={item.label} key={item.value}>
-                      {/* {chartsData &&
-                        chartsData.length > 0 &&
-                        this.renderCarts()} */}
-                    </TabPane>
-                  );
+                  return <TabPane tab={item.label} key={item.value}></TabPane>;
                 })}
               </Tabs>
             </div>
@@ -358,7 +258,7 @@ class Home extends React.Component {
               value={date}
               optionType="button"
             />
-            <div id="echarts" style={{ width: "88%", height: 350 }}></div>
+            <ChartWrap data={chartData} key={unCharsKey} />
           </div>
         </ContentWrap>
 

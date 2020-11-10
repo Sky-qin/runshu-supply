@@ -181,7 +181,7 @@ export default {
         yield put({
           type: "save",
           payload: {
-            allStockList: transferSimpleList(data.data || [], "code", "name"),
+            allStockList: transferSimpleList(data.data || [], "id", "name"),
           },
         });
       } else {
