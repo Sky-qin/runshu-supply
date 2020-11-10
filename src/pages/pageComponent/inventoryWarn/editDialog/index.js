@@ -75,7 +75,7 @@ class EditDialog extends React.Component {
   render() {
     const { title, data, loading, sourceList } = this.props;
     const { productList, stockList } = sourceList;
-    const { maxStockValue, minStockValue } = this.state;
+    const { minStockValue } = this.state;
     return (
       <Modal
         title={title || "编辑"}
@@ -162,11 +162,11 @@ class EditDialog extends React.Component {
             <InputNumber
               min={minStockValue > 0 ? 1 + minStockValue : 1}
               style={{ width: "100%" }}
-              onBlur={(e) => {
-                this.setState({
-                  maxStockValue: e.target.value || Number.MAX_SAFE_INTEGER,
-                });
-              }}
+              // onBlur={(e) => {
+              //   this.setState({
+              //     maxStockValue: e.target.value || Number.MAX_SAFE_INTEGER,
+              //   });
+              // }}
             />
           </Form.Item>
         </Form>
