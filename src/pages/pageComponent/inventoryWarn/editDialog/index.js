@@ -16,15 +16,15 @@ class EditDialog extends React.Component {
     };
   }
 
-  showModal = () => {
-    this.setState({
-      visible: true,
-      maxStockValue:
-        (this.props.data && this.props.data.maxStockValue) ||
-        Number.MAX_SAFE_INTEGER,
-      minStockValue: (this.props.data && this.props.data.value) || 0,
-    });
-  };
+  // showModal = () => {
+  //   this.setState({
+  //     visible: true,
+  //     maxStockValue:
+  //       (this.props.data && this.props.data.maxStockValue) ||
+  //       Number.MAX_SAFE_INTEGER,
+  //     minStockValue: (this.props.data && this.props.data.value) || 0,
+  //   });
+  // };
 
   handleOk = (e) => {
     const { onOk } = this.props;
@@ -114,10 +114,9 @@ class EditDialog extends React.Component {
           >
             <Select
               showSearch
-              showArrow={false}
-              filterOption={false}
               options={stockList}
               placeholder="请选择库位"
+              optionFilterProp="label"
               onChange={this.changeStock}
               allowClear
               disabled={title === "编辑" ? true : false}
@@ -130,11 +129,12 @@ class EditDialog extends React.Component {
           >
             <Select
               showSearch
-              showArrow={false}
+              showArrow={true}
               filterOption={false}
+              dropdownMatchSelectWidth={false}
               onSearch={(value) => this.handleSearchProduct(value, "product")}
               options={productList}
-              placeholder="请选择商品"
+              placeholder="请输入选择商品"
               allowClear
               disabled={title === "编辑" ? true : false}
             />
@@ -145,12 +145,11 @@ class EditDialog extends React.Component {
             rules={[{ required: true }]}
           >
             <InputNumber
-              max={maxStockValue - 1}
               min={0}
               style={{ width: "100%" }}
-              onChange={(value) => {
+              onBlur={(e) => {
                 this.setState({
-                  minStockValue: value,
+                  minStockValue: Number(e.target.value || 0),
                 });
               }}
             />
@@ -161,11 +160,11 @@ class EditDialog extends React.Component {
             rules={[{ required: true }]}
           >
             <InputNumber
-              min={minStockValue > 0 ? minStockValue + 1 : 1}
+              min={minStockValue > 0 ? 1 + minStockValue : 1}
               style={{ width: "100%" }}
-              onChange={(value) => {
+              onBlur={(e) => {
                 this.setState({
-                  maxStockValue: value,
+                  maxStockValue: e.target.value || Number.MAX_SAFE_INTEGER,
                 });
               }}
             />

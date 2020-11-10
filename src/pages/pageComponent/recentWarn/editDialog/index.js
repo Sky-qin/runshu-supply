@@ -108,8 +108,8 @@ class EditDialog extends React.Component {
           >
             <Select
               showSearch
-              showArrow={false}
-              filterOption={false}
+              showArrow={true}
+              optionFilterProp="label"
               options={stockList}
               placeholder="请选择库位"
               onChange={this.changeStock}
@@ -124,11 +124,12 @@ class EditDialog extends React.Component {
           >
             <Select
               showSearch
-              showArrow={false}
+              showArrow={true}
               filterOption={false}
+              dropdownMatchSelectWidth={false}
               onSearch={(value) => this.handleSearchProduct(value, "product")}
               options={productList}
-              placeholder="请选择商品"
+              placeholder="请输入选择商品"
               allowClear
               disabled={title === "编辑" ? true : false}
             />
