@@ -308,6 +308,7 @@ class ConsumeList extends React.Component {
                     placeholder="请选择科室"
                     treeData={departmentList}
                     value={searchParams.departmentId}
+                    disabled={!searchParams.hospitalId}
                     allowClear
                     onChange={(value) =>
                       this.onSearchChange("departmentId", value)
