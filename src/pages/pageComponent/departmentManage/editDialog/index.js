@@ -72,7 +72,7 @@ class EditDialog extends React.Component {
           }}
         >
           <Form.Item name="name" label="科室名称" rules={[{ required: true }]}>
-            <Input />
+            <Input placeholder="请输入" />
           </Form.Item>
         </Form>
       </Modal>

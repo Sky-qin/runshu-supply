@@ -74,14 +74,14 @@ class EditDialog extends React.Component {
             label="菜单名称"
             rules={[{ required: true }]}
           >
-            <Input />
+            <Input placeholder="请输入" />
           </Form.Item>
           <Form.Item
             name="resourceSign"
             label="菜单标识"
             rules={[{ required: true }]}
           >
-            <Input />
+            <Input placeholder="请输入" />
           </Form.Item>
           {type !== "children" && data.parentId === "0" && (
             <Form.Item
@@ -89,7 +89,7 @@ class EditDialog extends React.Component {
               label="菜单图标"
               rules={[{ required: true }]}
             >
-              <Input />
+              <Input placeholder="请输入" />
             </Form.Item>
           )}
         </Form>

@@ -77,7 +77,7 @@ class EditDialog extends React.Component {
             label="发货人姓名"
             rules={[{ required: true }]}
           >
-            <Input />
+            <Input placeholder="请输入" />
           </Form.Item>
           <Form.Item
             name="consignorPhone"
@@ -87,7 +87,7 @@ class EditDialog extends React.Component {
               { pattern: /^1\d{10}$/, message: "请输入完整的手机号" },
             ]}
           >
-            <Input />
+            <Input placeholder="请输入" />
           </Form.Item>
         </Form>
       </Modal>

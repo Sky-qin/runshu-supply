@@ -81,7 +81,7 @@ class EditDialog extends React.Component {
             label="用户名"
             rules={[{ required: true, message: "请输入用户名" }]}
           >
-            <Input />
+            <Input placeholder="请输入" />
           </Form.Item>
           <Form.Item
             name="userPhone"
@@ -91,7 +91,7 @@ class EditDialog extends React.Component {
               { pattern: /^1\d{10}$/, message: "手机号格式不对" },
             ]}
           >
-            <Input />
+            <Input placeholder="请输入" />
           </Form.Item>
 
           <Form.Item
@@ -102,6 +102,7 @@ class EditDialog extends React.Component {
             <Select
               showSearch
               optionFilterProp="label"
+              placeholder="请选择"
               options={userRoleList}
             />
           </Form.Item>

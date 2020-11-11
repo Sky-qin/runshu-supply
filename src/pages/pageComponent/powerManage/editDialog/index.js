@@ -91,10 +91,10 @@ class EditDialog extends React.Component {
             label="角色名称"
             rules={[{ required: true, message: "请输入角色名称" }]}
           >
-            <Input />
+            <Input placeholder="请输入" />
           </Form.Item>
           <Form.Item name="roleRemark" label="角色备注">
-            <TextArea rows={2} />
+            <TextArea placeholder="请输入" rows={2} />
           </Form.Item>
           <Form.Item
             name="resourceSigns"

@@ -85,7 +85,7 @@ class EditDialog extends React.Component {
             label="医院名称"
             rules={[{ required: true, message: "请输入医院名称" }]}
           >
-            <Input />
+            <Input placeholder="请输入" />
           </Form.Item>
           {/* <Form.Item
             name="stockIds"
@@ -120,17 +120,17 @@ class EditDialog extends React.Component {
             label="地址"
             // rules={[{ required: true, message: "请输入详细地址" }]}
           >
-            <Input />
+            <Input placeholder="请输入" />
           </Form.Item>
           <Form.Item name="person" label="联系人">
-            <Input />
+            <Input placeholder="请输入" />
           </Form.Item>
           <Form.Item
             name="phone"
             label="联系电话"
             rules={[{ pattern: /^1\d{10}$/, message: "请输入完整的手机号码" }]}
           >
-            <Input />
+            <Input placeholder="请输入" />
           </Form.Item>
         </Form>
       </Modal>
