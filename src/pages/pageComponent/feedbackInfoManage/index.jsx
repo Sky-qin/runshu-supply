@@ -231,10 +231,11 @@ class FeedbackInfoManage extends React.Component {
       loading,
       hospitalList,
       applicantList,
-      orderStatusList,
+      feedbackStatusList,
       departmentList,
       feedbackInfo,
       feedbackDialog,
+      searchParams,
     } = this.props.feedbackModel;
     const { current, size, total } = pagination;
     return (
@@ -270,6 +271,7 @@ class FeedbackInfoManage extends React.Component {
                     placeholder="请选择科室"
                     treeData={departmentList}
                     allowClear
+                    disabled={!searchParams.hospitalId}
                     onChange={(value) =>
                       this.onSearchChange("departmentId", value)
                     }
@@ -277,12 +279,12 @@ class FeedbackInfoManage extends React.Component {
                 </Form.Item>
               </Col>
               <Col span={6}>
-                <Form.Item label="状态" name="orderStatus">
+                <Form.Item label="状态" name="feedbackStatus">
                   <Select
                     placeholder="请选择状态"
-                    options={orderStatusList}
+                    options={feedbackStatusList}
                     onChange={(value) =>
-                      this.onSearchChange("orderStatus", value)
+                      this.onSearchChange("feedbackStatus", value)
                     }
                     allowClear
                   />

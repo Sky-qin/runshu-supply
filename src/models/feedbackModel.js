@@ -9,7 +9,7 @@ export default {
       consumeName: "",
       hospitalId: "",
       departmentId: "",
-      orderStatus: "",
+      feedbackStatus: "",
       creator: "",
     },
     feedbackDialog: false,
@@ -29,9 +29,9 @@ export default {
     data: [],
     hospitalList: [],
     departmentList: [],
-    orderStatusList: [
-      { value: 0, label: "待处理" },
-      { value: 1, label: "已处理" },
+    feedbackStatusList: [
+      { value: 1, label: "待处理" },
+      { value: 2, label: "已处理" },
     ],
     statusList: [],
     applicantList: [],

@@ -88,7 +88,7 @@ class FeedbackDialog extends React.Component {
             type="primary"
             onClick={() => this.handleChangeStatus(feedbackStatus)}
           >
-            {feedbackStatus === 0 ? "处理" : "撤销"}
+            {feedbackStatus === 1 ? "处理" : "撤销"}
           </Button>,
         ]}
       >
