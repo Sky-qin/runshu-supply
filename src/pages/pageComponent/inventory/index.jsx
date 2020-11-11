@@ -131,7 +131,13 @@ class Inventory extends React.Component {
     const { current, size, total } = pagination;
     return (
       <>
-        <TotalBoard onClick={this.clickToList} />
+        <TotalBoard
+          onClick={this.clickToList}
+          data={{
+            inventoryProductNo: inventoryNumber,
+            prettyProductAmount: prettyInventoryAmount,
+          }}
+        />
         <ContentWrap loading={loading}>
           <OpreationBar
             custom={
@@ -199,16 +205,16 @@ class Inventory extends React.Component {
                 />
               </>
             }
-            linkList={[
-              {
-                key: "inventoryNumber",
-                label: `库存数量：${inventoryNumber}`,
-              },
-              {
-                key: "prettyInventoryAmount",
-                label: `金额：${prettyInventoryAmount || 0}（万）`,
-              },
-            ]}
+            // linkList={[
+            //   {
+            //     key: "inventoryNumber",
+            //     label: `库存数量：${inventoryNumber}`,
+            //   },
+            //   {
+            //     key: "prettyInventoryAmount",
+            //     label: `金额：${prettyInventoryAmount || 0}（万）`,
+            //   },
+            // ]}
             total={total}
           />
           <Table

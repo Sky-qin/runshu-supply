@@ -142,12 +142,14 @@ class TotalBoard extends React.Component {
     const {
       inventoryWarningNo,
       earlyWarningNo,
-      inventoryProductNo,
+      // inventoryProductNo,
       prettyRec7DConsumeAmount,
       rec7DConsumeNo,
-      prettyProductAmount,
+      // prettyProductAmount,
       loading,
     } = this.state;
+
+    const { inventoryProductNo, prettyProductAmount } = this.props.data;
     return (
       <ContentWrap loading={loading}>
         <BoardWrap>

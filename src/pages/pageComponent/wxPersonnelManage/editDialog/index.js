@@ -107,7 +107,11 @@ class EditDialog extends React.Component {
             label="医院"
             rules={[{ required: true, message: "请选择医院" }]}
           >
-            <Select optionFilterProp="label" options={hospitalList} />
+            <Select
+              showSearch
+              optionFilterProp="label"
+              options={hospitalList}
+            />
           </Form.Item>
         </Form>
       </Modal>

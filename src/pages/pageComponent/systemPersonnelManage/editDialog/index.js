@@ -99,7 +99,11 @@ class EditDialog extends React.Component {
             label="角色"
             rules={[{ required: true, message: "请选择角色" }]}
           >
-            <Select showArrow optionFilterProp="label" options={userRoleList} />
+            <Select
+              showSearch
+              optionFilterProp="label"
+              options={userRoleList}
+            />
           </Form.Item>
         </Form>
       </Modal>
