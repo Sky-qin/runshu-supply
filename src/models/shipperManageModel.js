@@ -70,7 +70,7 @@ export default {
 
       if (data && data.success) {
         yield put({ type: "save", payload: { showEditDialog: false } });
-        message.success("修改科室成功");
+        message.success("修改成功！");
         yield put({ type: "getTableList" });
       } else {
         message.error(data.message || "修改失败！");
@@ -88,7 +88,7 @@ export default {
 
       if (data && data.success) {
         yield put({ type: "save", payload: { deleteDialog: false } });
-        message.success("成功删除科室");
+        message.success("删除成功！");
         yield put({ type: "getTableList" });
       } else {
         message.error(data.message || "删除失败！");

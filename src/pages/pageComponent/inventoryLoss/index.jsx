@@ -224,6 +224,8 @@ class InventoryLoss extends React.Component {
               <Col span={6}>
                 <Form.Item label="创建人" name="creator">
                   <Select
+                    showSearch
+                    optionFilterProp="label"
                     placeholder="请选择"
                     options={personList}
                     onChange={(value) => this.onSearchChange("creator", value)}

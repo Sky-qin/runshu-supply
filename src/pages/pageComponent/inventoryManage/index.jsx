@@ -172,6 +172,8 @@ class InventoryManage extends React.Component {
                 />
               </div>
               <Select
+                showSearch
+                optionFilterProp="label"
                 placeholder="请选择库位类别"
                 value={type}
                 options={stockTypeList}

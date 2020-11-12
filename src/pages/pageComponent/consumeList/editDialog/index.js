@@ -6,11 +6,20 @@ import { Modal, Button, Table } from "antd";
 const { Column } = Table;
 
 const BasicDiv = styled.div`
+  position: relative;
   > div {
     display: inline-block;
     width: 280px;
     margin-right: 20px;
     line-height: 48px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+  > a {
+    position: absolute;
+    right: 30px;
+    bottom: 10px;
   }
 `;
 
@@ -19,11 +28,14 @@ class EditDialog extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      showOperationInfo: false,
+    };
   }
 
   handleCancel = () => {
     const { dispatch } = this.props;
+    this.setState({ showOperationInfo: false });
     dispatch({
       type: "consumeModel/save",
       payload: {
@@ -85,8 +97,20 @@ class EditDialog extends React.Component {
     return list;
   };
 
+  renderOperationInfo = () => {
+    const { detailMsg } = this.props.consumeModel;
+    return [
+      <div>手术名称：{detailMsg.operationName || ""}</div>,
+      <div>手术医生：{detailMsg.operationDoctor || ""}</div>,
+      <div>手术时间：{detailMsg.operationTime || ""}</div>,
+      <div>患者住院号：{detailMsg.patientHospitaliNumber || ""}</div>,
+      <div>患者姓名：{detailMsg.patientName || ""}</div>,
+    ];
+  };
+
   render() {
     const { showDetailDialog, detailMsg } = this.props.consumeModel;
+    const { showOperationInfo } = this.state;
     return (
       <Modal
         title="消耗单详情"
@@ -103,6 +127,14 @@ class EditDialog extends React.Component {
           <div>申请人：{detailMsg.userName || ""}</div>
           <div>申请时间：{detailMsg.operationTime || ""}</div>
           <div>状态：{detailMsg.orderStatusDesc || ""}</div>
+          {showOperationInfo && this.renderOperationInfo()}
+          <a
+            onClick={() =>
+              this.setState({ showOperationInfo: !showOperationInfo })
+            }
+          >
+            {showOperationInfo ? "收起手术单" : "查看手术单"}
+          </a>
         </BasicDiv>
         <div style={{ overflowX: "scroll" }}>
           <Table

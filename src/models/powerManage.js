@@ -79,7 +79,7 @@ export default {
 
       if (data && data.success) {
         yield put({ type: "save", payload: { deleteDialog: false } });
-        message.success("成功删除科室");
+        message.success("删除成功！");
         yield put({
           type: "queryRole",
         });

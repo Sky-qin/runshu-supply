@@ -211,8 +211,8 @@ class StockReturnWarehouse extends React.Component {
                       this.onSearchChange("outStockId", value)
                     }
                     options={personalStockList}
-                    filterOption={false}
-                    showArrow={false}
+                    showSearch
+                    optionFilterProp="label"
                     dropdownMatchSelectWidth={false}
                     placeholder="请选择"
                   />
@@ -222,6 +222,8 @@ class StockReturnWarehouse extends React.Component {
                 <Form.Item label="创建人" name="userId">
                   <Select
                     placeholder="请选择状态"
+                    showSearch
+                    optionFilterProp="label"
                     options={personList}
                     onChange={(value) => this.onSearchChange("userId", value)}
                     allowClear

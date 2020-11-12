@@ -179,6 +179,8 @@ class HospitalManage extends React.Component {
                 />
               </div>
               <Select
+                showSearch
+                optionFilterProp="label"
                 placeholder="请选择业务员"
                 value={userId}
                 options={salesmanList}

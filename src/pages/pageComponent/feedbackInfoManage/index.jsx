@@ -291,9 +291,11 @@ class FeedbackInfoManage extends React.Component {
                 </Form.Item>
               </Col>
               <Col span={6}>
-                <Form.Item label="申请人" name="creator">
+                <Form.Item label="提交人" name="creator">
                   <Select
-                    placeholder="请选择申请人"
+                    showSearch
+                    optionFilterProp="label"
+                    placeholder="请选择提交人"
                     options={applicantList}
                     onChange={(value) => this.onSearchChange("creator", value)}
                     allowClear

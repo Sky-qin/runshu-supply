@@ -302,6 +302,8 @@ class MakeInventory extends React.Component {
               <Col span={6}>
                 <Form.Item label="盘点人" name="creator">
                   <Select
+                    showSearch
+                    optionFilterProp="label"
                     placeholder="请选择"
                     options={personList}
                     onChange={(value) => this.onSearchChange("creator", value)}
@@ -400,7 +402,7 @@ class MakeInventory extends React.Component {
             <Column title="盘点数量" dataIndex="checkNumber" width={120} />
             <Column title="盘点状态" dataIndex="checkStatusName" width={130} />
             <Column title="盘点人" dataIndex="creatorName" width={130} />
-            <Column title="盘点地点" dataIndex=" " width={130} />
+            <Column title="盘点地点" dataIndex="position" width={130} />
             <Column title="盘点时间" dataIndex="createTime" width={130} />
             <Column
               title="操作"

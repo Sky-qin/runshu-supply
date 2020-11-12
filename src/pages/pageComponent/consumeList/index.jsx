@@ -332,6 +332,8 @@ class ConsumeList extends React.Component {
                 <Form.Item label="申请人" name="creator">
                   <Select
                     placeholder="请选择申请人"
+                    showSearch
+                    optionFilterProp="label"
                     options={applicantList}
                     onChange={(value) => this.onSearchChange("creator", value)}
                     allowClear

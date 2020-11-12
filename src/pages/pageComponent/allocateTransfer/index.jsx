@@ -230,6 +230,8 @@ class AllocateTransfer extends React.Component {
               <Col span={6}>
                 <Form.Item label="创建人" name="userId">
                   <Select
+                    showSearch
+                    optionFilterProp="label"
                     placeholder="请选择状态"
                     options={personList}
                     onChange={(value) => this.onSearchChange("userId", value)}

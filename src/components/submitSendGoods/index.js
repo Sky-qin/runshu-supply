@@ -201,6 +201,8 @@ class SubmitSendGoods extends React.Component {
                   rules={[{ required: true, message: "请选择发货人" }]}
                 >
                   <Select
+                    showSearch
+                    optionFilterProp="label"
                     placeholder="请选择"
                     options={personList}
                     onChange={(value) => this.onFormChange("person", value)}
