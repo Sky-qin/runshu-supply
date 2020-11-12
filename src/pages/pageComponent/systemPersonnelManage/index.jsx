@@ -110,6 +110,19 @@ class SystemPersonnelManage extends React.Component {
     }
   };
 
+  renderAuthority = (isSale, internalWork) => {
+    let authorityList = [];
+    if (isSale) authorityList.push("销售端");
+    if (internalWork) authorityList.push("内勤端");
+    if (authorityList.length > 0) {
+      return (
+        <span className="color-green">
+          （{`${authorityList.join("、")}小程序已授权`}）
+        </span>
+      );
+    }
+  };
+
   render() {
     const { dispatch } = this.props;
     const {
@@ -154,15 +167,11 @@ class SystemPersonnelManage extends React.Component {
             title="角色"
             dataIndex="roleName"
             render={(value, record) => {
-              const { wxCode } = record;
+              const { wxCode, isSale, internalWork } = record;
               return (
                 <span>
                   {value}
-                  {wxCode ? (
-                    <span className="color-green">（微信已授权）</span>
-                  ) : (
-                    ""
-                  )}
+                  {wxCode && this.renderAuthority(isSale, internalWork)}
                 </span>
               );
             }}

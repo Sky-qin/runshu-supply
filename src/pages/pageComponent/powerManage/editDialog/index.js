@@ -84,6 +84,7 @@ class EditDialog extends React.Component {
             roleRemark: data.roleRemark || "",
             resourceSigns: data.resourceSigns || [],
             isSale: data.isSale || false,
+            internalWork: data.internalWork || false,
           }}
         >
           <Form.Item
@@ -111,6 +112,12 @@ class EditDialog extends React.Component {
             />
           </Form.Item>
           <Form.Item name="isSale" label="开启销售小程序">
+            <Radio.Group>
+              <Radio value={false}>否</Radio>
+              <Radio value={true}>是</Radio>
+            </Radio.Group>
+          </Form.Item>
+          <Form.Item name="internalWork" label="开启内勤小程序">
             <Radio.Group>
               <Radio value={false}>否</Radio>
               <Radio value={true}>是</Radio>

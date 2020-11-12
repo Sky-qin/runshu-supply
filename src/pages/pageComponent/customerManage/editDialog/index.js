@@ -90,6 +90,7 @@ class EditDialog extends React.Component {
             <Select
               options={customerTypeList}
               placeholder="请选择"
+              disabled={data.id}
               allowClear
               onChange={(value) => this.handleChangeForm(value, "type")}
             />
