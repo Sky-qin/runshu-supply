@@ -133,7 +133,7 @@ class EditDialog extends React.Component {
               this.setState({ showOperationInfo: !showOperationInfo })
             }
           >
-            {showOperationInfo ? "收起手术单" : "查看手术单"}
+            {showOperationInfo ? "收起手术信息" : "查看手术信息"}
           </a>
         </BasicDiv>
         <div style={{ overflowX: "scroll" }}>
