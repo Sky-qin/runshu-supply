@@ -180,6 +180,7 @@ class FeedbackInfoManage extends React.Component {
         feedbackDialog: false,
       },
     });
+    this.getTableList();
   };
 
   showFeedback = (msg) => {
