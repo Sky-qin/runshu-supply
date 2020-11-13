@@ -100,11 +100,15 @@ class EditDialog extends React.Component {
   renderOperationInfo = () => {
     const { detailMsg } = this.props.consumeModel;
     return [
-      <div>手术名称：{detailMsg.operationName || ""}</div>,
-      <div>手术医生：{detailMsg.operationDoctor || ""}</div>,
-      <div>手术时间：{detailMsg.operationTime || ""}</div>,
-      <div>患者住院号：{detailMsg.patientHospitaliNumber || ""}</div>,
-      <div>患者姓名：{detailMsg.patientName || ""}</div>,
+      <div key="operationName">手术名称：{detailMsg.operationName || ""}</div>,
+      <div key="operationDoctor">
+        手术医生：{detailMsg.operationDoctor || ""}
+      </div>,
+      <div key="operationTime">手术时间：{detailMsg.operationTime || ""}</div>,
+      <div key="patientHospitaliNumber">
+        患者住院号：{detailMsg.patientHospitaliNumber || ""}
+      </div>,
+      <div key="patientName">患者姓名：{detailMsg.patientName || ""}</div>,
     ];
   };
 

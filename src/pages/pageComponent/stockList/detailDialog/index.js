@@ -167,7 +167,7 @@ class EditDialog extends React.Component {
           <div>备货截止日期：{currentMsg.expectCompleteDate}</div>
           <div>调出仓库：{currentMsg.outStock}</div>
           <div>调入仓库：{currentMsg.inStock}</div>
-          <div>调拨类型：{currentMsg.inStock}</div>
+          <div>调拨类型：{currentMsg.typeName}</div>
           <div>客户：{currentMsg.hospitalName}</div>
           <div>备注：{currentMsg.remark}</div>
         </BasicDiv>

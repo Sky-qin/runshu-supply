@@ -5,7 +5,7 @@ import "./index.scss";
 
 const ChartWrap = ({ data }) => {
   return (
-    <Chart padding={[10, 20, 50, 40]} autoFit height={300} data={data}>
+    <Chart autoFit height={300} data={data}>
       <LineAdvance shape="smooth" point area position="date*count" />
     </Chart>
   );
