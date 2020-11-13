@@ -52,6 +52,8 @@ app.model(require("./models/supplyCompanyManageModel").default);
 app.model(require("./models/agentManageModel").default);
 app.model(require("./models/salesmanManageModel").default);
 app.model(require("./models/supplyRelationModel").default);
+app.model(require("./models/doctorManageModel").default);
+app.model(require("./models/operationManageModel").default);
 
 // 4. Router
 app.router(require("./router").default);

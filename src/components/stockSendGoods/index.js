@@ -273,7 +273,7 @@ class StockSendGoods extends React.Component {
               <Column title="规格" dataIndex="regularModel" width={100} />
               <Column title="型号" dataIndex="model" width={80} />
               <Column title="单位" dataIndex="unitName" width={80} />
-              <Column title="单价" dataIndex="productPrice" width={80} />
+              {/* <Column title="单价" dataIndex="productPrice" width={80} /> */}
               <Column title="生产厂家" dataIndex="productVendor" width={150} />
               <Column
                 title="操作"

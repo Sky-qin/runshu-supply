@@ -155,7 +155,7 @@ class BusinessProducts extends React.Component {
           <Column title="规格" dataIndex="regularModel" width={100} />
           <Column title="单位" dataIndex="unitName" width={100} />
           <Column title="产品类型" dataIndex="productCategory" width={125} />
-          <Column title="单价" dataIndex="productPrice" width={120} />
+          {/* <Column title="单价" dataIndex="productPrice" width={120} /> */}
           <Column title="生产厂家" dataIndex="productVendorName" width={180} />
           <Column title="注册证号" dataIndex="registrationNo" width={135} />
           <Column

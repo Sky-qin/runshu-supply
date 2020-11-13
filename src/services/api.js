@@ -1222,6 +1222,60 @@ const API = {
   },
 
   /**
+   * 医院医生管理
+   */
+  // 列表
+  doctorList(params) {
+    return request({
+      url: `${Prefix}/hospital/doctor/list`,
+      params,
+      method: "post",
+    });
+  },
+  // 添加医院医生
+  doctorSave(params) {
+    return request({
+      url: `${Prefix}/hospital/doctor/save`,
+      params,
+      method: "post",
+    });
+  },
+  // 医院医生删除
+  doctorDelete(params) {
+    return request({
+      url: `${Prefix}/hospital/doctor/delete`,
+      params,
+    });
+  },
+
+  /**
+   * 手术类型管理
+   */
+  // 手术列表
+  operationTypeList(params) {
+    return request({
+      url: `${Prefix}/dic/operationType/list`,
+      params,
+      method: "post",
+    });
+  },
+  // 保存手术
+  operationTypeSave(params) {
+    return request({
+      url: `${Prefix}/dic/operationType/save`,
+      params,
+      method: "post",
+    });
+  },
+  // 删除手术类型
+  operationTypeDelete(params) {
+    return request({
+      url: `${Prefix}/dic/operationType/delete`,
+      params,
+    });
+  },
+
+  /**
    * 枚举类即接口
    */
   // 获取当前用户 医院枚举

@@ -45,6 +45,8 @@ import SupplyCompanyManage from "../pageComponent/supplyCompanyManage";
 import AgentManage from "../pageComponent/agentManage";
 import SalesmanManage from "../pageComponent/salesmanManage";
 import SupplyRelation from "../pageComponent/supplyRelation";
+import DoctorManage from "../pageComponent/doctorManage";
+import OperationManage from "../pageComponent/operationManage";
 
 import "./index.scss";
 
@@ -178,6 +180,11 @@ class Entry extends React.Component {
               <Route path="/entry/agentManage" component={AgentManage} />
               <Route path="/entry/salesmanManage" component={SalesmanManage} />
               <Route path="/entry/supplyRelation" component={SupplyRelation} />
+              <Route path="/entry/doctorManage" component={DoctorManage} />
+              <Route
+                path="/entry/operationManage"
+                component={OperationManage}
+              />
             </Switch>
           </div>
         </div>

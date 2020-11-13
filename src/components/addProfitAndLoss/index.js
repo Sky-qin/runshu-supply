@@ -199,7 +199,7 @@ class AddProfitAndLoss extends React.Component {
               <Column title="型号" dataIndex="model" width={100} />
               <Column title="规格" dataIndex="regModel" width={80} />
               <Column title="单位" dataIndex="unitName" width={80} />
-              <Column title="单价" dataIndex="productPrice" width={80} />
+              {/* <Column title="单价" dataIndex="productPrice" width={80} /> */}
             </Table>
           </BasicDiv>
 

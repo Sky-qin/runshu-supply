@@ -68,7 +68,7 @@ class DetailDialog extends React.Component {
           <Column title="型号" dataIndex="model" width={120} />
           <Column title="规格" dataIndex="regModel" width={100} />
           <Column title="单位" dataIndex="unitName" width={65} />
-          <Column title="单价" dataIndex="productPrice" width={100} />\{" "}
+          {/* <Column title="单价" dataIndex="productPrice" width={100} />\{" "} */}
         </Table>
       </Modal>
     );

@@ -289,7 +289,7 @@ class SendGoods extends React.Component {
               <Column title="型号" dataIndex="model" width={100} />
               <Column title="规格" dataIndex="regModel" width={80} />
               <Column title="单位" dataIndex="unit" width={80} />
-              <Column title="单价" dataIndex="unit" width={80} />
+              {/* <Column title="单价" dataIndex="unit" width={80} /> */}
               <Column title="生产厂家" dataIndex="productVendor" width={150} />
               <Column
                 title="操作"

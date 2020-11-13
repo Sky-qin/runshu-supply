@@ -119,7 +119,7 @@ class EditDialog extends React.Component {
           <Column title="型号" dataIndex="model" width={130} />
           <Column title="规格" dataIndex="regModel" width={90} />
           <Column title="单位" dataIndex="unit" width={90} />
-          <Column title="单价" dataIndex="productPrice" width={90} />
+          {/* <Column title="单价" dataIndex="productPrice" width={90} /> */}
           <Column
             title="补货单号"
             dataIndex="replenishNumber"

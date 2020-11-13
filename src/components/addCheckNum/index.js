@@ -181,12 +181,8 @@ class AddCheckNum extends React.Component {
                 render={(value, record, index) => index + 1}
                 width={65}
               />
-              {/* <Column title="产品编码" dataIndex="productCode" width={120} /> */}
               <Column title="产品名称" dataIndex="productName" width={165} />
               <Column title="规格" dataIndex="model" width={100} />
-              {/* <Column title="型号" dataIndex="regModel" width={80} /> */}
-              {/* <Column title="单位" dataIndex="unitName" width={70} /> */}
-              {/* <Column title="单价" dataIndex="productPrice" width={70} /> */}
               <Column title="库存数量" dataIndex="inventoryNumber" width={90} />
               <Column title="盘点数量" dataIndex="checkNumber" width={90} />
               <Column
@@ -232,12 +228,8 @@ class AddCheckNum extends React.Component {
                 width={80}
               />
               <Column title="流水号" dataIndex="serialNo" width={110} />
-              {/* <Column title="产品编码" dataIndex="productCode" width={125} /> */}
               <Column title="产品名称" dataIndex="productName" width={180} />
               <Column title="规格" dataIndex="model" width={100} />
-              {/* <Column title="型号" dataIndex="regModel" width={80} /> */}
-              {/* <Column title="单位" dataIndex="unitName" width={80} /> */}
-              {/* <Column title="单价" dataIndex="productPrice" width={80} /> */}
               <Column title="生产厂家" dataIndex="vendorName" width={100} />
               <Column title="生产批号" dataIndex="batchNo" width={100} />
               <Column title="有效期" dataIndex="validPeriodDate" width={100} />

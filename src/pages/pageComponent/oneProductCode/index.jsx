@@ -135,9 +135,6 @@ class OneProductCode extends React.Component {
           <Column title="消耗日期" dataIndex="consumeDate" width={130} />
           <Column title="生产日期" dataIndex="productDate" width={130} />
           <Column title="有效期" dataIndex="validPeriodDate" width={130} />
-          <Column title="JDE编码" dataIndex="jdeCode" width={120} />
-          <Column title="辽宁阳光采购编码" dataIndex="" width={150} />
-          <Column title="吉林阳光采购编码" dataIndex="" width={150} />
           <Column title="型号" dataIndex="model" width={120} />
           <Column title="规格" dataIndex="regularModel" width={120} />
           <Column title="单位" dataIndex="unitName" width={80} />
@@ -148,6 +145,17 @@ class OneProductCode extends React.Component {
             title="生产许可证号"
             dataIndex="productLicenseNo"
             width={140}
+          />
+          <Column title="JDE编码" dataIndex="jdeCode" width={120} />
+          <Column
+            title="辽宁阳光采购编码"
+            dataIndex="sunshineCodeLN"
+            width={150}
+          />
+          <Column
+            title="吉林阳光采购编码"
+            dataIndex="sunshineCodeJL"
+            width={150}
           />
           <Column
             title="JDE供应商名称"
