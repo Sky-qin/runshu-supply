@@ -43,7 +43,7 @@ async function _checkAuthority(params, callBack, ctxHook) {
   }
 }
 
-// 正常盒马学院登陆
+// 正常登陆
 function loginUtil({ callBack, ctxHook }) {
   // 添加模拟登录逻辑
   //   if (Utils.getUrlParam("mock_phone")) {
