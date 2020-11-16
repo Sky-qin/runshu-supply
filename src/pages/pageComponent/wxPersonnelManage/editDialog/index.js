@@ -22,7 +22,10 @@ class EditDialog extends React.Component {
       .then((values) => {
         onOk &&
           typeof onOk === "function" &&
-          onOk({ ...values, hospitalIds: [values.hospitalIds], type: "wx" });
+          onOk({
+            ...values,
+            type: "wx",
+          });
       })
       .catch((errorInfo) => {
         console.log("errorInfo", errorInfo);
@@ -80,8 +83,7 @@ class EditDialog extends React.Component {
           initialValues={{
             userName: data.userName || "",
             userPhone: data.userPhone || "",
-            roleId: data.roleId || [],
-            hospitalIds: data.hospitalIds || [],
+            hospitalIds: data.hospitalIds,
           }}
         >
           <Form.Item

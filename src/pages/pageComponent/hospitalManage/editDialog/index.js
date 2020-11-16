@@ -1,5 +1,6 @@
 import React from "react";
 import { Modal, Form, Input, Button, Cascader, TreeSelect } from "antd";
+import Ebuttons from "../../../../components/Ebttons";
 
 const layout = {
   labelCol: { span: 6 },
@@ -78,6 +79,7 @@ class EditDialog extends React.Component {
             address: data.address,
             person: data.person,
             phone: data.phone,
+            doctorList: data.doctorList,
           }}
         >
           <Form.Item
@@ -131,6 +133,12 @@ class EditDialog extends React.Component {
             rules={[{ pattern: /^1\d{10}$/, message: "请输入完整的手机号码" }]}
           >
             <Input placeholder="请输入" />
+          </Form.Item>
+          <Form.Item name="doctorList" label="常用医生">
+            <Ebuttons
+              data={data.doctorList || []}
+              // onChange={(list) => this.setState({ list })}
+            />
           </Form.Item>
         </Form>
       </Modal>

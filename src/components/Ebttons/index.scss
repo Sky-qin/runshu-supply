@@ -1,0 +1,31 @@
+.e-button {
+  display: inline-block;
+  line-height: 32px;
+  height: 32px;
+  margin-right: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 0px 5px;
+  width: max-content;
+  min-width: 50px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+.e-input {
+  max-width: 90px;
+  width: max-content;
+  min-width: 50px;
+}
+.e-delete-icon {
+  margin-left: 8px;
+  cursor: pointer;
+}
+
+.e-add-icon {
+  color: #bbb;
+  font-size: 20px;
+}
+
+.e-add-icon:hover {
+  color: #1890ff;
+}

@@ -166,7 +166,11 @@ class EditDialog extends React.Component {
             />
             <Column title="生产日期" dataIndex="productDate" width={130} />
             <Column title="有效期" dataIndex="validPeriodDate" width={130} />
-            <Column title="生产厂家" dataIndex="productVerdor" width={130} />
+            <Column
+              title="生产厂家"
+              dataIndex="productVendorName"
+              width={130}
+            />
             <Column title="注册证号" dataIndex="registrationNo" width={130} />
           </Table>
         </div>
