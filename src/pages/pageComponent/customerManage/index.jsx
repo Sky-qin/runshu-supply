@@ -186,6 +186,7 @@ class CustomerManage extends React.Component {
       departmentList,
       switchDialog,
       isEnable,
+      type,
     } = this.props.customerManageModel;
     const { current, size, total } = pagination;
     return (
@@ -210,6 +211,14 @@ class CustomerManage extends React.Component {
                   icon={<SearchOutlined />}
                 />
               </div>
+              <Select
+                placeholder="请选择客户类型"
+                allowClear={true}
+                value={type}
+                onChange={(value) => this.onChangeFilter(value, "type")}
+                style={{ width: 260, marginRight: 15 }}
+                options={customerTypeList}
+              />
               <Select
                 placeholder="请选择启用、停用状态"
                 allowClear={true}

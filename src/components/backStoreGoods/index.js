@@ -201,10 +201,9 @@ class SendGoods extends React.Component {
                     onChange={(value, obj) =>
                       this.onFormChange("outStockId", value, obj)
                     }
-                    onSearch={this.handleGetStock}
-                    filterOption={false}
-                    showArrow={false}
+                    // onSearch={this.handleGetStock}
                     dropdownMatchSelectWidth={false}
+                    optionFilterProp="label"
                   />
                 </Form.Item>
               </Col>
@@ -223,10 +222,9 @@ class SendGoods extends React.Component {
                     onChange={(value, obj) =>
                       this.onFormChange("inStockId", value, obj)
                     }
-                    onSearch={this.handleGetStock}
-                    filterOption={false}
-                    showArrow={false}
+                    // onSearch={this.handleGetStock}
                     dropdownMatchSelectWidth={false}
+                    optionFilterProp="label"
                   />
                 </Form.Item>
               </Col>

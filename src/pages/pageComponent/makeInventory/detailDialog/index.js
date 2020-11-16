@@ -132,7 +132,7 @@ class DetailDialog extends React.Component {
       return <div className="blue-color">无盈亏</div>;
     }
     if (checkStatus === 3) {
-      return <div className="wran-color">无异常</div>;
+      return <div className="wran-color">有异常</div>;
     }
     if (checkStatus === 1) {
       return (
@@ -145,7 +145,7 @@ class DetailDialog extends React.Component {
     if (checkStatus === 2) {
       return (
         <div className="wran-color">
-          <div className="num-div">{lossNumber || 0}</div>
+          <div className="num-div">{`-${lossNumber}` || 0}</div>
           <div>盘亏</div>
         </div>
       );

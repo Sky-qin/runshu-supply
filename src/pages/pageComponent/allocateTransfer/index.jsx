@@ -343,14 +343,14 @@ class AllocateTransfer extends React.Component {
               groupTitle="调拨清单"
               onChange={this.changeAddInfo}
               onAddGoods={this.handleAddGoods}
-              onGetStockList={(value) => {
-                dispatch({
-                  type: "allocateTransferModel/getFindAllStock",
-                  payload: {
-                    keyword: value,
-                  },
-                });
-              }}
+              // onGetStockList={(value) => {
+              //   dispatch({
+              //     type: "allocateTransferModel/getFindAllStock",
+              //     payload: {
+              //       keyword: value,
+              //     },
+              //   });
+              // }}
               onDelete={this.handleDeleteGoods}
               onCodeChange={this.setCode}
               onSubmit={this.handleSubmit}

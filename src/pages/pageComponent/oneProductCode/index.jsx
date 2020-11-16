@@ -14,6 +14,8 @@ class OneProductCode extends React.Component {
   }
 
   componentDidMount() {
+    const { dispatch } = this.props;
+    dispatch({ type: "oneProductCodeModel/getPricePermission" });
     this.getTableList();
   }
 
@@ -64,6 +66,7 @@ class OneProductCode extends React.Component {
       loading,
       keyword,
       isConsumed,
+      pricePermission,
     } = this.props.oneProductCodeModel;
     const { current, size, total } = pagination;
     return (
@@ -162,7 +165,9 @@ class OneProductCode extends React.Component {
             dataIndex="jdeSupplierName"
             width={150}
           />
-          <Column title="JDE进货单价" dataIndex="jdePrice" width={130} />
+          {pricePermission && (
+            <Column title="JDE进货单价" dataIndex="jdePrice" width={130} />
+          )}
         </Table>
       </ContentWrap>
     );

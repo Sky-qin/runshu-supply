@@ -183,11 +183,11 @@ class Home extends React.Component {
               <WrapBoardFooter>
                 <div>
                   <WrapNum>{inventoryStatistics.addStock}</WrapNum>
-                  <WrapNumText>新增</WrapNumText>
+                  <WrapNumText>今日新增</WrapNumText>
                 </div>
                 <div className="left-line">
                   <WrapNum>{inventoryStatistics.totalMoney}</WrapNum>
-                  <WrapNumText>金额（万元）</WrapNumText>
+                  <WrapNumText>补货金额（万元）</WrapNumText>
                 </div>
               </WrapBoardFooter>
             </div>
@@ -203,7 +203,7 @@ class Home extends React.Component {
               <WrapBoardFooter>
                 <div>
                   <WrapNum>{consumeStatistics.add}</WrapNum>
-                  <WrapNumText>新增</WrapNumText>
+                  <WrapNumText>今日新增</WrapNumText>
                 </div>
                 <div className="left-line">
                   <WrapNum>{consumeStatistics.confirmed}</WrapNum>
@@ -211,7 +211,7 @@ class Home extends React.Component {
                 </div>
                 <div className="left-line">
                   <WrapNum>{consumeStatistics.money}</WrapNum>
-                  <WrapNumText>金额（万元）</WrapNumText>
+                  <WrapNumText>消耗金额（万元）</WrapNumText>
                 </div>
               </WrapBoardFooter>
             </div>
@@ -227,7 +227,7 @@ class Home extends React.Component {
               <WrapBoardFooter>
                 <div>
                   <WrapNum>{replenishStatistics.add}</WrapNum>
-                  <WrapNumText>新增</WrapNumText>
+                  <WrapNumText>今日新增</WrapNumText>
                 </div>
                 <div className="left-line">
                   <WrapNum>{replenishStatistics.confirmed}</WrapNum>
@@ -235,7 +235,7 @@ class Home extends React.Component {
                 </div>
                 <div className="left-line">
                   <WrapNum>{replenishStatistics.money}</WrapNum>
-                  <WrapNumText>金额（万元）</WrapNumText>
+                  <WrapNumText>消耗金额（万元）</WrapNumText>
                 </div>
               </WrapBoardFooter>
             </div>

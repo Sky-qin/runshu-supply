@@ -13,6 +13,7 @@ export default {
     },
     keyword: "",
     isOnsale: "",
+    pricePermission: false,
   },
 
   effects: {
@@ -48,13 +49,19 @@ export default {
         message.error(data.message || "获取产品信息失败！");
       }
     },
-    // *exportList({ payload }, { call, put, select }) {
-    //   const { keyword, isOnsale } = yield select(
-    //     (state) => state.businessProductsModel
-    //   );
-    //   const { data } = yield call(API.exportOnsale, { keyword, isOnsale });
-    //   console.log("data", data);
-    // },
+    *getPricePermission({ payload }, { call, put, select }) {
+      const { data } = yield call(API.getPricePermission);
+      if (data && data.success) {
+        yield put({
+          type: "save",
+          payload: {
+            pricePermission: data.data,
+          },
+        });
+      } else {
+        message.error(data.message || "获取价格权限接口失败！");
+      }
+    },
   },
 
   reducers: {

@@ -1276,6 +1276,18 @@ const API = {
   },
 
   /**
+   *  权限管理
+   */
+
+  // 价格权限
+  getPricePermission(params) {
+    return request({
+      url: `${Prefix}/role/getPricePermission`,
+      params,
+    });
+  },
+
+  /**
    * 枚举类即接口
    */
   // 获取当前用户 医院枚举

@@ -14,6 +14,8 @@ class BusinessProducts extends React.Component {
   }
 
   componentDidMount() {
+    const { dispatch } = this.props;
+    dispatch({ type: "businessProductsModel/getPricePermission" });
     this.getTableList();
   }
 
@@ -64,6 +66,7 @@ class BusinessProducts extends React.Component {
       loading,
       keyword,
       isOnsale,
+      pricePermission,
     } = this.props.businessProductsModel;
     const { current, size, total } = pagination;
     return (
@@ -168,7 +171,9 @@ class BusinessProducts extends React.Component {
             dataIndex="jdeSupplierName"
             width={175}
           />
-          <Column title="JDE进货单价" dataIndex="jdePrice" width={150} />
+          {pricePermission && (
+            <Column title="JDE进货单价" dataIndex="jdePrice" width={150} />
+          )}
         </Table>
       </ContentWrap>
     );

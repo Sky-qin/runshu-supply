@@ -68,12 +68,12 @@ class SendGoods extends React.Component {
     onClosed && typeof onClosed === "function" && onClosed();
   };
 
-  handleGetStock = (value) => {
-    const { onGetStockList } = this.props;
-    onGetStockList &&
-      typeof onGetStockList === "function" &&
-      onGetStockList(value);
-  };
+  // handleGetStock = (value) => {
+  //   const { onGetStockList } = this.props;
+  //   onGetStockList &&
+  //     typeof onGetStockList === "function" &&
+  //     onGetStockList(value);
+  // };
 
   onFormChange = (key, value, obj) => {
     const { onChange, data = {} } = this.props;
@@ -196,10 +196,8 @@ class SendGoods extends React.Component {
                     onChange={(value, obj) =>
                       this.onFormChange("outStockId", value, obj)
                     }
-                    onSearch={this.handleGetStock}
-                    filterOption={false}
-                    showArrow={false}
                     dropdownMatchSelectWidth={false}
+                    optionFilterProp="label"
                   />
                 </Form.Item>
               </Col>
@@ -217,10 +215,9 @@ class SendGoods extends React.Component {
                     onChange={(value, obj) =>
                       this.onFormChange("inStockId", value, obj)
                     }
-                    onSearch={this.handleGetStock}
-                    filterOption={false}
-                    showArrow={false}
+                    // onSearch={this.handleGetStock}
                     dropdownMatchSelectWidth={false}
+                    optionFilterProp="label"
                   />
                 </Form.Item>
               </Col>

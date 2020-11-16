@@ -13,6 +13,7 @@ export default {
     },
     keyword: "",
     isConsumed: null,
+    pricePermission: false,
   },
 
   effects: {
@@ -46,6 +47,19 @@ export default {
         });
       } else {
         message.error(data.message || "获取产品信息失败！");
+      }
+    },
+    *getPricePermission({ payload }, { call, put, select }) {
+      const { data } = yield call(API.getPricePermission);
+      if (data && data.success) {
+        yield put({
+          type: "save",
+          payload: {
+            pricePermission: data.data,
+          },
+        });
+      } else {
+        message.error(data.message || "获取价格权限接口失败！");
       }
     },
   },

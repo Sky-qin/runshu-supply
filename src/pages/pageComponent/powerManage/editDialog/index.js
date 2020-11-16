@@ -85,6 +85,7 @@ class EditDialog extends React.Component {
             resourceSigns: data.resourceSigns || [],
             isSale: data.isSale || false,
             internalWork: data.internalWork || false,
+            hasPricePermission: data.hasPricePermission || false,
           }}
         >
           <Form.Item
@@ -118,6 +119,12 @@ class EditDialog extends React.Component {
             </Radio.Group>
           </Form.Item>
           <Form.Item name="internalWork" label="开启内勤小程序">
+            <Radio.Group>
+              <Radio value={false}>否</Radio>
+              <Radio value={true}>是</Radio>
+            </Radio.Group>
+          </Form.Item>
+          <Form.Item name="hasPricePermission" label="开启阳采价格">
             <Radio.Group>
               <Radio value={false}>否</Radio>
               <Radio value={true}>是</Radio>
