@@ -134,7 +134,7 @@ class EditDialog extends React.Component {
           >
             <Input placeholder="请输入" />
           </Form.Item>
-          <Form.Item name="doctorList" label="常用医生">
+          <Form.Item name="doctorList" label="手术医生">
             <Ebuttons
               data={data.doctorList || []}
               // onChange={(list) => this.setState({ list })}
