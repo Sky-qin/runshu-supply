@@ -83,7 +83,7 @@ class EditDialog extends React.Component {
           initialValues={{
             userName: data.userName || "",
             userPhone: data.userPhone || "",
-            hospitalIds: data.hospitalIds,
+            hospitalId: data.hospitalId,
           }}
         >
           <Form.Item
@@ -105,7 +105,7 @@ class EditDialog extends React.Component {
           </Form.Item>
 
           <Form.Item
-            name="hospitalIds"
+            name="hospitalId"
             label="医院"
             rules={[{ required: true, message: "请选择医院" }]}
           >
