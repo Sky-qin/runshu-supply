@@ -396,6 +396,18 @@ class ConsumeList extends React.Component {
             <Column title="申请人" dataIndex="userName" width={100} />
             <Column title="申请时间" dataIndex="createTime" width={120} />
             <Column
+              title="商品情况"
+              dataIndex="isExistUnusualProduct"
+              width={90}
+              render={(value) => {
+                return value ? (
+                  <span style={{ color: "red" }}>异常</span>
+                ) : (
+                  <span style={{ color: "green" }}>正常</span>
+                );
+              }}
+            />
+            <Column
               title="状态"
               dataIndex="orderStatusDesc"
               width={80}
@@ -479,7 +491,7 @@ class ConsumeList extends React.Component {
             ]}
             maskClosable={false}
           >
-            你确定要{` ${statusTitle} `}这个条消耗单吗？
+            你确定要{` ${statusTitle} `}这个消耗单吗？
           </Modal>
           {/* 编辑弹窗 */}
           <EditDialog />

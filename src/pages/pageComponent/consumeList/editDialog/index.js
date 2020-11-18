@@ -144,10 +144,9 @@ class EditDialog extends React.Component {
           <Table
             rowKey={(record, index) => index}
             style={{
-              width: "1500px",
+              width: "1300px",
               maxWidth: "none",
               minHeight: "500px",
-              overflowX: "scroll",
             }}
             dataSource={detailMsg.pcproductList || []}
             pagination={false}
@@ -172,6 +171,19 @@ class EditDialog extends React.Component {
               width={130}
             />
             <Column title="注册证号" dataIndex="registrationNo" width={130} />
+            <Column
+              fixed="right"
+              title="价格情况"
+              dataIndex="isPriceUnusual"
+              width={120}
+              render={(value) => {
+                return value ? (
+                  <span style={{ color: "red" }}>异常</span>
+                ) : (
+                  <span style={{ color: "green" }}>正常</span>
+                );
+              }}
+            />
           </Table>
         </div>
       </Modal>
