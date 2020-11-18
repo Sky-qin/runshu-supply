@@ -228,13 +228,13 @@ class StockReturnWarehouse extends React.Component {
                 </Form.Item>
               </Col>
               <Col span={6}>
-                <Form.Item label="创建人" name="userId">
+                <Form.Item label="创建人" name="creator">
                   <Select
                     placeholder="请选择状态"
                     showSearch
                     optionFilterProp="label"
                     options={personList}
-                    onChange={(value) => this.onSearchChange("userId", value)}
+                    onChange={(value) => this.onSearchChange("creator", value)}
                     allowClear
                   />
                 </Form.Item>
