@@ -46,7 +46,7 @@ const FooterBar = styled.div`
   right: 0px;
   height: 56px;
   line-height: 56px;
-  width: 1000px;
+  width: 1100px;
   border-top: 1px solid #ddd;
 `;
 
@@ -158,7 +158,7 @@ class SendGoods extends React.Component {
       addInfo = {},
       scanCode,
       personalStockList,
-      companyStockList,
+      // companyStockList,
       productList,
       drawerLoading,
     } = data;
@@ -208,7 +208,7 @@ class SendGoods extends React.Component {
                 </Form.Item>
               </Col>
 
-              <Col span={8}>
+              {/* <Col span={8}>
                 <Form.Item
                   label="调入仓库:"
                   name="inStockId"
@@ -227,12 +227,7 @@ class SendGoods extends React.Component {
                     optionFilterProp="label"
                   />
                 </Form.Item>
-              </Col>
-              <Col span={8}>
-                <Form.Item label="调拨类型:">{addInfo.typeName}</Form.Item>
-              </Col>
-            </Row>
-            <Row>
+              </Col> */}
               <Col span={8}>
                 <Form.Item label="备注:" name="remarks">
                   <TextArea
@@ -244,7 +239,11 @@ class SendGoods extends React.Component {
                   />
                 </Form.Item>
               </Col>
+              <Col span={8}>
+                <Form.Item label="调拨类型:">{addInfo.typeName}</Form.Item>
+              </Col>
             </Row>
+            <Row></Row>
           </Form>
 
           <BasicDiv>
@@ -256,9 +255,15 @@ class SendGoods extends React.Component {
               流水号:
               <Input
                 style={{ width: "650px", marginLeft: "12px" }}
+                placeholder={`${
+                  addInfo.outStockId
+                    ? "请用扫码枪扫码或是手动输入流水码"
+                    : "请先选择调出仓库"
+                }`}
                 value={scanCode}
                 onChange={(e) => this.changeCode(e.target.value)}
                 onPressEnter={this.onPressEnter}
+                disabled={!addInfo.outStockId}
                 allowClear
               />
               <Button
@@ -307,7 +312,7 @@ class SendGoods extends React.Component {
           </BasicDiv>
           <FooterBar>
             <Button type="primary" onClick={this.handleSubmit}>
-              提交
+              提交返库商品
             </Button>
           </FooterBar>
         </Spin>

@@ -70,7 +70,7 @@ class DetailDialog extends React.Component {
           <div>单号：{data.orderNumber || ""}</div>
           <div>日期：{data.createTime || ""}</div>
           <div>调出仓库：{data.outStock || ""}</div>
-          <div>调入仓库：{data.inStock || ""}</div>
+          {/* <div>调入仓库：{data.inStock || ""}</div> */}
           <div>调拨类型：{data.typeName || ""}</div>
           <div>描述：{data.remarks || ""}</div>
         </BasicDiv>
@@ -93,6 +93,7 @@ class DetailDialog extends React.Component {
           <Column title="流水号" dataIndex="serialNo" width={100} />
           <Column title="产品编号" dataIndex="productCode" width={130} />
           <Column title="产品名称" dataIndex="productName" width={180} />
+          <Column title="调入仓库" dataIndex="inStock" width={130} />
           <Column title="型号" dataIndex="model" width={120} />
           <Column title="规格" dataIndex="regModel" width={100} />
           <Column title="单位" dataIndex="unitName" width={80} />

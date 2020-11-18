@@ -111,8 +111,17 @@ class StockReturnWarehouse extends React.Component {
     });
   };
 
-  changeAddInfo = (msg, type) => {
+  changeAddInfo = (msg, type, value) => {
     const { dispatch } = this.props;
+    if (type === "outStockId" && value) {
+      // dispatch({
+      //   type: "stockReturnWarehouseModel/save",
+      //   payload: {
+      //     ...msg,
+      //   },
+      // });
+      console.log("获取个人库商品");
+    }
     dispatch({
       type: "stockReturnWarehouseModel/save",
       payload: {

@@ -131,14 +131,16 @@ export default {
         message.error(data.message || "获取参考方案失败！");
       }
     },
-    *listCategoryDirectory({ payload }, { call, put }) {
-      const { data } = yield call(API.listCategoryDirectory);
+    *listCategoryDirectory({ payload }, { call, put, select }) {
+      const { currentMsg } = yield select(
+        (state) => state.supplyPriceManageModel
+      );
+      const { data } = yield call(API.listCategoryDirectory, {
+        planId: currentMsg.planId,
+      });
       if (data && data.success) {
-        let list = transferTreeList(
-          (data.data && data.data.categoryList) || []
-        );
+        let list = transferTreeList(data.data || []);
         let newList = [];
-
         list.map((item) => {
           return newList.push({ ...item, parentNode: true });
         });

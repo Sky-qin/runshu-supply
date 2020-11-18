@@ -18,9 +18,8 @@ const transferTreeList = (data, parentValue) => {
   }
   for (let i = 0; i < data.length; i++) {
     data[i].title = data[i].categoryName;
-    data[i].key = parentValue
-      ? `${parentValue}-${data[i].categoryCode}-${data[i].categoryName}`
-      : data[i].categoryCode;
+    data[i].key = data[i].categoryCode;
+
     if (data[i].children) {
       transferTreeList(data[i].children, data[i].categoryCode);
     }

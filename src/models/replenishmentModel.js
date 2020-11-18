@@ -32,6 +32,7 @@ export default {
     scanCodeProductList: [],
     scanCode: "",
     deliverInfoList: [],
+    companyStockList: [],
   },
 
   effects: {
@@ -80,6 +81,20 @@ export default {
         message.error(data.message || "获取医院枚举失败！");
       }
     },
+    *companyStock({ payload }, { call, put, select }) {
+      const { data } = yield call(API.companyStock);
+      if (data && data.success) {
+        yield put({
+          type: "save",
+          payload: {
+            companyStockList: data.data || [],
+          },
+        });
+      } else {
+        message.error(data.message || "获取公司库枚举失败！");
+      }
+    },
+
     *replenishStatus({ payload }, { call, put, select }) {
       const { data } = yield call(API.replenishStatus, payload);
       if (data && data.success) {
@@ -133,8 +148,31 @@ export default {
         message.error(data.message || "获取发货信息失败！");
       }
     },
+
+    *initAddInfo({ payload }, { call, put, select }) {
+      const { currentMsg } = yield select((state) => state.replenishmentModel);
+      const params = { replenishOrderId: currentMsg.id };
+      yield put({ type: "save", payload: { loading: true } });
+      const { data } = yield call(API.getSendBsicInfo, params);
+      yield put({ type: "save", payload: { loading: false } });
+      if (data && data.success) {
+        const { data: info } = data;
+        const { replenishOrderList } = info;
+        yield put({
+          type: "save",
+          payload: {
+            replenishOrderList,
+            scanCodeProductList: [],
+          },
+        });
+      } else {
+        message.error(data.message || "获取发货信息失败！");
+      }
+    },
+
     *addGoods({ payload }, { call, put, select }) {
       const {
+        addInfo,
         currentMsg,
         replenishOrderList,
         scanCode,
@@ -144,6 +182,7 @@ export default {
         replenishOrderId: currentMsg.id,
         serialNo: scanCode,
         replenishOrderList,
+        outStockId: addInfo.outStockId,
       };
       const list = scanCode.split(".");
       const addCode = list[list.length - 1];

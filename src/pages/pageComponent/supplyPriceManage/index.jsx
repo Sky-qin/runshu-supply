@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "dva";
 import { Table, Button, Space, Modal, Input } from "antd";
-import { PlusOutlined, SearchOutlined } from "@ant-design/icons";
+import { SearchOutlined } from "@ant-design/icons";
 import AddDialog from "./addDialog";
 import DetailDialog from "./detailDialog";
 import ContentBox from "../../../components/contentWrap";
@@ -16,12 +16,6 @@ class SupplyPriceManage extends React.Component {
   }
 
   componentDidMount() {
-    const { dispatch } = this.props;
-
-    dispatch({
-      type: "supplyPriceManageModel/listCategoryDirectory",
-    });
-
     this.getTableList();
   }
 
@@ -75,6 +69,10 @@ class SupplyPriceManage extends React.Component {
         relationName: msg.bizRelationName,
         dialogTitle: "编辑",
       },
+    });
+
+    dispatch({
+      type: "supplyPriceManageModel/listCategoryDirectory",
     });
   };
 
@@ -162,14 +160,12 @@ class SupplyPriceManage extends React.Component {
         },
       });
     } else {
-      const values = key.split("-");
       const { refId } = supplyPriceManageModel;
       dispatch({
         type: "supplyPriceManageModel/productPriceDetailList",
         payload: {
           refId,
-          parentCategoryCode: values[0],
-          productCategory: values[2],
+          productCategory: key,
           keyword,
         },
       });
@@ -222,9 +218,9 @@ class SupplyPriceManage extends React.Component {
           }
         />
         <OpreationBar
-          buttonList={[
-            { key: "add", label: "新增价格方案", icon: <PlusOutlined /> },
-          ]}
+          // buttonList={[
+          //   { key: "add", label: "新增价格方案", icon: <PlusOutlined /> },
+          // ]}
           total={total}
           onClick={this.handleClick}
         />

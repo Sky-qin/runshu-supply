@@ -13,6 +13,7 @@ import {
   Space,
   Spin,
 } from "antd";
+import "./index.scss";
 
 const { Column } = Table;
 const { TextArea } = Input;
@@ -45,13 +46,13 @@ const FooterBar = styled.div`
   right: 0px;
   height: 56px;
   line-height: 56px;
-  width: 1000px;
+  width: 1200px;
   border-top: 1px solid #ddd;
 `;
 
 const layout = {
-  labelCol: { span: 6 },
-  wrapperCol: { span: 18 },
+  labelCol: { span: 7 },
+  wrapperCol: { span: 17 },
 };
 
 class SubmitSendGoods extends React.Component {
@@ -130,12 +131,13 @@ class SubmitSendGoods extends React.Component {
       scanCodeProductList,
       personList,
       drawerLoading,
+      companyStockList,
     } = data;
     return (
       <Drawer
         title="发货单"
         visible
-        width={1100}
+        width={1200}
         className="drawer-box"
         onClose={this.handleCancel}
         maskClosable={false}
@@ -148,37 +150,46 @@ class SubmitSendGoods extends React.Component {
             style={{ marginTop: "24px" }}
           >
             <Row>
-              <Col span={8}>
+              <Col span={6}>
                 <Form.Item label="发货单号:">
                   {addInfo.sendOrder || ""}
                 </Form.Item>
               </Col>
 
-              <Col span={8}>
+              <Col span={6}>
                 <Form.Item label="日期:">{addInfo.nowDate || ""}</Form.Item>
               </Col>
-              <Col span={8}>
-                <Form.Item label="调出仓库:">
-                  {addInfo.outStock || ""}
-                </Form.Item>
-              </Col>
-            </Row>
-            <Row>
-              <Col span={8}>
-                <Form.Item label="调入仓库:">{addInfo.inStock || ""}</Form.Item>
-              </Col>
 
-              <Col span={8}>
+              <Col span={6}>
+                <Form.Item label="客户:">{addInfo.customer || ""}</Form.Item>
+              </Col>
+              <Col span={6}>
                 <Form.Item label="调拨类型:">
                   {addInfo.allotType || ""}
                 </Form.Item>
               </Col>
-              <Col span={8}>
-                <Form.Item label="客户:">{addInfo.customer || ""}</Form.Item>
-              </Col>
             </Row>
+
             <Row>
-              <Col span={8}>
+              <Col span={6}>
+                <Form.Item
+                  label="调出仓库:"
+                  name="outStockId"
+                  rules={[{ required: true }]}
+                >
+                  <Select
+                    showSearch
+                    optionFilterProp="label"
+                    placeholder="请选择"
+                    value={addInfo.outStockId || null}
+                    options={companyStockList}
+                    onChange={(value) => this.onFormChange("outStockId", value)}
+                    allowClear
+                  />
+                </Form.Item>
+              </Col>
+
+              <Col span={6}>
                 <Form.Item
                   label="快递单号:"
                   name="orderNo"
@@ -193,8 +204,7 @@ class SubmitSendGoods extends React.Component {
                   />
                 </Form.Item>
               </Col>
-
-              <Col span={8}>
+              <Col span={6}>
                 <Form.Item
                   label="发货人:"
                   name="person"
@@ -210,12 +220,15 @@ class SubmitSendGoods extends React.Component {
                   />
                 </Form.Item>
               </Col>
-              <Col span={8}>
+              <Col span={6}>
                 <Form.Item label="手机号:">{addInfo.mobile}</Form.Item>
               </Col>
             </Row>
             <Row>
-              <Col span={8}>
+              <Col span={6}>
+                <Form.Item label="调入仓库:">{addInfo.inStock || ""}</Form.Item>
+              </Col>
+              <Col span={6}>
                 <Form.Item label="备注:" name="desc">
                   <TextArea
                     rows={3}
@@ -277,9 +290,15 @@ class SubmitSendGoods extends React.Component {
             <div style={{ padding: "8px" }}>
               流水号:
               <Input
+                placeholder={`${
+                  addInfo.outStockId
+                    ? "请用扫码枪扫码或是手动输入流水码"
+                    : "请先选择调出仓库"
+                }`}
                 style={{ width: "650px", marginLeft: "12px" }}
                 value={scanCode}
                 onChange={(e) => this.changeCode(e.target.value)}
+                disabled={!addInfo.outStockId}
                 onPressEnter={this.onPressEnter}
                 allowClear
               />
@@ -309,7 +328,6 @@ class SubmitSendGoods extends React.Component {
               <Column title="型号" dataIndex="model" width={100} />
               <Column title="规格" dataIndex="regModel" width={80} />
               <Column title="单位" dataIndex="unit" width={80} />
-              {/* <Column title="单价" dataIndex="unit" width={80} /> */}
               <Column title="生产厂家" dataIndex="productVendor" width={150} />
               <Column
                 title="补货单编码"

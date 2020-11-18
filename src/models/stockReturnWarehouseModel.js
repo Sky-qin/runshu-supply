@@ -71,7 +71,7 @@ export default {
       );
       const params = {
         serialNo: scanCode,
-        stockId: addInfo.outStockId,
+        outStockId: addInfo.outStockId,
       };
       yield put({ type: "save", payload: { drawerLoading: true } });
       const { data } = yield call(API.backStoreScan, params);
@@ -131,6 +131,7 @@ export default {
       const { addInfo, productList } = yield select(
         (state) => state.stockReturnWarehouseModel
       );
+      console.log("productList", productList);
       const params = {
         ...addInfo,
         productList,
@@ -203,8 +204,8 @@ export default {
             addproductDialog: true,
             addInfo: {
               orderNumber: (data.data && data.data.orderNumber) || null,
-              inStockId: (data.data && data.data.inStockId) || null,
-              inStock: "<<公司库>>",
+              // inStockId: (data.data && data.data.inStockId) || null,
+              // inStock: "<<公司库>>",
               typeName: "备货返库",
             },
           },

@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { Drawer, Table, Input, Button, Spin, Tree, Tooltip } from "antd";
+import { Drawer, Table, Input, Button, Spin, Tree, Tooltip, Radio } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 
 const { Column } = Table;
@@ -152,6 +152,25 @@ class DetailDialog extends React.Component {
                   dataIndex="productVendorName"
                   width={160}
                 />
+                <Column
+                  title="是否在售"
+                  dataIndex="isOnsale"
+                  fixed="right"
+                  width={160}
+                  render={(value) => {
+                    return (
+                      <Radio.Group
+                        options={[
+                          { value: true, label: "在售" },
+                          { value: false, label: "停售" },
+                        ]}
+                        disabled
+                        value={value}
+                      />
+                    );
+                  }}
+                />
+
                 <Column
                   fixed="right"
                   title="供货价格"

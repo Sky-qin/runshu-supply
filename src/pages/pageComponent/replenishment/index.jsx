@@ -54,6 +54,8 @@ class Replenishment extends React.Component {
 
   componentDidMount() {
     const { dispatch } = this.props;
+
+    dispatch({ type: "replenishmentModel/companyStock" });
     dispatch({ type: "replenishmentModel/getHospital" });
     dispatch({ type: "replenishmentModel/replenishStatus" });
     dispatch({ type: "replenishmentModel/getSendPersonList" });
@@ -188,7 +190,8 @@ class Replenishment extends React.Component {
   };
 
   changeAddInfo = (msg, type) => {
-    const { dispatch } = this.props;
+    const { dispatch, replenishmentModel } = this.props;
+    const { scanCodeProductList } = replenishmentModel;
     if (type === "person") {
       dispatch({
         type: "replenishmentModel/getMobileById",
@@ -197,6 +200,11 @@ class Replenishment extends React.Component {
         },
       });
       return;
+    }
+    if (type === "outStockId") {
+      if (scanCodeProductList && scanCodeProductList.length > 0) {
+        dispatch({ type: "replenishmentModel/initAddInfo" });
+      }
     }
     dispatch({
       type: "replenishmentModel/save",
@@ -278,6 +286,7 @@ class Replenishment extends React.Component {
       scanCode,
       drawerLoading,
       deliverInfoList,
+      companyStockList,
     } = this.props.replenishmentModel;
     const { current, size, total } = pagination;
     return (
@@ -461,6 +470,7 @@ class Replenishment extends React.Component {
                 replenishOrderList,
                 scanCodeProductList,
                 personList,
+                companyStockList,
                 drawerLoading,
               }}
               onClosed={() => {

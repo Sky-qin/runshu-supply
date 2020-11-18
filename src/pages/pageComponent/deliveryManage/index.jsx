@@ -46,6 +46,7 @@ class DeliveryManage extends React.Component {
 
   componentDidMount() {
     const { dispatch } = this.props;
+    dispatch({ type: "deliveryManageModel/companyStock" });
     dispatch({ type: "deliveryManageModel/getHospital" });
     dispatch({ type: "deliveryManageModel/getDeliveryStatus" });
     dispatch({ type: "deliveryManageModel/getSendPersonList" });
@@ -202,7 +203,8 @@ class DeliveryManage extends React.Component {
   };
 
   changeAddInfo = (msg, type) => {
-    const { dispatch } = this.props;
+    const { dispatch, deliveryManageModel } = this.props;
+    const { scanCodeProductList } = deliveryManageModel;
     if (type === "person") {
       dispatch({
         type: "deliveryManageModel/getMobileById",
@@ -212,6 +214,12 @@ class DeliveryManage extends React.Component {
       });
       return;
     }
+    if (type === "outStockId") {
+      if (scanCodeProductList && scanCodeProductList.length > 0) {
+        dispatch({ type: "deliveryManageModel/initAddInfo" });
+      }
+    }
+
     dispatch({
       type: "deliveryManageModel/save",
       payload: {
@@ -252,7 +260,7 @@ class DeliveryManage extends React.Component {
     const { dispatch } = this.props;
     dispatch({
       type: "deliveryManageModel/queryReplenishProductDetail",
-      payload: { itemId: record.itemId },
+      payload: { replenishNumber: record.replenishNumber },
     });
   };
 
@@ -309,6 +317,7 @@ class DeliveryManage extends React.Component {
       showEditDeliveryDialog,
       dialogBtnLoading,
       hospitalTodoList,
+      companyStockList,
     } = this.props.deliveryManageModel;
     const { current, size, total } = pagination;
     return (
@@ -499,6 +508,7 @@ class DeliveryManage extends React.Component {
                 scanCodeProductList,
                 personList,
                 drawerLoading,
+                companyStockList,
               }}
               onClosed={() => {
                 dispatch({

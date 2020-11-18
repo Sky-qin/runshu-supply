@@ -18,7 +18,7 @@ class SubmitSendGoods extends React.Component {
     const { data } = this.props;
     return (
       <Drawer
-        title="发货单详情"
+        title="补货单详情"
         visible
         width={900}
         onClose={this.handleCancel}

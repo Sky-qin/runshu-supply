@@ -150,7 +150,7 @@ class EditDialog extends React.Component {
         rowKey="orderNo"
         pagination={false}
       >
-        <Column title="物流单号" dataIndex="orderNo" width={130} />
+        <Column title="发货单号" dataIndex="orderNo" width={130} />
         <Column title="流水号" dataIndex="serialNo" width={100} />
         <Column title="产品名称" dataIndex="productName" width={180} />
         <Column title="型号" dataIndex="model" width={120} />
