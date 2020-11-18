@@ -138,6 +138,7 @@ export default {
         yield put({
           type: "save",
           payload: {
+            addproductDialog: true,
             addInfo: {
               ...others,
             },

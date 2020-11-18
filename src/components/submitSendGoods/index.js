@@ -148,6 +148,9 @@ class SubmitSendGoods extends React.Component {
             ref={this.formRef}
             onFinish={this.onFinish}
             style={{ marginTop: "24px" }}
+            initialValues={{
+              outStockId: addInfo.outStockId,
+            }}
           >
             <Row>
               <Col span={6}>
@@ -181,7 +184,7 @@ class SubmitSendGoods extends React.Component {
                     showSearch
                     optionFilterProp="label"
                     placeholder="请选择"
-                    value={addInfo.outStockId || null}
+                    // value={addInfo.outStockId || null}
                     options={companyStockList}
                     onChange={(value) => this.onFormChange("outStockId", value)}
                     allowClear

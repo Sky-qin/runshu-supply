@@ -201,7 +201,6 @@ class DetailDialog extends React.Component {
                   fixed="right"
                   title="供货价格"
                   dataIndex="price"
-                  disabled
                   width={120}
                   render={(value, record, index) => {
                     return (
@@ -215,6 +214,7 @@ class DetailDialog extends React.Component {
                           onChange={(e) =>
                             this.onChangePrice(e, "price", index)
                           }
+                          disabled
                           onBlur={(e) => this.onBlur(e, record, "price")}
                           value={value}
                         />
@@ -226,7 +226,6 @@ class DetailDialog extends React.Component {
                   fixed="right"
                   title="中标组件码	"
                   dataIndex="winCompCode"
-                  disabled
                   width={120}
                   render={(value, record, index) => {
                     return (
@@ -237,6 +236,7 @@ class DetailDialog extends React.Component {
                         overlayClassName="numeric-input"
                       >
                         <Input
+                          disabled
                           onChange={(e) =>
                             this.onChangeCompCode(e, "winCompCode", index)
                           }

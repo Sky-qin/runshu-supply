@@ -177,7 +177,6 @@ class Replenishment extends React.Component {
     dispatch({
       type: "replenishmentModel/save",
       payload: {
-        addproductDialog: true,
         currentMsg: { ...record },
       },
     });

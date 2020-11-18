@@ -396,12 +396,12 @@ class ConsumeList extends React.Component {
             <Column title="申请人" dataIndex="userName" width={100} />
             <Column title="申请时间" dataIndex="createTime" width={120} />
             <Column
-              title="商品情况"
+              title="价格情况"
               dataIndex="isExistUnusualProduct"
               width={90}
               render={(value) => {
                 return value ? (
-                  <span style={{ color: "red" }}>异常</span>
+                  <span style={{ color: "red" }}>未设置价格</span>
                 ) : (
                   <span style={{ color: "green" }}>正常</span>
                 );

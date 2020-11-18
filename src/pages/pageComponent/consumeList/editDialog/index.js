@@ -178,7 +178,7 @@ class EditDialog extends React.Component {
               width={120}
               render={(value) => {
                 return value ? (
-                  <span style={{ color: "red" }}>异常</span>
+                  <span style={{ color: "red" }}>未设置价格</span>
                 ) : (
                   <span style={{ color: "green" }}>正常</span>
                 );
