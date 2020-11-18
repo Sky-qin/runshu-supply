@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { Drawer, Table, Input, Button, Spin, Tree, Tooltip, Radio } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
+import OpreationBar from "../../../../components/OpreationBar";
 
 const { Column } = Table;
 
@@ -42,12 +43,12 @@ class DetailDialog extends React.Component {
       changeCategory(node, keyword);
   };
 
-  getTableList = () => {
+  getTableList = (current, size) => {
     const { keyword, selectNode } = this.state;
     const { changeCategory } = this.props;
     changeCategory &&
       typeof changeCategory === "function" &&
-      changeCategory(selectNode, keyword);
+      changeCategory(selectNode, keyword, current, size);
   };
 
   onChangePrice = (e, key, index) => {
@@ -79,10 +80,22 @@ class DetailDialog extends React.Component {
       onSavePrice(record, key, this.getTableList);
   };
 
+  changePagination = (current, size) => {
+    this.getTableList(current, size);
+  };
+
   render() {
     const { keyword } = this.state;
     const { data = {}, title } = this.props;
-    const { categoryTree, drawerLoading, detailList, relationName } = data;
+    const {
+      categoryTree,
+      drawerLoading,
+      detailList,
+      relationName,
+      dialogSize: size,
+      dialogCurrent: current,
+      dialogTotal: total,
+    } = data;
     return (
       <Drawer
         title={title || "详情"}
@@ -127,12 +140,25 @@ class DetailDialog extends React.Component {
               />
             </div>
             <div className="detail-right">
+              <OpreationBar
+                // buttonList={[
+                //   { key: "add", label: "新增价格方案", icon: <PlusOutlined /> },
+                // ]}
+                total={total}
+                // onClick={this.handleClick}
+              />
               <Table
                 bordered
-                scroll={{ y: 400 }}
                 dataSource={detailList}
                 rowKey={(record, index) => index}
-                pagination={false}
+                pagination={{
+                  position: ["bottomCenter"],
+                  current: current,
+                  total: total,
+                  pageSize: size,
+                  onChange: this.changePagination,
+                  onShowSizeChange: this.changePagination,
+                }}
               >
                 <Column
                   title="序号"
@@ -175,6 +201,7 @@ class DetailDialog extends React.Component {
                   fixed="right"
                   title="供货价格"
                   dataIndex="price"
+                  disabled
                   width={120}
                   render={(value, record, index) => {
                     return (
@@ -199,6 +226,7 @@ class DetailDialog extends React.Component {
                   fixed="right"
                   title="中标组件码	"
                   dataIndex="winCompCode"
+                  disabled
                   width={120}
                   render={(value, record, index) => {
                     return (

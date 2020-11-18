@@ -148,9 +148,18 @@ class SupplyPriceManage extends React.Component {
     });
   };
 
-  getDetailList = (node, keyword) => {
-    const { parentNode, key } = node;
+  getDetailList = (node, keyword, current, size) => {
+    const { parentNode, key, level } = node;
     const { dispatch, supplyPriceManageModel } = this.props;
+    const { dialogCurrent, dialogSize } = supplyPriceManageModel;
+    dispatch({
+      type: "supplyPriceManageModel/save",
+      payload: {
+        dialogCurrent: current || dialogCurrent,
+        dialogSize: size || dialogSize,
+        dialogTotal: 0,
+      },
+    });
 
     if (parentNode) {
       dispatch({
@@ -165,8 +174,11 @@ class SupplyPriceManage extends React.Component {
         type: "supplyPriceManageModel/productPriceDetailList",
         payload: {
           refId,
-          productCategory: key,
           keyword,
+          category: {
+            level,
+            categoryCode: key,
+          },
         },
       });
     }
@@ -190,6 +202,9 @@ class SupplyPriceManage extends React.Component {
       relationList,
       planList,
       relationName,
+      dialogSize,
+      dialogCurrent,
+      dialogTotal,
     } = this.props.supplyPriceManageModel;
     const { current, size, total } = pagination;
     return (
@@ -300,7 +315,10 @@ class SupplyPriceManage extends React.Component {
           <AddDialog
             title={dialogTitle}
             loading={dialogBtnLoading}
-            sourceList={{ relationList, planList }}
+            sourceList={{
+              relationList,
+              planList,
+            }}
             onClosed={() => {
               dispatch({
                 type: "supplyPriceManageModel/save",
@@ -326,6 +344,9 @@ class SupplyPriceManage extends React.Component {
               detailList,
               categoryTree,
               relationName,
+              dialogSize,
+              dialogCurrent,
+              dialogTotal,
             }}
             onClosed={() => {
               dispatch({

@@ -25,6 +25,9 @@ export default {
     categoryTree: [],
     detailList: [],
     relationName: "",
+    dialogSize: 10,
+    dialogCurrent: 1,
+    dialogTotal: 0,
   },
 
   effects: {
@@ -153,15 +156,28 @@ export default {
         message.error(data.message || "获取类目失败！");
       }
     },
-    *productPriceDetailList({ payload }, { call, put }) {
+    *productPriceDetailList({ payload }, { call, put, select }) {
+      const { dialogCurrent, dialogSize } = yield select(
+        (state) => state.supplyPriceManageModel
+      );
+      let params = {
+        current: dialogCurrent,
+        size: dialogSize,
+        params: {
+          ...payload,
+        },
+      };
       yield put({ type: "save", payload: { drawerLoading: true } });
-      const { data } = yield call(API.productPriceDetailList, payload);
+      const { data } = yield call(API.productPriceDetailList, params);
       yield put({ type: "save", payload: { drawerLoading: false } });
 
       if (data && data.success) {
         yield put({
           type: "save",
-          payload: { detailList: data.data || [] },
+          payload: {
+            detailList: (data.data && data.data.records) || [],
+            dialogTotal: (data.data && data.data.total) || [],
+          },
         });
       } else {
         message.error(data.message || "获取价格列表失败！");
