@@ -42,7 +42,6 @@ class MenuConfig extends React.Component {
     const { dispatch } = this.props;
     const currentMsg =
       type === "children" ? { parentId: msg.id } : { parentId: "0" };
-    console.log("currentMsg", currentMsg);
     dispatch({
       type: "menuModel/save",
       payload: {

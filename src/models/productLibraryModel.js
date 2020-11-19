@@ -1,6 +1,6 @@
 import { message } from "antd";
 import API from "../services/api";
-import { transferList } from "../utils/tools";
+import { transferCustomTreeList } from "../utils/tools";
 
 export default {
   namespace: "productLibraryModel",
@@ -18,25 +18,22 @@ export default {
     productCategoryList: [],
     productVendorList: [],
     keyword: null,
-    productCategory: null,
+    category: null,
     productVendor: null,
   },
 
   effects: {
     *queryProductList({ payload }, { call, put, select }) {
-      const {
-        pagination,
-        keyword,
-        productCategory,
-        productVendor,
-      } = yield select((state) => state.productLibraryModel);
+      const { pagination, keyword, category, productVendor } = yield select(
+        (state) => state.productLibraryModel
+      );
       const { current, size } = pagination;
       let params = {
         current,
         size,
         params: {
           keyword,
-          productCategory,
+          category,
           productVendor,
         },
       };
@@ -59,16 +56,16 @@ export default {
         message.error(data.message || "获取产品信息失败！");
       }
     },
-    *queryProductCategory({ payload }, { call, put, select }) {
-      const { data } = yield call(API.queryProductCategory);
+    *queryCatetoryTree({ payload }, { call, put, select }) {
+      const { data } = yield call(API.queryCatetoryTree);
       if (data && data.success) {
         yield put({
           type: "save",
           payload: {
-            productCategoryList: transferList(
+            productCategoryList: transferCustomTreeList(
               data.data || [],
-              "label",
-              "label"
+              "categoryCode",
+              "categoryName"
             ),
           },
         });

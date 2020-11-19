@@ -1,5 +1,5 @@
 import React from "react";
-import { Modal, Form, Button, Select, Radio } from "antd";
+import { Modal, Form, Button, Select, Radio, TreeSelect } from "antd";
 import { Prefix, PicPrefix } from "../../../../utils/config";
 import Avatar from "../uploadPic";
 
@@ -43,12 +43,12 @@ class EditDialog extends React.Component {
     onClosed && typeof onClosed === "function" && onClosed();
   };
 
-  handleChangeForm = (value, key) => {
+  handleChangeForm = (value, key, extend) => {
     let { current: searchForm } = this.departmentRef;
     const { onFormChange } = this.props;
     onFormChange &&
       typeof onFormChange === "function" &&
-      onFormChange(value, key, searchForm.setFieldsValue);
+      onFormChange(value, key, searchForm.setFieldsValue, extend);
   };
 
   handleChangeImg = (info) => {
@@ -106,16 +106,17 @@ class EditDialog extends React.Component {
             label="产品类别"
             rules={[{ required: true }]}
           >
-            <Select
-              options={categoryList}
-              dropdownMatchSelectWidth={false}
-              showSearch
-              optionFilterProp="label"
-              placeholder="请选择"
-              onChange={(value) =>
-                this.handleChangeForm(value, "productCategory")
-              }
+            <TreeSelect
+              filterTreeNode
+              treeNodeFilterProp="label"
+              placeholder="请选择分类"
+              treeData={categoryList}
+              style={{ width: 260, marginRight: 15 }}
+              allowClear
               disabled={!!data.id}
+              onChange={(value, label, extend) => {
+                this.handleChangeForm(value, "productCategory", extend);
+              }}
             />
           </Form.Item>
           <Form.Item

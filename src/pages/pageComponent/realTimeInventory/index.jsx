@@ -174,17 +174,6 @@ class RealTimeInventory extends React.Component {
                   }}
                 />
 
-                {/* <Select
-                  showSearch
-                  allowClear={true}
-                  value={productCategory || null}
-                  onChange={(value) =>
-                    this.onChangeFilter(value, "productCategory")
-                  }
-                  style={{ width: 260, marginRight: 15 }}
-                  options={productCategoryList}
-                  placeholder="请选择产品类型"
-                /> */}
                 <TreeSelect
                   filterTreeNode
                   treeNodeFilterProp="label"
@@ -199,16 +188,6 @@ class RealTimeInventory extends React.Component {
                 />
               </>
             }
-            // linkList={[
-            //   {
-            //     key: "inventoryNumber",
-            //     label: `库存数量：${inventoryNumber}`,
-            //   },
-            //   {
-            //     key: "prettyInventoryAmount",
-            //     label: `金额：${prettyInventoryAmount || 0}（万）`,
-            //   },
-            // ]}
             total={total}
           />
           <Table

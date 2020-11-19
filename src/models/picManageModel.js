@@ -1,4 +1,5 @@
 import { message } from "antd";
+import { transferCustomTreeList } from "../utils/tools";
 import API from "../services/api";
 
 export default {
@@ -16,6 +17,7 @@ export default {
     },
     dialogBtnLoading: false,
     categoryList: [],
+    dialogCategoryList: [],
     productVendorList: [],
     productNameList: [],
     searchParams: {},
@@ -95,17 +97,26 @@ export default {
         message.error(data.message || "删除失败！");
       }
     },
-    *queryProductCategory({ payload }, { call, put }) {
-      const { data } = yield call(API.queryProductCategoryCommon);
+    *queryCatetoryTree({ payload }, { call, put, select }) {
+      const { data } = yield call(API.queryCatetoryTree);
       if (data && data.success) {
+        let list = transferCustomTreeList(
+          data.data || [],
+          "categoryCode",
+          "categoryName"
+        );
         yield put({
           type: "save",
           payload: {
-            categoryList: data.data || [],
+            categoryList: list,
+            dialogCategoryList: list.map((item) => ({
+              ...item,
+              selectable: false,
+            })),
           },
         });
       } else {
-        message.error(data.message || "删除失败！");
+        message.error(data.message || "获取产品类别枚举失败！");
       }
     },
     *productVendorListbyCategory({ payload }, { call, put }) {

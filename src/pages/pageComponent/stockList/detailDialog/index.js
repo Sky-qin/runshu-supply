@@ -146,7 +146,7 @@ class EditDialog extends React.Component {
 
   render() {
     const { data } = this.props;
-    const { currentMsg } = data;
+    const { currentMsg, basicInfo } = data;
     return (
       <Modal
         title="补货单详情"
@@ -169,7 +169,7 @@ class EditDialog extends React.Component {
           <div>调入仓库：{currentMsg.inStock}</div>
           <div>调拨类型：{currentMsg.typeName}</div>
           <div>客户：{currentMsg.hospitalName}</div>
-          <div>备注：{currentMsg.remark}</div>
+          <div>备注：{basicInfo.remarks}</div>
         </BasicDiv>
         <Tabs defaultActiveKey="replenishList" onChange={this.changeTab}>
           <TabPane tab="备货单" key="replenishList">

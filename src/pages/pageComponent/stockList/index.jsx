@@ -392,6 +392,7 @@ class StockList extends React.Component {
             <DetailDialog
               title="备货单详情"
               data={{
+                basicInfo,
                 productList,
                 serialnoList,
                 currentMsg,

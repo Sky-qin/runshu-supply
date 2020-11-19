@@ -131,7 +131,6 @@ export default {
       const { addInfo, productList } = yield select(
         (state) => state.stockReturnWarehouseModel
       );
-      console.log("productList", productList);
       const params = {
         ...addInfo,
         productList,

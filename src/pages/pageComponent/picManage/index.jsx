@@ -1,6 +1,16 @@
 import React from "react";
 import { connect } from "dva";
-import { Button, Space, Table, Modal, Form, Col, Row, Select } from "antd";
+import {
+  Button,
+  Space,
+  Table,
+  Modal,
+  Form,
+  Col,
+  Row,
+  Select,
+  TreeSelect,
+} from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import EditDialog from "./editDialog";
 import { PicPrefix } from "../../../utils/config";
@@ -30,7 +40,7 @@ class PicManage extends React.Component {
 
   componentDidMount() {
     const { dispatch } = this.props;
-    dispatch({ type: "picManageModel/queryProductCategory" });
+    dispatch({ type: "picManageModel/queryCatetoryTree" });
     this.getTableList();
   }
 
@@ -78,20 +88,14 @@ class PicManage extends React.Component {
 
   handleEdit = (msg) => {
     const { dispatch } = this.props;
+    let temp = {};
     if (msg.isDefault === false) {
-      dispatch({
-        type: "picManageModel/productVendorListbyCategory",
-        payload: {
-          productCategory: msg.productCategory,
-        },
-      });
-      dispatch({
-        type: "picManageModel/productNameList",
-        payload: {
-          productCategory: msg.productCategory,
-          productVendor: msg.productVendor,
-        },
-      });
+      temp = {
+        productVendorList: [
+          { value: msg.productVendor.toString(), label: msg.productVendorName },
+        ],
+        productNameList: [{ value: msg.productName, label: msg.productName }],
+      };
     }
 
     dispatch({
@@ -100,6 +104,7 @@ class PicManage extends React.Component {
         showEditDialog: true,
         dialogTitle: "编辑",
         currentMsg: { ...msg },
+        ...temp,
       },
     });
   };
@@ -150,29 +155,37 @@ class PicManage extends React.Component {
     });
   };
 
-  onFormChange = (value, key, callBack) => {
+  onFormChange = (value, key, callBack, extend) => {
     const { dispatch, picManageModel } = this.props;
     const { currentMsg } = picManageModel;
     let tmp = { [key]: value };
     if (key === "productCategory") {
+      let category = value
+        ? { categoryCode: value, level: extend.triggerNode.props.level }
+        : {};
       dispatch({
         type: "picManageModel/productVendorListbyCategory",
         payload: {
           productCategory: value,
+          category,
         },
       });
-      tmp = { ...tmp, productName: null, productVendor: null };
+      tmp = { ...tmp, category, productName: null, productVendor: null };
       callBack({ productVendor: null });
       callBack({ productName: null });
     }
     if (key === "productVendor") {
-      dispatch({
-        type: "picManageModel/productNameList",
-        payload: {
-          productCategory: currentMsg.productCategory,
-          productVendor: value,
-        },
-      });
+      if (value) {
+        dispatch({
+          type: "picManageModel/productNameList",
+          payload: {
+            productCategory: currentMsg.productCategory,
+            category: currentMsg.category,
+            productVendor: value,
+          },
+        });
+      }
+
       tmp = { ...tmp, productName: null };
       callBack({ productName: null });
     }
@@ -185,16 +198,20 @@ class PicManage extends React.Component {
     });
   };
 
-  onSearchChange = (key, value) => {
+  onSearchChange = (key, value, extend) => {
     const { dispatch } = this.props;
     const { searchParams, pagination } = this.props.picManageModel;
     let { current: searchForm } = this.searchRef;
     let tmpParams = { searchParams: { ...searchParams, [key]: value } };
     // 获取科室
     if (key === "productCategory") {
+      let category = value
+        ? { categoryCode: value, level: extend.triggerNode.props.level }
+        : {};
       tmpParams = {
         searchParams: {
           ...tmpParams.searchParams,
+          category,
           productVendor: null,
           productName: null,
         },
@@ -207,6 +224,7 @@ class PicManage extends React.Component {
           type: "picManageModel/productVendorListbyCategory",
           payload: {
             productCategory: value,
+            category,
           },
         });
       } else {
@@ -219,13 +237,17 @@ class PicManage extends React.Component {
     }
 
     if (key === "productVendor") {
-      dispatch({
-        type: "picManageModel/productNameList",
-        payload: {
-          productCategory: searchParams.productCategory,
-          productVendor: value,
-        },
-      });
+      if (value) {
+        dispatch({
+          type: "picManageModel/productNameList",
+          payload: {
+            productCategory: searchParams.productCategory,
+            category: searchParams.category,
+            productVendor: value,
+          },
+        });
+      }
+
       tmpParams = {
         searchParams: {
           ...tmpParams.searchParams,
@@ -272,6 +294,7 @@ class PicManage extends React.Component {
       loading,
       dialogBtnLoading,
       categoryList,
+      dialogCategoryList,
       productVendorList,
       productNameList,
       searchParams,
@@ -289,16 +312,15 @@ class PicManage extends React.Component {
             <Row>
               <Col span={6}>
                 <Form.Item label="产品分类" name="productCategory">
-                  <Select
-                    onChange={(value) =>
-                      this.onSearchChange("productCategory", value)
-                    }
-                    options={categoryList}
+                  <TreeSelect
+                    filterTreeNode
+                    treeNodeFilterProp="label"
                     placeholder="请选择"
-                    dropdownMatchSelectWidth={false}
-                    showSearch
-                    optionFilterProp="label"
+                    treeData={categoryList}
                     allowClear
+                    onChange={(value, label, extend) => {
+                      this.onSearchChange("productCategory", value, extend);
+                    }}
                   />
                 </Form.Item>
               </Col>
@@ -470,7 +492,11 @@ class PicManage extends React.Component {
             <EditDialog
               title={dialogTitle}
               data={currentMsg}
-              sourceList={{ categoryList, productVendorList, productNameList }}
+              sourceList={{
+                categoryList: dialogCategoryList,
+                productVendorList,
+                productNameList,
+              }}
               loading={dialogBtnLoading}
               onFormChange={this.onFormChange}
               onClosed={() => {

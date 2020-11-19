@@ -229,7 +229,7 @@ class Inventory extends React.Component {
                 <TreeSelect
                   filterTreeNode
                   treeNodeFilterProp="label"
-                  placeholder="请选择科室"
+                  placeholder="请选择分类"
                   treeData={productCategoryList}
                   value={categoryCode || null}
                   style={{ width: 260, marginRight: 15 }}
@@ -240,16 +240,6 @@ class Inventory extends React.Component {
                 />
               </>
             }
-            // linkList={[
-            //   {
-            //     key: "inventoryNumber",
-            //     label: `库存数量：${inventoryNumber}`,
-            //   },
-            //   {
-            //     key: "prettyInventoryAmount",
-            //     label: `金额：${prettyInventoryAmount || 0}（万）`,
-            //   },
-            // ]}
             total={total}
           />
           <Table

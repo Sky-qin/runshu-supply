@@ -18,7 +18,6 @@ class SalesmanManage extends React.Component {
 
   componentDidMount() {
     const { dispatch } = this.props;
-    dispatch({ type: "salesmanManageModel/userSalersNewList" });
     dispatch({ type: "salesmanManageModel/customerList" });
 
     this.getTableList();
@@ -50,6 +49,7 @@ class SalesmanManage extends React.Component {
   handleClick = (key) => {
     const { dispatch } = this.props;
     if (key === "add") {
+      dispatch({ type: "salesmanManageModel/userSalersNewList" });
       dispatch({
         type: "salesmanManageModel/save",
         payload: {

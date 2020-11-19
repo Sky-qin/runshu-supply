@@ -13,6 +13,7 @@ class EditDialog extends React.Component {
     super(props);
     this.state = {
       showEditDialog: false,
+      type: (this.props.data && this.props.data.type) || null,
     };
   }
 
@@ -37,6 +38,7 @@ class EditDialog extends React.Component {
 
   render() {
     const { title, data, sourceList, loading } = this.props;
+    const { type } = this.state;
     const { stockTypeList, customerList } = sourceList;
 
     return (
@@ -75,24 +77,32 @@ class EditDialog extends React.Component {
           </Form.Item>
 
           <Form.Item name="type" label="仓库类别" rules={[{ required: true }]}>
-            <Select options={stockTypeList} placeholder="请选择" allowClear />
-          </Form.Item>
-
-          <Form.Item
-            name="customerIds"
-            label="关联客户"
-            rules={[{ required: true }]}
-          >
             <Select
-              options={customerList}
+              options={stockTypeList}
               placeholder="请选择"
-              dropdownMatchSelectWidth={false}
-              showSearch
-              optionFilterProp="label"
-              mode="multiple"
               allowClear
+              onChange={(value) => this.setState({ type: value })}
+              disabled={!!data.id}
             />
           </Form.Item>
+
+          {type === "11908" && (
+            <Form.Item
+              name="customerIds"
+              label="关联客户"
+              rules={[{ required: true }]}
+            >
+              <Select
+                options={customerList}
+                placeholder="请选择"
+                dropdownMatchSelectWidth={false}
+                showSearch
+                optionFilterProp="label"
+                mode="multiple"
+                allowClear
+              />
+            </Form.Item>
+          )}
         </Form>
       </Modal>
     );

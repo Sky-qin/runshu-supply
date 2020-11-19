@@ -56,7 +56,6 @@ class DetailDialog extends React.Component {
 
   render() {
     const { data, groupTitle } = this.props;
-    console.log("data", data);
     return (
       <Modal
         title="补货单详情"

@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "dva";
-import { Table, Input, Button, Select } from "antd";
+import { Table, Input, Button, Select, TreeSelect } from "antd";
 import { ExportOutlined, SearchOutlined } from "@ant-design/icons";
 import ContentWrap from "../../../components/contentWrap";
 import OpreationBar from "../../../components/OpreationBar";
@@ -16,7 +16,7 @@ class ProductLibrary extends React.Component {
 
   componentDidMount() {
     const { dispatch } = this.props;
-    dispatch({ type: "productLibraryModel/queryProductCategory" });
+    dispatch({ type: "productLibraryModel/queryCatetoryTree" });
     dispatch({ type: "productLibraryModel/productListVendor" });
     this.getTableList();
   }
@@ -44,13 +44,27 @@ class ProductLibrary extends React.Component {
     this.getTableList();
   };
 
-  filterChange = (value, key) => {
+  filterChange = (value, key, extend) => {
     const { dispatch } = this.props;
     const { pagination } = this.props.productLibraryModel;
+
+    let temp = {};
+    if (key === "categoryCode") {
+      temp = value
+        ? {
+            category: {
+              categoryCode: value,
+              level: extend.triggerNode.props.level,
+            },
+          }
+        : {};
+    }
+
     dispatch({
       type: "productLibraryModel/save",
       payload: {
         [key]: value,
+        ...temp,
         pagination: {
           ...pagination,
           current: 1,
@@ -67,7 +81,7 @@ class ProductLibrary extends React.Component {
       data,
       loading,
       keyword,
-      productCategory,
+      categoryCode,
       productVendor,
       productCategoryList,
       productVendorList,
@@ -94,17 +108,18 @@ class ProductLibrary extends React.Component {
                   icon={<SearchOutlined />}
                 />
               </div>
-              <Select
-                placeholder="请选择产品类别"
-                value={productCategory || null}
-                showSearch
-                optionFilterProp="label"
-                options={productCategoryList}
-                allowClear
+
+              <TreeSelect
+                filterTreeNode
+                treeNodeFilterProp="label"
+                placeholder="请选择分类"
+                treeData={productCategoryList}
+                value={categoryCode || null}
                 style={{ width: 260, marginRight: 15 }}
-                onChange={(value) =>
-                  this.filterChange(value, "productCategory")
-                }
+                allowClear
+                onChange={(value, label, extend) => {
+                  this.filterChange(value, "categoryCode", extend);
+                }}
               />
               <Select
                 placeholder="请选择生产厂家"
