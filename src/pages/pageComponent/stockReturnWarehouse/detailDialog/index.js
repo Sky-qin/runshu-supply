@@ -71,7 +71,7 @@ class DetailDialog extends React.Component {
           <div>调出仓库：{data.outStock || ""}</div>
           {/* <div>调入仓库：{data.inStock || ""}</div> */}
           <div>调拨类型：{data.typeName || ""}</div>
-          <div>描述：{data.remarks || ""}</div>
+          <div>备注：{data.remarks || ""}</div>
         </BasicDiv>
         <WrapTitle>
           <span className="berfore-bar" />

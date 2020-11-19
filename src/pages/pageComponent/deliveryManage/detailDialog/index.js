@@ -98,7 +98,7 @@ class EditDialog extends React.Component {
           <div>快递单号：{basicInfo.expNo || ""}</div>
           <div>发货人：{basicInfo.sendOrderPerson || ""}</div>
           <div>手机号：{basicInfo.sendOrderPhone || ""}</div>
-          <div>摘要：{basicInfo.orderDesc || ""}</div>
+          <div>备注：{basicInfo.orderDesc || ""}</div>
         </BasicDiv>
         {/* <Button onClick={this.handleDownload}>下载打印</Button> */}
         <Table

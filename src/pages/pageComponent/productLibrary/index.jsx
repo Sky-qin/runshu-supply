@@ -57,7 +57,7 @@ class ProductLibrary extends React.Component {
               level: extend.triggerNode.props.level,
             },
           }
-        : {};
+        : { category: {} };
     }
 
     dispatch({
