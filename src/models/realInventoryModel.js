@@ -1,6 +1,6 @@
 import { message } from "antd";
 import API from "../services/api";
-import { transferList } from "../utils/tools";
+import { transferCustomTreeList } from "../utils/tools";
 
 export default {
   namespace: "realInventoryModel",
@@ -21,19 +21,16 @@ export default {
 
   effects: {
     *getTableList({ payload }, { call, put, select }) {
-      const {
-        pagination,
-        keyword,
-        productCategory,
-        validPeriod,
-      } = yield select((state) => state.realInventoryModel);
+      const { pagination, keyword, validPeriod, category } = yield select(
+        (state) => state.realInventoryModel
+      );
       const { current, size } = pagination;
       let params = {
         current,
         size,
         params: {
           keyword,
-          productCategory,
+          category,
           validPeriod,
         },
       };
@@ -70,16 +67,16 @@ export default {
         message.error(data.message || "获取商品库存失败！");
       }
     },
-    *queryProductCategory({ payload }, { call, put, select }) {
-      const { data } = yield call(API.queryProductCategory);
+    *queryCatetoryTree({ payload }, { call, put, select }) {
+      const { data } = yield call(API.queryCatetoryTree);
       if (data && data.success) {
         yield put({
           type: "save",
           payload: {
-            productCategoryList: transferList(
+            productCategoryList: transferCustomTreeList(
               data.data || [],
-              "label",
-              "label"
+              "categoryCode",
+              "categoryName"
             ),
           },
         });
@@ -88,12 +85,12 @@ export default {
       }
     },
     *stockStatistic({ payload }, { call, put, select }) {
-      const { keyword, productCategory, validPeriod } = yield select(
+      const { keyword, category, validPeriod } = yield select(
         (state) => state.realInventoryModel
       );
       let params = {
         keyword,
-        productCategory,
+        category,
         validPeriod,
       };
       const { data } = yield call(API.stockStatistic, params);

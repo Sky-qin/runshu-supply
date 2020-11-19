@@ -127,7 +127,7 @@ export default {
       }
     },
     *getAddInfo({ payload }, { call, put, select }) {
-      const { id } = payload;
+      const { id, type } = payload;
       const params = { replenishOrderId: id };
       yield put({ type: "save", payload: { loading: true } });
       const { data } = yield call(API.getSendBsicInfo, params);
@@ -138,7 +138,7 @@ export default {
         yield put({
           type: "save",
           payload: {
-            addproductDialog: true,
+            addproductDialog: type === "send" ? true : false,
             addInfo: {
               ...others,
             },

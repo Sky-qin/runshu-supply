@@ -1,6 +1,14 @@
 import React from "react";
 import { connect } from "dva";
-import { Space, Table, Select, Input, InputNumber, Button } from "antd";
+import {
+  Space,
+  Table,
+  Select,
+  Input,
+  InputNumber,
+  Button,
+  TreeSelect,
+} from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 import EditDialog from "./editDialog";
 import ContentWrap from "../../../components/contentWrap";
@@ -19,7 +27,7 @@ class Inventory extends React.Component {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({ type: "inventory/storageList" });
-    dispatch({ type: "inventory/queryProductCategory" });
+    dispatch({ type: "inventory/queryCatetoryTree" });
     this.getStockStatistic();
     this.getTableList();
   }
@@ -54,13 +62,26 @@ class Inventory extends React.Component {
     this.getStockStatistic();
   };
 
-  onChangeFilter = (value, key) => {
+  onChangeFilter = (value, key, extend) => {
     const { dispatch } = this.props;
     const { pagination } = this.props.inventory;
+    let temp = {};
+    if (key === "categoryCode") {
+      temp = value
+        ? {
+            category: {
+              categoryCode: value,
+              level: extend.triggerNode.props.level,
+            },
+          }
+        : {};
+    }
+
     dispatch({
       type: "inventory/save",
       payload: {
         [key]: value,
+        ...temp,
         pagination: {
           ...pagination,
           current: 1,
@@ -124,7 +145,7 @@ class Inventory extends React.Component {
       keyword,
       validPeriod,
       stockId,
-      productCategory,
+      categoryCode,
       inventoryNumber,
       prettyInventoryAmount,
     } = this.props.inventory;
@@ -191,7 +212,8 @@ class Inventory extends React.Component {
                   style={{ width: 260, marginRight: 15 }}
                   options={storageList}
                 />
-                <Select
+
+                {/* <Select
                   placeholder="请选择产品类型"
                   optionFilterProp="label"
                   showSearch
@@ -202,6 +224,19 @@ class Inventory extends React.Component {
                   }
                   style={{ width: 260, marginRight: 15 }}
                   options={productCategoryList}
+                /> */}
+
+                <TreeSelect
+                  filterTreeNode
+                  treeNodeFilterProp="label"
+                  placeholder="请选择科室"
+                  treeData={productCategoryList}
+                  value={categoryCode || null}
+                  style={{ width: 260, marginRight: 15 }}
+                  allowClear
+                  onChange={(value, label, extend) => {
+                    this.onChangeFilter(value, "categoryCode", extend);
+                  }}
                 />
               </>
             }

@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "dva";
-import { Space, Table, InputNumber, Select, Input, Button } from "antd";
+import { Space, Table, InputNumber, Input, Button, TreeSelect } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 import EditDialog from "./editDialog";
 import ContentWrap from "../../../components/contentWrap";
@@ -18,7 +18,7 @@ class RealTimeInventory extends React.Component {
 
   componentDidMount() {
     const { dispatch } = this.props;
-    dispatch({ type: "realInventoryModel/queryProductCategory" });
+    dispatch({ type: "realInventoryModel/queryCatetoryTree" });
 
     this.getStockStatistic();
     this.getTableList();
@@ -54,13 +54,27 @@ class RealTimeInventory extends React.Component {
     this.getStockStatistic();
   };
 
-  onChangeFilter = (value, key) => {
+  onChangeFilter = (value, key, extend) => {
     const { dispatch } = this.props;
     const { pagination } = this.props.realInventoryModel;
+
+    let temp = {};
+    if (key === "categoryCode") {
+      temp = value
+        ? {
+            category: {
+              categoryCode: value,
+              level: extend.triggerNode.props.level,
+            },
+          }
+        : {};
+    }
+
     dispatch({
       type: "realInventoryModel/save",
       payload: {
         [key]: value,
+        ...temp,
         pagination: {
           ...pagination,
           current: 1,
@@ -102,7 +116,7 @@ class RealTimeInventory extends React.Component {
       loading,
       productCategoryList,
       validPeriod,
-      productCategory,
+      categoryCode,
       keyword,
       inventoryNumber,
       prettyInventoryAmount,
@@ -160,7 +174,7 @@ class RealTimeInventory extends React.Component {
                   }}
                 />
 
-                <Select
+                {/* <Select
                   showSearch
                   allowClear={true}
                   value={productCategory || null}
@@ -170,6 +184,18 @@ class RealTimeInventory extends React.Component {
                   style={{ width: 260, marginRight: 15 }}
                   options={productCategoryList}
                   placeholder="请选择产品类型"
+                /> */}
+                <TreeSelect
+                  filterTreeNode
+                  treeNodeFilterProp="label"
+                  placeholder="请选择分类"
+                  treeData={productCategoryList}
+                  value={categoryCode || null}
+                  style={{ width: 260, marginRight: 15 }}
+                  allowClear
+                  onChange={(value, label, extend) => {
+                    this.onChangeFilter(value, "categoryCode", extend);
+                  }}
                 />
               </>
             }

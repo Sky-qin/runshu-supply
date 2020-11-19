@@ -132,6 +132,7 @@ class Replenishment extends React.Component {
       type: "replenishmentModel/getAddInfo",
       payload: {
         ...msg,
+        type: "view",
       },
     });
   };
@@ -184,6 +185,7 @@ class Replenishment extends React.Component {
       type: "replenishmentModel/getAddInfo",
       payload: {
         ...record,
+        type: "send",
       },
     });
   };
@@ -249,6 +251,7 @@ class Replenishment extends React.Component {
         type: "replenishmentModel/getAddInfo",
         payload: {
           ...currentMsg,
+          type: "view",
         },
       });
     }

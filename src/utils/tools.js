@@ -12,6 +12,21 @@ const transferTree = (data) => {
   return data;
 };
 
+const transferCustomTreeList = (data, value, label) => {
+  if (!Array.isArray(data)) {
+    return [];
+  }
+  for (let i = 0; i < data.length; i++) {
+    data[i].value = data[i][value];
+    data[i].label = data[i][label];
+
+    if (data[i].children) {
+      transferTreeList(data[i].children, data[i].categoryCode);
+    }
+  }
+  return data;
+};
+
 const transferTreeList = (data, parentValue) => {
   if (!Array.isArray(data)) {
     return [];
@@ -51,4 +66,10 @@ const transferSimpleList = (data, value, label) => {
   return list;
 };
 
-export { transferTree, transferTreeList, transferList, transferSimpleList };
+export {
+  transferTree,
+  transferTreeList,
+  transferList,
+  transferSimpleList,
+  transferCustomTreeList,
+};

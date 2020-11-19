@@ -1386,6 +1386,13 @@ const API = {
       params,
     });
   },
+  // 产品分类类目树
+  queryCatetoryTree(params) {
+    return request({
+      url: `${Prefix}/enum/catetoryTree`,
+      params,
+    });
+  },
   // 产品类别
   queryProductCategory(params) {
     return request({
