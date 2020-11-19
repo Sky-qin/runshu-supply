@@ -90,6 +90,19 @@ class EditDialog extends React.Component {
             width={90}
             fixed="right"
           />
+          <Column
+            title="价格情况"
+            fixed="right"
+            dataIndex="isExistUnusualProduct"
+            width={90}
+            render={(value) => {
+              return value ? (
+                <span style={{ color: "red" }}>未设置价格</span>
+              ) : (
+                <span style={{ color: "green" }}>正常</span>
+              );
+            }}
+          />
         </Table>
         <WrapTitle>
           <span className="berfore-bar" />
@@ -113,20 +126,8 @@ class EditDialog extends React.Component {
           <Column title="规格" dataIndex="regularModel" width={100} />
           <Column title="型号" dataIndex="model" width={80} />
           <Column title="单位" dataIndex="unitName" width={80} />
-          <Column title="生产厂家" dataIndex="productVendor" width={150} />
-          <Column
-            fixed="right"
-            title="价格情况"
-            dataIndex="isPriceUnusual"
-            width={120}
-            render={(value) => {
-              return value ? (
-                <span style={{ color: "red" }}>未设置价格</span>
-              ) : (
-                <span style={{ color: "green" }}>正常</span>
-              );
-            }}
-          />
+          {/* <Column title="单价" dataIndex="productPrice" width={80} /> */}
+          <Column title="生产厂家" dataIndex="productVendorName" width={150} />
         </Table>
       </div>
     );

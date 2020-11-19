@@ -95,7 +95,7 @@ class DetailDialog extends React.Component {
           <Column title="调入仓库" dataIndex="inStock" width={130} />
           <Column title="型号" dataIndex="model" width={120} />
           <Column title="规格" dataIndex="regModel" width={100} />
-          <Column title="单位" dataIndex="unitName" width={80} />
+          <Column title="单位" dataIndex="unit" width={80} />
           <Column title="生产厂家" dataIndex="productVendor" width={100} />
         </Table>
       </Modal>
