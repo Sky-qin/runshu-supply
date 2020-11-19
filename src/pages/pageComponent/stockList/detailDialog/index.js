@@ -72,7 +72,6 @@ class EditDialog extends React.Component {
           <Column title="型号" dataIndex="model" width={120} />
           <Column title="规格" dataIndex="regModel" width={100} />
           <Column title="单位" dataIndex="unitName" width={80} />
-          {/* <Column title="单价" dataIndex="productPrice" width={100} /> */}
           <Column
             title="备货数量"
             dataIndex="prepareNumber"
@@ -114,8 +113,20 @@ class EditDialog extends React.Component {
           <Column title="规格" dataIndex="regularModel" width={100} />
           <Column title="型号" dataIndex="model" width={80} />
           <Column title="单位" dataIndex="unitName" width={80} />
-          {/* <Column title="单价" dataIndex="productPrice" width={80} /> */}
           <Column title="生产厂家" dataIndex="productVendor" width={150} />
+          <Column
+            fixed="right"
+            title="价格情况"
+            dataIndex="isPriceUnusual"
+            width={120}
+            render={(value) => {
+              return value ? (
+                <span style={{ color: "red" }}>未设置价格</span>
+              ) : (
+                <span style={{ color: "green" }}>正常</span>
+              );
+            }}
+          />
         </Table>
       </div>
     );

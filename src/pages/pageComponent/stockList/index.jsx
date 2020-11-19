@@ -359,6 +359,18 @@ class StockList extends React.Component {
               dataIndex="productTotalNumber"
               width={120}
             />
+            <Column
+              title="价格情况"
+              dataIndex="isExistUnusualProduct"
+              width={90}
+              render={(value) => {
+                return value ? (
+                  <span style={{ color: "red" }}>未设置价格</span>
+                ) : (
+                  <span style={{ color: "green" }}>正常</span>
+                );
+              }}
+            />
             <Column title="状态" dataIndex="orderStatusStr" width={120} />
             <Column
               title="操作"

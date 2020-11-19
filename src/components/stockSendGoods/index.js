@@ -185,9 +185,7 @@ class StockSendGoods extends React.Component {
                 </Form.Item>
               </Col>
               <Col span={8}>
-                <Form.Item label="备注:" name="remarks">
-                  {basicInfo.remarks}
-                </Form.Item>
+                <Form.Item label="备注:">{basicInfo.remarks}</Form.Item>
               </Col>
             </Row>
           </Form>
@@ -273,8 +271,11 @@ class StockSendGoods extends React.Component {
               <Column title="规格" dataIndex="regularModel" width={100} />
               <Column title="型号" dataIndex="model" width={80} />
               <Column title="单位" dataIndex="unitName" width={80} />
-              {/* <Column title="单价" dataIndex="productPrice" width={80} /> */}
-              <Column title="生产厂家" dataIndex="productVendor" width={150} />
+              <Column
+                title="生产厂家"
+                dataIndex="productVendorName"
+                width={150}
+              />
               <Column
                 title="操作"
                 width={80}
