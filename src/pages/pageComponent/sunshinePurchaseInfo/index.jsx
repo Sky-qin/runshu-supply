@@ -86,7 +86,11 @@ class SunshinePurchaseInfo extends React.Component {
               />
               <Input
                 style={{ width: "500px", marginLeft: "12px" }}
-                placeholder="请输入产品名称/产品编号/规格/型号/生产企业"
+                placeholder={
+                  province === "JI_LIN"
+                    ? "请输入产品名称/产品编号/规格/型号/生产企业/医院名称"
+                    : "请输入产品名称/产品编号/规格/型号/生产企业/中标企业"
+                }
                 value={keyword}
                 onChange={(e) => this.onChangeFilter(e.target.value, "keyword")}
                 allowClear
