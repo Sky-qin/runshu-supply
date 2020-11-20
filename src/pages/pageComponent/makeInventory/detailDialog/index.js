@@ -82,7 +82,7 @@ class DetailDialog extends React.Component {
         bordered
         scroll={{ y: 400 }}
         dataSource={list || []}
-        rowKey="productCode"
+        rowKey="serialNo"
         pagination={false}
       >
         <Column
@@ -107,7 +107,6 @@ class DetailDialog extends React.Component {
           fixed="right"
           title="附件照片"
           dataIndex="imageUrl"
-          aa
           width={100}
           render={(value) => {
             return value ? (

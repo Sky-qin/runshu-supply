@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "dva";
 import styled from "styled-components";
-import { Modal, Button, Table } from "antd";
+import { Modal, Table } from "antd";
 
 const { Column } = Table;
 
@@ -58,45 +58,6 @@ class EditDialog extends React.Component {
     });
   };
 
-  renderFooter = (msg) => {
-    const { orderStatus } = msg;
-    const { dialogBtnLoading } = this.props.consumeModel;
-
-    let list = [];
-    if (orderStatus === 0) {
-      list.push();
-      list = [
-        <Button
-          key="cancel"
-          loading={dialogBtnLoading}
-          onClick={() => this.handleEdit(msg, "驳回", "2")}
-        >
-          驳回
-        </Button>,
-        <Button
-          key="ok"
-          type="primary"
-          loading={dialogBtnLoading}
-          onClick={() => this.handleEdit(msg, "确定", "1")}
-        >
-          确定
-        </Button>,
-      ];
-    }
-    if (orderStatus === 4) {
-      list = [
-        <Button
-          key="ok"
-          type="primary"
-          onClick={() => this.handleEdit(msg, "确认撤销", "5")}
-        >
-          确认撤销
-        </Button>,
-      ];
-    }
-    return list;
-  };
-
   renderOperationInfo = () => {
     const { detailMsg } = this.props.consumeModel;
     return [
@@ -122,7 +83,7 @@ class EditDialog extends React.Component {
         style={{ minWidth: "1000px", maxWidth: "1100px" }}
         onCancel={this.handleCancel}
         maskClosable={false}
-        footer={() => this.renderFooter(detailMsg)}
+        footer={false}
       >
         <BasicDiv>
           <div>流水号：{detailMsg.consumeNumber || ""}</div>

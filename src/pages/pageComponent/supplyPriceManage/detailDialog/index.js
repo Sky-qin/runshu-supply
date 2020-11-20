@@ -43,7 +43,7 @@ class DetailDialog extends React.Component {
       changeCategory(node, keyword);
   };
 
-  getTableList = (current, size) => {
+  getTableList = (current = 1, size = 10) => {
     const { keyword, selectNode } = this.state;
     const { changeCategory } = this.props;
     changeCategory &&
@@ -74,10 +74,11 @@ class DetailDialog extends React.Component {
   };
 
   onBlur = (e, record, key) => {
-    const { onSavePrice } = this.props;
+    const { onSavePrice, data } = this.props;
+    const { dialogSize: size, dialogCurrent: current } = data;
     onSavePrice &&
       typeof onSavePrice === "function" &&
-      onSavePrice(record, key, this.getTableList);
+      onSavePrice(record, key, this.getTableList(current, size));
   };
 
   changePagination = (current, size) => {
@@ -125,7 +126,7 @@ class DetailDialog extends React.Component {
             />
             <Button
               style={{ position: "relative", left: "-3px", top: "1px" }}
-              onClick={this.getTableList}
+              onClick={() => this.getTableList(1, 10)}
               icon={<SearchOutlined />}
             />
           </div>
