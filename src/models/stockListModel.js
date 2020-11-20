@@ -204,24 +204,6 @@ export default {
         message.error(data.message || "提交失败，请重试！");
       }
     },
-    *getSendOrderInfo({ payload }, { call, put, select }) {
-      const { currentMsg } = yield select((state) => state.stockListModel);
-      const params = {
-        replenishOrderId: currentMsg.id,
-      };
-      const { data } = yield call(API.getSendOrderInfo, params);
-      if (data && data.success) {
-        yield put({
-          type: "save",
-          payload: {
-            deliverInfoList: data.data || [],
-          },
-        });
-      } else {
-        message.error(data.message || "获取发货信息失败！");
-      }
-    },
-    // NEW
 
     *getPersonList({ payload }, { call, put, select }) {
       const { data } = yield call(API.findUserList, { type: 2 });

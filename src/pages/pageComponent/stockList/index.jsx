@@ -191,22 +191,6 @@ class StockList extends React.Component {
     dispatch({ type: "stockListModel/sendOrderSubmit" });
   };
 
-  getDetailList = (type) => {
-    const { dispatch } = this.props;
-    const { currentMsg } = this.props.stockListModel;
-    if (type === "replenishList") {
-      dispatch({
-        type: "stockListModel/getAddInfo",
-        payload: {
-          ...currentMsg,
-        },
-      });
-    }
-    if (type === "deliveryList") {
-      dispatch({ type: "stockListModel/getSendOrderInfo" });
-    }
-  };
-
   componentWillUnmount() {
     const { dispatch } = this.props;
     dispatch({
@@ -411,7 +395,6 @@ class StockList extends React.Component {
                 deliverInfoList,
                 backStockList,
               }}
-              onGetTableList={this.getDetailList}
               onClosed={() => {
                 dispatch({
                   type: "stockListModel/save",

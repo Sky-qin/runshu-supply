@@ -39,13 +39,6 @@ class EditDialog extends React.Component {
     onClosed && typeof onClosed === "function" && onClosed();
   };
 
-  changeTab = (value) => {
-    const { onGetTableList } = this.props;
-    onGetTableList &&
-      typeof onGetTableList === "function" &&
-      onGetTableList(value);
-  };
-
   renderStockList = () => {
     const { data } = this.props;
     const { productList, serialnoList } = data;
@@ -147,11 +140,10 @@ class EditDialog extends React.Component {
         <Column title="序号" render={(value, record, index) => index + 1} />
         <Column title="流水号" dataIndex="serialNo" width={130} />
         <Column title="产品编号" dataIndex="productCode" width={130} />
-        <Column title="产品名称" dataIndex="productName" width={180} />
+        <Column title="产品名称" dataIndex="productName" />
         <Column title="型号" dataIndex="model" width={120} />
-        <Column title="规格" dataIndex="regModel" width={100} />
-        <Column title="单位" dataIndex="unit" width={80} />
-        {/* <Column title="单价" dataIndex="unit" width={80} /> */}
+        <Column title="规格" dataIndex="regularModel" width={120} />
+        <Column title="单位" dataIndex="unitName" width={80} />
       </Table>
     );
   };
@@ -183,7 +175,7 @@ class EditDialog extends React.Component {
           <div>客户：{currentMsg.hospitalName}</div>
           <div>备注：{basicInfo.remarks}</div>
         </BasicDiv>
-        <Tabs defaultActiveKey="replenishList" onChange={this.changeTab}>
+        <Tabs defaultActiveKey="replenishList">
           <TabPane tab="备货单" key="replenishList">
             {this.renderStockList()}
           </TabPane>

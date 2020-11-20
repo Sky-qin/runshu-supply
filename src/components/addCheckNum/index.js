@@ -95,6 +95,42 @@ class AddCheckNum extends React.Component {
       });
   };
 
+  renderCheckNum = () => {
+    const { data = {} } = this.props;
+    const { inventoryCheck } = data;
+
+    if (inventoryCheck.checkStatus === 0) {
+      return (
+        <div style={{ color: "#00a854de" }}>
+          {inventoryCheck.checkStatusName || ""}
+        </div>
+      );
+    }
+    if (inventoryCheck.checkStatus === 3) {
+      return (
+        <div style={{ color: "red" }}>
+          {inventoryCheck.checkStatusName || ""}
+        </div>
+      );
+    }
+    if (inventoryCheck.checkStatus === 1) {
+      return (
+        <div style={{ color: "red" }}>
+          {inventoryCheck.checkStatusName || ""}{" "}
+          {inventoryCheck.surplusNumber || ""}
+        </div>
+      );
+    }
+    if (inventoryCheck.checkStatus === 2) {
+      return (
+        <div style={{ color: "red" }}>
+          {inventoryCheck.checkStatusName || ""}{" "}
+          {inventoryCheck.lossNumber || ""}
+        </div>
+      );
+    }
+  };
+
   onPressEnter = () => {
     const { data = {} } = this.props;
     const { scanCode } = data;
@@ -151,17 +187,9 @@ class AddCheckNum extends React.Component {
                 </Form.Item>
               </Col>
               <Col span={6}>
-                <Form.Item label="盘盈数量:">
-                  {inventoryCheck.surplusNumber || 0}
-                </Form.Item>
-              </Col>
-              <Col span={6}>
-                <Form.Item label="盘亏数量:">
-                  {inventoryCheck.lossNumber || 0}
-                </Form.Item>
+                <Form.Item label="盘点情况:">{this.renderCheckNum()}</Form.Item>
               </Col>
             </Row>
-            <Row></Row>
           </Form>
 
           <div>
