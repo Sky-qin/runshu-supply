@@ -46,6 +46,7 @@ import AgentManage from "../pageComponent/agentManage";
 import SalesmanManage from "../pageComponent/salesmanManage";
 import SupplyRelation from "../pageComponent/supplyRelation";
 import OperationManage from "../pageComponent/operationManage";
+import BasicConfig from "../pageComponent/basicConfig";
 
 import "./index.scss";
 
@@ -65,8 +66,21 @@ class Entry extends React.Component {
 
   clickMenu = (key) => {
     const { history, dispatch } = this.props;
+    const { menuList } = this.props.entryModel;
     dispatch({ type: "entryModel/save", payload: { activeKey: key } });
     history.push(`/entry/${key}`);
+    // 基础数据做特色处理
+    if (key === "basicConfig") {
+      menuList.map((item) => {
+        return (
+          item.value === key &&
+          dispatch({
+            type: "basicConfigModel/save",
+            payload: { list: item.children },
+          })
+        );
+      });
+    }
   };
 
   render() {
@@ -183,6 +197,7 @@ class Entry extends React.Component {
                 path="/entry/operationManage"
                 component={OperationManage}
               />
+              <Route path="/entry/basicConfig" component={BasicConfig} />
             </Switch>
           </div>
         </div>
@@ -195,6 +210,7 @@ Entry.propTypes = {
   name: PropTypes.string,
 };
 
-export default connect(({ entryModel }) => ({
+export default connect(({ entryModel, basicConfigModel }) => ({
   entryModel,
+  basicConfigModel,
 }))(Entry);

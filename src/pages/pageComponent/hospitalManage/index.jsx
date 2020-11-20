@@ -54,7 +54,8 @@ class HospitalManage extends React.Component {
   };
 
   handleClick = (key) => {
-    const { dispatch } = this.props;
+    const { dispatch, history } = this.props;
+
     if (key === "add") {
       dispatch({
         type: "hospitalManage/save",
@@ -64,6 +65,9 @@ class HospitalManage extends React.Component {
           dialogTitle: "新增",
         },
       });
+    }
+    if (key === "departmentManage") {
+      history.push(`/entry/${key}`);
     }
   };
 
@@ -155,7 +159,7 @@ class HospitalManage extends React.Component {
     } = this.props.hospitalManage;
     const { current, size, total } = pagination;
     return (
-      <ContentBox loading={loading}>
+      <ContentBox loading={loading} props={this.props} hasRetrun={true}>
         <OpreationBar
           total={false}
           custom={
@@ -203,7 +207,10 @@ class HospitalManage extends React.Component {
           }
         />
         <OpreationBar
-          buttonList={[{ key: "add", label: "新增", icon: <PlusOutlined /> }]}
+          buttonList={[
+            { key: "add", label: "新增", icon: <PlusOutlined /> },
+            { key: "departmentManage", label: "科室管理" },
+          ]}
           linkList={[
             {
               key: "export",

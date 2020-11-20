@@ -28,7 +28,18 @@ class Header extends React.Component {
         mode="inline"
       >
         {(data || []).map((item, index) => {
-          const { children } = item;
+          const { children, value } = item;
+          // 基础数据做了特殊处理
+          if (value === "basicConfig") {
+            return (
+              <Menu.Item
+                key={item.value}
+                icon={<i className={`menu-icon iconfont ${item.icon}`} />}
+              >
+                {item.label}
+              </Menu.Item>
+            );
+          }
           if (children && children.length > 0) {
             return (
               <SubMenu

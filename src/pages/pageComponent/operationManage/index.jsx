@@ -115,7 +115,7 @@ class OperationManage extends React.Component {
       total,
     } = this.props.operationManageModel;
     return (
-      <ContentBox loading={loading}>
+      <ContentBox loading={loading} props={this.props} hasRetrun={true}>
         <OpreationBar
           buttonList={[{ key: "add", label: "新增", icon: <PlusOutlined /> }]}
           total={total}

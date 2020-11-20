@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { Spin, ConfigProvider } from "antd";
+import { Spin, ConfigProvider, Affix } from "antd";
 import T from "prop-types";
 import zhCN from "antd/es/locale/zh_CN";
 
@@ -28,7 +28,7 @@ class ContentBox extends React.Component {
   componentDidMount() {}
 
   render() {
-    const { children, loading, style = {} } = this.props;
+    const { children, loading, style = {}, hasRetrun, props } = this.props;
     return (
       <ContentDiv style={style}>
         <ConfigProvider locale={zhCN}>
@@ -36,6 +36,19 @@ class ContentBox extends React.Component {
             {children}
           </Spin>
         </ConfigProvider>
+        {hasRetrun && (
+          <Affix
+            style={{
+              position: "absolute",
+              bottom: "30px",
+              right: "40px",
+              zIndex: 100,
+            }}
+            onClick={() => props.history.go(-1)}
+          >
+            <i className="iconfont iconfh retrun-icon" />
+          </Affix>
+        )}
       </ContentDiv>
     );
   }

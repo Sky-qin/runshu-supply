@@ -135,7 +135,7 @@ class SupplyCompanyManage extends React.Component {
     } = this.props.supplyCompanyManageModel;
     const { current, size, total } = pagination;
     return (
-      <ContentBox loading={loading}>
+      <ContentBox loading={loading} props={this.props} hasRetrun={true}>
         <OpreationBar
           total={false}
           custom={

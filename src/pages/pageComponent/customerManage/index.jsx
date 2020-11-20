@@ -190,7 +190,7 @@ class CustomerManage extends React.Component {
     } = this.props.customerManageModel;
     const { current, size, total } = pagination;
     return (
-      <ContentWrap loading={loading}>
+      <ContentWrap loading={loading} props={this.props} hasRetrun={true}>
         <OpreationBar
           custom={
             <>

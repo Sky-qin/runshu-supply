@@ -302,7 +302,7 @@ class PicManage extends React.Component {
     const { current, size, total } = pagination;
     return (
       <>
-        <ContentWrap>
+        <ContentWrap props={this.props} hasRetrun={true}>
           <Form
             {...layout}
             ref={this.searchRef}

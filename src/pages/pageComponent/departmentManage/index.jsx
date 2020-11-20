@@ -134,7 +134,7 @@ class Test extends React.Component {
     } = this.props.departmentManage;
     const { current, size, total } = pagination;
     return (
-      <ContentWrap loading={loading}>
+      <ContentWrap loading={loading} props={this.props} hasRetrun={true}>
         <OpreationBar
           buttonList={[{ key: "add", label: "新增", icon: <PlusOutlined /> }]}
           total={total}

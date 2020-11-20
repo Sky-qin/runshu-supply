@@ -66,7 +66,7 @@ class SupplierManage extends React.Component {
     } = this.props.supplierManageModel;
     const { current, size, total } = pagination;
     return (
-      <ContentWrap loading={loading}>
+      <ContentWrap loading={loading} props={this.props} hasRetrun={true}>
         <OpreationBar
           custom={
             <>

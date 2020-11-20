@@ -135,7 +135,7 @@ class AgentManage extends React.Component {
     } = this.props.agentManageModel;
     const { current, size, total } = pagination;
     return (
-      <ContentBox loading={loading}>
+      <ContentBox loading={loading} props={this.props} hasRetrun={true}>
         <OpreationBar
           total={false}
           custom={

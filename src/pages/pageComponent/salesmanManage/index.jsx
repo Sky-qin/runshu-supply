@@ -131,7 +131,7 @@ class SalesmanManage extends React.Component {
     } = this.props.salesmanManageModel;
     const { current, size, total } = pagination;
     return (
-      <ContentBox loading={loading}>
+      <ContentBox loading={loading} props={this.props} hasRetrun={true}>
         <OpreationBar
           total={false}
           custom={
