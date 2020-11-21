@@ -49,12 +49,14 @@ const WrapBoardFooter = styled.div`
   display: flex;
   padding-bottom: 20px;
   > div {
-    padding-left: 30px;
+    // padding-left: 30px;
     flex: 1;
+    text-align: center;
   }
   .left-line {
     border-left: 1px solid rgba(255, 255, 255, 0.25);
-    padding-left: 25px;
+    // padding-left: 25px;
+    text-align: center;
   }
 `;
 
@@ -186,7 +188,9 @@ class Home extends React.Component {
                   <WrapNumText>今日新增</WrapNumText>
                 </div>
                 <div className="left-line">
-                  <WrapNum>{inventoryStatistics.totalMoney}</WrapNum>
+                  <WrapNum>
+                    {Number(inventoryStatistics.totalMoney || 0)}
+                  </WrapNum>
                   <WrapNumText>补货金额（万元）</WrapNumText>
                 </div>
               </WrapBoardFooter>
@@ -210,7 +214,7 @@ class Home extends React.Component {
                   <WrapNumText>待确认</WrapNumText>
                 </div>
                 <div className="left-line">
-                  <WrapNum>{consumeStatistics.money}</WrapNum>
+                  <WrapNum>{Number(consumeStatistics.money || 0)}</WrapNum>
                   <WrapNumText>消耗金额（万元）</WrapNumText>
                 </div>
               </WrapBoardFooter>
@@ -234,7 +238,7 @@ class Home extends React.Component {
                   <WrapNumText>待确认</WrapNumText>
                 </div>
                 <div className="left-line">
-                  <WrapNum>{replenishStatistics.money}</WrapNum>
+                  <WrapNum>{Number(replenishStatistics.money || 0)}</WrapNum>
                   <WrapNumText>消耗金额（万元）</WrapNumText>
                 </div>
               </WrapBoardFooter>
