@@ -105,7 +105,7 @@ export default {
               dataIndex: item.value,
               key: item.label,
               render: (text) => {
-                let formatText = text
+                let formatText = (text || "")
                   .replace(/,/g, ", ")
                   .replace(/;/g, "; ")
                   .replace(/\//g, "/ ");
@@ -133,7 +133,7 @@ export default {
               dataIndex: item.value,
               key: item.label,
               render: (text) => {
-                let formatText = text
+                let formatText = (text || "")
                   .replace(/,/g, ", ")
                   .replace(/;/g, "; ")
                   .replace(/\//g, "/ ");
