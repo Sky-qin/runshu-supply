@@ -12,8 +12,8 @@ const WrapDiv = styled.div`
 `;
 
 const ImgWrap = styled.img`
-  width: 140px;
-  height: 140px;
+  width: 110px;
+  height: 110px;
   padding-bottom: 8px;
   cursor: pointer;
 `;

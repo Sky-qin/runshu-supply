@@ -46,7 +46,7 @@ const FooterBar = styled.div`
   right: 0px;
   height: 56px;
   line-height: 56px;
-  width: 1000px;
+  width: 1100px;
   border-top: 1px solid #ddd;
 `;
 
