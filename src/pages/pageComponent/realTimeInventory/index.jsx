@@ -118,18 +118,16 @@ class RealTimeInventory extends React.Component {
       validPeriod,
       categoryCode,
       keyword,
-      inventoryNumber,
-      prettyInventoryAmount,
+      boardInfo,
+      boardLoading,
     } = this.props.realInventoryModel;
     const { current, size, total } = pagination;
     return (
       <>
         <TotalBoard
           onClick={this.clickToList}
-          data={{
-            inventoryProductNo: inventoryNumber,
-            prettyProductAmount: prettyInventoryAmount,
-          }}
+          data={boardInfo}
+          loading={boardLoading}
         />
         <ContentWrap loading={loading}>
           <OpreationBar

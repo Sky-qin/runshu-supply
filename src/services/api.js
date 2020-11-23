@@ -240,7 +240,7 @@ const API = {
   // 汇总查询
   stockStatistic(params) {
     return request({
-      url: `${Prefix}/supply/inventory/stock/statistic`,
+      url: `${Prefix}/supply/inventory/statistic`,
       method: "post",
       params,
     });

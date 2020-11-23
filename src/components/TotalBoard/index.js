@@ -2,9 +2,6 @@ import React from "react";
 import ContentWrap from "../contentWrap";
 // import T from "prop-types";
 import styled from "styled-components";
-import request from "../../services/request";
-import { Prefix } from "../../utils/config";
-// import redCircular from "../../assets/redCircular.png";
 import blueCircular from "../../assets/blueCircular.png";
 import orangeCircular from "../../assets/orangeCircular.png";
 import lightning from "../../assets/lightning.png";
@@ -97,41 +94,10 @@ class TotalBoard extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-      earlyWarningNo: 0,
-      inventoryProductAmount: 0,
-      inventoryProductNo: 0,
-      inventoryWarningNo: 0,
-      rec7DConsumeAmount: 0,
-      prettyProductAmount: 0,
-      prettyRec7DConsumeAmount: 0,
-      rec7DConsumeNo: 0,
-      loading: false,
-    };
+    this.state = {};
   }
 
-  componentDidMount() {
-    this._checkAuthority();
-  }
-
-  async _checkAuthority(params = {}) {
-    this.setState({ loading: true });
-    const { data: res } = await request({
-      url: `${Prefix}/supply/inventory/statistic`,
-      method: "post",
-      params,
-    });
-    this.setState({ loading: false });
-
-    if (res && res.success) {
-      const { data } = res;
-      this.setState({
-        ...data,
-      });
-    } else {
-      // callBack && callBack(res);
-    }
-  }
+  componentDidMount() {}
 
   cliclkToList = (key) => {
     const { onClick } = this.props;
@@ -139,17 +105,7 @@ class TotalBoard extends React.Component {
   };
 
   render() {
-    const {
-      inventoryWarningNo,
-      earlyWarningNo,
-      // inventoryProductNo,
-      prettyRec7DConsumeAmount,
-      rec7DConsumeNo,
-      // prettyProductAmount,
-      loading,
-    } = this.state;
-
-    const { inventoryProductNo, prettyProductAmount } = this.props.data;
+    const { data, loading } = this.props;
     return (
       <ContentWrap loading={loading}>
         <BoardWrap>
@@ -164,7 +120,7 @@ class TotalBoard extends React.Component {
             />
             <div>库存预警</div>
             <div style={{ fontSize: "28px", fontWeight: 500, color: "#fff" }}>
-              {inventoryWarningNo}
+              {data.inventoryWarningNo || 0}
             </div>
           </SmallBoardWrap>
           <SmallBoardWrap
@@ -178,7 +134,7 @@ class TotalBoard extends React.Component {
             />
             <div>近效期预警</div>
             <div style={{ fontSize: "28px", fontWeight: 500, color: "#fff" }}>
-              {earlyWarningNo}
+              {data.earlyWarningNo}
             </div>
           </SmallBoardWrap>
           <div className="item-board">
@@ -186,7 +142,7 @@ class TotalBoard extends React.Component {
               <img alt="图片" src={blueCircular} />
               <div className="item-board-left-info">
                 <div className="item-board-left-info-num">
-                  {inventoryProductNo}
+                  {data.inventoryProductNo || 0}
                 </div>
                 <div className="item-board-left-info-text blue-text-color">
                   库存总数
@@ -201,7 +157,7 @@ class TotalBoard extends React.Component {
               />
               <div>库存商品总金额（万）</div>
               <div style={{ fontSize: "28px", fontWeight: 500, color: "#fff" }}>
-                {prettyProductAmount}
+                {data.prettyProductAmount || 0}
               </div>
             </div>
           </div>
@@ -209,7 +165,9 @@ class TotalBoard extends React.Component {
             <div className="item-board-left light-orange">
               <img alt="图片" src={orangeCircular} />
               <div className="item-board-left-info">
-                <div className="item-board-left-info-num">{rec7DConsumeNo}</div>
+                <div className="item-board-left-info-num">
+                  {data.rec7DConsumeNo}
+                </div>
                 <div className="item-board-left-info-text orange-text-color">
                   近7天消耗数量
                 </div>
@@ -223,7 +181,7 @@ class TotalBoard extends React.Component {
               />
               <div>近7天消耗商品总金额（万）</div>
               <div style={{ fontSize: "28px", fontWeight: 500, color: "#fff" }}>
-                {prettyRec7DConsumeAmount}
+                {data.prettyRec7DConsumeAmount}
               </div>
             </div>
           </div>

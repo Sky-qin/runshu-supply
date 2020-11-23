@@ -25,8 +25,8 @@ export default {
       size: 50,
       total: 0,
     },
-    inventoryNumber: 0,
-    prettyInventoryAmount: 0,
+    boardInfo: {},
+    boardLoading: false,
   },
 
   effects: {
@@ -138,14 +138,16 @@ export default {
         category,
         validPeriod,
       };
+
+      yield put({ type: "save", payload: { boardLoading: true } });
       const { data } = yield call(API.stockStatistic, params);
+      yield put({ type: "save", payload: { boardLoading: false } });
+
       if (data && data.success) {
         yield put({
           type: "save",
           payload: {
-            inventoryNumber: (data.data && data.data.inventoryNumber) || 0,
-            prettyInventoryAmount:
-              (data.data && data.data.prettyInventoryAmount) || 0,
+            boardInfo: data.data || {},
           },
         });
       } else {

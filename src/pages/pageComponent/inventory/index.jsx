@@ -146,18 +146,16 @@ class Inventory extends React.Component {
       validPeriod,
       stockId,
       categoryCode,
-      inventoryNumber,
-      prettyInventoryAmount,
+      boardInfo,
+      boardLoading,
     } = this.props.inventory;
     const { current, size, total } = pagination;
     return (
       <>
         <TotalBoard
           onClick={this.clickToList}
-          data={{
-            inventoryProductNo: inventoryNumber,
-            prettyProductAmount: prettyInventoryAmount,
-          }}
+          data={boardInfo}
+          loading={boardLoading}
         />
         <ContentWrap loading={loading}>
           <OpreationBar
