@@ -86,7 +86,7 @@ class EditDialog extends React.Component {
             />
           </Form.Item>
 
-          {type === "11908" && (
+          {(type || "").toString() === "11908" && (
             <Form.Item
               name="customerIds"
               label="关联客户"
