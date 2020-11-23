@@ -2,6 +2,7 @@ import React from "react";
 import { connect } from "dva";
 import styled from "styled-components";
 import { Modal, Button, Table, Tabs, Space, Popover, Timeline } from "antd";
+import OpreationBar from "../../../../components/OpreationBar";
 
 const { Column } = Table;
 const { TabPane } = Tabs;
@@ -90,27 +91,30 @@ class EditDialog extends React.Component {
     const { data } = this.props;
     const { replenishOrderList } = data;
     return (
-      <Table
-        bordered
-        scroll={{ y: 400 }}
-        dataSource={replenishOrderList}
-        rowKey="productCode"
-        pagination={false}
-      >
-        <Column
-          title="序号"
-          render={(value, record, index) => index + 1}
-          width={80}
-        />
-        <Column title="产品编号" dataIndex="productCode" width={130} />
-        <Column title="产品名称" dataIndex="productName" width={180} />
-        <Column title="型号" dataIndex="model" width={120} />
-        <Column title="规格" dataIndex="regModel" width={100} />
-        <Column title="单位" dataIndex="unit" width={80} />
-        <Column title="补货数量" dataIndex="replenishNum" width={100} />
-        <Column title="已补数量" dataIndex="deliverNum" width={100} />
-        <Column title="未补数量" dataIndex="waitNum" width={100} />
-      </Table>
+      <>
+        <OpreationBar total={(replenishOrderList || []).length} />
+        <Table
+          bordered
+          scroll={{ y: 400 }}
+          dataSource={replenishOrderList}
+          rowKey="productCode"
+          pagination={false}
+        >
+          <Column
+            title="序号"
+            render={(value, record, index) => index + 1}
+            width={80}
+          />
+          <Column title="产品编号" dataIndex="productCode" width={130} />
+          <Column title="产品名称" dataIndex="productName" width={180} />
+          <Column title="型号" dataIndex="model" width={120} />
+          <Column title="规格" dataIndex="regModel" width={100} />
+          <Column title="单位" dataIndex="unit" width={80} />
+          <Column title="补货数量" dataIndex="replenishNum" width={100} />
+          <Column title="已补数量" dataIndex="deliverNum" width={100} />
+          <Column title="未补数量" dataIndex="waitNum" width={100} />
+        </Table>
+      </>
     );
   };
 
@@ -143,41 +147,44 @@ class EditDialog extends React.Component {
     const { data } = this.props;
     const { deliverInfoList } = data;
     return (
-      <Table
-        bordered
-        scroll={{ y: 400 }}
-        dataSource={deliverInfoList}
-        rowKey="orderNo"
-        pagination={false}
-      >
-        <Column title="发货单号" dataIndex="orderNo" width={130} />
-        <Column title="流水号" dataIndex="serialNo" width={100} />
-        <Column title="产品名称" dataIndex="productName" width={180} />
-        <Column title="型号" dataIndex="model" width={120} />
-        <Column title="规格" dataIndex="regModel" width={100} />
-        <Column title="单位" dataIndex="unit" width={80} />
-        <Column
-          title="物流详情"
-          width={90}
-          render={(value, record, index) => {
-            const { orderNo } = record;
-            return (
-              <Space>
-                {orderNo && (
-                  <Popover
-                    placement="left"
-                    title="物流信息"
-                    content={() => this.renderContent(record)}
-                    trigger="click"
-                  >
-                    <Button type="link">查看</Button>
-                  </Popover>
-                )}
-              </Space>
-            );
-          }}
-        />
-      </Table>
+      <>
+        <OpreationBar total={(deliverInfoList || []).length} />
+        <Table
+          bordered
+          scroll={{ y: 400 }}
+          dataSource={deliverInfoList}
+          rowKey="orderNo"
+          pagination={false}
+        >
+          <Column title="发货单号" dataIndex="orderNo" width={130} />
+          <Column title="流水号" dataIndex="serialNo" width={100} />
+          <Column title="产品名称" dataIndex="productName" width={180} />
+          <Column title="型号" dataIndex="model" width={120} />
+          <Column title="规格" dataIndex="regModel" width={100} />
+          <Column title="单位" dataIndex="unit" width={80} />
+          <Column
+            title="物流详情"
+            width={90}
+            render={(value, record, index) => {
+              const { orderNo } = record;
+              return (
+                <Space>
+                  {orderNo && (
+                    <Popover
+                      placement="left"
+                      title="物流信息"
+                      content={() => this.renderContent(record)}
+                      trigger="click"
+                    >
+                      <Button type="link">查看</Button>
+                    </Popover>
+                  )}
+                </Space>
+              );
+            }}
+          />
+        </Table>
+      </>
     );
   };
 

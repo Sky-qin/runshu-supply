@@ -2,6 +2,8 @@ import React from "react";
 import { connect } from "dva";
 import styled from "styled-components";
 import { Modal, Table, Space } from "antd";
+import OpreationBar from "../../../../components/OpreationBar";
+
 import * as dd from "dingtalk-jsapi";
 
 const { Column } = Table;
@@ -101,6 +103,7 @@ class EditDialog extends React.Component {
           <div>备注：{basicInfo.orderDesc || ""}</div>
         </BasicDiv>
         {/* <Button onClick={this.handleDownload}>下载打印</Button> */}
+        <OpreationBar total={(productList || []).length} />
         <Table
           bordered
           scroll={{ x: 1000, y: 500 }}
