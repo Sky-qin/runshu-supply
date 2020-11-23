@@ -74,11 +74,10 @@ class DetailDialog extends React.Component {
   };
 
   onBlur = (e, record, key) => {
-    const { onSavePrice, data } = this.props;
-    const { dialogSize: size, dialogCurrent: current } = data;
+    const { onSavePrice } = this.props;
     onSavePrice &&
       typeof onSavePrice === "function" &&
-      onSavePrice(record, key, this.getTableList(current, size));
+      onSavePrice(record, key, this.getTableList);
   };
 
   changePagination = (current, size) => {
@@ -87,7 +86,7 @@ class DetailDialog extends React.Component {
 
   render() {
     const { keyword } = this.state;
-    const { data = {}, title } = this.props;
+    const { data = {}, title, canEdit = true } = this.props;
     const {
       categoryTree,
       drawerLoading,
@@ -204,7 +203,7 @@ class DetailDialog extends React.Component {
                   dataIndex="price"
                   width={120}
                   render={(value, record, index) => {
-                    return (
+                    return canEdit ? (
                       <Tooltip
                         trigger={["focus"]}
                         title={value}
@@ -215,11 +214,12 @@ class DetailDialog extends React.Component {
                           onChange={(e) =>
                             this.onChangePrice(e, "price", index)
                           }
-                          disabled
                           onBlur={(e) => this.onBlur(e, record, "price")}
                           value={value}
                         />
                       </Tooltip>
+                    ) : (
+                      value
                     );
                   }}
                 />
@@ -229,7 +229,7 @@ class DetailDialog extends React.Component {
                   dataIndex="winCompCode"
                   width={120}
                   render={(value, record, index) => {
-                    return (
+                    return canEdit ? (
                       <Tooltip
                         trigger={["focus"]}
                         title={value}
@@ -237,7 +237,6 @@ class DetailDialog extends React.Component {
                         overlayClassName="numeric-input"
                       >
                         <Input
-                          disabled
                           onChange={(e) =>
                             this.onChangeCompCode(e, "winCompCode", index)
                           }
@@ -245,6 +244,8 @@ class DetailDialog extends React.Component {
                           value={value}
                         />
                       </Tooltip>
+                    ) : (
+                      value
                     );
                   }}
                 />

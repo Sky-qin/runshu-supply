@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "dva";
 import { Table, Button, Space, Modal, Input } from "antd";
-import { SearchOutlined } from "@ant-design/icons";
+import { SearchOutlined, PlusOutlined } from "@ant-design/icons";
 import AddDialog from "./addDialog";
 import DetailDialog from "./detailDialog";
 import ContentBox from "../../../components/contentWrap";
@@ -233,9 +233,9 @@ class SupplyPriceManage extends React.Component {
           }
         />
         <OpreationBar
-          // buttonList={[
-          //   { key: "add", label: "新增价格方案", icon: <PlusOutlined /> },
-          // ]}
+          buttonList={[
+            { key: "add", label: "新增价格方案", icon: <PlusOutlined /> },
+          ]}
           total={total}
           onClick={this.handleClick}
         />

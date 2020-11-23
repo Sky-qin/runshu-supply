@@ -191,7 +191,14 @@ class SalesmanManage extends React.Component {
             width={65}
           />
           <Column title="业务员" dataIndex="userName" width={120} />
-          <Column title="关联客户" dataIndex="customerName" />
+          <Column
+            title="关联客户"
+            dataIndex="customerList"
+            render={(value) => {
+              const nameList = (value || []).map((item) => item.customerName);
+              return nameList.join("、");
+            }}
+          />
           <Column
             title="操作"
             dataIndex="isEnable"
@@ -200,9 +207,9 @@ class SalesmanManage extends React.Component {
             render={(value, record, index) => (
               <Space size="middle">
                 <a onClick={() => this.handleEdit(record)}>编辑</a>
-                <a onClick={() => this.handleSwitch(record)}>
+                {/* <a onClick={() => this.handleSwitch(record)}>
                   {value ? "停用" : "启用"}
-                </a>
+                </a> */}
               </Space>
             )}
           />

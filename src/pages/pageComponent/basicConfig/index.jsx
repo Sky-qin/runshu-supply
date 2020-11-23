@@ -38,7 +38,7 @@ class BasicConfig extends React.Component {
         <div>
           {list.map((item, index) => {
             return (
-              <WrapDiv>
+              <WrapDiv key={index}>
                 <ImgWrap
                   key={item.value}
                   alt={item.label}

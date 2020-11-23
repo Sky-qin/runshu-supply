@@ -183,14 +183,19 @@ export default {
         message.error(data.message || "获取价格列表失败！");
       }
     },
-    *productPriceSave({ payload }, { call, put }) {
+    *productPriceSave({ payload }, { call, put, select }) {
+      const { dialogCurrent, dialogSize } = yield select(
+        (state) => state.supplyPriceManageModel
+      );
       const { callBack, ...others } = payload;
       yield put({ type: "save", payload: { drawerLoading: true } });
       const { data } = yield call(API.productPriceSave, others);
       yield put({ type: "save", payload: { drawerLoading: false } });
-      callBack && typeof callBack === "function" && callBack();
       if (data && data.success) {
         message.success("修改成功！");
+        callBack &&
+          typeof callBack === "function" &&
+          callBack(dialogCurrent, dialogSize);
       } else {
         message.error(data.message || "修改失败！");
       }

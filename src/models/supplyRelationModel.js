@@ -26,6 +26,9 @@ export default {
     categoryTree: [],
     relationName: "",
     drawerLoading: false,
+    dialogSize: 10,
+    dialogCurrent: 1,
+    dialogTotal: 0,
   },
 
   effects: {
@@ -135,14 +138,14 @@ export default {
         yield put({ type: "save", payload: { agencyList: data.data || [] } });
       }
     },
-    *listCategoryDirectory({ payload }, { call, put }) {
-      const { data } = yield call(API.listCategoryDirectory);
+    *listCategoryDirectory({ payload }, { call, put, select }) {
+      const { currentMsg } = yield select((state) => state.supplyRelationModel);
+      const { data } = yield call(API.listCategoryDirectory, {
+        planId: currentMsg.planId,
+      });
       if (data && data.success) {
-        let list = transferTreeList(
-          (data.data && data.data.categoryList) || []
-        );
+        let list = transferTreeList(data.data || []);
         let newList = [];
-
         list.map((item) => {
           return newList.push({ ...item, parentNode: true });
         });
@@ -155,15 +158,28 @@ export default {
         message.error(data.message || "获取类目失败！");
       }
     },
-    *productPriceDetailList({ payload }, { call, put }) {
+    *productPriceDetailList({ payload }, { call, put, select }) {
+      const { dialogCurrent, dialogSize } = yield select(
+        (state) => state.supplyRelationModel
+      );
+      let params = {
+        current: dialogCurrent,
+        size: dialogSize,
+        params: {
+          ...payload,
+        },
+      };
       yield put({ type: "save", payload: { drawerLoading: true } });
-      const { data } = yield call(API.productPriceDetailList, payload);
+      const { data } = yield call(API.productPriceDetailList, params);
       yield put({ type: "save", payload: { drawerLoading: false } });
 
       if (data && data.success) {
         yield put({
           type: "save",
-          payload: { detailList: data.data || [] },
+          payload: {
+            detailList: (data.data && data.data.records) || [],
+            dialogTotal: (data.data && data.data.total) || [],
+          },
         });
       } else {
         message.error(data.message || "获取价格列表失败！");

@@ -3,7 +3,7 @@ import { connect } from "dva";
 import { Table, Button, Space, Modal, Input, Select } from "antd";
 import { PlusOutlined, SearchOutlined } from "@ant-design/icons";
 import EditDialog from "./editDialog";
-import DetailDialog from "./detailDialog";
+import DetailDialog from "../supplyPriceManage/detailDialog";
 import ContentBox from "../../../components/contentWrap";
 import OpreationBar from "../../../components/OpreationBar";
 import "./index.scss";
@@ -22,7 +22,6 @@ class SupplyRelation extends React.Component {
     dispatch({ type: "supplyRelationModel/supplyList" });
     dispatch({ type: "supplyRelationModel/customerList" });
     dispatch({ type: "supplyRelationModel/relationAgencyList" });
-    dispatch({ type: "supplyRelationModel/listCategoryDirectory" });
 
     this.getTableList();
   }
@@ -82,6 +81,7 @@ class SupplyRelation extends React.Component {
 
   handleShowPrice = (msg) => {
     const { dispatch } = this.props;
+
     dispatch({
       type: "supplyRelationModel/save",
       payload: {
@@ -91,11 +91,48 @@ class SupplyRelation extends React.Component {
         relationName: msg.supportProductRef,
       },
     });
+
+    dispatch({ type: "supplyRelationModel/listCategoryDirectory" });
   };
 
-  getDetailList = (node, keyword) => {
-    const { parentNode, key } = node;
+  // getDetailList = (node, keyword) => {
+  //   const { parentNode, key } = node;
+  //   const { dispatch, supplyRelationModel } = this.props;
+
+  //   if (parentNode) {
+  //     dispatch({
+  //       type: "supplyRelationModel/save",
+  //       payload: {
+  //         detailList: [],
+  //       },
+  //     });
+  //   } else {
+  //     const values = key.split("-");
+  //     const { refId } = supplyRelationModel;
+  //     dispatch({
+  //       type: "supplyRelationModel/productPriceDetailList",
+  //       payload: {
+  //         refId,
+  //         parentCategoryCode: values[0],
+  //         productCategory: values[2],
+  //         keyword,
+  //       },
+  //     });
+  //   }
+  // };
+
+  getDetailList = (node, keyword, current, size) => {
+    const { parentNode, key, level } = node;
     const { dispatch, supplyRelationModel } = this.props;
+    const { dialogCurrent, dialogSize } = supplyRelationModel;
+    dispatch({
+      type: "supplyRelationModel/save",
+      payload: {
+        dialogCurrent: current || dialogCurrent,
+        dialogSize: size || dialogSize,
+        dialogTotal: 0,
+      },
+    });
 
     if (parentNode) {
       dispatch({
@@ -105,15 +142,16 @@ class SupplyRelation extends React.Component {
         },
       });
     } else {
-      const values = key.split("-");
       const { refId } = supplyRelationModel;
       dispatch({
         type: "supplyRelationModel/productPriceDetailList",
         payload: {
           refId,
-          parentCategoryCode: values[0],
-          productCategory: values[2],
           keyword,
+          category: {
+            level,
+            categoryCode: key,
+          },
         },
       });
     }
@@ -190,6 +228,9 @@ class SupplyRelation extends React.Component {
       relationName,
       drawerLoading,
       isEnable,
+      dialogSize,
+      dialogCurrent,
+      dialogTotal,
     } = this.props.supplyRelationModel;
     const { current, size, total } = pagination;
     return (
@@ -341,11 +382,15 @@ class SupplyRelation extends React.Component {
             onChangeList={this.changePrice}
             changeCategory={this.getDetailList}
             onSubmit={this.handleSubmit}
+            canEdit={false}
             data={{
+              drawerLoading,
               detailList,
               categoryTree,
               relationName,
-              drawerLoading,
+              dialogSize,
+              dialogCurrent,
+              dialogTotal,
             }}
             onClosed={() => {
               dispatch({
@@ -355,7 +400,7 @@ class SupplyRelation extends React.Component {
                   detailList: [],
                 },
               });
-              this.getTableList();
+              // this.getTableList();
             }}
           />
         )}
