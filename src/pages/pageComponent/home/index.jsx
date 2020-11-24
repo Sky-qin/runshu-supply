@@ -191,7 +191,7 @@ class Home extends React.Component {
                   <WrapNum>
                     {Number(inventoryStatistics.totalMoney || 0)}
                   </WrapNum>
-                  <WrapNumText>补货金额（万元）</WrapNumText>
+                  <WrapNumText>金额（万元）</WrapNumText>
                 </div>
               </WrapBoardFooter>
             </div>
