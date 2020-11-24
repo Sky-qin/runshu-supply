@@ -11,7 +11,7 @@ const BasicDiv = styled.div`
   padding-left: 20px;
   > div {
     display: inline-block;
-    width: 280px;
+    width: 220px;
     margin-right: 20px;
     line-height: 48px;
   }
@@ -99,6 +99,7 @@ class EditDialog extends React.Component {
           <div>快递单号：{basicInfo.expNo || ""}</div>
           <div>发货人：{basicInfo.sendOrderPerson || ""}</div>
           <div>手机号：{basicInfo.sendOrderPhone || ""}</div>
+          <div>发货数量：{productList.length || 0}</div>
           <div>备注：{basicInfo.orderDesc || ""}</div>
         </BasicDiv>
         {/* <Button onClick={this.handleDownload}>下载打印</Button> */}

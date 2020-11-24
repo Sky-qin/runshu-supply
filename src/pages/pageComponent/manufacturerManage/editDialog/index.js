@@ -69,21 +69,31 @@ class EditDialog extends React.Component {
           layout="horizontal"
           name="userForm"
           initialValues={{
-            companyName: data.companyName,
+            vendorName: data.vendorName,
+            contact: data.contact,
+            phone: data.phone,
           }}
         >
           <Form.Item
-            name="companyName"
-            label="供货公司"
+            name="vendorName"
+            label="生产厂家"
             rules={[{ required: true }]}
           >
             <Input placeholder="请输入" allowClear />
           </Form.Item>
 
-          <Form.Item name="contact" label="联系人" rules={[{ required: true }]}>
+          <Form.Item
+            name="contact"
+            label="联系人"
+            rules={[{ required: false }]}
+          >
             <Input placeholder="请输入" allowClear />
           </Form.Item>
-          <Form.Item name="phone" label="联系方式" rules={[{ required: true }]}>
+          <Form.Item
+            name="phone"
+            label="联系方式"
+            rules={[{ required: false }]}
+          >
             <Input placeholder="请输入" allowClear />
           </Form.Item>
           {/* <Form.Item

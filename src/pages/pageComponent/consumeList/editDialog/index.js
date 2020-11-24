@@ -2,7 +2,6 @@ import React from "react";
 import { connect } from "dva";
 import styled from "styled-components";
 import { Modal, Table } from "antd";
-import OpreationBar from "../../../../components/OpreationBar";
 
 const { Column } = Table;
 
@@ -103,7 +102,6 @@ class EditDialog extends React.Component {
           </a>
         </BasicDiv>
         <div style={{ overflowX: "scroll" }}>
-          <OpreationBar total={(detailMsg.pcproductList || []).length} />
           <Table
             rowKey={(record, index) => index}
             style={{

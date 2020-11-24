@@ -79,12 +79,12 @@ class EditDialog extends React.Component {
     onChange && typeof onChange === "function" && onChange(current, size);
   };
 
-  changeTab = (value) => {
-    const { onGetTableList } = this.props;
-    onGetTableList &&
-      typeof onGetTableList === "function" &&
-      onGetTableList(value);
-  };
+  // changeTab = (value) => {
+  //   const { onGetTableList } = this.props;
+  //   onGetTableList &&
+  //     typeof onGetTableList === "function" &&
+  //     onGetTableList(value);
+  // };
 
   renderReplenishList = () => {
     const { data } = this.props;
@@ -183,7 +183,7 @@ class EditDialog extends React.Component {
 
   render() {
     const { data } = this.props;
-    const { currentMsg } = data;
+    const { currentMsg, deliverInfoList } = data;
     return (
       <Modal
         title="补货单详情"
@@ -199,8 +199,9 @@ class EditDialog extends React.Component {
           <div>科室：{currentMsg.departmentName || ""}</div>
           <div>申请人：{currentMsg.userName || ""}</div>
           <div>申请日期：{currentMsg.createTime || ""}</div>
+          <div>发货数量：{(deliverInfoList || []).length || 0}</div>
         </BasicDiv>
-        <Tabs defaultActiveKey="replenishList" onChange={this.changeTab}>
+        <Tabs defaultActiveKey="replenishList">
           <TabPane tab="补货清单" key="replenishList">
             {this.renderReplenishList()}
           </TabPane>

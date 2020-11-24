@@ -12,6 +12,8 @@ export default {
       total: 0,
     },
     keyword: "",
+    dialogBtnLoading: false,
+    showEditDialog: false,
   },
 
   effects: {
@@ -42,6 +44,23 @@ export default {
             data: (data.data && data.data.records) || [],
           },
         });
+      } else {
+        message.error(data.message || "查询库位失败");
+      }
+    },
+    *supplyVendorSave({ payload }, { call, put, select }) {
+      yield put({ type: "save", payload: { dialogBtnLoading: true } });
+      const { data } = yield call(API.supplyVendorSave, payload);
+      yield put({ type: "save", payload: { dialogBtnLoading: false } });
+
+      if (data && data.success) {
+        yield put({
+          type: "save",
+          payload: {
+            showEditDialog: false,
+          },
+        });
+        yield put({ type: "getTableList" });
       } else {
         message.error(data.message || "查询库位失败");
       }

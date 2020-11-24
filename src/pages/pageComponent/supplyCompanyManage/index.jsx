@@ -194,9 +194,11 @@ class SupplyCompanyManage extends React.Component {
             render={(value, record, index) => index + 1}
             width={65}
           />
-          <Column title="供货公司" dataIndex="companyName" width={100} />
-          <Column title="创建时间" dataIndex="createTime" width={180} />
-          <Column title="更新时间" dataIndex="updateTime" width={180} />
+          <Column title="供货公司" dataIndex="companyName" width={180} />
+          <Column title="联系人" dataIndex="contact" width={100} />
+          <Column title="联系方式" dataIndex="phone" width={100} />
+          <Column title="创建时间" dataIndex="createTime" width={120} />
+          <Column title="更新时间" dataIndex="updateTime" width={120} />
           <Column
             title="操作"
             dataIndex="isEnable"

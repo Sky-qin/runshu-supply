@@ -1,9 +1,14 @@
 import React from "react";
 import { connect } from "dva";
-import { Table, Input, Button } from "antd";
-import { SearchOutlined, ExportOutlined } from "@ant-design/icons";
+import { Table, Input, Button, Space } from "antd";
+import {
+  SearchOutlined,
+  ExportOutlined,
+  PlusOutlined,
+} from "@ant-design/icons";
 import ContentWrap from "../../../components/contentWrap";
 import OpreationBar from "../../../components/OpreationBar";
+import EditDialog from "./editDialog";
 
 const { Column } = Table;
 class ManufacturerManage extends React.Component {
@@ -57,12 +62,52 @@ class ManufacturerManage extends React.Component {
     this.getTableList();
   };
 
+  handleEdit = (msg) => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: "manufacturerManageModel/save",
+      payload: {
+        showEditDialog: true,
+        currentMsg: { ...msg },
+        dialogTitle: "编辑",
+      },
+    });
+  };
+
+  handleClick = (key) => {
+    const { dispatch } = this.props;
+    if (key === "add") {
+      dispatch({
+        type: "manufacturerManageModel/save",
+        payload: {
+          showEditDialog: true,
+          currentMsg: {},
+          dialogTitle: "新增",
+        },
+      });
+    }
+  };
+
+  handleSave = (values) => {
+    const { dispatch } = this.props;
+    const { currentMsg } = this.props.manufacturerManageModel;
+    dispatch({
+      type: "manufacturerManageModel/supplyVendorSave",
+      payload: { ...values, id: currentMsg.id },
+    });
+  };
+
   render() {
+    const { dispatch } = this.props;
     const {
       pagination,
       data,
       loading,
       keyword,
+      showEditDialog,
+      currentMsg,
+      dialogBtnLoading,
+      dialogTitle,
     } = this.props.manufacturerManageModel;
     const { current, size, total } = pagination;
     return (
@@ -90,6 +135,10 @@ class ManufacturerManage extends React.Component {
               </div>
             </>
           }
+          total={false}
+        />
+        <OpreationBar
+          buttonList={[{ key: "add", label: "新增", icon: <PlusOutlined /> }]}
           linkList={[
             {
               key: "export",
@@ -99,6 +148,7 @@ class ManufacturerManage extends React.Component {
               url: "/supply/vendor/export",
             },
           ]}
+          onClick={this.handleClick}
           total={total}
         />
         <Table
@@ -119,9 +169,42 @@ class ManufacturerManage extends React.Component {
             width={80}
             render={(value, record, index) => index + 1}
           />
-          <Column title="生产厂家编码" dataIndex="vendorCode" />
+          {/* <Column title="生产厂家编码" dataIndex="vendorCode" /> */}
           <Column title="生产厂家名称" dataIndex="vendorName" />
+          <Column title="联系人" dataIndex="contact" />
+          <Column title="联系方式" dataIndex="phone" />
+          <Column
+            title="操作"
+            dataIndex="isEnable"
+            fixed="right"
+            width={110}
+            render={(value, record, index) => (
+              <Space size="middle">
+                <a onClick={() => this.handleEdit(record)}>编辑</a>
+                {/* <a onClick={() => this.handleSwitch(record)}>
+                  {value ? "停用" : "启用"}
+                </a> */}
+              </Space>
+            )}
+          />
         </Table>
+        {showEditDialog && (
+          <EditDialog
+            title={dialogTitle}
+            data={currentMsg}
+            loading={dialogBtnLoading}
+            onClosed={() => {
+              dispatch({
+                type: "manufacturerManageModel/save",
+                payload: {
+                  showEditDialog: false,
+                  dialogBtnLoading: false,
+                },
+              });
+            }}
+            onOk={this.handleSave}
+          />
+        )}
       </ContentWrap>
     );
   }

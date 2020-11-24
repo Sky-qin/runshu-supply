@@ -667,6 +667,14 @@ const API = {
       params,
     });
   },
+  // 保存
+  supplyVendorSave(params) {
+    return request({
+      url: `${Prefix}/supply/vendor/save`,
+      method: "post",
+      params,
+    });
+  },
 
   /**
    * 阳光采购信息维护

@@ -239,7 +239,7 @@ class Home extends React.Component {
                 </div>
                 <div className="left-line">
                   <WrapNum>{Number(replenishStatistics.money || 0)}</WrapNum>
-                  <WrapNumText>消耗金额（万元）</WrapNumText>
+                  <WrapNumText>补货金额（万元）</WrapNumText>
                 </div>
               </WrapBoardFooter>
             </div>

@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "dva";
-import { Table, Button, Space, Modal, Input, Select } from "antd";
+import { Table, Button, Space, Modal, Input } from "antd";
 import { PlusOutlined, SearchOutlined } from "@ant-design/icons";
 import EditDialog from "./editDialog";
 import DetailDialog from "../supplyPriceManage/detailDialog";
@@ -227,7 +227,7 @@ class SupplyRelation extends React.Component {
       categoryTree,
       relationName,
       drawerLoading,
-      isEnable,
+      // isEnable,
       dialogSize,
       dialogCurrent,
       dialogTotal,
@@ -255,7 +255,7 @@ class SupplyRelation extends React.Component {
                   icon={<SearchOutlined />}
                 />
               </div>
-              <Select
+              {/* <Select
                 placeholder="请选择启用、停用状态"
                 allowClear={true}
                 value={isEnable}
@@ -265,7 +265,7 @@ class SupplyRelation extends React.Component {
                   { value: false, label: "停用" },
                   { value: true, label: "启用" },
                 ]}
-              />
+              /> */}
             </>
           }
         />

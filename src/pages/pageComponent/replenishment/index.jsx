@@ -135,6 +135,7 @@ class Replenishment extends React.Component {
         type: "view",
       },
     });
+    dispatch({ type: "replenishmentModel/getSendOrderInfo" });
   };
 
   changeListData = (current, size) => {
@@ -243,22 +244,22 @@ class Replenishment extends React.Component {
     dispatch({ type: "replenishmentModel/sendOrderSubmit" });
   };
 
-  getDetailList = (type) => {
-    const { dispatch } = this.props;
-    const { currentMsg } = this.props.replenishmentModel;
-    if (type === "replenishList") {
-      dispatch({
-        type: "replenishmentModel/getAddInfo",
-        payload: {
-          ...currentMsg,
-          type: "view",
-        },
-      });
-    }
-    if (type === "deliveryList") {
-      dispatch({ type: "replenishmentModel/getSendOrderInfo" });
-    }
-  };
+  // getDetailList = (type) => {
+  //   const { dispatch } = this.props;
+  //   const { currentMsg } = this.props.replenishmentModel;
+  //   if (type === "replenishList") {
+  //     dispatch({
+  //       type: "replenishmentModel/getAddInfo",
+  //       payload: {
+  //         ...currentMsg,
+  //         type: "view",
+  //       },
+  //     });
+  //   }
+  //   if (type === "deliveryList") {
+  //     dispatch({ type: "replenishmentModel/getSendOrderInfo" });
+  //   }
+  // };
 
   componentWillUnmount() {
     const { dispatch } = this.props;
@@ -446,7 +447,7 @@ class Replenishment extends React.Component {
             <DetailDialog
               title="补货单详情"
               data={{ replenishOrderList, currentMsg, deliverInfoList }}
-              onGetTableList={this.getDetailList}
+              // onGetTableList={this.getDetailList}
               onClosed={() => {
                 dispatch({
                   type: "replenishmentModel/save",
