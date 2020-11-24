@@ -17,6 +17,8 @@ export default {
     hospitalList: [],
     customerTypeList: [],
     switchDialog: false,
+    contacts: [{ name: "", phone: "1212", unkey: 1 }],
+    unkey: 1,
   },
 
   effects: {
