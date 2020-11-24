@@ -80,10 +80,18 @@ class EditDialog extends React.Component {
             <Input placeholder="请输入" allowClear />
           </Form.Item>
 
-          <Form.Item name="contact" label="联系人" rules={[{ required: true }]}>
+          <Form.Item
+            name="contact"
+            label="联系人"
+            rules={[{ required: false }]}
+          >
             <Input placeholder="请输入" allowClear />
           </Form.Item>
-          <Form.Item name="phone" label="联系方式" rules={[{ required: true }]}>
+          <Form.Item
+            name="phone"
+            label="联系方式"
+            rules={[{ required: false }]}
+          >
             <Input placeholder="请输入" allowClear />
           </Form.Item>
           {/* <Form.Item

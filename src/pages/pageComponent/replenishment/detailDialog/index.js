@@ -10,7 +10,7 @@ const BasicDiv = styled.div`
   padding-left: 20px;
   > div {
     display: inline-block;
-    width: 280px;
+    width: 210px;
     margin-right: 20px;
     line-height: 48px;
   }
@@ -200,6 +200,7 @@ class EditDialog extends React.Component {
           <div>申请人：{currentMsg.userName || ""}</div>
           <div>申请日期：{currentMsg.createTime || ""}</div>
           <div>发货数量：{(deliverInfoList || []).length || 0}</div>
+          <div>备注：{currentMsg.remarks || ""}</div>
         </BasicDiv>
         <Tabs defaultActiveKey="replenishList">
           <TabPane tab="补货清单" key="replenishList">
