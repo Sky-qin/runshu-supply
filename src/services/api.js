@@ -1,5 +1,5 @@
 import { Prefix } from "../utils/config";
-import request from "./request";
+import request from "qaxios";
 
 const API = {
   /**

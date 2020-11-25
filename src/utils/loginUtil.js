@@ -1,6 +1,6 @@
 import * as dd from "dingtalk-jsapi";
 import { message } from "antd";
-import request from "../services/request";
+import request from "qaxios";
 import { corpId, Prefix } from "./config";
 
 // 写入用户信息到localStorage
