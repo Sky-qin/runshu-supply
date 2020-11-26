@@ -3,8 +3,7 @@ import { connect } from "dva";
 import { Button, Space, Table, Modal, Input } from "antd";
 import { PlusOutlined, SearchOutlined } from "@ant-design/icons";
 import EditDialog from "./editDialog";
-import ContentWrap from "../../../components/contentWrap";
-import { OpreationBar } from "wrapd";
+import { OpreationBar, ContentBox } from "wrapd";
 import "./index.scss";
 
 const { Column } = Table;
@@ -156,7 +155,7 @@ class InventoryWarn extends React.Component {
     } = this.props.inventoryWarnModel;
     const { current, size, total } = pagination;
     return (
-      <ContentWrap loading={loading}>
+      <ContentBox loading={loading}>
         <OpreationBar
           total={false}
           custom={
@@ -271,7 +270,7 @@ class InventoryWarn extends React.Component {
             onOk={this.handleSave}
           />
         )}
-      </ContentWrap>
+      </ContentBox>
     );
   }
 }

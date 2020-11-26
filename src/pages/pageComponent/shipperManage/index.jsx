@@ -3,8 +3,7 @@ import { connect } from "dva";
 import { Button, Space, Table, Modal } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import EditDialog from "./editDialog";
-import ContentWrap from "../../../components/contentWrap";
-import { OpreationBar } from "wrapd";
+import { OpreationBar, ContentBox } from "wrapd";
 import "./index.scss";
 
 const { Column } = Table;
@@ -120,7 +119,7 @@ class shipperManage extends React.Component {
     } = this.props.shipperManageModel;
     const { current, size, total } = pagination;
     return (
-      <ContentWrap loading={loading}>
+      <ContentBox loading={loading}>
         <OpreationBar
           buttonList={[{ key: "add", label: "新增", icon: <PlusOutlined /> }]}
           total={total}
@@ -128,7 +127,7 @@ class shipperManage extends React.Component {
         />
         <Table
           bordered
-          rowKey={(record, index) => index}
+          rowKey="id"
           dataSource={data}
           pagination={{
             position: ["bottomCenter"],
@@ -203,7 +202,7 @@ class shipperManage extends React.Component {
             onOk={this.handleSave}
           />
         )}
-      </ContentWrap>
+      </ContentBox>
     );
   }
 }

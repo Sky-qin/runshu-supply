@@ -1,10 +1,10 @@
 import React from "react";
 import { connect } from "dva";
 import { Space, Table, Tabs } from "antd";
+import { ContentBox } from "wrapd";
 import AddTypeDialog from "./addTypeDialog";
 import AddPersonDialog from "./addPersonDialog";
 import DeletePersonDialog from "./deletePersonDialog";
-import ContentWrap from "../../../components/contentWrap";
 import "./index.scss";
 
 const { Column } = Table;
@@ -159,7 +159,7 @@ class MessagePushManage extends React.Component {
       dialogBtnLoading,
     } = this.props.messagePushModel;
     return (
-      <ContentWrap loading={loading}>
+      <ContentBox loading={loading}>
         <Tabs defaultActiveKey={pushInfoType} onChange={this.changeTab}>
           {(pushInfoTypeList || []).map((item, index) => {
             return (
@@ -256,7 +256,7 @@ class MessagePushManage extends React.Component {
             onOk={this.handleDeletePerson}
           />
         )}
-      </ContentWrap>
+      </ContentBox>
     );
   }
 }

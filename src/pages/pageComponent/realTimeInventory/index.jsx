@@ -3,8 +3,7 @@ import { connect } from "dva";
 import { Space, Table, InputNumber, Input, Button, TreeSelect } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 import EditDialog from "./editDialog";
-import ContentWrap from "../../../components/contentWrap";
-import { OpreationBar } from "wrapd";
+import { OpreationBar, ContentBox } from "wrapd";
 import TotalBoard from "../../../components/TotalBoard";
 import "./index.scss";
 
@@ -129,7 +128,7 @@ class RealTimeInventory extends React.Component {
           data={boardInfo}
           loading={boardLoading}
         />
-        <ContentWrap loading={loading}>
+        <ContentBox loading={loading}>
           <OpreationBar
             custom={
               <>
@@ -241,7 +240,7 @@ class RealTimeInventory extends React.Component {
               }}
             />
           )}
-        </ContentWrap>
+        </ContentBox>
       </>
     );
   }

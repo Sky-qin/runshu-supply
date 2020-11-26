@@ -4,8 +4,7 @@ import { Space, Table, Input, Form, Row, Col, Select, Button } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import DetailDialog from "./detailDialog";
 import AddProfitAndLoss from "../../../components/addProfitAndLoss";
-import ContentWrap from "../../../components/contentWrap";
-import { OpreationBar } from "wrapd";
+import { OpreationBar, ContentBox } from "wrapd";
 
 const { Column } = Table;
 
@@ -198,7 +197,7 @@ class InventoryLoss extends React.Component {
     const { current, size, total } = pagination;
     return (
       <>
-        <ContentWrap>
+        <ContentBox>
           <Form
             {...layout}
             ref={this.searchRef}
@@ -264,8 +263,8 @@ class InventoryLoss extends React.Component {
               </Col>
             </Row>
           </Form>
-        </ContentWrap>
-        <ContentWrap loading={loading}>
+        </ContentBox>
+        <ContentBox loading={loading}>
           <OpreationBar
             custom={
               <Space>
@@ -361,7 +360,7 @@ class InventoryLoss extends React.Component {
               }}
             />
           )}
-        </ContentWrap>
+        </ContentBox>
       </>
     );
   }

@@ -7,8 +7,8 @@ import {
   PlusOutlined,
 } from "@ant-design/icons";
 import EditDialog from "./editDialog";
-import ContentWrap from "../../../components/contentWrap";
-import { OpreationBar } from "wrapd";
+import { OpreationBar, ContentBox } from "wrapd";
+import RetrunAffix from "../../../components/RetrunAffix";
 import { Prefix } from "../../../utils/config";
 
 const { Column } = Table;
@@ -150,7 +150,7 @@ class InventoryManage extends React.Component {
     } = this.props.inventoryManageModel;
     const { current, size, total } = pagination;
     return (
-      <ContentWrap loading={loading} props={this.props} hasRetrun={true}>
+      <ContentBox loading={loading} extend={<RetrunAffix {...this.props} />}>
         <OpreationBar
           custom={
             <>
@@ -300,7 +300,7 @@ class InventoryManage extends React.Component {
             onOk={this.handleSave}
           />
         )}
-      </ContentWrap>
+      </ContentBox>
     );
   }
 }

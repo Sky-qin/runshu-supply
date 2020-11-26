@@ -14,8 +14,7 @@ import {
 import styled from "styled-components";
 import DetailDialog from "./detailDialog";
 import SubmitSendGoods from "../../../components/submitSendGoods";
-import ContentWrap from "../../../components/contentWrap";
-import { OpreationBar } from "wrapd";
+import { OpreationBar, ContentBox } from "wrapd";
 
 import "./index.scss";
 
@@ -295,7 +294,7 @@ class Replenishment extends React.Component {
     const { current, size, total } = pagination;
     return (
       <>
-        <ContentWrap>
+        <ContentBox>
           <Form
             {...layout}
             ref={this.searchRef}
@@ -361,13 +360,13 @@ class Replenishment extends React.Component {
               </Col>
             </Row>
           </Form>
-        </ContentWrap>
-        <ContentWrap loading={loading}>
+        </ContentBox>
+        <ContentBox loading={loading}>
           <OpreationBar total={total} />
           <Table
             bordered
             scroll={{ x: 1500 }}
-            rowKey={(record, index) => index}
+            rowKey="replenishNumber"
             dataSource={data}
             pagination={{
               position: ["bottomCenter"],
@@ -491,7 +490,7 @@ class Replenishment extends React.Component {
               }}
             />
           )}
-        </ContentWrap>
+        </ContentBox>
       </>
     );
   }

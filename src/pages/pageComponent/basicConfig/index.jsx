@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "dva";
 import styled from "styled-components";
-import ContentBox from "../../../components/contentWrap";
+import { ContentBox } from "wrapd";
 import PicList from "./config";
 import "./index.scss";
 

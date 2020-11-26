@@ -2,8 +2,7 @@ import React from "react";
 import { connect } from "dva";
 import { Table, Input, Select, Button } from "antd";
 import { ExportOutlined, SearchOutlined } from "@ant-design/icons";
-import ContentWrap from "../../../components/contentWrap";
-import { OpreationBar } from "wrapd";
+import { OpreationBar, ContentBox } from "wrapd";
 import { Prefix } from "../../../utils/config";
 
 const { Column } = Table;
@@ -71,7 +70,7 @@ class BusinessProducts extends React.Component {
     } = this.props.businessProductsModel;
     const { current, size, total } = pagination;
     return (
-      <ContentWrap loading={loading}>
+      <ContentBox loading={loading}>
         <OpreationBar
           custom={
             <>
@@ -176,7 +175,7 @@ class BusinessProducts extends React.Component {
             <Column title="JDE进货单价" dataIndex="jdePrice" width={150} />
           )}
         </Table>
-      </ContentWrap>
+      </ContentBox>
     );
   }
 }

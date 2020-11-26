@@ -3,9 +3,7 @@ import { connect } from "dva";
 import { Table, Select, Tabs } from "antd";
 import { ExportOutlined } from "@ant-design/icons";
 import styled from "styled-components";
-
-import ContentWrap from "../../../components/contentWrap";
-import { OpreationBar } from "wrapd";
+import { OpreationBar, ContentBox } from "wrapd";
 import { Prefix } from "../../../utils/config";
 
 const { Column } = Table;
@@ -147,7 +145,7 @@ class RecentWarnInfo extends React.Component {
     const { total } = pagination;
 
     return (
-      <ContentWrap loading={loading}>
+      <ContentBox loading={loading}>
         <OpreationBar
           custom={
             <>
@@ -183,7 +181,7 @@ class RecentWarnInfo extends React.Component {
             {this.renderTableList()}
           </TabPane>
         </Tabs>
-      </ContentWrap>
+      </ContentBox>
     );
   }
 }

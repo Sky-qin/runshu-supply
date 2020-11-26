@@ -3,8 +3,7 @@ import { connect } from "dva";
 import { Space, Table, Input, Form, Row, Col, Select, Button } from "antd";
 import DetailDialog from "./detailDialog";
 import SubmitSendGoods from "../../../components/stockSendGoods";
-import ContentWrap from "../../../components/contentWrap";
-import { OpreationBar } from "wrapd";
+import { OpreationBar, ContentBox } from "wrapd";
 import "./index.scss";
 
 const { Column } = Table;
@@ -226,7 +225,7 @@ class StockList extends React.Component {
     const { current, size, total } = pagination;
     return (
       <>
-        <ContentWrap>
+        <ContentBox>
           <Form
             {...layout}
             ref={this.searchRef}
@@ -305,8 +304,8 @@ class StockList extends React.Component {
               </Col>
             </Row>
           </Form>
-        </ContentWrap>
-        <ContentWrap loading={loading}>
+        </ContentBox>
+        <ContentBox loading={loading}>
           <OpreationBar total={total} />
           <Table
             bordered
@@ -437,7 +436,7 @@ class StockList extends React.Component {
               }}
             />
           )}
-        </ContentWrap>
+        </ContentBox>
       </>
     );
   }

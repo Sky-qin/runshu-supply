@@ -14,8 +14,8 @@ import {
 import { PlusOutlined } from "@ant-design/icons";
 import EditDialog from "./editDialog";
 import { PicPrefix } from "../../../utils/config";
-import ContentWrap from "../../../components/contentWrap";
-import { OpreationBar } from "wrapd";
+import { OpreationBar, ContentBox } from "wrapd";
+import RetrunAffix from "../../../components/RetrunAffix";
 import "./index.scss";
 
 const { Column } = Table;
@@ -302,7 +302,7 @@ class PicManage extends React.Component {
     const { current, size, total } = pagination;
     return (
       <>
-        <ContentWrap props={this.props} hasRetrun={true}>
+        <ContentBox extend={<RetrunAffix {...this.props} />}>
           <Form
             {...layout}
             ref={this.searchRef}
@@ -396,8 +396,8 @@ class PicManage extends React.Component {
               </Col>
             </Row>
           </Form>
-        </ContentWrap>
-        <ContentWrap loading={loading}>
+        </ContentBox>
+        <ContentBox loading={loading}>
           <OpreationBar
             buttonList={[{ key: "add", label: "新增", icon: <PlusOutlined /> }]}
             total={total}
@@ -511,7 +511,7 @@ class PicManage extends React.Component {
               onOk={this.handleSave}
             />
           )}
-        </ContentWrap>
+        </ContentBox>
       </>
     );
   }

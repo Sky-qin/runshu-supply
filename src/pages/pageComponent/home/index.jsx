@@ -2,8 +2,8 @@ import React from "react";
 import { connect } from "dva";
 import styled from "styled-components";
 import { Radio, Tabs } from "antd";
+import { ContentBox } from "wrapd";
 import ChartWrap from "./charsWrap";
-import ContentWrap from "../../../components/contentWrap";
 import Sort from "../../../assets/sort.png";
 
 import "./index.scss";
@@ -170,7 +170,7 @@ class Home extends React.Component {
     } = this.props.homeModel;
     return (
       <>
-        <ContentWrap loading={totalLoading}>
+        <ContentBox loading={totalLoading}>
           <div className="home-board">
             <div className="home-board-inventort">
               <WrapTopDiv>
@@ -244,9 +244,9 @@ class Home extends React.Component {
               </WrapBoardFooter>
             </div>
           </div>
-        </ContentWrap>
+        </ContentBox>
 
-        <ContentWrap loading={chartsLoading}>
+        <ContentBox loading={chartsLoading}>
           <div className="carts-box">
             <div>
               <Tabs defaultActiveKey={type} onChange={this.changeCartsTab}>
@@ -264,9 +264,9 @@ class Home extends React.Component {
             />
             <ChartWrap data={chartData} key={unCharsKey} />
           </div>
-        </ContentWrap>
+        </ContentBox>
 
-        <ContentWrap loading={topTenLoading} style={{ padding: 0, margin: 12 }}>
+        <ContentBox loading={topTenLoading} style={{ padding: 0, margin: 12 }}>
           <div className="top-ten">
             <div className="top-ten-item">
               <div className="top-ten-item-top-bar">
@@ -371,7 +371,7 @@ class Home extends React.Component {
               </div>
             </div>
           </div>
-        </ContentWrap>
+        </ContentBox>
       </>
     );
   }

@@ -2,8 +2,7 @@ import React from "react";
 import { connect } from "dva";
 import { Table, Select } from "antd";
 import styled from "styled-components";
-import ContentWrap from "../../../components/contentWrap";
-import { OpreationBar } from "wrapd";
+import { OpreationBar, ContentBox } from "wrapd";
 
 const { Column } = Table;
 const WrapSpan = styled.span`
@@ -76,7 +75,7 @@ class InventoryWarnInfo extends React.Component {
     } = this.props.inventoryWarnInfoModel;
     const { current, size, total } = pagination;
     return (
-      <ContentWrap loading={loading}>
+      <ContentBox loading={loading}>
         <OpreationBar
           custom={
             <>
@@ -138,7 +137,7 @@ class InventoryWarnInfo extends React.Component {
             }}
           />
         </Table>
-      </ContentWrap>
+      </ContentBox>
     );
   }
 }

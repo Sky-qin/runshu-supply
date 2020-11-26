@@ -7,8 +7,8 @@ import {
   PlusOutlined,
 } from "@ant-design/icons";
 import EditDialog from "./editDialog";
-import ContentWrap from "../../../components/contentWrap";
-import { OpreationBar } from "wrapd";
+import { OpreationBar, ContentBox } from "wrapd";
+import RetrunAffix from "../../../components/RetrunAffix";
 import { Prefix } from "../../../utils/config";
 
 const { Column } = Table;
@@ -191,7 +191,7 @@ class CustomerManage extends React.Component {
     } = this.props.customerManageModel;
     const { current, size, total } = pagination;
     return (
-      <ContentWrap loading={loading} props={this.props} hasRetrun={true}>
+      <ContentBox loading={loading} extend={<RetrunAffix {...this.props} />}>
         <OpreationBar
           custom={
             <>
@@ -354,7 +354,7 @@ class CustomerManage extends React.Component {
           你确定要
           {currentMsg && currentMsg.isEnable === 1 ? "停用" : "启用"}嘛?
         </Modal>
-      </ContentWrap>
+      </ContentBox>
     );
   }
 }

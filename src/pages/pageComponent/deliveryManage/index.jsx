@@ -12,14 +12,13 @@ import {
   DatePicker,
 } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
-import { OpreationBar } from "wrapd";
+import { OpreationBar, ContentBox } from "wrapd";
 import AddDialog from "./addDialog";
 import DetailDialog from "./detailDialog";
 import DeliveryDialog from "./deliveryDialog";
 import ReplenishmentDetail from "./replenishmentDetail";
 import EditDeliveryDialog from "./editDeliveryDialog";
 import SubmitSendGoods from "../../../components/submitSendGoods";
-import ContentWrap from "../../../components/contentWrap";
 import "./index.scss";
 
 const { Column } = Table;
@@ -322,7 +321,7 @@ class DeliveryManage extends React.Component {
     const { current, size, total } = pagination;
     return (
       <>
-        <ContentWrap>
+        <ContentBox>
           <Form
             {...layout}
             ref={this.searchRef}
@@ -411,8 +410,8 @@ class DeliveryManage extends React.Component {
               </Col>
             </Row>
           </Form>
-        </ContentWrap>
-        <ContentWrap loading={loading}>
+        </ContentBox>
+        <ContentBox loading={loading}>
           <OpreationBar
             buttonList={[{ key: "add", label: "新增", icon: <PlusOutlined /> }]}
             total={total}
@@ -420,7 +419,7 @@ class DeliveryManage extends React.Component {
           />
           <Table
             bordered
-            rowKey={(record, index) => index}
+            rowKey="expNo"
             scroll={{ x: 1500 }}
             dataSource={data}
             pagination={{
@@ -591,7 +590,7 @@ class DeliveryManage extends React.Component {
               onOk={this.handleDelivery}
             />
           )}
-        </ContentWrap>
+        </ContentBox>
       </>
     );
   }

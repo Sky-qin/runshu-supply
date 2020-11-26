@@ -3,8 +3,8 @@ import { connect } from "dva";
 import { Button, Space, Table, Modal } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import EditDialog from "./editDialog";
-import ContentWrap from "../../../components/contentWrap";
-import { OpreationBar } from "wrapd";
+import { OpreationBar, ContentBox } from "wrapd";
+import RetrunAffix from "../../../components/RetrunAffix";
 import "./index.scss";
 
 const { Column } = Table;
@@ -134,7 +134,7 @@ class Test extends React.Component {
     } = this.props.departmentManage;
     const { current, size, total } = pagination;
     return (
-      <ContentWrap loading={loading} props={this.props} hasRetrun={true}>
+      <ContentBox loading={loading} extend={<RetrunAffix {...this.props} />}>
         <OpreationBar
           buttonList={[{ key: "add", label: "新增", icon: <PlusOutlined /> }]}
           total={total}
@@ -220,7 +220,7 @@ class Test extends React.Component {
             onOk={this.handleSave}
           />
         )}
-      </ContentWrap>
+      </ContentBox>
     );
   }
 }

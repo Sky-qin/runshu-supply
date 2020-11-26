@@ -11,9 +11,8 @@ import {
 } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 import EditDialog from "./editDialog";
-import ContentWrap from "../../../components/contentWrap";
 import TotalBoard from "../../../components/TotalBoard";
-import { OpreationBar } from "wrapd";
+import { OpreationBar, ContentBox } from "wrapd";
 
 import "./index.scss";
 
@@ -158,7 +157,7 @@ class Inventory extends React.Component {
           data={boardInfo}
           loading={boardLoading}
         />
-        <ContentWrap loading={loading}>
+        <ContentBox loading={loading}>
           <OpreationBar
             custom={
               <>
@@ -297,7 +296,7 @@ class Inventory extends React.Component {
               onChange={this.changeListData}
             />
           )}
-        </ContentWrap>
+        </ContentBox>
       </>
     );
   }

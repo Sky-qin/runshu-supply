@@ -26,7 +26,7 @@
     "serialport": "^9.0.1",
     "styled-components": "^5.1.1",
     "tools-func": "^1.0.5",
-    "wrapd": "^1.0.0"
+    "wrapd": "^1.0.1"
   },
   "devDependencies": {
     "babel-plugin-dva-hmr": "^0.3.2",

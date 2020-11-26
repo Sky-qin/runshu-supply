@@ -2,9 +2,8 @@ import React from "react";
 import { connect } from "dva";
 import { Table, Button, Space, Modal } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
+import { OpreationBar, ContentBox } from "wrapd";
 import EditDialog from "./editDialog";
-import ContentBox from "../../../components/contentWrap";
-import { OpreationBar } from "wrapd";
 import "./index.scss";
 const { Column } = Table;
 

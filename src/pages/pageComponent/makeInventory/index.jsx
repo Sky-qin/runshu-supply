@@ -7,8 +7,7 @@ import AddDialog from "./addDialog";
 import LockInventoryDialog from "./lockInventory";
 import UnLockInventoryDialog from "./unLockInventory";
 import AddCheckNum from "../../../components/addCheckNum";
-import ContentWrap from "../../../components/contentWrap";
-import { OpreationBar } from "wrapd";
+import { OpreationBar, ContentBox } from "wrapd";
 import "./index.scss";
 
 const { Column } = Table;
@@ -261,7 +260,7 @@ class MakeInventory extends React.Component {
     const { current, size, total } = pagination;
     return (
       <>
-        <ContentWrap>
+        <ContentBox>
           <Form
             {...layout}
             ref={this.searchRef}
@@ -342,8 +341,8 @@ class MakeInventory extends React.Component {
               </Col>
             </Row>
           </Form>
-        </ContentWrap>
-        <ContentWrap loading={loading}>
+        </ContentBox>
+        <ContentBox loading={loading}>
           <OpreationBar
             custom={
               <Space>
@@ -515,7 +514,7 @@ class MakeInventory extends React.Component {
               onUnLock={this.handleUnLock}
             />
           )}
-        </ContentWrap>
+        </ContentBox>
       </>
     );
   }

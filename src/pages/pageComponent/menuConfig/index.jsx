@@ -3,8 +3,8 @@ import { connect } from "dva";
 import { Button, Space, Table, Modal } from "antd";
 import { PlusOutlined, UpOutlined, DownOutlined } from "@ant-design/icons";
 import styled from "styled-components";
+import { ContentBox } from "wrapd";
 import EditDialog from "./editDialog";
-import ContentWrap from "../../../components/contentWrap";
 import "./index.scss";
 
 const { Column } = Table;
@@ -202,7 +202,7 @@ class MenuConfig extends React.Component {
       expandedRowKeys,
     } = this.props.menuModel;
     return (
-      <ContentWrap loading={loading}>
+      <ContentBox loading={loading}>
         <div className="opreation-bar">
           <Button
             type="primary"
@@ -286,7 +286,7 @@ class MenuConfig extends React.Component {
             onOk={this.handleSave}
           />
         )}
-      </ContentWrap>
+      </ContentBox>
     );
   }
 }

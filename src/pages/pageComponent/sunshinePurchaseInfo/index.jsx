@@ -1,8 +1,7 @@
 import React from "react";
 import { connect } from "dva";
 import { Table, Button, Select, Input } from "antd";
-import ContentWrap from "../../../components/contentWrap";
-import { OpreationBar } from "wrapd";
+import { OpreationBar, ContentBox } from "wrapd";
 import "./index.scss";
 
 class SunshinePurchaseInfo extends React.Component {
@@ -72,7 +71,7 @@ class SunshinePurchaseInfo extends React.Component {
     } = this.props.sunshinePurchaseInfoModel;
     const { current, size, total } = pagination;
     return (
-      <ContentWrap loading={loading}>
+      <ContentBox loading={loading}>
         <OpreationBar
           custom={
             <>
@@ -121,7 +120,7 @@ class SunshinePurchaseInfo extends React.Component {
             onShowSizeChange: this.changePagination,
           }}
         />
-      </ContentWrap>
+      </ContentBox>
     );
   }
 }

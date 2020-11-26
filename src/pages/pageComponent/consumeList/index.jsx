@@ -12,10 +12,9 @@ import {
   Col,
   Row,
 } from "antd";
+import { OpreationBar, ContentBox } from "wrapd";
 import DialogCarousel from "../../../components/dialogCarousel";
 import FeedbackDialog from "../../../components/feedbackDialog";
-import ContentWrap from "../../../components/contentWrap";
-import { OpreationBar } from "wrapd";
 
 import EditDialog from "./editDialog";
 
@@ -278,7 +277,7 @@ class ConsumeList extends React.Component {
     const { current, size, total } = pagination;
     return (
       <>
-        <ContentWrap>
+        <ContentBox>
           <Form
             {...layout}
             ref={this.searchRef}
@@ -374,12 +373,12 @@ class ConsumeList extends React.Component {
               </Col>
             </Row>
           </Form>
-        </ContentWrap>
-        <ContentWrap loading={loading}>
+        </ContentBox>
+        <ContentBox loading={loading}>
           <OpreationBar total={total} />
           <Table
             bordered
-            rowKey={(record, index) => index}
+            rowKey="consumeNumber"
             dataSource={data}
             scroll={{ x: 1500 }}
             pagination={{
@@ -524,7 +523,7 @@ class ConsumeList extends React.Component {
               });
             }}
           />
-        </ContentWrap>
+        </ContentBox>
       </>
     );
   }

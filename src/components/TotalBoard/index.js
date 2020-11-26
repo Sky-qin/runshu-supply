@@ -1,5 +1,5 @@
 import React from "react";
-import ContentWrap from "../contentWrap";
+import ContentBox from "wrapd";
 // import T from "prop-types";
 import styled from "styled-components";
 import blueCircular from "../../assets/blueCircular.png";
@@ -107,7 +107,7 @@ class TotalBoard extends React.Component {
   render() {
     const { data, loading } = this.props;
     return (
-      <ContentWrap loading={loading}>
+      <ContentBox loading={loading}>
         <BoardWrap>
           <SmallBoardWrap
             style={{ background: "rgba(20, 213, 112, 1)" }}
@@ -186,7 +186,7 @@ class TotalBoard extends React.Component {
             </div>
           </div>
         </BoardWrap>
-      </ContentWrap>
+      </ContentBox>
     );
   }
 }

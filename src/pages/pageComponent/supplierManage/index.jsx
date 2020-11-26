@@ -2,9 +2,8 @@ import React from "react";
 import { connect } from "dva";
 import { Table, Input, Button } from "antd";
 import { SearchOutlined, ExportOutlined } from "@ant-design/icons";
-
-import ContentWrap from "../../../components/contentWrap";
-import { OpreationBar } from "wrapd";
+import { OpreationBar, ContentBox } from "wrapd";
+import RetrunAffix from "../../../components/RetrunAffix";
 import { Prefix } from "../../../utils/config";
 
 const { Column } = Table;
@@ -67,7 +66,7 @@ class SupplierManage extends React.Component {
     } = this.props.supplierManageModel;
     const { current, size, total } = pagination;
     return (
-      <ContentWrap loading={loading} props={this.props} hasRetrun={true}>
+      <ContentBox loading={loading} extend={<RetrunAffix {...this.props} />}>
         <OpreationBar
           custom={
             <>
@@ -129,7 +128,7 @@ class SupplierManage extends React.Component {
           <Column title="电话" dataIndex="phone" />
           <Column title="地址" dataIndex="address" />
         </Table>
-      </ContentWrap>
+      </ContentBox>
     );
   }
 }

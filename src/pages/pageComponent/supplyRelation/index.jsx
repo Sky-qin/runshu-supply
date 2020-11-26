@@ -4,8 +4,8 @@ import { Table, Button, Space, Modal, Input } from "antd";
 import { PlusOutlined, SearchOutlined } from "@ant-design/icons";
 import EditDialog from "./editDialog";
 import DetailDialog from "../supplyPriceManage/detailDialog";
-import ContentBox from "../../../components/contentWrap";
-import { OpreationBar } from "wrapd";
+import { OpreationBar, ContentBox } from "wrapd";
+import RetrunAffix from "../../../components/RetrunAffix";
 import "./index.scss";
 const { Column } = Table;
 
@@ -234,7 +234,7 @@ class SupplyRelation extends React.Component {
     } = this.props.supplyRelationModel;
     const { current, size, total } = pagination;
     return (
-      <ContentBox loading={loading} props={this.props} hasRetrun={true}>
+      <ContentBox loading={loading} extend={<RetrunAffix {...this.props} />}>
         <OpreationBar
           total={false}
           custom={

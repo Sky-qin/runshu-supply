@@ -2,8 +2,7 @@ import React from "react";
 import { connect } from "dva";
 import { Table, Select, Input, Form, Button, Row, Col } from "antd";
 import { ExportOutlined } from "@ant-design/icons";
-import ContentWrap from "../../../components/contentWrap";
-import { OpreationBar } from "wrapd";
+import { OpreationBar, ContentBox } from "wrapd";
 import { Prefix } from "../../../utils/config";
 // import "./index.scss";
 
@@ -113,7 +112,7 @@ class HospitalSaleGoods extends React.Component {
     const { current, size, total } = pagination;
     return (
       <div>
-        <ContentWrap>
+        <ContentBox>
           <Form
             {...layout}
             ref={this.searchRef}
@@ -181,8 +180,8 @@ class HospitalSaleGoods extends React.Component {
               </Col>
             </Row>
           </Form>
-        </ContentWrap>
-        <ContentWrap loading={loading}>
+        </ContentBox>
+        <ContentBox loading={loading}>
           <OpreationBar
             linkList={[
               {
@@ -244,7 +243,7 @@ class HospitalSaleGoods extends React.Component {
               width={120}
             />
           </Table>
-        </ContentWrap>
+        </ContentBox>
       </div>
     );
   }

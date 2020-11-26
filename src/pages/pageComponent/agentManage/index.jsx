@@ -2,8 +2,9 @@ import React from "react";
 import { connect } from "dva";
 import { Table, Button, Space, Modal, Input, Select } from "antd";
 import { PlusOutlined, SearchOutlined } from "@ant-design/icons";
+import { ContentBox } from "wrapd";
 import EditDialog from "./editDialog";
-import ContentBox from "../../../components/contentWrap";
+import RetrunAffix from "../../../components/RetrunAffix";
 import { OpreationBar } from "wrapd";
 
 import "./index.scss";
@@ -136,7 +137,7 @@ class AgentManage extends React.Component {
     } = this.props.agentManageModel;
     const { current, size, total } = pagination;
     return (
-      <ContentBox loading={loading} props={this.props} hasRetrun={true}>
+      <ContentBox loading={loading} extend={<RetrunAffix {...this.props} />}>
         <OpreationBar
           total={false}
           custom={

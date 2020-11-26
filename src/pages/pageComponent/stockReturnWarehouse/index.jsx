@@ -4,8 +4,7 @@ import { Space, Table, Input, Form, Row, Col, Select, Button } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import DetailDialog from "./detailDialog";
 import SendGoods from "../../../components/backStoreGoods";
-import ContentWrap from "../../../components/contentWrap";
-import { OpreationBar } from "wrapd";
+import { OpreationBar, ContentBox } from "wrapd";
 
 const { Column } = Table;
 
@@ -196,7 +195,7 @@ class StockReturnWarehouse extends React.Component {
     const { current, size, total } = pagination;
     return (
       <>
-        <ContentWrap>
+        <ContentBox>
           <Form
             {...layout}
             ref={this.searchRef}
@@ -261,8 +260,8 @@ class StockReturnWarehouse extends React.Component {
               </Col>
             </Row>
           </Form>
-        </ContentWrap>
-        <ContentWrap loading={loading}>
+        </ContentBox>
+        <ContentBox loading={loading}>
           <OpreationBar
             buttonList={[{ key: "add", label: "新增", icon: <PlusOutlined /> }]}
             total={total}
@@ -362,7 +361,7 @@ class StockReturnWarehouse extends React.Component {
               }}
             />
           )}
-        </ContentWrap>
+        </ContentBox>
       </>
     );
   }

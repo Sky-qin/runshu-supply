@@ -3,8 +3,8 @@ import { connect } from "dva";
 import { Table, Button, Space, Modal } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import EditDialog from "./editDialog";
-import ContentBox from "../../../components/contentWrap";
-import { OpreationBar } from "wrapd";
+import { OpreationBar, ContentBox } from "wrapd";
+import RetrunAffix from "../../../components/RetrunAffix";
 import "./index.scss";
 const { Column } = Table;
 
@@ -115,7 +115,7 @@ class OperationManage extends React.Component {
       total,
     } = this.props.operationManageModel;
     return (
-      <ContentBox loading={loading} props={this.props} hasRetrun={true}>
+      <ContentBox loading={loading} extend={<RetrunAffix {...this.props} />}>
         <OpreationBar
           buttonList={[{ key: "add", label: "新增", icon: <PlusOutlined /> }]}
           total={total}

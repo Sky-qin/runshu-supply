@@ -11,9 +11,8 @@ import {
   Row,
   Col,
 } from "antd";
+import { OpreationBar, ContentBox } from "wrapd";
 import FeedbackDialog from "../../../components/feedbackDialog";
-import ContentWrap from "../../../components/contentWrap";
-import { OpreationBar } from "wrapd";
 
 import "./index.scss";
 
@@ -242,7 +241,7 @@ class FeedbackInfoManage extends React.Component {
     const { current, size, total } = pagination;
     return (
       <div>
-        <ContentWrap>
+        <ContentBox>
           <Form
             {...layout}
             ref={this.searchRef}
@@ -337,12 +336,12 @@ class FeedbackInfoManage extends React.Component {
               </Col>
             </Row>
           </Form>
-        </ContentWrap>
-        <ContentWrap loading={loading}>
+        </ContentBox>
+        <ContentBox loading={loading}>
           <OpreationBar total={total} />
           <Table
             bordered
-            rowKey={(record, index) => index}
+            rowKey="consumeNumber"
             dataSource={data}
             scroll={{ x: 1500 }}
             pagination={{
@@ -399,7 +398,7 @@ class FeedbackInfoManage extends React.Component {
               }}
             />
           )}
-        </ContentWrap>
+        </ContentBox>
       </div>
     );
   }

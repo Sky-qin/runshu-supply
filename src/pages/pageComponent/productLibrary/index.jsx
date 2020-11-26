@@ -3,8 +3,7 @@ import { connect } from "dva";
 import { Table, Input, Button, Select, TreeSelect } from "antd";
 import { ExportOutlined, SearchOutlined } from "@ant-design/icons";
 import { Prefix } from "../../../utils/config";
-import ContentWrap from "../../../components/contentWrap";
-import { OpreationBar } from "wrapd";
+import { OpreationBar, ContentBox } from "wrapd";
 import "./index.scss";
 
 const { Column } = Table;
@@ -89,7 +88,7 @@ class ProductLibrary extends React.Component {
     } = this.props.productLibraryModel;
     const { current, size, total } = pagination;
     return (
-      <ContentWrap loading={loading}>
+      <ContentBox loading={loading}>
         <OpreationBar
           custom={
             <>
@@ -192,7 +191,7 @@ class ProductLibrary extends React.Component {
           />
           <Column title="JDE进货单价" dataIndex="jdePrice" width={175} /> */}
         </Table>
-      </ContentWrap>
+      </ContentBox>
     );
   }
 }
