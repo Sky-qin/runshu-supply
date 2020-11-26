@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { Drawer, Table, Input, Button, Spin, Tree, Tooltip, Radio } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
-import OpreationBar from "../../../../components/OpreationBar";
+import { OpreationBar } from "wrapd";
 
 const { Column } = Table;
 

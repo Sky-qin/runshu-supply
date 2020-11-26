@@ -4,7 +4,7 @@ import { Button, Space, Table, Modal } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import EditDialog from "./editDialog";
 import ContentWrap from "../../../components/contentWrap";
-import OpreationBar from "../../../components/OpreationBar";
+import { OpreationBar } from "wrapd";
 import "./index.scss";
 
 const { Column } = Table;

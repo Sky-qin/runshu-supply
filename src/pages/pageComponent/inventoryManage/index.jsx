@@ -8,7 +8,8 @@ import {
 } from "@ant-design/icons";
 import EditDialog from "./editDialog";
 import ContentWrap from "../../../components/contentWrap";
-import OpreationBar from "../../../components/OpreationBar";
+import { OpreationBar } from "wrapd";
+import { Prefix } from "../../../utils/config";
 
 const { Column } = Table;
 class InventoryManage extends React.Component {
@@ -204,7 +205,7 @@ class InventoryManage extends React.Component {
               label: "导出",
               icon: <ExportOutlined />,
               params: { keyword },
-              url: "/supply/stock/export",
+              url: `${Prefix}/supply/stock/export`,
             },
           ]}
           total={total}

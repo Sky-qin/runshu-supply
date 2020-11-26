@@ -6,8 +6,9 @@ import {
   ExportOutlined,
   PlusOutlined,
 } from "@ant-design/icons";
+import { Prefix } from "../../../utils/config";
 import ContentWrap from "../../../components/contentWrap";
-import OpreationBar from "../../../components/OpreationBar";
+import { OpreationBar } from "wrapd";
 import EditDialog from "./editDialog";
 
 const { Column } = Table;
@@ -145,7 +146,7 @@ class ManufacturerManage extends React.Component {
               label: "导出",
               icon: <ExportOutlined />,
               params: { keyword },
-              url: "/supply/vendor/export",
+              url: `${Prefix}/supply/vendor/export`,
             },
           ]}
           onClick={this.handleClick}

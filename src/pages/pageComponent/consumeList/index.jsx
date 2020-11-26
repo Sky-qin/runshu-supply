@@ -15,7 +15,8 @@ import {
 import DialogCarousel from "../../../components/dialogCarousel";
 import FeedbackDialog from "../../../components/feedbackDialog";
 import ContentWrap from "../../../components/contentWrap";
-import OpreationBar from "../../../components/OpreationBar";
+import { OpreationBar } from "wrapd";
+
 import EditDialog from "./editDialog";
 
 import "./index.scss";

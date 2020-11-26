@@ -3,7 +3,7 @@ import { connect } from "dva";
 import { Table, Input, Select, Button } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 import ContentWrap from "../../../components/contentWrap";
-import OpreationBar from "../../../components/OpreationBar";
+import { OpreationBar } from "wrapd";
 
 const { Column } = Table;
 

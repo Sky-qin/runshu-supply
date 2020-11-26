@@ -4,7 +4,7 @@ import { Space, Table, InputNumber, Input, Button, TreeSelect } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 import EditDialog from "./editDialog";
 import ContentWrap from "../../../components/contentWrap";
-import OpreationBar from "../../../components/OpreationBar";
+import { OpreationBar } from "wrapd";
 import TotalBoard from "../../../components/TotalBoard";
 import "./index.scss";
 

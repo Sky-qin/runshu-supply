@@ -4,7 +4,7 @@ import { Space, Table, Input, Form, Row, Col, Select, Button } from "antd";
 import DetailDialog from "./detailDialog";
 import SubmitSendGoods from "../../../components/stockSendGoods";
 import ContentWrap from "../../../components/contentWrap";
-import OpreationBar from "../../../components/OpreationBar";
+import { OpreationBar } from "wrapd";
 import "./index.scss";
 
 const { Column } = Table;

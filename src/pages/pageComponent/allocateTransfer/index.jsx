@@ -5,7 +5,8 @@ import { PlusOutlined } from "@ant-design/icons";
 import DetailDialog from "./detailDialog";
 import SendGoods from "../../../components/sendGoods";
 import ContentWrap from "../../../components/contentWrap";
-import OpreationBar from "../../../components/OpreationBar";
+import { OpreationBar } from "wrapd";
+
 import "./index.scss";
 
 const { Column } = Table;

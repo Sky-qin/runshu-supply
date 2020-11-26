@@ -15,7 +15,8 @@ import styled from "styled-components";
 import DetailDialog from "./detailDialog";
 import SubmitSendGoods from "../../../components/submitSendGoods";
 import ContentWrap from "../../../components/contentWrap";
-import OpreationBar from "../../../components/OpreationBar";
+import { OpreationBar } from "wrapd";
+
 import "./index.scss";
 
 const { Column } = Table;

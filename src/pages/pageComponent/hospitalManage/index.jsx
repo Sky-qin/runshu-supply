@@ -8,7 +8,9 @@ import {
 } from "@ant-design/icons";
 import EditDialog from "./editDialog";
 import ContentBox from "../../../components/contentWrap";
-import OpreationBar from "../../../components/OpreationBar";
+import { OpreationBar } from "wrapd";
+import { Prefix } from "../../../utils/config";
+
 import "./index.scss";
 const { Column } = Table;
 
@@ -217,7 +219,7 @@ class HospitalManage extends React.Component {
               label: "导出",
               icon: <ExportOutlined />,
               params: { condition },
-              url: "/hospital/export",
+              url: `${Prefix}/hospital/export`,
             },
           ]}
           total={total}

@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "dva";
 import { Table, Button, Select, Input } from "antd";
 import ContentWrap from "../../../components/contentWrap";
-import OpreationBar from "../../../components/OpreationBar";
+import { OpreationBar } from "wrapd";
 import "./index.scss";
 
 class SunshinePurchaseInfo extends React.Component {

@@ -2,8 +2,9 @@ import React from "react";
 import { connect } from "dva";
 import { Table, Input, Button, Select, TreeSelect } from "antd";
 import { ExportOutlined, SearchOutlined } from "@ant-design/icons";
+import { Prefix } from "../../../utils/config";
 import ContentWrap from "../../../components/contentWrap";
-import OpreationBar from "../../../components/OpreationBar";
+import { OpreationBar } from "wrapd";
 import "./index.scss";
 
 const { Column } = Table;
@@ -138,7 +139,7 @@ class ProductLibrary extends React.Component {
               key: "export",
               label: "导出",
               icon: <ExportOutlined />,
-              url: "/supply/product/exportIndustry",
+              url: `${Prefix}/supply/product/exportIndustry`,
               params: { keyword },
             },
           ]}

@@ -3,7 +3,7 @@ import { connect } from "dva";
 import { Table, Select } from "antd";
 import styled from "styled-components";
 import ContentWrap from "../../../components/contentWrap";
-import OpreationBar from "../../../components/OpreationBar";
+import { OpreationBar } from "wrapd";
 
 const { Column } = Table;
 const WrapSpan = styled.span`

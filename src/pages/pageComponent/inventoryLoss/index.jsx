@@ -5,7 +5,7 @@ import { PlusOutlined } from "@ant-design/icons";
 import DetailDialog from "./detailDialog";
 import AddProfitAndLoss from "../../../components/addProfitAndLoss";
 import ContentWrap from "../../../components/contentWrap";
-import OpreationBar from "../../../components/OpreationBar";
+import { OpreationBar } from "wrapd";
 
 const { Column } = Table;
 

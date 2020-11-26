@@ -8,7 +8,8 @@ import {
 } from "@ant-design/icons";
 import EditDialog from "./editDialog";
 import ContentWrap from "../../../components/contentWrap";
-import OpreationBar from "../../../components/OpreationBar";
+import { OpreationBar } from "wrapd";
+import { Prefix } from "../../../utils/config";
 
 const { Column } = Table;
 class CustomerManage extends React.Component {
@@ -242,7 +243,7 @@ class CustomerManage extends React.Component {
               label: "导出",
               icon: <ExportOutlined />,
               params: { name },
-              url: "/supply/customer/export",
+              url: `${Prefix}/supply/customer/export`,
             },
           ]}
           total={total}

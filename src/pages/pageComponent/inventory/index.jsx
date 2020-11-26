@@ -13,7 +13,8 @@ import { SearchOutlined } from "@ant-design/icons";
 import EditDialog from "./editDialog";
 import ContentWrap from "../../../components/contentWrap";
 import TotalBoard from "../../../components/TotalBoard";
-import OpreationBar from "../../../components/OpreationBar";
+import { OpreationBar } from "wrapd";
+
 import "./index.scss";
 
 const { Column } = Table;

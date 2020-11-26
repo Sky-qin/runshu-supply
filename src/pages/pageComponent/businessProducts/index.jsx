@@ -3,7 +3,8 @@ import { connect } from "dva";
 import { Table, Input, Select, Button } from "antd";
 import { ExportOutlined, SearchOutlined } from "@ant-design/icons";
 import ContentWrap from "../../../components/contentWrap";
-import OpreationBar from "../../../components/OpreationBar";
+import { OpreationBar } from "wrapd";
+import { Prefix } from "../../../utils/config";
 
 const { Column } = Table;
 
@@ -108,7 +109,7 @@ class BusinessProducts extends React.Component {
               label: "导出",
               icon: <ExportOutlined />,
               params: { keyword, isOnsale },
-              url: "/supply/product/onsale/export",
+              url: `${Prefix}/supply/product/onsale/export`,
             },
           ]}
           total={total}

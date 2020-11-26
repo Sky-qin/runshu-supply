@@ -4,7 +4,8 @@ import { Table, Input, Button } from "antd";
 import { SearchOutlined, ExportOutlined } from "@ant-design/icons";
 
 import ContentWrap from "../../../components/contentWrap";
-import OpreationBar from "../../../components/OpreationBar";
+import { OpreationBar } from "wrapd";
+import { Prefix } from "../../../utils/config";
 
 const { Column } = Table;
 class SupplierManage extends React.Component {
@@ -96,7 +97,7 @@ class SupplierManage extends React.Component {
               label: "导出",
               icon: <ExportOutlined />,
               params: { keyword },
-              url: "/supply/supplier/export",
+              url: `${Prefix}/supply/supplier/export`,
             },
           ]}
           total={total}

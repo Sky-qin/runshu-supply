@@ -1,12 +1,10 @@
 import React from "react";
 import { connect } from "dva";
 import { Space, Table, Tabs } from "antd";
-// import { PlusOutlined } from "@ant-design/icons";
 import AddTypeDialog from "./addTypeDialog";
 import AddPersonDialog from "./addPersonDialog";
 import DeletePersonDialog from "./deletePersonDialog";
 import ContentWrap from "../../../components/contentWrap";
-// import OpreationBar from "../../../components/OpreationBar";
 import "./index.scss";
 
 const { Column } = Table;

@@ -3,7 +3,8 @@ import { connect } from "dva";
 import { Table, Select, Input, Form, Button, Row, Col } from "antd";
 import { ExportOutlined } from "@ant-design/icons";
 import ContentWrap from "../../../components/contentWrap";
-import OpreationBar from "../../../components/OpreationBar";
+import { OpreationBar } from "wrapd";
+import { Prefix } from "../../../utils/config";
 // import "./index.scss";
 
 const { Column } = Table;
@@ -189,7 +190,7 @@ class HospitalSaleGoods extends React.Component {
                 label: "导出",
                 icon: <ExportOutlined />,
                 params: searchParams,
-                url: "/product/hospitalOnsale/export",
+                url: `${Prefix}/product/hospitalOnsale/export`,
               },
             ]}
             total={total}

@@ -8,7 +8,7 @@ import LockInventoryDialog from "./lockInventory";
 import UnLockInventoryDialog from "./unLockInventory";
 import AddCheckNum from "../../../components/addCheckNum";
 import ContentWrap from "../../../components/contentWrap";
-import OpreationBar from "../../../components/OpreationBar";
+import { OpreationBar } from "wrapd";
 import "./index.scss";
 
 const { Column } = Table;

@@ -5,7 +5,8 @@ import { ExportOutlined } from "@ant-design/icons";
 import styled from "styled-components";
 
 import ContentWrap from "../../../components/contentWrap";
-import OpreationBar from "../../../components/OpreationBar";
+import { OpreationBar } from "wrapd";
+import { Prefix } from "../../../utils/config";
 
 const { Column } = Table;
 const { TabPane } = Tabs;
@@ -169,7 +170,7 @@ class RecentWarnInfo extends React.Component {
               label: "导出",
               icon: <ExportOutlined />,
               params: { stockId },
-              url: "/userMessage/exportPeriod",
+              url: `${Prefix}/userMessage/exportPeriod`,
             },
           ]}
           total={total}

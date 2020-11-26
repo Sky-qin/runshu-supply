@@ -12,13 +12,13 @@ import {
   DatePicker,
 } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
+import { OpreationBar } from "wrapd";
 import AddDialog from "./addDialog";
 import DetailDialog from "./detailDialog";
 import DeliveryDialog from "./deliveryDialog";
 import ReplenishmentDetail from "./replenishmentDetail";
 import EditDeliveryDialog from "./editDeliveryDialog";
 import SubmitSendGoods from "../../../components/submitSendGoods";
-import OpreationBar from "../../../components/OpreationBar";
 import ContentWrap from "../../../components/contentWrap";
 import "./index.scss";
 
