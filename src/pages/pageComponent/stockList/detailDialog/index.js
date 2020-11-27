@@ -153,7 +153,7 @@ class EditDialog extends React.Component {
     const { currentMsg, basicInfo } = data;
     return (
       <Modal
-        title="补货单详情"
+        title="备货单详情"
         visible
         style={{
           minWidth: "1000px",
@@ -173,7 +173,7 @@ class EditDialog extends React.Component {
           <div>调入仓库：{currentMsg.inStock}</div>
           <div>调拨类型：{currentMsg.typeName}</div>
           <div>客户：{currentMsg.hospitalName}</div>
-          <div>发货数量：{basicInfo.operaNumber}</div>
+          <div>手术台数：{basicInfo.operaNumber}</div>
           <div>备注：{basicInfo.remarks}</div>
         </BasicDiv>
         <Tabs defaultActiveKey="replenishList">
