@@ -19,11 +19,16 @@ class ManufacturerManage extends React.Component {
   }
 
   componentDidMount() {
+    const { dispatch } = this.props;
+    dispatch({
+      type: "manufacturerManageModel/dicCity",
+    });
     this.getTableList();
   }
 
   getTableList = () => {
     const { dispatch } = this.props;
+
     dispatch({
       type: "manufacturerManageModel/getTableList",
     });
@@ -65,12 +70,23 @@ class ManufacturerManage extends React.Component {
 
   handleEdit = (msg) => {
     const { dispatch } = this.props;
+    const { contactList } = msg;
+
+    let contacts = [];
+    let unkey = 1;
+    (contactList || []).map((item, index) => {
+      contacts.push({ ...item, unkey });
+      unkey = unkey + 1;
+      return null;
+    });
     dispatch({
       type: "manufacturerManageModel/save",
       payload: {
         showEditDialog: true,
         currentMsg: { ...msg },
+        contactList: contacts,
         dialogTitle: "编辑",
+        unkey,
       },
     });
   };
@@ -89,12 +105,67 @@ class ManufacturerManage extends React.Component {
     }
   };
 
-  handleSave = (values) => {
+  // handleSave = (values) => {
+  //   const { dispatch } = this.props;
+  //   const { currentMsg } = this.props.manufacturerManageModel;
+  //   dispatch({
+  //     type: "manufacturerManageModel/supplyVendorSave",
+  //     payload: { ...values, id: currentMsg.id },
+  //   });
+  // };
+
+  // 手动添加联系人
+  handleAdd = () => {
+    const { dispatch, manufacturerManageModel } = this.props;
+    const { contactList, unkey } = manufacturerManageModel;
+    let list = [...contactList];
+    list.push({
+      unkey: unkey + 1,
+      contact: "",
+      phone: "",
+      position: "",
+      cityId: "",
+    });
+    dispatch({
+      type: "manufacturerManageModel/save",
+      payload: {
+        unkey: unkey + 1,
+        contactList: list,
+      },
+    });
+  };
+  // 手动删除
+  handleDelete = (list) => {
     const { dispatch } = this.props;
-    const { currentMsg } = this.props.manufacturerManageModel;
+    dispatch({
+      type: "manufacturerManageModel/save",
+      payload: {
+        contactList: list,
+      },
+    });
+  };
+
+  // 修改联系人
+  changeContactInfo = (list) => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: "manufacturerManageModel/save",
+      payload: {
+        contactList: list,
+      },
+    });
+  };
+
+  saveContact = (values) => {
+    const { dispatch, manufacturerManageModel } = this.props;
+    const { currentMsg, contactList } = manufacturerManageModel;
     dispatch({
       type: "manufacturerManageModel/supplyVendorSave",
-      payload: { ...values, id: currentMsg.id },
+      payload: {
+        id: currentMsg.id,
+        contactList,
+        vendorName: values.vendorName,
+      },
     });
   };
 
@@ -109,6 +180,8 @@ class ManufacturerManage extends React.Component {
       currentMsg,
       dialogBtnLoading,
       dialogTitle,
+      contactList,
+      adressList,
     } = this.props.manufacturerManageModel;
     const { current, size, total } = pagination;
     return (
@@ -170,10 +243,15 @@ class ManufacturerManage extends React.Component {
             width={80}
             render={(value, record, index) => index + 1}
           />
-          {/* <Column title="生产厂家编码" dataIndex="vendorCode" /> */}
           <Column title="生产厂家名称" dataIndex="vendorName" />
-          <Column title="联系人" dataIndex="contact" />
-          <Column title="联系方式" dataIndex="phone" />
+          <Column
+            title="联系人"
+            dataIndex="contactList"
+            render={(value) => {
+              const names = (value || []).map((item) => item.contact);
+              return names.join("、");
+            }}
+          />
           <Column
             title="操作"
             dataIndex="isEnable"
@@ -192,7 +270,7 @@ class ManufacturerManage extends React.Component {
         {showEditDialog && (
           <EditDialog
             title={dialogTitle}
-            data={currentMsg}
+            data={{ currentMsg, contactList, adressList }}
             loading={dialogBtnLoading}
             onClosed={() => {
               dispatch({
@@ -203,7 +281,11 @@ class ManufacturerManage extends React.Component {
                 },
               });
             }}
-            onOk={this.handleSave}
+            // onOk={this.handleSave}
+            addInfo={this.handleAdd}
+            onDelete={this.handleDelete}
+            onChange={this.changeContactInfo}
+            onSubmit={this.saveContact}
           />
         )}
       </ContentBox>

@@ -1,18 +1,10 @@
 import React from "react";
 import styled from "styled-components";
-import {
-  Drawer,
-  Button,
-  Form,
-  Col,
-  Row,
-  Input,
-  Spin,
-  Card,
-  Cascader,
-} from "antd";
+import { Drawer, Button, Form, Col, Row, Input, Spin, Card } from "antd";
 
 import { PlusOutlined, DeleteOutlined } from "@ant-design/icons";
+
+const { TextArea } = Input;
 
 const FooterBar = styled.div`
   text-align: center;
@@ -46,9 +38,8 @@ class ContactManage extends React.Component {
 
   onFormChange = (key, value, index) => {
     const { onChange, data = {} } = this.props;
-    const { contactList } = data;
-    contactList[index][key] = value;
-    onChange && typeof onChange === "function" && onChange(contactList);
+    data[index][key] = value;
+    onChange && typeof onChange === "function" && onChange(data);
   };
 
   handleSubmit = () => {
@@ -56,8 +47,8 @@ class ContactManage extends React.Component {
     let formObj = this.formRef;
     formObj.current
       .validateFields()
-      .then((values) => {
-        onSubmit && typeof onSubmit === "function" && onSubmit(values);
+      .then(() => {
+        onSubmit && typeof onSubmit === "function" && onSubmit();
       })
       .catch((errorInfo) => {
         console.log("errorInfo", errorInfo);
@@ -65,14 +56,13 @@ class ContactManage extends React.Component {
       });
   };
 
-  initValues = (currentMsg, contactList) => {
+  initValues = (data) => {
     let initInfo = {};
-    initInfo["vendorName"] = currentMsg.vendorName;
-    (contactList || []).map((item, index) => {
+    (data || []).map((item, index) => {
       initInfo[`contact${item.unkey}`] = item.contact;
       initInfo[`phone${item.unkey}`] = item.phone;
-      initInfo[`cityList${item.unkey}`] = item.cityList;
       initInfo[`position${item.unkey}`] = item.position;
+      initInfo[`jobContent${item.unkey}`] = item.jobContent;
       return null;
     });
     return initInfo;
@@ -85,16 +75,13 @@ class ContactManage extends React.Component {
 
   handleDelete = (index, unkey) => {
     const { data, onDelete } = this.props;
-    const { contactList } = data;
 
-    contactList.splice(index, 1);
-    onDelete && typeof onDelete === "function" && onDelete(contactList);
+    data.splice(index, 1);
+    onDelete && typeof onDelete === "function" && onDelete(data);
   };
 
   render() {
-    const { loading } = this.props;
-    const { data } = this.props;
-    const { currentMsg, contactList, adressList } = data;
+    const { data = [], loading } = this.props;
     return (
       <Drawer
         title="联系人管理"
@@ -110,16 +97,9 @@ class ContactManage extends React.Component {
             ref={this.formRef}
             onFinish={this.onFinish}
             style={{ marginTop: "24px" }}
-            initialValues={this.initValues(currentMsg, contactList)}
+            initialValues={this.initValues(data)}
           >
-            <Form.Item
-              name="vendorName"
-              label="生产厂家"
-              rules={[{ required: true }]}
-            >
-              <Input placeholder="请输入" allowClear />
-            </Form.Item>
-            {(contactList || []).map((node, index) => {
+            {(data || []).map((node, index) => {
               return (
                 <Card
                   style={{ marginBottom: "10px" }}
@@ -136,12 +116,12 @@ class ContactManage extends React.Component {
                   <Row>
                     <Col span={12}>
                       <Form.Item
-                        label="联系人"
+                        label="姓名"
                         name={`contact${node.unkey}`}
                         rules={[{ required: true }]}
                       >
                         <Input
-                          placeholder="请输入联系人"
+                          placeholder="请输入联系人姓名"
                           onChange={(e) =>
                             this.onFormChange("contact", e.target.value, index)
                           }
@@ -171,17 +151,17 @@ class ContactManage extends React.Component {
                       </Form.Item>
                     </Col>
                     <Col span={12}>
-                      <Form.Item
-                        name={`cityList${node.unkey}`}
-                        label="城市"
-                        // rules={[{ required: true, message: "请选择城市" }]}
-                      >
-                        <Cascader
-                          placeholder="请选择"
-                          options={adressList}
-                          onChange={(value) => {
-                            this.onFormChange("cityList", value, index);
-                          }}
+                      <Form.Item label="职能" name={`jobContent${node.unkey}`}>
+                        <TextArea
+                          rows={3}
+                          placeholder="请输入职能"
+                          onChange={(e) =>
+                            this.onFormChange(
+                              "jobContent",
+                              e.target.value,
+                              index
+                            )
+                          }
                         />
                       </Form.Item>
                     </Col>

@@ -2,9 +2,9 @@ const corpId = "dingcda3f8b5a069ac58bc961a6cb783455b";
 
 // const localdev = "//192.168.1.175:8081";
 // const localdev = "//192.168.1.127:8081";
-// const localdev = "//10.0.0.177:8081";
+const localdev = "//10.0.0.177:8081";
 // const localdev = "//192.168.1.178:8081";
-const localdev = "https://order.runshutech.com";
+// const localdev = "https://order.runshutech.com";
 
 const dev = "https://order.runshutech.com";
 const prod = "https://supply.runshutech.com";

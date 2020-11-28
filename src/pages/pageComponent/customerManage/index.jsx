@@ -10,6 +10,7 @@ import EditDialog from "./editDialog";
 import { OpreationBar, ContentBox } from "wrapd";
 import RetrunAffix from "../../../components/RetrunAffix";
 import { Prefix } from "../../../utils/config";
+import ContactManage from "./contactManage";
 
 const { Column } = Table;
 class CustomerManage extends React.Component {
@@ -47,22 +48,41 @@ class CustomerManage extends React.Component {
     }
   };
 
-  handleEdit = (msg) => {
+  handleEdit = (msg, key) => {
     const { dispatch } = this.props;
     dispatch({
       type: "customerManageModel/save",
       payload: {
         currentMsg: { ...msg },
-        showEditDialog: true,
+        [key]: true,
         dialogTitle: "编辑客户",
       },
     });
-    if (msg.type === "3") {
-      if (!msg.hospitalId) return;
+    if (key === "showEditDialog") {
+      if (msg.type === "3") {
+        if (!msg.hospitalId) return;
+        dispatch({
+          type: "customerManageModel/getDePartmentByHsp",
+          payload: {
+            id: msg.hospitalId,
+          },
+        });
+      }
+    }
+    if (key === "showContactDialog") {
+      const { contactList } = msg;
+      let contacts = [];
+      let unkey = 1;
+      (contactList || []).map((item, index) => {
+        unkey = unkey + 1;
+        return contacts.push({ ...item, unkey });
+      });
       dispatch({
-        type: "customerManageModel/getDePartmentByHsp",
+        type: "customerManageModel/save",
         payload: {
-          id: msg.hospitalId,
+          customerId: msg.id,
+          contacts,
+          unkey,
         },
       });
     }
@@ -171,6 +191,57 @@ class CustomerManage extends React.Component {
     });
   };
 
+  // 手动添加联系人
+  handleAdd = () => {
+    const { dispatch, customerManageModel } = this.props;
+    const { contacts, unkey } = customerManageModel;
+    let list = [...contacts];
+    list.push({
+      unkey: unkey + 1,
+      contact: "",
+      phone: "",
+      position: "",
+      jobContent: "",
+    });
+    dispatch({
+      type: "customerManageModel/save",
+      payload: {
+        unkey: unkey + 1,
+        contacts: list,
+      },
+    });
+  };
+  // 手动删除
+  handleDelete = (list) => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: "customerManageModel/save",
+      payload: {
+        contacts: list,
+      },
+    });
+  };
+
+  // 修改联系人
+  changeContactInfo = (list) => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: "customerManageModel/save",
+      payload: {
+        contacts: list,
+      },
+    });
+  };
+
+  saveContact = (values) => {
+    const { dispatch, customerManageModel } = this.props;
+    const { contacts, customerId } = customerManageModel;
+    dispatch({
+      type: "customerManageModel/customerContactSave",
+      payload: { customerId, contactList: contacts },
+    });
+  };
+
   render() {
     const { dispatch } = this.props;
     const {
@@ -188,6 +259,8 @@ class CustomerManage extends React.Component {
       switchDialog,
       isEnable,
       type,
+      showContactDialog,
+      contacts,
     } = this.props.customerManageModel;
     const { current, size, total } = pagination;
     return (
@@ -251,7 +324,7 @@ class CustomerManage extends React.Component {
         />
         <Table
           bordered
-          rowKey={(record, index) => index}
+          rowKey="id"
           dataSource={data}
           pagination={{
             position: ["bottomCenter"],
@@ -293,17 +366,34 @@ class CustomerManage extends React.Component {
               return (sales || []).join("、");
             }}
           />
+          <Column
+            title="联系人"
+            dataIndex="contactList"
+            width={120}
+            render={(value) => {
+              const names = (value || []).map((item) => item.contact);
+              return names.join("、");
+            }}
+          />
+
           <Column title="创建日期" width={120} dataIndex="createTime" />
           <Column
             title="操作"
             dataIndex="isEnable"
-            width={120}
+            width={150}
             render={(value, record, index) => {
               return (
                 <Space size="middle">
-                  <a onClick={() => this.handleEdit(record)}>编辑</a>
+                  <a onClick={() => this.handleEdit(record, "showEditDialog")}>
+                    编辑
+                  </a>
                   <a onClick={() => this.handleSwitch(record)}>
                     {value ? "停用" : "启用"}
+                  </a>
+                  <a
+                    onClick={() => this.handleEdit(record, "showContactDialog")}
+                  >
+                    联系人
                   </a>
                 </Space>
               );
@@ -331,6 +421,25 @@ class CustomerManage extends React.Component {
               });
             }}
             onOk={this.handleSave}
+          />
+        )}
+        {showContactDialog && (
+          <ContactManage
+            data={contacts}
+            loading={dialogBtnLoading}
+            addInfo={this.handleAdd}
+            onDelete={this.handleDelete}
+            onChange={this.changeContactInfo}
+            onSubmit={this.saveContact}
+            onClosed={() => {
+              dispatch({
+                type: "customerManageModel/save",
+                payload: {
+                  showContactDialog: false,
+                  dialogBtnLoading: false,
+                },
+              });
+            }}
           />
         )}
 

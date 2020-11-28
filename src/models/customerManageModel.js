@@ -17,6 +17,9 @@ export default {
     hospitalList: [],
     customerTypeList: [],
     switchDialog: false,
+    showContactDialog: false,
+    contacts: [],
+    unkey: 1,
   },
 
   effects: {
@@ -114,6 +117,19 @@ export default {
         });
       } else {
         message.error(data.message || "修改失败！");
+      }
+    },
+    *customerContactSave({ payload }, { call, put }) {
+      const { data } = yield call(API.customerContactSave, payload);
+      if (data && data.success) {
+        message.success("保存成功！");
+        yield put({ type: "getTableList" });
+        yield put({
+          type: "save",
+          payload: { showContactDialog: false },
+        });
+      } else {
+        message.error(data.message || "保存失败！");
       }
     },
   },

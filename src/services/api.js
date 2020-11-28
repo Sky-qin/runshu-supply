@@ -1028,6 +1028,14 @@ const API = {
       params,
     });
   },
+  // 联系人 保存
+  customerContactSave(params) {
+    return request({
+      url: `${Prefix}/supply/customer/contact/save`,
+      method: "post",
+      params,
+    });
+  },
   /**
    * 供货价格管理
    */
@@ -1365,13 +1373,21 @@ const API = {
     });
   },
 
-  // 城市枚举
+  // 城市枚举 三级
   getAddress(params) {
     return request({
       url: `${Prefix}/hospital/queryCity`,
       params,
     });
   },
+  // 城市枚举 二级
+  dicCity(params) {
+    return request({
+      url: `${Prefix}/dic/city`,
+      params,
+    });
+  },
+
   // 库位枚举
   storageList(params) {
     return request({

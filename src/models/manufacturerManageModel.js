@@ -11,9 +11,11 @@ export default {
       size: 10,
       total: 0,
     },
+    adressList: [],
     keyword: "",
     dialogBtnLoading: false,
     showEditDialog: false,
+    unkey: 1,
   },
 
   effects: {
@@ -63,6 +65,21 @@ export default {
         yield put({ type: "getTableList" });
       } else {
         message.error(data.message || "查询库位失败");
+      }
+    },
+    *dicCity({ payload }, { call, put }) {
+      const { data } = yield call(API.dicCity, payload);
+
+      if (data && data.success) {
+        yield put({
+          type: "save",
+          payload: {
+            adressList: data.data || [],
+          },
+        });
+        yield put({ type: "getTableList" });
+      } else {
+        message.error(data.message || "查询城市枚举失败");
       }
     },
   },

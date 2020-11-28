@@ -446,7 +446,12 @@ class Replenishment extends React.Component {
           {showDetailDialog && (
             <DetailDialog
               title="补货单详情"
-              data={{ replenishOrderList, currentMsg, deliverInfoList }}
+              data={{
+                replenishOrderList,
+                currentMsg,
+                deliverInfoList,
+                addInfo,
+              }}
               // onGetTableList={this.getDetailList}
               onClosed={() => {
                 dispatch({
