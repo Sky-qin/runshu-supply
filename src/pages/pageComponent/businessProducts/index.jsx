@@ -91,10 +91,10 @@ class BusinessProducts extends React.Component {
                 />
               </div>
               <Select
-                placeholder="请选择在售情况"
+                placeholder="请选择库存情况"
                 options={[
-                  { value: 1, label: "是" },
-                  { value: 0, label: "否" },
+                  { value: 1, label: "有库存" },
+                  { value: 0, label: "无库存" },
                 ]}
                 allowClear
                 style={{ width: 260, marginRight: 15 }}
@@ -133,11 +133,15 @@ class BusinessProducts extends React.Component {
             width={80}
           />
           <Column
-            title="是否在售"
+            title="库存情况"
             dataIndex="onsale"
             width={125}
             render={(value, record, index) => {
-              return value ? "是" : "否";
+              return value ? (
+                <span style={{ color: "#87d068" }}>有库存</span>
+              ) : (
+                <span style={{ color: "#f73537" }}>无库存</span>
+              );
             }}
           />
           <Column title="产品名称" dataIndex="productName" width={180} />

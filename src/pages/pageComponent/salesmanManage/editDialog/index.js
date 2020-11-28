@@ -72,7 +72,8 @@ class EditDialog extends React.Component {
           name="userForm"
           initialValues={{
             userId: data.userId,
-            customerIds: data.customerIds,
+            isManagers: data.isManagers,
+            isLocals: data.isLocals,
           }}
         >
           {title === "编辑" && (
@@ -90,11 +91,28 @@ class EditDialog extends React.Component {
               label="业务员名称"
               rules={[{ required: true }]}
             >
-              <Select options={userList} placeholder="请选择" />
+              <Select
+                dropdownMatchSelectWidth={false}
+                showSearch
+                optionFilterProp="label"
+                options={userList}
+                placeholder="请选择"
+              />
             </Form.Item>
           )}
 
-          <Form.Item name="customerIds" label="关联客户">
+          <Form.Item name="isManagers" label="销售经理客户">
+            <Select
+              options={customerList}
+              placeholder="请选择"
+              dropdownMatchSelectWidth={false}
+              showSearch
+              optionFilterProp="label"
+              mode="multiple"
+              allowClear
+            />
+          </Form.Item>
+          <Form.Item name="isLocals" label="属地代表客户">
             <Select
               options={customerList}
               placeholder="请选择"

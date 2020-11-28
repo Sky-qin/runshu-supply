@@ -277,8 +277,20 @@ class CustomerManage extends React.Component {
             dataIndex="salesList"
             width={150}
             render={(value) => {
-              const sales = (value || []).map((item) => item.userName);
-              return (sales || []).toString();
+              let sales = [];
+              (value || []).map((item) => {
+                if (item.isLocal && item.isManager) {
+                  return sales.push(`${item.userName}（销售代表、属地经理）`);
+                }
+                if (item.isManager) {
+                  return sales.push(`${item.userName}（销售代表）`);
+                }
+                if (item.isLocal) {
+                  return sales.push(`${item.userName}（属地经理）`);
+                }
+                return null;
+              });
+              return (sales || []).join("、");
             }}
           />
           <Column title="创建日期" width={120} dataIndex="createTime" />

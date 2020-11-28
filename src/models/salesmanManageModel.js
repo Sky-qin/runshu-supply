@@ -106,10 +106,21 @@ export default {
     *customerSalerDetail({ payload }, { put, call }) {
       const { data } = yield call(API.customerSalerDetail, payload);
       if (data && data.success) {
+        let isManagers = [];
+        let isLocals = [];
+        ((data.data && data.data.customerList) || []).map((item) => {
+          if (item.isLocal) {
+            isLocals.push(item.customerId);
+          }
+          if (item.isManager) {
+            isManagers.push(item.customerId);
+          }
+          return null;
+        });
         yield put({
           type: "save",
           payload: {
-            currentMsg: data.data || {},
+            currentMsg: { ...(data.data || {}), isLocals, isManagers },
             showEditDialog: true,
             dialogTitle: "编辑",
           },

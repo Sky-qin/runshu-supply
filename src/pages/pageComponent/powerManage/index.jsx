@@ -31,11 +31,11 @@ class PowerManage extends React.Component {
   };
 
   changePagination = (current, size) => {
-    const { dispatch } = this.props;
-    const { pagination } = this.props.powerManage;
+    const { dispatch, powerManage } = this.props;
+    const { pagination } = powerManage;
     dispatch({
       type: "powerManage/save",
-      paylaod: {
+      payload: {
         pagination: {
           ...pagination,
           current,
@@ -43,6 +43,7 @@ class PowerManage extends React.Component {
         },
       },
     });
+    this.getTableList();
   };
 
   handleClick = (key) => {

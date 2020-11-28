@@ -93,10 +93,9 @@ class OneProductCode extends React.Component {
                 placeholder="请选择是否消耗"
                 value={isConsumed}
                 options={[
-                  { value: true, label: "是" },
-                  { value: false, label: "否" },
+                  { value: true, label: "已消耗" },
+                  { value: false, label: "未消耗" },
                 ]}
-                allowClear
                 style={{ width: 260, marginRight: 15 }}
                 onChange={(value) => this.filterChange(value, "isConsumed")}
               />
@@ -127,11 +126,16 @@ class OneProductCode extends React.Component {
           <Column title="产品名称" dataIndex="productName" width={150} />
           <Column title="产品编码" dataIndex="productCode" width={120} />
           <Column
-            title="消耗状态"
+            title="消耗情况"
             dataIndex="isConsumed"
             width={120}
             render={(value, record, index) => {
-              return value ? "是" : "否";
+              if (value === true) {
+                return <span style={{ color: "#f73537" }}>已消耗</span>;
+              }
+              if (value === false) {
+                return <span style={{ color: "#87d068" }}>未消耗</span>;
+              }
             }}
           />
           <Column title="消耗日期" dataIndex="consumeDate" width={130} />

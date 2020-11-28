@@ -95,9 +95,27 @@ class SalesmanManage extends React.Component {
 
   handleSave = (values) => {
     const { dispatch } = this.props;
+    const { isManagers = [], isLocals = [], userId } = values;
+    let customerList = [];
+    let customerIds = isManagers.concat(
+      isLocals.filter((item) => {
+        return isManagers.indexOf(item) < 0;
+      })
+    );
+    customerIds.map((item) => {
+      let temp = { customerId: item };
+      if (isManagers.indexOf(item) >= 0) {
+        temp = { ...temp, isManager: true };
+      }
+      if (isLocals.indexOf(item) >= 0) {
+        temp = { ...temp, isLocal: true };
+      }
+      return customerList.push(temp);
+    });
+
     dispatch({
       type: "salesmanManageModel/customerSalerSave",
-      payload: { ...values },
+      payload: { userId, customerList },
     });
   };
 
@@ -195,7 +213,22 @@ class SalesmanManage extends React.Component {
             title="关联客户"
             dataIndex="customerList"
             render={(value) => {
-              const nameList = (value || []).map((item) => item.customerName);
+              const nameList = [];
+              (value || []).map((item) => {
+                if (item.isLocal && item.isManager) {
+                  return nameList.push(
+                    `${item.customerName}（销售代表、属地经理）`
+                  );
+                }
+                if (item.isManager) {
+                  return nameList.push(`${item.customerName}（销售代表）`);
+                }
+                if (item.isLocal) {
+                  return nameList.push(`${item.customerName}（属地经理）`);
+                }
+                return null;
+              });
+
               return nameList.join("、");
             }}
           />
