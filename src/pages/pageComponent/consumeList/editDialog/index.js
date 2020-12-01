@@ -9,7 +9,7 @@ const BasicDiv = styled.div`
   position: relative;
   > div {
     display: inline-block;
-    width: 280px;
+    width: 210px;
     margin-right: 20px;
     line-height: 48px;
     overflow: hidden;
@@ -92,6 +92,7 @@ class EditDialog extends React.Component {
           <div>提交人：{detailMsg.userName || ""}</div>
           <div>提交时间：{detailMsg.operationTime || ""}</div>
           <div>状态：{detailMsg.orderStatusDesc || ""}</div>
+          <div>合计价格：{detailMsg.price || ""}</div>
           {showOperationInfo && this.renderOperationInfo()}
           <a
             onClick={() =>
@@ -119,6 +120,7 @@ class EditDialog extends React.Component {
             <Column title="规格" dataIndex="model" width={140} />
             <Column title="产品批号" dataIndex="batchNo" width={130} />
             <Column title="单位" dataIndex="unitName" width={80} />
+            <Column title="销售价格" dataIndex="productPrice" width={80} />
             <Column
               title="数量"
               dataIndex="number"

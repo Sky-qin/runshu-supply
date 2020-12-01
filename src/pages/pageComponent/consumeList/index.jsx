@@ -13,6 +13,7 @@ import {
   Row,
 } from "antd";
 import { OpreationBar, ContentBox } from "wrapd";
+import { Prefix } from "../../../utils/config";
 import DialogCarousel from "../../../components/dialogCarousel";
 import FeedbackDialog from "../../../components/feedbackDialog";
 
@@ -461,6 +462,11 @@ class ConsumeList extends React.Component {
                       <a onClick={() => this.showFeedback(record)}>查看反馈</a>
                     )}
                     <a onClick={() => this.showDetail(record)}>查看详情</a>
+                    <a
+                      href={`${Prefix}/consumeOrder/export?orderId=${record.id}`}
+                    >
+                      导出
+                    </a>
                   </Space>
                 );
               }}

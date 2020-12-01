@@ -14,6 +14,7 @@ const BasicDiv = styled.div`
     width: 220px;
     margin-right: 20px;
     line-height: 48px;
+    vertical-align: top;
   }
 `;
 
