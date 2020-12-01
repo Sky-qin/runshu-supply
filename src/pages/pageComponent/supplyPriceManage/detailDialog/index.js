@@ -223,6 +223,34 @@ class DetailDialog extends React.Component {
                     );
                   }}
                 />
+
+                <Column
+                  fixed="right"
+                  title="开票价格"
+                  dataIndex="ticketPrice"
+                  width={120}
+                  render={(value, record, index) => {
+                    return canEdit ? (
+                      <Tooltip
+                        trigger={["focus"]}
+                        title={value}
+                        placement="topLeft"
+                        overlayClassName="numeric-input"
+                      >
+                        <Input
+                          onChange={(e) =>
+                            this.onChangePrice(e, "ticketPrice", index)
+                          }
+                          onBlur={(e) => this.onBlur(e, record, "ticketPrice")}
+                          value={value}
+                        />
+                      </Tooltip>
+                    ) : (
+                      value
+                    );
+                  }}
+                />
+
                 <Column
                   fixed="right"
                   title="中标组件码	"

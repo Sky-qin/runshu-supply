@@ -133,7 +133,7 @@ class SupplyPriceManage extends React.Component {
   handleSavePrice = (record, key, callBack) => {
     const { dispatch } = this.props;
     const { refId } = this.props.supplyPriceManageModel;
-    const { detailId, itemId, price, winCompCode } = record;
+    const { detailId, itemId, price, winCompCode, ticketPrice } = record;
     dispatch({
       type: "supplyPriceManageModel/productPriceSave",
       payload: {
@@ -142,6 +142,7 @@ class SupplyPriceManage extends React.Component {
         itemId,
         price,
         winCompCode,
+        ticketPrice,
         callBack,
       },
     });
