@@ -65,6 +65,7 @@ class EditDialog extends React.Component {
       <div key="operationDoctor">
         手术医生：{detailMsg.operationDoctor || ""}
       </div>,
+      <div key="expert">专家：{detailMsg.expert || ""}</div>,
       <div key="operationTime">手术时间：{detailMsg.operationTime || ""}</div>,
       <div key="patientHospitaliNumber">
         患者住院号：{detailMsg.patientHospitaliNumber || ""}
@@ -108,7 +109,7 @@ class EditDialog extends React.Component {
             style={{
               width: "1300px",
               maxWidth: "none",
-              minHeight: "500px",
+              height: "500px",
             }}
             bordered
             dataSource={detailMsg.pcproductList || []}
