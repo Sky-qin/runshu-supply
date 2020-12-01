@@ -29,6 +29,13 @@ const WrapDivModel = styled.div`
   }
 `;
 
+const lockTittle = {
+  hospitalProcurePrice: true,
+  ourCompanyPrice: true,
+  priceDeviation: true,
+  sunPprocurementPrice: true,
+};
+
 export default {
   namespace: "sunshinePurchaseInfoModel",
   state: {
@@ -104,6 +111,7 @@ export default {
               title: item.label,
               dataIndex: item.value,
               key: item.label,
+              width: 220,
               render: (text) => {
                 let formatText = (text || "")
                   .replace(/,/g, ", ")
@@ -132,6 +140,7 @@ export default {
               title: item.label,
               dataIndex: item.value,
               key: item.label,
+              width: 220,
               render: (text) => {
                 let formatText = (text || "")
                   .replace(/,/g, ", ")
@@ -152,6 +161,16 @@ export default {
                   </WrapDivModel>
                 );
               },
+            });
+            return null;
+          }
+          if (lockTittle[item.value]) {
+            tableTitle.push({
+              title: item.label,
+              dataIndex: item.value,
+              key: item.label,
+              fixed: "right",
+              width: 105,
             });
             return null;
           }
