@@ -10,6 +10,7 @@ import { Prefix } from "../../../utils/config";
 import { OpreationBar, ContentBox } from "wrapd";
 import RetrunAffix from "../../../components/RetrunAffix";
 import EditDialog from "./editDialog";
+import WrapView from "../../../components/WrapView";
 
 const { Column } = Table;
 class ManufacturerManage extends React.Component {
@@ -170,7 +171,7 @@ class ManufacturerManage extends React.Component {
   };
 
   render() {
-    const { dispatch } = this.props;
+    const { dispatch, history } = this.props;
     const {
       pagination,
       data,
@@ -185,110 +186,116 @@ class ManufacturerManage extends React.Component {
     } = this.props.manufacturerManageModel;
     const { current, size, total } = pagination;
     return (
-      <ContentBox loading={loading} extend={<RetrunAffix {...this.props} />}>
-        <OpreationBar
-          custom={
-            <>
-              <div
-                style={{ width: 260, display: "inline-block", marginRight: 15 }}
-              >
-                <Input
-                  style={{ width: 225 }}
-                  placeholder="输入生产厂家名称"
-                  value={keyword}
-                  onChange={(e) =>
-                    this.onChangeFilter(e.target.value, "keyword")
-                  }
-                  allowClear
-                />
-                <Button
-                  style={{ position: "relative", left: "-3px", top: "1px" }}
-                  onClick={this.getTableList}
-                  icon={<SearchOutlined />}
-                />
-              </div>
-            </>
-          }
-          total={false}
-        />
-        <OpreationBar
-          buttonList={[{ key: "add", label: "新增", icon: <PlusOutlined /> }]}
-          linkList={[
-            {
-              key: "export",
-              label: "导出",
-              icon: <ExportOutlined />,
-              params: { keyword },
-              url: `${Prefix}/supply/vendor/export`,
-            },
-          ]}
-          onClick={this.handleClick}
-          total={total}
-        />
-        <Table
-          bordered
-          rowKey={(record, index) => index}
-          dataSource={data}
-          pagination={{
-            position: ["bottomCenter"],
-            current: current,
-            total: total || 0,
-            pageSize: size,
-            onChange: this.changePagination,
-            onShowSizeChange: this.changePagination,
-          }}
-        >
-          <Column
-            title="序号"
-            width={80}
-            render={(value, record, index) => index + 1}
+      <WrapView history={history}>
+        <ContentBox loading={loading} extend={<RetrunAffix {...this.props} />}>
+          <OpreationBar
+            custom={
+              <>
+                <div
+                  style={{
+                    width: 260,
+                    display: "inline-block",
+                    marginRight: 15,
+                  }}
+                >
+                  <Input
+                    style={{ width: 225 }}
+                    placeholder="输入生产厂家名称"
+                    value={keyword}
+                    onChange={(e) =>
+                      this.onChangeFilter(e.target.value, "keyword")
+                    }
+                    allowClear
+                  />
+                  <Button
+                    style={{ position: "relative", left: "-3px", top: "1px" }}
+                    onClick={this.getTableList}
+                    icon={<SearchOutlined />}
+                  />
+                </div>
+              </>
+            }
+            total={false}
           />
-          <Column title="生产厂家名称" dataIndex="vendorName" />
-          <Column
-            title="联系人"
-            dataIndex="contactList"
-            render={(value) => {
-              const names = (value || []).map((item) => item.contact);
-              return names.join("、");
+          <OpreationBar
+            buttonList={[{ key: "add", label: "新增", icon: <PlusOutlined /> }]}
+            linkList={[
+              {
+                key: "export",
+                label: "导出",
+                icon: <ExportOutlined />,
+                params: { keyword },
+                url: `${Prefix}/supply/vendor/export`,
+              },
+            ]}
+            onClick={this.handleClick}
+            total={total}
+          />
+          <Table
+            bordered
+            rowKey={(record, index) => index}
+            dataSource={data}
+            pagination={{
+              position: ["bottomCenter"],
+              current: current,
+              total: total || 0,
+              pageSize: size,
+              onChange: this.changePagination,
+              onShowSizeChange: this.changePagination,
             }}
-          />
-          <Column
-            title="操作"
-            dataIndex="isEnable"
-            fixed="right"
-            width={110}
-            render={(value, record, index) => (
-              <Space size="middle">
-                <a onClick={() => this.handleEdit(record)}>编辑</a>
-                {/* <a onClick={() => this.handleSwitch(record)}>
+          >
+            <Column
+              title="序号"
+              width={80}
+              render={(value, record, index) => index + 1}
+            />
+            <Column title="生产厂家名称" dataIndex="vendorName" />
+            <Column
+              title="联系人"
+              dataIndex="contactList"
+              render={(value) => {
+                const names = (value || []).map((item) => item.contact);
+                return names.join("、");
+              }}
+            />
+            <Column
+              title="操作"
+              dataIndex="isEnable"
+              fixed="right"
+              width={110}
+              render={(value, record, index) => (
+                <Space size="middle">
+                  <a onClick={() => this.handleEdit(record)}>编辑</a>
+                  {/* <a onClick={() => this.handleSwitch(record)}>
                   {value ? "停用" : "启用"}
                 </a> */}
-              </Space>
-            )}
-          />
-        </Table>
-        {showEditDialog && (
-          <EditDialog
-            title={dialogTitle}
-            data={{ currentMsg, contactList, adressList }}
-            loading={dialogBtnLoading}
-            onClosed={() => {
-              dispatch({
-                type: "manufacturerManageModel/save",
-                payload: {
-                  showEditDialog: false,
-                  dialogBtnLoading: false,
-                },
-              });
-            }}
-            // onOk={this.handleSave}
-            addInfo={this.handleAdd}
-            onDelete={this.handleDelete}
-            onChange={this.changeContactInfo}
-            onSubmit={this.saveContact}
-          />
-        )}
-      </ContentBox>
+                </Space>
+              )}
+            />
+          </Table>
+          {showEditDialog && (
+            <EditDialog
+              title={dialogTitle}
+              data={{ currentMsg, contactList, adressList }}
+              loading={dialogBtnLoading}
+              onClosed={() => {
+                dispatch({
+                  type: "manufacturerManageModel/save",
+                  payload: {
+                    showEditDialog: false,
+                    dialogBtnLoading: false,
+                  },
+                });
+              }}
+              // onOk={this.handleSave}
+              addInfo={this.handleAdd}
+              onDelete={this.handleDelete}
+              onChange={this.changeContactInfo}
+              onSubmit={this.saveContact}
+            />
+          )}
+        </ContentBox>
+      </WrapView>
     );
   }
 }

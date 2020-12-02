@@ -5,6 +5,7 @@ import { SearchOutlined, ExportOutlined } from "@ant-design/icons";
 import { OpreationBar, ContentBox } from "wrapd";
 import RetrunAffix from "../../../components/RetrunAffix";
 import { Prefix } from "../../../utils/config";
+import WrapView from "../../../components/WrapView";
 
 const { Column } = Table;
 class SupplierManage extends React.Component {
@@ -58,6 +59,7 @@ class SupplierManage extends React.Component {
   };
 
   render() {
+    const { history } = this.props;
     const {
       pagination,
       data,
@@ -66,69 +68,75 @@ class SupplierManage extends React.Component {
     } = this.props.supplierManageModel;
     const { current, size, total } = pagination;
     return (
-      <ContentBox loading={loading} extend={<RetrunAffix {...this.props} />}>
-        <OpreationBar
-          custom={
-            <>
-              <div
-                style={{ width: 260, display: "inline-block", marginRight: 15 }}
-              >
-                <Input
-                  style={{ width: 225 }}
-                  placeholder="输入供应商名称"
-                  value={keyword}
-                  onChange={(e) =>
-                    this.onChangeFilter(e.target.value, "keyword")
-                  }
-                  allowClear
-                />
-                <Button
-                  style={{ position: "relative", left: "-3px", top: "1px" }}
-                  onClick={this.getTableList}
-                  icon={<SearchOutlined />}
-                />
-              </div>
-            </>
-          }
-          linkList={[
-            {
-              key: "export",
-              label: "导出",
-              icon: <ExportOutlined />,
-              params: { keyword },
-              url: `${Prefix}/supply/supplier/export`,
-            },
-          ]}
-          total={total}
-        />
-        <Table
-          bordered
-          rowKey={(record, index) => index}
-          scroll={{ x: 1500 }}
-          dataSource={data}
-          pagination={{
-            position: ["bottomCenter"],
-            current: current,
-            total: total || 0,
-            pageSize: size,
-            onChange: this.changePagination,
-            onShowSizeChange: this.changePagination,
-          }}
-        >
-          <Column
-            title="序号"
-            width={80}
-            render={(value, record, index) => index + 1}
+      <WrapView history={history}>
+        <ContentBox loading={loading} extend={<RetrunAffix {...this.props} />}>
+          <OpreationBar
+            custom={
+              <>
+                <div
+                  style={{
+                    width: 260,
+                    display: "inline-block",
+                    marginRight: 15,
+                  }}
+                >
+                  <Input
+                    style={{ width: 225 }}
+                    placeholder="输入供应商名称"
+                    value={keyword}
+                    onChange={(e) =>
+                      this.onChangeFilter(e.target.value, "keyword")
+                    }
+                    allowClear
+                  />
+                  <Button
+                    style={{ position: "relative", left: "-3px", top: "1px" }}
+                    onClick={this.getTableList}
+                    icon={<SearchOutlined />}
+                  />
+                </div>
+              </>
+            }
+            linkList={[
+              {
+                key: "export",
+                label: "导出",
+                icon: <ExportOutlined />,
+                params: { keyword },
+                url: `${Prefix}/supply/supplier/export`,
+              },
+            ]}
+            total={total}
           />
-          <Column title="供应商编码" dataIndex="code" />
-          <Column title="供应商名称" dataIndex="name" />
-          {/* <Column title="简码" dataIndex="shortCode" /> */}
-          {/* <Column title="助记码" dataIndex="helpCode" /> */}
-          <Column title="联系人" dataIndex="contact" />
-          <Column title="电话" dataIndex="phone" />
-          <Column title="地址" dataIndex="address" />
-        </Table>
-      </ContentBox>
+          <Table
+            bordered
+            rowKey={(record, index) => index}
+            scroll={{ x: 1500 }}
+            dataSource={data}
+            pagination={{
+              position: ["bottomCenter"],
+              current: current,
+              total: total || 0,
+              pageSize: size,
+              onChange: this.changePagination,
+              onShowSizeChange: this.changePagination,
+            }}
+          >
+            <Column
+              title="序号"
+              width={80}
+              render={(value, record, index) => index + 1}
+            />
+            <Column title="供应商编码" dataIndex="code" />
+            <Column title="供应商名称" dataIndex="name" />
+            {/* <Column title="简码" dataIndex="shortCode" /> */}
+            {/* <Column title="助记码" dataIndex="helpCode" /> */}
+            <Column title="联系人" dataIndex="contact" />
+            <Column title="电话" dataIndex="phone" />
+            <Column title="地址" dataIndex="address" />
+          </Table>
+        </ContentBox>
+      </WrapView>
     );
   }
 }

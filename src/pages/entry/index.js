@@ -2,6 +2,7 @@ import React from "react";
 import { connect } from "dva";
 import { Route, Switch } from "dva/router";
 import PropTypes from "prop-types";
+import { menuLevel } from "../../utils/config";
 import Header from "../../components/Header";
 import Menu from "../../components/Menu";
 import Home from "../pageComponent/home";
@@ -54,6 +55,29 @@ class Entry extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
+    this.props.history.listen((route) => {
+      const routeKey = route.pathname.split("/").slice(-1)[0];
+      let routeKeyList =
+        JSON.parse(window.localStorage.getItem("routeKeyList")) || [];
+      const codeIndex = routeKeyList.findIndex(
+        (item) => item.code === menuLevel[routeKey].code
+      );
+      if (menuLevel[routeKey].level === 1) {
+        localStorage.setItem(
+          "routeKeyList",
+          JSON.stringify([menuLevel[routeKey]])
+        );
+        return;
+      }
+      if (codeIndex === -1) {
+        routeKeyList.push(menuLevel[routeKey]);
+        localStorage.setItem("routeKeyList", JSON.stringify(routeKeyList));
+      }
+      if (codeIndex !== -1) {
+        let tmpList = routeKeyList.slice(0, codeIndex + 1);
+        localStorage.setItem("routeKeyList", JSON.stringify(tmpList));
+      }
+    });
   }
 
   componentDidMount() {

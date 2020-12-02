@@ -12,10 +12,11 @@ import {
   TreeSelect,
 } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
+import { OpreationBar, ContentBox } from "wrapd";
 import EditDialog from "./editDialog";
 import { PicPrefix } from "../../../utils/config";
-import { OpreationBar, ContentBox } from "wrapd";
 import RetrunAffix from "../../../components/RetrunAffix";
+import WrapView from "../../../components/WrapView";
 import "./index.scss";
 
 const { Column } = Table;
@@ -283,7 +284,7 @@ class PicManage extends React.Component {
   };
 
   render() {
-    const { dispatch } = this.props;
+    const { dispatch, history } = this.props;
     const {
       showEditDialog,
       dialogTitle,
@@ -301,7 +302,7 @@ class PicManage extends React.Component {
     } = this.props.picManageModel;
     const { current, size, total } = pagination;
     return (
-      <>
+      <WrapView history={history}>
         <ContentBox extend={<RetrunAffix {...this.props} />}>
           <Form
             {...layout}
@@ -405,7 +406,7 @@ class PicManage extends React.Component {
           />
           <Table
             bordered
-            rowKey={(record, index) => index}
+            rowKey="id"
             dataSource={data}
             scroll={{ x: 1300 }}
             pagination={{
@@ -512,7 +513,7 @@ class PicManage extends React.Component {
             />
           )}
         </ContentBox>
-      </>
+      </WrapView>
     );
   }
 }

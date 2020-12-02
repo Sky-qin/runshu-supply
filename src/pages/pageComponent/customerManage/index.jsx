@@ -10,6 +10,7 @@ import EditDialog from "./editDialog";
 import { OpreationBar, ContentBox } from "wrapd";
 import RetrunAffix from "../../../components/RetrunAffix";
 import { Prefix } from "../../../utils/config";
+import WrapView from "../../../components/WrapView";
 import ContactManage from "./contactManage";
 
 const { Column } = Table;
@@ -243,7 +244,7 @@ class CustomerManage extends React.Component {
   };
 
   render() {
-    const { dispatch } = this.props;
+    const { dispatch, history } = this.props;
     const {
       pagination,
       data,
@@ -264,218 +265,230 @@ class CustomerManage extends React.Component {
     } = this.props.customerManageModel;
     const { current, size, total } = pagination;
     return (
-      <ContentBox loading={loading} extend={<RetrunAffix {...this.props} />}>
-        <OpreationBar
-          custom={
-            <>
-              <div
-                style={{ width: 260, display: "inline-block", marginRight: 15 }}
-              >
-                <Input
-                  style={{ width: 225 }}
-                  placeholder="输入客户名称"
-                  value={name}
-                  onChange={(e) => this.onChangeFilter(e.target.value, "name")}
-                  onPressEnter={this.getTableList}
-                  allowClear
+      <WrapView history={history}>
+        <ContentBox loading={loading} extend={<RetrunAffix {...this.props} />}>
+          <OpreationBar
+            custom={
+              <>
+                <div
+                  style={{
+                    width: 260,
+                    display: "inline-block",
+                    marginRight: 15,
+                  }}
+                >
+                  <Input
+                    style={{ width: 225 }}
+                    placeholder="输入客户名称"
+                    value={name}
+                    onChange={(e) =>
+                      this.onChangeFilter(e.target.value, "name")
+                    }
+                    onPressEnter={this.getTableList}
+                    allowClear
+                  />
+                  <Button
+                    style={{ position: "relative", left: "-3px", top: "1px" }}
+                    onClick={this.getTableList}
+                    icon={<SearchOutlined />}
+                  />
+                </div>
+                <Select
+                  placeholder="请选择客户类型"
+                  allowClear={true}
+                  value={type}
+                  onChange={(value) => this.onChangeFilter(value, "type")}
+                  style={{ width: 260, marginRight: 15 }}
+                  options={customerTypeList}
                 />
-                <Button
-                  style={{ position: "relative", left: "-3px", top: "1px" }}
-                  onClick={this.getTableList}
-                  icon={<SearchOutlined />}
+                <Select
+                  placeholder="请选择启用、停用状态"
+                  allowClear={true}
+                  value={isEnable}
+                  onChange={(value) => this.onChangeFilter(value, "isEnable")}
+                  style={{ width: 260, marginRight: 15 }}
+                  options={[
+                    { value: 0, label: "停用" },
+                    { value: 1, label: "启用" },
+                  ]}
                 />
-              </div>
-              <Select
-                placeholder="请选择客户类型"
-                allowClear={true}
-                value={type}
-                onChange={(value) => this.onChangeFilter(value, "type")}
-                style={{ width: 260, marginRight: 15 }}
-                options={customerTypeList}
-              />
-              <Select
-                placeholder="请选择启用、停用状态"
-                allowClear={true}
-                value={isEnable}
-                onChange={(value) => this.onChangeFilter(value, "isEnable")}
-                style={{ width: 260, marginRight: 15 }}
-                options={[
-                  { value: 0, label: "停用" },
-                  { value: 1, label: "启用" },
-                ]}
-              />
-            </>
-          }
-          total={false}
-        />
-        <OpreationBar
-          buttonList={[{ key: "add", label: "新增", icon: <PlusOutlined /> }]}
-          linkList={[
-            {
-              key: "export",
-              label: "导出",
-              icon: <ExportOutlined />,
-              params: { name },
-              url: `${Prefix}/supply/customer/export`,
-            },
-          ]}
-          total={total}
-          onClick={this.handleClick}
-        />
-        <Table
-          bordered
-          rowKey="id"
-          dataSource={data}
-          pagination={{
-            position: ["bottomCenter"],
-            current: current,
-            total: total || 0,
-            pageSize: size,
-            onChange: this.changePagination,
-            onShowSizeChange: this.changePagination,
-          }}
-        >
-          <Column
-            title="序号"
-            width={80}
-            render={(value, record, index) => index + 1}
+              </>
+            }
+            total={false}
           />
-          <Column title="客户名称" dataIndex="name" width={180} />
-          <Column title="客户类型" dataIndex="typeDesc" width={120} />
-          <Column title="关联医院" dataIndex="hospitalName" width={260} />
-          <Column title="关联库位" dataIndex="stockName" width={180} />
-          <Column title="科室" dataIndex="departmentName" width={120} />
-          <Column
-            title="业务员"
-            dataIndex="salesList"
-            width={150}
-            render={(value) => {
-              let sales = [];
-              (value || []).map((item) => {
-                if (item.isLocal && item.isManager) {
-                  return sales.push(`${item.userName}（销售代表、属地经理）`);
-                }
-                if (item.isManager) {
-                  return sales.push(`${item.userName}（销售代表）`);
-                }
-                if (item.isLocal) {
-                  return sales.push(`${item.userName}（属地经理）`);
-                }
-                return null;
-              });
-              return (sales || []).join("、");
+          <OpreationBar
+            buttonList={[{ key: "add", label: "新增", icon: <PlusOutlined /> }]}
+            linkList={[
+              {
+                key: "export",
+                label: "导出",
+                icon: <ExportOutlined />,
+                params: { name },
+                url: `${Prefix}/supply/customer/export`,
+              },
+            ]}
+            total={total}
+            onClick={this.handleClick}
+          />
+          <Table
+            bordered
+            rowKey={(record, index) => index}
+            dataSource={data}
+            pagination={{
+              position: ["bottomCenter"],
+              current: current,
+              total: total || 0,
+              pageSize: size,
+              onChange: this.changePagination,
+              onShowSizeChange: this.changePagination,
             }}
-          />
-          <Column
-            title="联系人"
-            dataIndex="contactList"
-            width={120}
-            render={(value) => {
-              const names = (value || []).map((item) => item.contact);
-              return names.join("、");
-            }}
-          />
+          >
+            <Column
+              title="序号"
+              width={80}
+              render={(value, record, index) => index + 1}
+            />
+            <Column title="客户名称" dataIndex="name" width={180} />
+            <Column title="客户类型" dataIndex="typeDesc" width={120} />
+            <Column title="关联医院" dataIndex="hospitalName" width={260} />
+            <Column title="关联库位" dataIndex="stockName" width={180} />
+            <Column title="科室" dataIndex="departmentName" width={120} />
+            <Column
+              title="业务员"
+              dataIndex="salesList"
+              width={150}
+              render={(value) => {
+                let sales = [];
+                (value || []).map((item) => {
+                  if (item.isLocal && item.isManager) {
+                    return sales.push(`${item.userName}（销售代表、属地经理）`);
+                  }
+                  if (item.isManager) {
+                    return sales.push(`${item.userName}（销售代表）`);
+                  }
+                  if (item.isLocal) {
+                    return sales.push(`${item.userName}（属地经理）`);
+                  }
+                  return null;
+                });
+                return (sales || []).join("、");
+              }}
+            />
+            <Column
+              title="联系人"
+              dataIndex="contactList"
+              width={120}
+              render={(value) => {
+                const names = (value || []).map((item) => item.contact);
+                return names.join("、");
+              }}
+            />
 
-          <Column title="创建日期" width={120} dataIndex="createTime" />
-          <Column
-            title="操作"
-            dataIndex="isEnable"
-            width={150}
-            render={(value, record, index) => {
-              return (
-                <Space size="middle">
-                  <a onClick={() => this.handleEdit(record, "showEditDialog")}>
-                    编辑
-                  </a>
-                  <a onClick={() => this.handleSwitch(record)}>
-                    {value ? "停用" : "启用"}
-                  </a>
-                  <a
-                    onClick={() => this.handleEdit(record, "showContactDialog")}
-                  >
-                    联系人
-                  </a>
-                </Space>
-              );
-            }}
-          />
-        </Table>
-        {showEditDialog && (
-          <EditDialog
-            title={dialogTitle}
-            data={currentMsg}
-            loading={dialogBtnLoading}
-            sourceList={{
-              departmentList,
-              hospitalList,
-              customerTypeList,
-            }}
-            onFormChange={this.onFormChange}
-            onClosed={() => {
-              dispatch({
-                type: "customerManageModel/save",
-                payload: {
-                  showEditDialog: false,
-                  dialogBtnLoading: false,
-                },
-              });
-            }}
-            onOk={this.handleSave}
-          />
-        )}
-        {showContactDialog && (
-          <ContactManage
-            data={contacts}
-            loading={dialogBtnLoading}
-            addInfo={this.handleAdd}
-            onDelete={this.handleDelete}
-            onChange={this.changeContactInfo}
-            onSubmit={this.saveContact}
-            onClosed={() => {
-              dispatch({
-                type: "customerManageModel/save",
-                payload: {
-                  showContactDialog: false,
-                  dialogBtnLoading: false,
-                },
-              });
-            }}
-          />
-        )}
-
-        {/* 启用\停用弹窗 */}
-        <Modal
-          title="提示"
-          visible={switchDialog}
-          onCancel={this.handleCloseSwitchDialog}
-          footer={[
-            <Button key="cancel" onClick={this.handleCloseSwitchDialog}>
-              取消
-            </Button>,
-            <Button
-              key="ok"
-              type="primary"
+            <Column title="创建日期" width={120} dataIndex="createTime" />
+            <Column
+              title="操作"
+              dataIndex="isEnable"
+              width={150}
+              render={(value, record, index) => {
+                return (
+                  <Space size="middle">
+                    <a
+                      onClick={() => this.handleEdit(record, "showEditDialog")}
+                    >
+                      编辑
+                    </a>
+                    <a onClick={() => this.handleSwitch(record)}>
+                      {value ? "停用" : "启用"}
+                    </a>
+                    <a
+                      onClick={() =>
+                        this.handleEdit(record, "showContactDialog")
+                      }
+                    >
+                      联系人
+                    </a>
+                  </Space>
+                );
+              }}
+            />
+          </Table>
+          {showEditDialog && (
+            <EditDialog
+              title={dialogTitle}
+              data={currentMsg}
               loading={dialogBtnLoading}
-              onClick={() => {
-                const { id, isEnable } = currentMsg;
+              sourceList={{
+                departmentList,
+                hospitalList,
+                customerTypeList,
+              }}
+              onFormChange={this.onFormChange}
+              onClosed={() => {
                 dispatch({
-                  type: "customerManageModel/updateCustomer",
+                  type: "customerManageModel/save",
                   payload: {
-                    id,
-                    isEnable: isEnable === 1 ? 0 : 1,
+                    showEditDialog: false,
+                    dialogBtnLoading: false,
                   },
                 });
               }}
-            >
-              确定
-            </Button>,
-          ]}
-          maskClosable={false}
-        >
-          你确定要
-          {currentMsg && currentMsg.isEnable === 1 ? "停用" : "启用"}嘛?
-        </Modal>
-      </ContentBox>
+              onOk={this.handleSave}
+            />
+          )}
+          {showContactDialog && (
+            <ContactManage
+              data={contacts}
+              loading={dialogBtnLoading}
+              addInfo={this.handleAdd}
+              onDelete={this.handleDelete}
+              onChange={this.changeContactInfo}
+              onSubmit={this.saveContact}
+              onClosed={() => {
+                dispatch({
+                  type: "customerManageModel/save",
+                  payload: {
+                    showContactDialog: false,
+                    dialogBtnLoading: false,
+                  },
+                });
+              }}
+            />
+          )}
+
+          {/* 启用\停用弹窗 */}
+          <Modal
+            title="提示"
+            visible={switchDialog}
+            onCancel={this.handleCloseSwitchDialog}
+            footer={[
+              <Button key="cancel" onClick={this.handleCloseSwitchDialog}>
+                取消
+              </Button>,
+              <Button
+                key="ok"
+                type="primary"
+                loading={dialogBtnLoading}
+                onClick={() => {
+                  const { id, isEnable } = currentMsg;
+                  dispatch({
+                    type: "customerManageModel/updateCustomer",
+                    payload: {
+                      id,
+                      isEnable: isEnable === 1 ? 0 : 1,
+                    },
+                  });
+                }}
+              >
+                确定
+              </Button>,
+            ]}
+            maskClosable={false}
+          >
+            你确定要
+            {currentMsg && currentMsg.isEnable === 1 ? "停用" : "启用"}嘛?
+          </Modal>
+        </ContentBox>
+      </WrapView>
     );
   }
 }

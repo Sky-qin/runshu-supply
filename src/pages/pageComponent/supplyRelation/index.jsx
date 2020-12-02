@@ -6,6 +6,7 @@ import EditDialog from "./editDialog";
 import DetailDialog from "../supplyPriceManage/detailDialog";
 import { OpreationBar, ContentBox } from "wrapd";
 import RetrunAffix from "../../../components/RetrunAffix";
+import WrapView from "../../../components/WrapView";
 import "./index.scss";
 const { Column } = Table;
 
@@ -208,7 +209,7 @@ class SupplyRelation extends React.Component {
   };
 
   render() {
-    const { dispatch } = this.props;
+    const { dispatch, history } = this.props;
     const {
       showEditDialog,
       pagination,
@@ -234,28 +235,35 @@ class SupplyRelation extends React.Component {
     } = this.props.supplyRelationModel;
     const { current, size, total } = pagination;
     return (
-      <ContentBox loading={loading} extend={<RetrunAffix {...this.props} />}>
-        <OpreationBar
-          total={false}
-          custom={
-            <>
-              <div
-                style={{ width: 260, display: "inline-block", marginRight: 15 }}
-              >
-                <Input
-                  style={{ width: 225 }}
-                  placeholder="输入供货公司名称"
-                  value={keyword}
-                  onChange={(e) => this.filterChange(e.target.value, "keyword")}
-                  allowClear
-                />
-                <Button
-                  style={{ position: "relative", left: "-3px", top: "1px" }}
-                  onClick={this.getTableList}
-                  icon={<SearchOutlined />}
-                />
-              </div>
-              {/* <Select
+      <WrapView history={history}>
+        <ContentBox loading={loading} extend={<RetrunAffix {...this.props} />}>
+          <OpreationBar
+            total={false}
+            custom={
+              <>
+                <div
+                  style={{
+                    width: 260,
+                    display: "inline-block",
+                    marginRight: 15,
+                  }}
+                >
+                  <Input
+                    style={{ width: 225 }}
+                    placeholder="输入供货公司名称"
+                    value={keyword}
+                    onChange={(e) =>
+                      this.filterChange(e.target.value, "keyword")
+                    }
+                    allowClear
+                  />
+                  <Button
+                    style={{ position: "relative", left: "-3px", top: "1px" }}
+                    onClick={this.getTableList}
+                    icon={<SearchOutlined />}
+                  />
+                </div>
+                {/* <Select
                 placeholder="请选择启用、停用状态"
                 allowClear={true}
                 value={isEnable}
@@ -266,145 +274,150 @@ class SupplyRelation extends React.Component {
                   { value: true, label: "启用" },
                 ]}
               /> */}
-            </>
-          }
-        />
-        <OpreationBar
-          buttonList={[
-            { key: "add", label: "新增", icon: <PlusOutlined /> },
-            { key: "supplyCompanyManage", label: "供货公司管理" },
-            { key: "agentManage", label: "代理商管理" },
-            { key: "customerManage", label: "客户管理" },
-          ]}
-          total={total}
-          onClick={this.handleClick}
-        />
-        <Table
-          bordered
-          rowKey={(record, index) => index}
-          scroll={{ x: 1500 }}
-          dataSource={data}
-          pagination={{
-            position: ["bottomCenter"],
-            current: current,
-            total: total,
-            pageSize: size,
-            onChange: this.changePagination,
-            onShowSizeChange: this.changePagination,
-          }}
-        >
-          <Column
-            title="序号"
-            render={(value, record, index) => index + 1}
-            width={65}
+              </>
+            }
           />
-          <Column title="供货关系" dataIndex="supportProductRef" width={260} />
-          <Column title="供货公司" dataIndex="supplyCompany" width={180} />
-          <Column title="代理公司" dataIndex="agencyCompany" width={180} />
-          <Column title="客户名称" dataIndex="customer" width={180} />
-          <Column
-            title="供货价格方案"
-            dataIndex="planRefId"
-            width={180}
-            render={(value, record, index) => (
-              <Space size="middle">
-                {value && (
-                  <a onClick={() => this.handleShowPrice(record)}>查看价格</a>
-                )}
-              </Space>
-            )}
+          <OpreationBar
+            buttonList={[
+              { key: "add", label: "新增", icon: <PlusOutlined /> },
+              { key: "supplyCompanyManage", label: "供货公司管理" },
+              { key: "agentManage", label: "代理商管理" },
+              { key: "customerManage", label: "客户管理" },
+            ]}
+            total={total}
+            onClick={this.handleClick}
           />
-          <Column title="创建时间" dataIndex="createTime" width={180} />
-          <Column
-            title="操作"
-            dataIndex="isEnable"
-            fixed="right"
-            width={110}
-            render={(value, record, index) => (
-              <Space size="middle">
-                <a onClick={() => this.handleEdit(record)}>编辑</a>
-                <a onClick={() => this.handleSwitch(record)}>
-                  {value ? "停用" : "启用"}
-                </a>
-              </Space>
-            )}
-          />
-        </Table>
+          <Table
+            bordered
+            rowKey="id"
+            scroll={{ x: 1500 }}
+            dataSource={data}
+            pagination={{
+              position: ["bottomCenter"],
+              current: current,
+              total: total,
+              pageSize: size,
+              onChange: this.changePagination,
+              onShowSizeChange: this.changePagination,
+            }}
+          >
+            <Column
+              title="序号"
+              render={(value, record, index) => index + 1}
+              width={65}
+            />
+            <Column
+              title="供货关系"
+              dataIndex="supportProductRef"
+              width={260}
+            />
+            <Column title="供货公司" dataIndex="supplyCompany" width={180} />
+            <Column title="代理公司" dataIndex="agencyCompany" width={180} />
+            <Column title="客户名称" dataIndex="customer" width={180} />
+            <Column
+              title="供货价格方案"
+              dataIndex="planRefId"
+              width={180}
+              render={(value, record, index) => (
+                <Space size="middle">
+                  {value && (
+                    <a onClick={() => this.handleShowPrice(record)}>查看价格</a>
+                  )}
+                </Space>
+              )}
+            />
+            <Column title="创建时间" dataIndex="createTime" width={180} />
+            <Column
+              title="操作"
+              dataIndex="isEnable"
+              fixed="right"
+              width={110}
+              render={(value, record, index) => (
+                <Space size="middle">
+                  <a onClick={() => this.handleEdit(record)}>编辑</a>
+                  <a onClick={() => this.handleSwitch(record)}>
+                    {value ? "停用" : "启用"}
+                  </a>
+                </Space>
+              )}
+            />
+          </Table>
 
-        {/* 启用\停用弹窗 */}
-        <Modal
-          title="提示"
-          visible={switchDialog}
-          onCancel={this.handleCloseSwitchDialog}
-          footer={[
-            <Button key="cancel" onClick={this.handleCloseSwitchDialog}>
-              取消
-            </Button>,
-            <Button
-              key="ok"
-              type="primary"
+          {/* 启用\停用弹窗 */}
+          <Modal
+            title="提示"
+            visible={switchDialog}
+            onCancel={this.handleCloseSwitchDialog}
+            footer={[
+              <Button key="cancel" onClick={this.handleCloseSwitchDialog}>
+                取消
+              </Button>,
+              <Button
+                key="ok"
+                type="primary"
+                loading={dialogBtnLoading}
+                onClick={() => {
+                  dispatch({
+                    type: "supplyRelationModel/supplyRelationSetEnable",
+                  });
+                }}
+              >
+                确定
+              </Button>,
+            ]}
+            maskClosable={false}
+          >
+            你确定要{currentMsg && currentMsg.isEnable ? "停用" : "启用"}嘛?
+          </Modal>
+
+          {showEditDialog && (
+            <EditDialog
+              title={dialogTitle}
+              data={currentMsg}
               loading={dialogBtnLoading}
-              onClick={() => {
+              sourceList={{ supplyList, customerList, agencyList }}
+              onClosed={() => {
                 dispatch({
-                  type: "supplyRelationModel/supplyRelationSetEnable",
+                  type: "supplyRelationModel/save",
+                  payload: {
+                    showEditDialog: false,
+                    dialogBtnLoading: false,
+                  },
                 });
               }}
-            >
-              确定
-            </Button>,
-          ]}
-          maskClosable={false}
-        >
-          你确定要{currentMsg && currentMsg.isEnable ? "停用" : "启用"}嘛?
-        </Modal>
+              onOk={this.handleSave}
+            />
+          )}
 
-        {showEditDialog && (
-          <EditDialog
-            title={dialogTitle}
-            data={currentMsg}
-            loading={dialogBtnLoading}
-            sourceList={{ supplyList, customerList, agencyList }}
-            onClosed={() => {
-              dispatch({
-                type: "supplyRelationModel/save",
-                payload: {
-                  showEditDialog: false,
-                  dialogBtnLoading: false,
-                },
-              });
-            }}
-            onOk={this.handleSave}
-          />
-        )}
-
-        {showDetailDialog && (
-          <DetailDialog
-            onChangeList={this.changePrice}
-            changeCategory={this.getDetailList}
-            onSubmit={this.handleSubmit}
-            canEdit={false}
-            data={{
-              drawerLoading,
-              detailList,
-              categoryTree,
-              relationName,
-              dialogSize,
-              dialogCurrent,
-              dialogTotal,
-            }}
-            onClosed={() => {
-              dispatch({
-                type: "supplyRelationModel/save",
-                payload: {
-                  showDetailDialog: false,
-                  detailList: [],
-                },
-              });
-              // this.getTableList();
-            }}
-          />
-        )}
-      </ContentBox>
+          {showDetailDialog && (
+            <DetailDialog
+              onChangeList={this.changePrice}
+              changeCategory={this.getDetailList}
+              onSubmit={this.handleSubmit}
+              canEdit={false}
+              data={{
+                drawerLoading,
+                detailList,
+                categoryTree,
+                relationName,
+                dialogSize,
+                dialogCurrent,
+                dialogTotal,
+              }}
+              onClosed={() => {
+                dispatch({
+                  type: "supplyRelationModel/save",
+                  payload: {
+                    showDetailDialog: false,
+                    detailList: [],
+                  },
+                });
+                // this.getTableList();
+              }}
+            />
+          )}
+        </ContentBox>
+      </WrapView>
     );
   }
 }
