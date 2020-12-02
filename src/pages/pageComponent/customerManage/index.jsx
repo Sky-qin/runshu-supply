@@ -388,7 +388,8 @@ class CustomerManage extends React.Component {
             <Column
               title="操作"
               dataIndex="isEnable"
-              width={150}
+              fixed="right"
+              width={250}
               render={(value, record, index) => {
                 return (
                   <Space size="middle">
