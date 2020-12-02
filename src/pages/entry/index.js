@@ -59,6 +59,7 @@ class Entry extends React.Component {
       const routeKey = route.pathname.split("/").slice(-1)[0];
       let routeKeyList =
         JSON.parse(window.localStorage.getItem("routeKeyList")) || [];
+      if (!menuLevel[routeKey]) return;
       const codeIndex = routeKeyList.findIndex(
         (item) => item.code === menuLevel[routeKey].code
       );
