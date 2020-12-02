@@ -440,7 +440,7 @@ class ConsumeList extends React.Component {
               width={180}
               fixed="right"
               render={(value, record) => {
-                const { orderStatus } = record;
+                const { orderStatus, isExistUnusualProduct } = record;
                 return (
                   <Space size="middle">
                     {orderStatus === 0 && (
@@ -462,11 +462,13 @@ class ConsumeList extends React.Component {
                       <a onClick={() => this.showFeedback(record)}>查看反馈</a>
                     )}
                     <a onClick={() => this.showDetail(record)}>查看详情</a>
-                    <a
-                      href={`${Prefix}/consumeOrder/export?orderId=${record.id}`}
-                    >
-                      导出
-                    </a>
+                    {isExistUnusualProduct === false && (
+                      <a
+                        href={`${Prefix}/consumeOrder/export?orderId=${record.id}`}
+                      >
+                        导出
+                      </a>
+                    )}
                   </Space>
                 );
               }}
