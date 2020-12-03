@@ -53,7 +53,7 @@ class SunshinePurchaseInfo extends React.Component {
         },
       },
     });
-    if (key === "province") {
+    if (key === "province" || key === "isPriceChanged") {
       dispatch({ type: "sunshinePurchaseInfoModel/getSunTitle" });
       this.getTableList();
     }
@@ -68,6 +68,7 @@ class SunshinePurchaseInfo extends React.Component {
       tableTitle,
       province,
       keyword,
+      isPriceChanged,
     } = this.props.sunshinePurchaseInfoModel;
     const { current, size, total } = pagination;
     return (
@@ -82,6 +83,18 @@ class SunshinePurchaseInfo extends React.Component {
                 options={provinceList}
                 value={province}
                 placeholder="请选择区域"
+              />
+              <Select
+                onChange={(value) =>
+                  this.onChangeFilter(value, "isPriceChanged")
+                }
+                style={{ width: "160px", marginLeft: "12px" }}
+                options={[
+                  { value: "是", label: "有价格变动" },
+                  { value: "否", label: "无价格变动" },
+                ]}
+                value={isPriceChanged}
+                placeholder="价格变化情况"
               />
               <Input
                 style={{ width: "500px", marginLeft: "12px" }}

@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "dva";
-import { Table, Input, Button, Space } from "antd";
+import { Table, Input, Button, Space, Popover } from "antd";
 import {
   SearchOutlined,
   ExportOutlined,
@@ -170,6 +170,23 @@ class ManufacturerManage extends React.Component {
     });
   };
 
+  randerPopver = (list) => {
+    return (
+      <div>
+        {(list || []).map((item, index) => {
+          return (
+            <div>
+              <div>联系人：{item.contact}</div>
+              <div>电话号码：{item.phone}</div>
+              <div>职位：{item.position}</div>
+              <br />
+            </div>
+          );
+        })}
+      </div>
+    );
+  };
+
   render() {
     const { dispatch, history } = this.props;
     const {
@@ -255,7 +272,11 @@ class ManufacturerManage extends React.Component {
               dataIndex="contactList"
               render={(value) => {
                 const names = (value || []).map((item) => item.contact);
-                return names.join("、");
+                return (
+                  <Popover placement="left" content={this.randerPopver(value)}>
+                    <span>{names.join("、")}</span>
+                  </Popover>
+                );
               }}
             />
             <Column

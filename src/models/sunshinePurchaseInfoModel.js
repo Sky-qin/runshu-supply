@@ -54,7 +54,7 @@ export default {
 
   effects: {
     *getTableList({ payload }, { call, put, select }) {
-      const { pagination, keyword, province } = yield select(
+      const { pagination, keyword, province, isPriceChanged } = yield select(
         (state) => state.sunshinePurchaseInfoModel
       );
       const { current, size } = pagination;
@@ -64,6 +64,7 @@ export default {
         params: {
           keyword,
           province,
+          isPriceChanged,
         },
       };
       yield put({ type: "save", payload: { loading: true } });
