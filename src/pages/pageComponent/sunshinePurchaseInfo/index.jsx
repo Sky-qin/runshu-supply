@@ -94,6 +94,7 @@ class SunshinePurchaseInfo extends React.Component {
                   { value: "否", label: "无价格变动" },
                 ]}
                 value={isPriceChanged}
+                allowClear
                 placeholder="价格变化情况"
               />
               <Input
