@@ -1,27 +1,9 @@
 import React from "react";
 import { connect } from "dva";
-import styled from "styled-components";
 import { Modal, Table } from "antd";
+import { ViewLabel, ViewLabelItem } from "../../../../components/ViewLabel";
 
 const { Column } = Table;
-
-const BasicDiv = styled.div`
-  position: relative;
-  > div {
-    display: inline-block;
-    width: 210px;
-    margin-right: 20px;
-    line-height: 48px;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-  }
-  > a {
-    position: absolute;
-    right: 30px;
-    bottom: 10px;
-  }
-`;
 
 class EditDialog extends React.Component {
   departmentRef = React.createRef();
@@ -61,16 +43,24 @@ class EditDialog extends React.Component {
   renderOperationInfo = () => {
     const { detailMsg } = this.props.consumeModel;
     return [
-      <div key="operationName">手术名称：{detailMsg.operationName || ""}</div>,
-      <div key="operationDoctor">
-        手术医生：{detailMsg.operationDoctor || ""}
-      </div>,
-      <div key="expert">专家：{detailMsg.expert || ""}</div>,
-      <div key="operationTime">手术时间：{detailMsg.operationTime || ""}</div>,
-      <div key="patientHospitaliNumber">
-        患者住院号：{detailMsg.patientHospitaliNumber || ""}
-      </div>,
-      <div key="patientName">患者姓名：{detailMsg.patientName || ""}</div>,
+      <ViewLabelItem title="手术名称：" key="operationName">
+        {detailMsg.operationName || ""}
+      </ViewLabelItem>,
+      <ViewLabelItem title="手术医生：" key="operationDoctor">
+        {detailMsg.operationDoctor || ""}
+      </ViewLabelItem>,
+      <ViewLabelItem title="专家：" key="expert">
+        {detailMsg.expert || ""}
+      </ViewLabelItem>,
+      <ViewLabelItem title="手术时间：" key="operationTime">
+        {detailMsg.operationTime || ""}
+      </ViewLabelItem>,
+      <ViewLabelItem title="患者住院号：" key="patientHospitaliNumber">
+        {detailMsg.patientHospitaliNumber || ""}
+      </ViewLabelItem>,
+      <ViewLabelItem title="患者姓名：" key="patientName">
+        {detailMsg.patientName || ""}
+      </ViewLabelItem>,
     ];
   };
 
@@ -86,15 +76,42 @@ class EditDialog extends React.Component {
         maskClosable={false}
         footer={false}
       >
-        <BasicDiv>
-          <div>流水号：{detailMsg.consumeNumber || ""}</div>
-          <div>医院：{detailMsg.hispitalName || ""}</div>
-          <div>科室：{detailMsg.departmentName || ""}</div>
-          <div>提交人：{detailMsg.userName || ""}</div>
-          <div>提交时间：{detailMsg.operationTime || ""}</div>
-          <div>状态：{detailMsg.orderStatusDesc || ""}</div>
-          <div>合计价格：{detailMsg.price || ""}</div>
+        <ViewLabel>
+          <ViewLabelItem title="流水号：">
+            {detailMsg.consumeNumber || ""}
+          </ViewLabelItem>
+
+          <ViewLabelItem title="医院：">
+            {detailMsg.hispitalName || ""}
+          </ViewLabelItem>
+
+          <ViewLabelItem title="科室：">
+            {detailMsg.departmentName || ""}
+          </ViewLabelItem>
+
+          <ViewLabelItem title="提交人：">
+            {detailMsg.userName || ""}
+          </ViewLabelItem>
+
+          <ViewLabelItem title="提交时间：">
+            {detailMsg.operationTime || ""}
+          </ViewLabelItem>
+
+          <ViewLabelItem title="状态：">
+            {detailMsg.orderStatusDesc || ""}
+          </ViewLabelItem>
+
+          <ViewLabelItem title="合计价格：">
+            {detailMsg.price || ""}
+          </ViewLabelItem>
+
+          <ViewLabelItem title="备注：">
+            {detailMsg.remarks || ""}
+          </ViewLabelItem>
+
           {showOperationInfo && this.renderOperationInfo()}
+        </ViewLabel>
+        <div style={{ textAlign: "right" }}>
           <a
             onClick={() =>
               this.setState({ showOperationInfo: !showOperationInfo })
@@ -102,7 +119,7 @@ class EditDialog extends React.Component {
           >
             {showOperationInfo ? "收起手术信息" : "查看手术信息"}
           </a>
-        </BasicDiv>
+        </div>
         <div style={{ overflowX: "scroll" }}>
           <Table
             rowKey="serialNo"

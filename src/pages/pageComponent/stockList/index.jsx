@@ -332,7 +332,7 @@ class StockList extends React.Component {
             <Column title="客户" dataIndex="hospitalName" width={160} />
             <Column title="申请日期" dataIndex="createTime" width={115} />
             <Column
-              title="备货截止日期"
+              title="手术日期"
               dataIndex="expectCompleteDate"
               width={130}
             />

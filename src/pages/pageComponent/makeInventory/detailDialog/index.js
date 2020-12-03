@@ -8,7 +8,7 @@ const BasicDiv = styled.div`
   padding-left: 20px;
   > div {
     display: inline-block;
-    width: 280px;
+    width: 210px;
     margin-right: 20px;
     line-height: 48px;
     overflow: hidden;
@@ -125,6 +125,50 @@ class DetailDialog extends React.Component {
       </Table>
     );
   };
+
+  renderSpotCheckDetails = (list) => {
+    return (
+      <Table
+        bordered
+        scroll={{ y: 400 }}
+        dataSource={[]}
+        rowKey="serialNo"
+        pagination={false}
+      >
+        <Column
+          title="序号"
+          render={(value, record, index) => index + 1}
+          width={65}
+        />
+        <Column title="流水号" dataIndex="serialNo" width={100} />
+        <Column title="产品名称" dataIndex="productName" width={180} />
+        <Column title="规格" dataIndex="model" width={120} />
+        <Column title="生产厂家" dataIndex="vendorName" width={120} />
+        <Column title="生产批号" dataIndex="batchNo" width={120} />
+        <Column title="有效期" dataIndex="validPeriodDate" width={120} />
+        <Column
+          fixed="right"
+          title="附件照片"
+          dataIndex="imageUrl"
+          width={100}
+          render={(value) => {
+            return value ? (
+              <Popover
+                content={<img alt="图片" src={value} />}
+                title="图片"
+                trigger="click"
+              >
+                <a>查看照片</a>
+              </Popover>
+            ) : (
+              "无"
+            );
+          }}
+        />
+      </Table>
+    );
+  };
+
   renderStatus = (basicInfo) => {
     const { checkStatus, surplusNumber, lossNumber } = basicInfo;
     if (checkStatus === 0) {
@@ -198,6 +242,9 @@ class DetailDialog extends React.Component {
           </TabPane>
           <TabPane tab="盘点明细" key="deliveryList">
             {this.renderInventoryDetails(detailProductList)}
+          </TabPane>
+          <TabPane tab="盘点检查" key="spotCheck">
+            {this.renderSpotCheckDetails(detailProductList)}
           </TabPane>
         </Tabs>
       </Modal>

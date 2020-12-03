@@ -180,7 +180,7 @@ class StockSendGoods extends React.Component {
                 <Form.Item label="调拨类型:">{basicInfo.typeName}</Form.Item>
               </Col>
               <Col span={8}>
-                <Form.Item label="备货截止日期:">
+                <Form.Item label="手术日期:">
                   {basicInfo.expectCompleteDate}
                 </Form.Item>
               </Col>
