@@ -6,11 +6,12 @@ export default {
   namespace: "entryModel",
   state: {
     menuList: [],
-    activeKey: getUrlParam("pageType") || "home", // home
+    activeKey: getUrlParam("pageType") || "", // home
   },
 
   effects: {
-    *queryMenu({ payload }, { call, put, select }) {
+    *queryMenu({ payload }, { call, put }) {
+      const { history } = payload;
       const { data } = yield call(API.queryMenu);
       if (data && data.success) {
         let activeKey = "";
@@ -19,8 +20,10 @@ export default {
           if (index === 0) {
             if (children && children.length > 0) {
               activeKey = getUrlParam("pageType") || children[0].value;
+              history.push(`/entry/${activeKey}`);
             } else {
               activeKey = getUrlParam("pageType") || item.value;
+              history.push(`/entry/${activeKey}`);
             }
           }
           return null;

@@ -23,7 +23,7 @@ class Header extends React.Component {
     return (
       <Menu
         onClick={this.handleClick}
-        style={{ width: 240, overflowY: "scroll", overflowX: "hidden" }}
+        style={{ width: 240, overflowX: "hidden" }}
         selectedKeys={[activeMenu]}
         mode="inline"
       >
