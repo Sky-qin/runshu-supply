@@ -121,12 +121,12 @@ class DeliveryManage extends React.Component {
 
   handleShowDelivery = (record) => {
     const { dispatch } = this.props;
-    dispatch({
-      type: "deliveryManageModel/save",
-      payload: {
-        showDeliveryDialog: true,
-      },
-    });
+    // dispatch({
+    //   type: "deliveryManageModel/save",
+    //   payload: {
+    //     showDeliveryDialog: true,
+    //   },
+    // });
     dispatch({
       type: "deliveryManageModel/getDeliveryInfo",
       payload: {

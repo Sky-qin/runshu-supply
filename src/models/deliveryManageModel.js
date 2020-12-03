@@ -428,12 +428,16 @@ export default {
       }
     },
     *getDeliveryInfo({ payload }, { call, put, select }) {
+      yield put({ type: "save", payload: { loading: true } });
       const { data } = yield call(API.getDeliveryInfo, payload);
+      yield put({ type: "save", payload: { loading: false } });
+
       if (data && data.success) {
         yield put({
           type: "save",
           payload: {
             deliveryInfo: data.data || [],
+            showDeliveryDialog: true,
           },
         });
       } else {
