@@ -380,8 +380,9 @@ class Replenishment extends React.Component {
             <Column title="补货单号" dataIndex="replenishNumber" width={135} />
             <Column title="医院" dataIndex="hospitalName" width={150} />
             <Column title="补货数量" dataIndex="replenishNum" width={100} />
-            <Column title="申请人" dataIndex="userName" width={100} />
             <Column title="部门" dataIndex="departmentName" width={100} />
+            <Column title="发起业务端" dataIndex="doctorOrSale" width={120} />
+            <Column title="申请人" dataIndex="userName" width={100} />
             <Column title="申请日期" dataIndex="createTime" width={130} />
             <Column
               title="状态"
