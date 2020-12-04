@@ -1,6 +1,7 @@
 import React from "react";
 import { Modal, Form, Input, Button, Cascader, TreeSelect } from "antd";
-import Ebuttons from "../../../../components/Ebttons";
+// import Ebuttons from "../../../../components/Ebttons";
+import { Ebuttons } from "wrapd";
 
 const layout = {
   labelCol: { span: 6 },

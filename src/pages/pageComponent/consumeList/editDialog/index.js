@@ -2,10 +2,9 @@ import React from "react";
 import { connect } from "dva";
 import { Modal, Table } from "antd";
 import { ViewLyout } from "wrapd";
-// import { ViewLabel, ViewLabelItem } from "../../../../components/ViewLabel";
 
-const { Column } = Table;
 const { ViewLabelItem, ViewBox } = ViewLyout;
+const { Column } = Table;
 
 class EditDialog extends React.Component {
   departmentRef = React.createRef();
@@ -107,11 +106,10 @@ class EditDialog extends React.Component {
             {detailMsg.price || ""}
           </ViewLabelItem>
 
-          <ViewLabelItem title="备注：">
-            {detailMsg.remarks || ""}
-          </ViewLabelItem>
-
           {showOperationInfo && this.renderOperationInfo()}
+          <ViewLabelItem title="备注：">
+            {detailMsg.remarkDesc || ""}
+          </ViewLabelItem>
         </ViewBox>
         <div style={{ textAlign: "right" }}>
           <a

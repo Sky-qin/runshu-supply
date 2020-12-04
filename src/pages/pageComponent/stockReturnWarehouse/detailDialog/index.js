@@ -2,18 +2,10 @@ import React from "react";
 import { connect } from "dva";
 import styled from "styled-components";
 import { Modal, Table } from "antd";
+import { ViewLyout } from "wrapd";
 
+const { ViewLabelItem, ViewBox } = ViewLyout;
 const { Column } = Table;
-
-const BasicDiv = styled.div`
-  padding-left: 20px;
-  > div {
-    display: inline-block;
-    width: 280px;
-    margin-right: 20px;
-    line-height: 48px;
-  }
-`;
 
 const WrapTitle = styled.div`
   font-size: 18px;
@@ -65,14 +57,23 @@ class DetailDialog extends React.Component {
         maskClosable={false}
         footer={false}
       >
-        <BasicDiv>
-          <div>单号：{data.orderNumber || ""}</div>
-          <div>日期：{data.createTime || ""}</div>
-          <div>调出仓库：{data.outStock || ""}</div>
-          {/* <div>调入仓库：{data.inStock || ""}</div> */}
-          <div>调拨类型：{data.typeName || ""}</div>
-          <div>备注：{data.remarks || ""}</div>
-        </BasicDiv>
+        <ViewBox>
+          <ViewLabelItem title="单号：" key="orderNumber">
+            {data.orderNumber || ""}
+          </ViewLabelItem>
+          <ViewLabelItem title="日期：" key="createTime">
+            {data.createTime || ""}
+          </ViewLabelItem>
+          <ViewLabelItem title="调出仓库：" key="outStock">
+            {data.outStock || ""}
+          </ViewLabelItem>
+          <ViewLabelItem title="调拨类型：" key="typeName">
+            {data.typeName || ""}
+          </ViewLabelItem>
+          <ViewLabelItem title="备注：" key="remarks">
+            {data.remarks || ""}
+          </ViewLabelItem>
+        </ViewBox>
         <WrapTitle>
           <span className="berfore-bar" />
           <span className="group-title">{groupTitle || "清单"}</span>

@@ -1,6 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 import { Modal, Table, Tabs } from "antd";
+import { ViewLyout } from "wrapd";
+
+const { ViewLabelItem, ViewBox } = ViewLyout;
 
 const { Column } = Table;
 const { TabPane } = Tabs;
@@ -15,16 +18,6 @@ const WrapTitle = styled.div`
     width: 4px;
     background: #1890ff;
     margin-right: 4px;
-  }
-`;
-
-const BasicDiv = styled.div`
-  padding-left: 20px;
-  > div {
-    display: inline-block;
-    width: 210px;
-    margin-right: 20px;
-    line-height: 48px;
   }
 `;
 
@@ -164,18 +157,38 @@ class EditDialog extends React.Component {
         maskClosable={false}
         footer={false}
       >
-        <BasicDiv>
-          <div>单号：{currentMsg.orderNumber || ""}</div>
-          <div>创建人：{currentMsg.userName || ""}</div>
-          <div>创建日期：{currentMsg.createTime}</div>
-          <div>手术日期：{currentMsg.expectCompleteDate}</div>
-          <div>调出仓库：{currentMsg.outStock}</div>
-          <div>调入仓库：{currentMsg.inStock}</div>
-          <div>调拨类型：{currentMsg.typeName}</div>
-          <div>客户：{currentMsg.hospitalName}</div>
-          <div>手术台数：{basicInfo.operaNumber}</div>
-          <div>备注：{basicInfo.remarks}</div>
-        </BasicDiv>
+        <ViewBox count={4}>
+          <ViewLabelItem title="单号：" key="orderNumber">
+            {currentMsg.orderNumber || ""}
+          </ViewLabelItem>
+          <ViewLabelItem title="创建人：" key="userName">
+            {currentMsg.userName || ""}
+          </ViewLabelItem>
+          <ViewLabelItem title="创建日期：" key="createTime">
+            {currentMsg.createTime}
+          </ViewLabelItem>
+          <ViewLabelItem title="手术日期：" key="expectCompleteDate">
+            {currentMsg.expectCompleteDate}
+          </ViewLabelItem>
+          <ViewLabelItem title="调出仓库：" key="outStock">
+            {currentMsg.outStock}
+          </ViewLabelItem>
+          <ViewLabelItem title="调入仓库：" key="inStock">
+            {currentMsg.inStock}
+          </ViewLabelItem>
+          <ViewLabelItem title="调拨类型：" key="typeName">
+            {currentMsg.typeName}
+          </ViewLabelItem>
+          <ViewLabelItem title="客户：" key="hospitalName">
+            {currentMsg.hospitalName}
+          </ViewLabelItem>
+          <ViewLabelItem title="手术台数：" key="operaNumber">
+            {basicInfo.operaNumber}
+          </ViewLabelItem>
+          <ViewLabelItem title="备注：" key="remarks">
+            {basicInfo.remarks}
+          </ViewLabelItem>
+        </ViewBox>
         <Tabs defaultActiveKey="replenishList">
           <TabPane tab="备货单" key="replenishList">
             {this.renderStockList()}

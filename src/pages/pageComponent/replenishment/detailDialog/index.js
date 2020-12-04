@@ -1,20 +1,12 @@
 import React from "react";
 import { connect } from "dva";
-import styled from "styled-components";
 import { Modal, Button, Table, Tabs, Space, Popover, Timeline } from "antd";
+import { ViewLyout } from "wrapd";
+
+const { ViewLabelItem, ViewBox } = ViewLyout;
 
 const { Column } = Table;
 const { TabPane } = Tabs;
-
-const BasicDiv = styled.div`
-  padding-left: 20px;
-  > div {
-    display: inline-block;
-    width: 210px;
-    margin-right: 20px;
-    line-height: 48px;
-  }
-`;
 
 class EditDialog extends React.Component {
   departmentRef = React.createRef();
@@ -193,15 +185,29 @@ class EditDialog extends React.Component {
         maskClosable={false}
         footer={false}
       >
-        <BasicDiv>
-          <div>补货单号：{currentMsg.replenishNumber || ""}</div>
-          <div>医院：{currentMsg.hospitalName || ""}</div>
-          <div>科室：{currentMsg.departmentName || ""}</div>
-          <div>申请人：{currentMsg.userName || ""}</div>
-          <div>申请日期：{currentMsg.createTime || ""}</div>
-          <div>发货数量：{addInfo.sendProductNumber || 0}</div>
-          <div>备注：{currentMsg.remarks || ""}</div>
-        </BasicDiv>
+        <ViewBox count={4}>
+          <ViewLabelItem title="补货单号：" key="replenishNumber">
+            {currentMsg.replenishNumber || ""}
+          </ViewLabelItem>
+          <ViewLabelItem title="医院：" key="hospitalName">
+            {currentMsg.hospitalName || ""}
+          </ViewLabelItem>
+          <ViewLabelItem title="科室：" key="departmentName">
+            {currentMsg.departmentName || ""}
+          </ViewLabelItem>
+          <ViewLabelItem title="申请人：" key="userName">
+            {currentMsg.userName || ""}
+          </ViewLabelItem>
+          <ViewLabelItem title="申请日期：" key="createTime">
+            {currentMsg.createTime || ""}
+          </ViewLabelItem>
+          <ViewLabelItem title="发货数量：" key="sendProductNumber">
+            {addInfo.sendProductNumber || 0}
+          </ViewLabelItem>
+          <ViewLabelItem title="备注：" key="remarks">
+            {currentMsg.remarks || ""}
+          </ViewLabelItem>
+        </ViewBox>
         <Tabs defaultActiveKey="replenishList">
           <TabPane tab="补货清单" key="replenishList">
             {this.renderReplenishList()}

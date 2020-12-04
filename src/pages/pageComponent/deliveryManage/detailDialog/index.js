@@ -1,22 +1,12 @@
 import React from "react";
 import { connect } from "dva";
-import styled from "styled-components";
 import { Modal, Table, Space } from "antd";
-
 import * as dd from "dingtalk-jsapi";
+import { ViewLyout } from "wrapd";
+
+const { ViewLabelItem, ViewBox } = ViewLyout;
 
 const { Column } = Table;
-
-const BasicDiv = styled.div`
-  padding-left: 20px;
-  > div {
-    display: inline-block;
-    width: 220px;
-    margin-right: 20px;
-    line-height: 48px;
-    vertical-align: top;
-  }
-`;
 
 class EditDialog extends React.Component {
   departmentRef = React.createRef();
@@ -91,18 +81,38 @@ class EditDialog extends React.Component {
         maskClosable={false}
         footer={false}
       >
-        <BasicDiv>
-          <div>发货单号：{basicInfo.sendOrder || ""}</div>
-          <div>日期：{basicInfo.sendOrderTime || ""}</div>
-          <div>调出仓库：{basicInfo.outStock || ""}</div>
-          <div>调入仓库：{basicInfo.inStock || ""}</div>
-          <div>调拨类型：{basicInfo.allotType || ""}</div>
-          <div>快递单号：{basicInfo.expNo || ""}</div>
-          <div>发货人：{basicInfo.sendOrderPerson || ""}</div>
-          <div>手机号：{basicInfo.sendOrderPhone || ""}</div>
-          <div>发货数量：{productList.length || 0}</div>
-          <div>备注：{basicInfo.orderDesc || ""}</div>
-        </BasicDiv>
+        <ViewBox>
+          <ViewLabelItem title="发货单号：" key="sendOrder">
+            {basicInfo.sendOrder || ""}
+          </ViewLabelItem>
+          <ViewLabelItem title="日期：" key="sendOrderTime">
+            {basicInfo.sendOrderTime || ""}
+          </ViewLabelItem>
+          <ViewLabelItem title="调出仓库：" key="outStock">
+            {basicInfo.outStock || ""}
+          </ViewLabelItem>
+          <ViewLabelItem title="调入仓库：" key="inStock">
+            {basicInfo.inStock || ""}
+          </ViewLabelItem>
+          <ViewLabelItem title="调拨类型：" key="allotType">
+            {basicInfo.allotType || ""}
+          </ViewLabelItem>
+          <ViewLabelItem title="快递单号：" key="expNo">
+            {basicInfo.expNo || ""}
+          </ViewLabelItem>
+          <ViewLabelItem title="发货人：" key="sendOrderPerson">
+            {basicInfo.sendOrderPerson || ""}
+          </ViewLabelItem>
+          <ViewLabelItem title="手机号：" key="sendOrderPhone">
+            {basicInfo.sendOrderPhone || ""}
+          </ViewLabelItem>
+          <ViewLabelItem title="发货数量：" key="productList">
+            {productList.length || 0}
+          </ViewLabelItem>
+          <ViewLabelItem title="备注：" key="orderDesc">
+            {basicInfo.orderDesc || ""}
+          </ViewLabelItem>
+        </ViewBox>
         {/* <Button onClick={this.handleDownload}>下载打印</Button> */}
         <Table
           bordered

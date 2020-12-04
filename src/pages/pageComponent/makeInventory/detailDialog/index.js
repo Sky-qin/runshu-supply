@@ -1,21 +1,11 @@
 import React from "react";
 import styled from "styled-components";
 import { Modal, Table, Tabs, Popover } from "antd";
+import { ViewLyout } from "wrapd";
+
+const { ViewLabelItem, ViewBox } = ViewLyout;
 const { Column } = Table;
 const { TabPane } = Tabs;
-
-const BasicDiv = styled.div`
-  padding-left: 20px;
-  > div {
-    display: inline-block;
-    width: 210px;
-    margin-right: 20px;
-    line-height: 48px;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-  }
-`;
 
 const NumBerDiv = styled.div`
   display: flex;
@@ -207,24 +197,38 @@ class DetailDialog extends React.Component {
         maskClosable={false}
         footer={false}
       >
-        <BasicDiv>
-          <div>单号：{basicInfo.checkNo}</div>
-          <div>盘点仓库：{basicInfo.stockName}</div>
-          <div>盘点人：{basicInfo.creatorName}</div>
-          <div>创建时间：{basicInfo.createTime}</div>
-          <div>库存数量：{basicInfo.inventoryNumber}</div>
-          <div>盘点数量：{basicInfo.checkNumber}</div>
-          <div>盘点状态：{basicInfo.checkStatusName}</div>
+        <ViewBox>
+          <ViewLabelItem title="单号：" key="checkNo">
+            {basicInfo.checkNo || ""}
+          </ViewLabelItem>
+          <ViewLabelItem title="盘点仓库：" key="stockName">
+            {basicInfo.stockName || ""}
+          </ViewLabelItem>
+          <ViewLabelItem title="盘点人：" key="creatorName">
+            {basicInfo.creatorName || ""}
+          </ViewLabelItem>
+          <ViewLabelItem title="创建时间：" key="createTime">
+            {basicInfo.createTime || ""}
+          </ViewLabelItem>
+          <ViewLabelItem title="库存数量：" key="inventoryNumber">
+            {basicInfo.inventoryNumber || ""}
+          </ViewLabelItem>
+          <ViewLabelItem title="盘点数量：" key="checkNumber">
+            {basicInfo.checkNumber || ""}
+          </ViewLabelItem>
+          <ViewLabelItem title="盘点状态：" key="checkStatusName">
+            {basicInfo.checkStatusName || ""}
+          </ViewLabelItem>
           {basicInfo.position && (
-            <div>
+            <ViewLabelItem>
               <i
                 className={`iconfont iconlocation`}
                 style={{ color: "#1890ff", marginRight: "5px" }}
               />
               {basicInfo.position}
-            </div>
+            </ViewLabelItem>
           )}
-        </BasicDiv>
+        </ViewBox>
         <NumBerDiv>
           <div>
             <div className="num-div blue-color">{basicInfo.checkNumber}</div>
