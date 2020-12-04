@@ -1,9 +1,11 @@
 import React from "react";
 import { connect } from "dva";
 import { Modal, Table } from "antd";
-import { ViewLabel, ViewLabelItem } from "../../../../components/ViewLabel";
+import { ViewLyout } from "wrapd";
+// import { ViewLabel, ViewLabelItem } from "../../../../components/ViewLabel";
 
 const { Column } = Table;
+const { ViewLabelItem, ViewBox } = ViewLyout;
 
 class EditDialog extends React.Component {
   departmentRef = React.createRef();
@@ -76,7 +78,7 @@ class EditDialog extends React.Component {
         maskClosable={false}
         footer={false}
       >
-        <ViewLabel>
+        <ViewBox count={4}>
           <ViewLabelItem title="流水号：">
             {detailMsg.consumeNumber || ""}
           </ViewLabelItem>
@@ -110,7 +112,7 @@ class EditDialog extends React.Component {
           </ViewLabelItem>
 
           {showOperationInfo && this.renderOperationInfo()}
-        </ViewLabel>
+        </ViewBox>
         <div style={{ textAlign: "right" }}>
           <a
             onClick={() =>
