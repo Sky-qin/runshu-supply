@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import { Modal, Table, Tabs, Popover } from "antd";
 import { ViewLyout } from "wrapd";
-
 const { ViewLabelItem, ViewBox } = ViewLyout;
 const { Column } = Table;
 const { TabPane } = Tabs;
